@@ -4,13 +4,20 @@ import { Badge } from "./Badge";
 import { Card } from "./Card";
 import { Icon } from "./Icon/Icon";
 import { PATH } from "../constants/path";
+import { GET_USER } from "../services/user";
+import { useQuery } from "@apollo/client";
 
 export const Message = () => {
+  const { data } = useQuery(GET_USER);
+  // data?.users?.map((e) => e?._id);
   return (
     <Card
       title="Messages"
       action={
-        <Link to={PATH.Messenger} className="text-gray-400 font-semibold text-xs">
+        <Link
+          to={PATH.Messenger}
+          className="text-gray-400 font-semibold text-xs"
+        >
           See all
         </Link>
       }

@@ -1,0 +1,7 @@
+# .graphqlconfig.yml
+projects:
+  prod:
+    schemaPath: schema/schema.graphql
+    extensions:
+      endpoints:
+        default: http://localhost:8000/graphql
