@@ -134,10 +134,10 @@ export const Chat = () => {
 							</div>
 							<div className='flex flex-1 flex-col gap-1'>
 								<div className='font-semibold text-gray-700 text-xs dark:text-white'>Grace Norton</div>
-								<p className='max-w-[calc(100%-100px)] text-sm text-gray-700 px-2 py-0.5 rounded-lg bg-gray-200 w-fit dark:bg-slate-700 dark:text-white'>
+								<p className='max-w-[calc(100%-100px)] text-sm text-gray-700 px-2 py-0.5 rounded-lg bg-gray-200 w-fit dark:bg-slate-800 dark:text-white'>
 									either built subject continent badly depth sound diagram
 								</p>
-								<p className='max-w-[calc(100%-100px)] text-sm text-gray-700 px-2 py-0.5 rounded-lg bg-gray-200 w-fit dark:bg-slate-700 dark:text-white'>
+								<p className='max-w-[calc(100%-100px)] text-sm text-gray-700 px-2 py-0.5 rounded-lg bg-gray-200 w-fit dark:bg-slate-800 dark:text-white'>
 									art slave bark direct face danger drew test bell you paragraph sheet third limited ground tone
 									captured sing greatly well heading audience hair steel
 								</p>
@@ -145,10 +145,10 @@ export const Chat = () => {
 						</div>
 						<div className='flex gap-2 '>
 							<div className='flex items-end flex-1 flex-col gap-1'>
-								<p className='max-w-[calc(100%-100px)] text-sm text-white px-2 py-0.5 rounded-lg bg-blue-500 w-fit'>
+								<p className='max-w-[calc(100%-100px)] text-sm text-white px-2 py-0.5 rounded-lg bg-blue-500 dark:bg-blue-600 w-fit'>
 									either built subject continent badly depth sound diagram
 								</p>
-								<p className='max-w-[calc(100%-100px)] text-sm text-white px-2 py-0.5 rounded-lg bg-blue-500 w-fit'>
+								<p className='max-w-[calc(100%-100px)] text-sm text-white px-2 py-0.5 rounded-lg bg-blue-500 dark:bg-blue-600 w-fit'>
 									art slave bark direct face danger drew test bell you paragraph sheet third limited ground tone
 									captured sing greatly well heading audience hair steel
 								</p>

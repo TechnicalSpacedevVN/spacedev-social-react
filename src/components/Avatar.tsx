@@ -5,9 +5,11 @@ export const Avatar: FC<{
   size?: number;
   border?: boolean;
   online?: boolean;
-  showStatus?: boolean
+  showStatus?: boolean;
+  src?: string;
 }> = ({ size = 32, ...props }) => {
   const id = useId();
+  console.log(props.src);
   return (
     <div
       className={cn("relative h-fit h-8 w-8 cursor-pointer rounded-full", {
@@ -18,7 +20,7 @@ export const Avatar: FC<{
       <div className={cn("rounded-full overflow-hidden")}>
         <img
           className="w-full h-full"
-          src={`https://unsplash.it/${size}/${size}?t=${id}`}
+          src={props.src || `https://unsplash.it/${size}/${size}?t=${id}`}
         />
       </div>
       {props.showStatus && (

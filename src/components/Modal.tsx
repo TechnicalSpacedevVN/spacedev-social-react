@@ -24,7 +24,7 @@ export const Modal: FC<ModalProps> = ({ width, ...props }) => {
     }
     return () => {
       document.body.classList.remove("overflow-hidden");
-    }
+    };
   }, [props.open]);
 
   if (!props.open) return null;

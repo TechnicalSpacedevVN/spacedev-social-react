@@ -10,7 +10,10 @@ import { IconClose } from "./Icon/IconClose";
 import { IconFeedback } from "./Icon/IconFeedback";
 import { IconLogout } from "./Icon/IconLogout";
 import { IconSetting } from "./Icon/IconSetting";
-import { ButtonIconThreeDotAction, IconThreeDotAction } from "./Icon/IconThreeDotAction";
+import {
+  ButtonIconThreeDotAction,
+  IconThreeDotAction,
+} from "./Icon/IconThreeDotAction";
 import { ModalLogin } from "./ModalLogin";
 import { PATH } from "../constants/path";
 import { ButtonIconApplication } from "./Icon/IconApplication";
@@ -19,11 +22,21 @@ import { useAuth } from "./AuthProvider";
 import { Button } from "./Button";
 import { useState } from "react";
 import { Popconfirm } from "./Popconfirm";
+import { queryClient } from "../main";
+import { USER_DATA_KEY } from "../constants/queryKey";
+import { useQuery } from "@tanstack/react-query";
+import { userStorage } from "../utils/createStorage";
 
 export const Header = () => {
   const { mode, toggleMode } = useMode();
   const [openLogin, setOpenLogin] = useState(false);
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
+  const { data: user } = useQuery<User>({
+    queryKey: [USER_DATA_KEY],
+    queryFn: () => userStorage.get(),
+  });
+  console.log(user);
+
   return (
     <>
       <ModalLogin open={openLogin} onCancel={() => setOpenLogin(false)} />
@@ -149,7 +162,7 @@ export const Header = () => {
                               href="#"
                               className="[&:hover_.icon-action]:opacity-100 dark:text-white text-black rounded-lg flex gap-4 items-center hover:bg-black hover:bg-opacity-25 p-2 -ml-2"
                             >
-                              <Avatar size={40} />
+                              <Avatar size={40} src={user.avatar} />
                               <div className="flex flex-col flex-1">
                                 <p className="text-sm">
                                   <span className="font-semibold">
@@ -170,7 +183,7 @@ export const Header = () => {
                             </a>
                             <a
                               href="#"
-                              className="text-gray-500 rounded-lg flex gap-4 items-center hover:bg-black hover:bg-opacity-30  p-2 -ml-2"
+                              className="text-white rounded-lg flex gap-4 items-start hover:bg-black hover:bg-opacity-30  p-2 -ml-2"
                             >
                               <Avatar size={40} />
                               <div className="flex flex-col">
@@ -178,11 +191,19 @@ export const Header = () => {
                                   <span className="font-semibold">
                                     Mark Ortega
                                   </span>
-                                  &nbsp; Đã nhắc đến bạn trong một bài viết
+                                  &nbsp; Gửi đến bạn một lời mời kết bạn
                                 </p>
-                                <time className=" text-sm text-gray-600 dark:text-gray-700">
+                                <time className=" text-sm text-gray-600 dark:text-blue-500">
                                   4 hours ago
                                 </time>
+                                <div className="flex gap-2 mt-2">
+                                  <Button size="small" type="red">
+                                    Hủy bỏ
+                                  </Button>
+                                  <Button size="small" type="primary">
+                                    Đồng ý
+                                  </Button>
+                                </div>
                               </div>
                             </a>
                             <a
@@ -480,10 +501,8 @@ export const Header = () => {
                         to={PATH.Profile}
                         className="py-2 px-3 border-gray-300 rounded border-b border-solid text-gray-900 dark:text-white dark:border-slate-700 pb-3 hover:bg-black hover:bg-opacity-20 flex items-center gap-3"
                       >
-                        <Avatar />
-                        <h3 className="text-lg font-semibold">
-                          Đặng Thuyền Vương
-                        </h3>
+                        <Avatar src={user.avatar} />
+                        <h3 className="text-lg font-semibold">{user.name}</h3>
                       </Link>
                       <div className="mt-3">
                         <a
@@ -550,7 +569,7 @@ export const Header = () => {
                   }
                 >
                   <div className="relative flex items-center">
-                    <Avatar />
+                    <Avatar src={user.avatar} />
                     <Icon className="absolute !w-3 !h-3 right-0 -bottom-1">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -581,7 +600,6 @@ export const Header = () => {
                   placement="bottomRight"
                   content={
                     <div className="w-[300px]">
-                      
                       <div className="mt-3">
                         <a
                           onClick={(ev) => {

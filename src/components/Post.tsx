@@ -5,6 +5,7 @@ import { IconComment } from "./Icon/IconComment";
 import { ButtonIconHeart } from "./Icon/IconHeart";
 import { IconShare } from "./Icon/IconShare";
 import {
+
   ButtonIconThreeDotAction,
   IconThreeDotAction,
 } from "./Icon/IconThreeDotAction";
@@ -94,7 +95,7 @@ const ModalDetail: FC<ModalProps> = (props) => {
           />
         </div>
         <div className="flex-1 w-1 flex flex-col">
-          <div className="flex gap-2 p-3 border-b border-solid border-gray-300">
+          <div className="flex gap-2 p-3 border-b border-solid border-gray-300 dark:border-slate-700">
             <Avatar size={40} />
             <div className="flex flex-col flex-1">
               <h3 className="text-sm font-bold">Augusta Romero</h3>
@@ -147,7 +148,7 @@ const ModalDetail: FC<ModalProps> = (props) => {
             </div>
           </div>
           <div className="">
-            <div className="border-t border-solid border-gray-300 flex">
+            <div className="border-t border-solid border-gray-300 flex dark:border-slate-700">
               <input
                 value={value}
                 onChange={(ev) => setValue(ev.target.value)}
