@@ -10,7 +10,10 @@ import { IconClose } from "./Icon/IconClose";
 import { IconFeedback } from "./Icon/IconFeedback";
 import { IconLogout } from "./Icon/IconLogout";
 import { IconSetting } from "./Icon/IconSetting";
-import { ButtonIconThreeDotAction, IconThreeDotAction } from "./Icon/IconThreeDotAction";
+import {
+  ButtonIconThreeDotAction,
+  IconThreeDotAction,
+} from "./Icon/IconThreeDotAction";
 import { ModalLogin } from "./ModalLogin";
 import { PATH } from "../constants/path";
 import { ButtonIconApplication } from "./Icon/IconApplication";
@@ -19,6 +22,7 @@ import { useAuth } from "./AuthProvider";
 import { Button } from "./Button";
 import { useState } from "react";
 import { Popconfirm } from "./Popconfirm";
+import { LOGIN_MODAL, setGlobalState } from "../store/queryClient";
 
 export const Header = () => {
   const { mode, toggleMode } = useMode();
@@ -26,7 +30,10 @@ export const Header = () => {
   const { user, logout } = useAuth();
   return (
     <>
-      <ModalLogin open={openLogin} onCancel={() => setOpenLogin(false)} />
+      <ModalLogin
+        open={openLogin}
+        onCancel={() => setGlobalState(LOGIN_MODAL, false)}
+      />
       <header className="dark:bg-slate-900 bg-white h-header px-4 flex sticky top-0 z-10 border-b border-solid border-slate-300 dark:border-slate-700">
         <div className="flex items-center gap-4 w-full">
           <div className="w-sidebar">
@@ -573,7 +580,10 @@ export const Header = () => {
               </>
             ) : (
               <div className="flex items-center gap-3">
-                <Button type="red" onClick={() => setOpenLogin(true)}>
+                <Button
+                  type="red"
+                  onClick={() => setGlobalState(LOGIN_MODAL, true)}
+                >
                   Đăng nhập
                 </Button>
                 <Dropdown
@@ -581,7 +591,6 @@ export const Header = () => {
                   placement="bottomRight"
                   content={
                     <div className="w-[300px]">
-                      
                       <div className="mt-3">
                         <a
                           onClick={(ev) => {

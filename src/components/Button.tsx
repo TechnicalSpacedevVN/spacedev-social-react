@@ -23,16 +23,19 @@ export interface ButtonProps {
   size?: "small" | "default" | "large";
   outline?: boolean;
   onClick?: () => void;
+  loading?: boolean;
 }
 
 export const Button: FC<ButtonProps> = ({
   size = "default",
   type = "default",
+  loading,
   ...props
 }) => {
   return (
     <button
       {...props}
+      disabled={props.disabled || loading}
       className={cn(
         "font-semibold rounded border-current border-solid",
         props.className,

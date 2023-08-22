@@ -8,6 +8,7 @@ import { NewPost } from "../components/NewPost";
 import { Post } from "../components/Post";
 import { Story } from "../components/Story";
 import { SuggestedForYou } from "../components/SuggestedForYou";
+import { LOGIN_MODAL, setGlobalState } from "../store/queryClient";
 
 export const Home = () => {
   const { user } = useAuth();
@@ -87,8 +88,18 @@ export const Home = () => {
         ) : (
           <>
             <div className="px-2">
-              <p className="text-sm">Đăng nhập để thực hiện các hành động như like, comment, chia sẻ,...</p>
-              <Button size="large" type="red" className="w-full mt-3">Đăng nhập</Button>
+              <p className="text-sm">
+                Đăng nhập để thực hiện các hành động như like, comment, chia
+                sẻ,...
+              </p>
+              <Button
+                size="large"
+                type="red"
+                className="w-full mt-3"
+                onClick={() => setGlobalState(LOGIN_MODAL, true)}
+              >
+                Đăng nhập
+              </Button>
             </div>
           </>
         )}
