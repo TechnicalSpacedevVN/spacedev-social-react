@@ -12,23 +12,50 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { authService } from "../services/auth";
 import { message } from "antd";
-import { tokenStorage } from "../utils/createStorage";
+import { tokenStorage, userStorage } from "../utils/createStorage";
+import { userService } from "../services/user";
+import { USER_LOGIN, setGloablState } from "../store/queryClient";
+import { ModalRegister } from "./ModalRegister";
 
 export const ModalLogin: FC<ModalProps> = ({ ...props }) => {
   const { login } = useAuth();
   const [openNormalLogin, setOpenNormalLogin] = useState(false);
+  const [openRegisterModal, setOpenRegisterModal] = useState(false);
+  let [open, setOpen] = useState<boolean | null>(null);
+
   return (
     <>
       <ModalLoginNormal
         open={openNormalLogin}
-        onCancel={() => setOpenNormalLogin(false)}
+        onCancel={() => {
+          setOpenNormalLogin(false);
+          setOpen(null);
+        }}
         width={450}
         onSuccess={() => {
           setOpenNormalLogin(false);
+          setOpen(null);
           props.onCancel?.();
         }}
       />
-      <Modal {...props} title="Log in to Facinsrule" width={450}>
+      <ModalRegister
+        open={openRegisterModal}
+        onCancel={() => {
+          setOpenRegisterModal(false);
+          setOpen(null);
+        }}
+        width={450}
+        onSuccess={() => {
+          setOpenRegisterModal(false);
+          setOpenNormalLogin(true);
+        }}
+      />
+      <Modal
+        {...props}
+        open={typeof open === "boolean" ? open : props.open}
+        title="Log in to Facinsrule"
+        width={450}
+      >
         <div className="flex flex-col pt-10 pb-10 px-10 gap-3">
           <a
             onClick={(ev) => {
@@ -51,6 +78,7 @@ export const ModalLogin: FC<ModalProps> = ({ ...props }) => {
             onClick={(ev) => {
               ev.preventDefault();
               setOpenNormalLogin(true);
+              setOpen(false);
             }}
           >
             <ButtonIconUser
@@ -130,7 +158,15 @@ export const ModalLogin: FC<ModalProps> = ({ ...props }) => {
         </p>
         <div className="py-4 text-center px-3 text-gray-900 border-t border-solid border-gray-300 dark:text-white dark:border-slate-700">
           Don't have an account?{" "}
-          <a href="#" className="font-bold hover:underline text-red-500">
+          <a
+            onClick={(e) => {
+              e.preventDefault();
+              setOpenRegisterModal(true);
+              setOpen(false);
+            }}
+            href="#"
+            className="font-bold hover:underline text-red-500"
+          >
             Sign up
           </a>
         </div>
@@ -160,8 +196,11 @@ const ModalLoginNormal: FC<ModalLoginModalProps> = (props) => {
     onError: (err: ApiErrorResponse) => {
       message.error(err.message);
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       tokenStorage.set(data);
+      const user = await userService.getUser();
+      setGloablState(USER_LOGIN, user);
+      userStorage.set(user);
       props?.onSuccess?.();
     },
   });

@@ -4,12 +4,27 @@ import { Modal, ModalProps } from "./Modal";
 import { Button } from "./Button";
 import { Dropdown } from "./Dropdown";
 import { IconArrow } from "./Icon/IconArrow";
+import { useMutation } from "@tanstack/react-query";
+import { postService } from "../services/post";
+import { USER_LOGIN, useGlobalState } from "../store/queryClient";
 
-export const NewPost = () => {
+export interface NewPostProps {
+  onSuccess?: (post: Post) => void;
+}
+export const NewPost: FC<NewPostProps> = (props) => {
   const [open, setOpen] = useState(false);
+
   return (
     <>
-      <ModalCreate open={open} onCancel={() => setOpen(false)} width={608}/>
+      <ModalCreate
+        open={open}
+        onCancel={() => setOpen(false)}
+        onSuccess={(post) => {
+          setOpen(false);
+          props?.onSuccess?.(post);
+        }}
+        width={608}
+      />
       <div className="bg-white rounded-lg px-3 py-4 flex gap-4 dark:bg-slate-900">
         <Avatar />
         <div className="flex-1">
@@ -21,7 +36,10 @@ export const NewPost = () => {
             />
           </div>
           <div className="flex flex-wrap gap-2 mt-2">
-            <div onClick={() => setOpen(true)} className="whitespace-nowrap flex bg-gray-100 rounded-full text-sm text-gray-900 items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700">
+            <div
+              onClick={() => setOpen(true)}
+              className="whitespace-nowrap flex bg-gray-100 rounded-full text-sm text-gray-900 items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
+            >
               <div className="text-emerald-500">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +62,10 @@ export const NewPost = () => {
               </div>
               Photo/video
             </div>
-            <div onClick={() => setOpen(true)} className="whitespace-nowrap flex bg-gray-100 rounded-full text-sm text-gray-900 items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700">
+            <div
+              onClick={() => setOpen(true)}
+              className="whitespace-nowrap flex bg-gray-100 rounded-full text-sm text-gray-900 items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
+            >
               <div className="text-orange-500">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -69,7 +90,10 @@ export const NewPost = () => {
               </div>
               Poll
             </div>
-            <div onClick={() => setOpen(true)} className="whitespace-nowrap flex bg-gray-100 rounded-full text-sm text-gray-900 items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700">
+            <div
+              onClick={() => setOpen(true)}
+              className="whitespace-nowrap flex bg-gray-100 rounded-full text-sm text-gray-900 items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
+            >
               <div className="text-blue-500">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +117,10 @@ export const NewPost = () => {
               </div>
               Schedule
             </div>
-            <div onClick={() => setOpen(true)} className="whitespace-nowrap flex bg-gray-100 rounded-full text-sm text-gray-900 items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700">
+            <div
+              onClick={() => setOpen(true)}
+              className="whitespace-nowrap flex bg-gray-100 rounded-full text-sm text-gray-900 items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
+            >
               <div className="text-red-500">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -121,21 +148,42 @@ export const NewPost = () => {
   );
 };
 
-const ModalCreate: FC<ModalProps> = (props) => {
+export interface ModalCreateProps extends ModalProps {
+  onSuccess?: (post: Post) => void;
+}
+
+const ModalCreate: FC<ModalCreateProps> = (props) => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
-  const [value, setValue] = useState('')
+  const user = useGlobalState(USER_LOGIN);
+  const [value, setValue] = useState("");
   useEffect(() => {
     if (props.open) {
-      inputRef.current?.focus()
+      inputRef.current?.focus();
     }
   }, [props.open]);
+
+  const { mutate } = useMutation({
+    mutationFn: async () => {
+      let result = await postService.createPost({
+        content: value,
+        image: `https://unsplash.it/1000/500?t=` + Math.random(),
+      });
+
+      return result as unknown as Post;
+    },
+    onSuccess: (data) => {
+      setValue("");
+      props.onSuccess?.(data);
+    },
+  });
+
   return (
     <Modal {...props} title="Tạo bài post">
       <div className="p-3">
         <div className="flex gap-3">
-          <Avatar size={40} />
+          <Avatar size={40} src={user?.avatar} />
           <div>
-            <h3 className="font-bold">Charles Schwartz</h3>
+            <h3 className="font-bold">{user?.name}</h3>
             <Dropdown
               getPopupContainer={(parentNode) => parentNode}
               content={
@@ -173,7 +221,10 @@ const ModalCreate: FC<ModalProps> = (props) => {
                   <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
                 </svg>
                 Only me{" "}
-                <IconArrow transparent className="!w-3 h-fit !p-0 h-3 !bg-transparent" />
+                <IconArrow
+                  transparent
+                  className="!w-3 h-fit !p-0 h-3 !bg-transparent"
+                />
               </Button>
             </Dropdown>
           </div>
@@ -192,7 +243,14 @@ const ModalCreate: FC<ModalProps> = (props) => {
           ></textarea>
         </div>
         <div>
-          <Button className="w-full" disabled={!value} type={value ? 'primary' : 'default'}>Post</Button>
+          <Button
+            onClick={() => mutate()}
+            className="w-full"
+            disabled={!value}
+            type={value ? "primary" : "default"}
+          >
+            Post
+          </Button>
         </div>
       </div>
     </Modal>

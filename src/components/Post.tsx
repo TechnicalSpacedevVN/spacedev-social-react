@@ -5,14 +5,16 @@ import { IconComment } from "./Icon/IconComment";
 import { ButtonIconHeart } from "./Icon/IconHeart";
 import { IconShare } from "./Icon/IconShare";
 import {
-
   ButtonIconThreeDotAction,
   IconThreeDotAction,
 } from "./Icon/IconThreeDotAction";
 import { Modal, ModalProps } from "./Modal";
 import { Button } from "./Button";
+import moment from "moment";
 
-export const Post = () => {
+export interface PostProps extends Post {}
+
+export const Post: FC<PostProps> = ({ content, image, author, createdAt }) => {
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -23,11 +25,14 @@ export const Post = () => {
       />
       <div className="rounded-lg bg-white pb-4 dark:bg-slate-900">
         <div className="flex items-center gap-2 p-4">
-          <Avatar />
+          <Avatar src={author.avatar} />
           <div className="flex-1 -mt-1">
-            <h4 className="text-sm font-semibold text-gray-900 dark:text-white">
-              Lucas Nash
-            </h4>
+            <div className="flex gap-2 items-baseline">
+              <h4 className="text-sm font-semibold text-gray-900 dark:text-white">
+                {author.name}
+              </h4>
+              - <span className="text-sm">{moment(createdAt).fromNow()}</span>
+            </div>
             <p className="text-gray-500 text-xs">New York City, NY</p>
           </div>
           <div>
@@ -43,10 +48,7 @@ export const Post = () => {
               setOpen(true);
             }}
           >
-            <img
-              className="w-full h-full object-cover"
-              src={`https://unsplash.it/1000/500?t=${Math.random()}`}
-            />
+            <img className="w-full h-full object-cover" src={image} />
           </a>
         </div>
         <div className="flex items-center justify-between p-3">
@@ -61,22 +63,21 @@ export const Post = () => {
         </div>
         <div className="flex px-5 gap-2 items-center">
           <div>
-            <Avatar size={27} border/>
+            <Avatar size={27} border />
           </div>
           <div className="-ml-2">
-            <Avatar size={27} border/>
+            <Avatar size={27} border />
           </div>
           <div className="-ml-2">
-            <Avatar size={27} border/>
+            <Avatar size={27} border />
           </div>
           <p className="text-sm">
             Liked by <b>Sue Franklin</b> and <b>1,993 others</b>
           </p>
         </div>
         <p className="px-5 mt-4 text-sm">
-          <b>Dean Atkins</b>
-          We know the voices in our heads aren't real, but sometimes their ideas
-          are just too good to ignore.
+          <b>{author.name}</b>&nbsp;
+          {content}
         </p>
       </div>
     </>
@@ -86,7 +87,11 @@ export const Post = () => {
 const ModalDetail: FC<ModalProps> = (props) => {
   const [value, setValue] = useState("");
   return (
-    <Modal {...props} className="w-full max-h-[500px] h-full max-w-[900px] m-3" hideIconClose>
+    <Modal
+      {...props}
+      className="w-full max-h-[500px] h-full max-w-[900px] m-3"
+      hideIconClose
+    >
       <div className="flex h-full">
         <div className="flex-1 w-1 bg-black items-center flex">
           <img

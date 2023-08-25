@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, generatePath } from "react-router-dom";
 import { Avatar } from "./Avatar";
 import { Badge } from "./Badge";
 import { Card } from "./Card";
@@ -22,24 +23,45 @@ import { useAuth } from "./AuthProvider";
 import { Button } from "./Button";
 import { useState } from "react";
 import { Popconfirm } from "./Popconfirm";
-import { queryClient } from "../main";
 import { USER_DATA_KEY } from "../constants/queryKey";
 import { useQuery } from "@tanstack/react-query";
-import { userStorage } from "../utils/createStorage";
+import { tokenStorage, userStorage } from "../utils/createStorage";
+import {
+  POPUP_LOGIN,
+  USER_LOGIN,
+  getGlobalState,
+  removeGlobalState,
+  setGloablState,
+  useGlobalState,
+} from "../store/queryClient";
+import { userService } from "../services/user";
+import { useDebounce } from "../hooks/useDebounce";
 
 export const Header = () => {
   const { mode, toggleMode } = useMode();
-  const [openLogin, setOpenLogin] = useState(false);
-  const { logout } = useAuth();
-  const { data: user } = useQuery<User>({
-    queryKey: [USER_DATA_KEY],
-    queryFn: () => userStorage.get(),
+  const [search, setSearch] = useDebounce(500, "");
+  const {
+    data: users,
+    refetch,
+    isLoading,
+  } = useQuery({
+    queryKey: ["search-user", search],
+    queryFn: async () => {
+      return await userService.search(search);
+    },
+    enabled: !!search,
   });
-  console.log(user);
+
+  const user = useGlobalState(USER_LOGIN);
+
+  const openLogin = useGlobalState(POPUP_LOGIN);
 
   return (
     <>
-      <ModalLogin open={openLogin} onCancel={() => setOpenLogin(false)} />
+      <ModalLogin
+        open={openLogin}
+        onCancel={() => setGloablState(POPUP_LOGIN, false)}
+      />
       <header className="dark:bg-slate-900 bg-white h-header px-4 flex sticky top-0 z-10 border-b border-solid border-slate-300 dark:border-slate-700">
         <div className="flex items-center gap-4 w-full">
           <div className="w-sidebar">
@@ -72,36 +94,17 @@ export const Header = () => {
                 }
               >
                 <div className="mt-3">
-                  <div className="flex gap-3 items-center hover:bg-black hover:bg-opacity-20 p-2 -ml-2 rounded cursor-pointer">
-                    <Avatar />
-                    <p className="font-semibold flex-1">Loretta Copeland</p>
-                    <IconClose size={17} transparent />
-                  </div>
-                  <div className="flex gap-3 items-center hover:bg-black hover:bg-opacity-20 p-2 -ml-2 rounded cursor-pointer">
-                    <Avatar />
-                    <p className="font-semibold flex-1">Gussie Mack</p>
-                    <IconClose size={17} transparent />
-                  </div>
-                  <div className="flex gap-3 items-center hover:bg-black hover:bg-opacity-20 p-2 -ml-2 rounded cursor-pointer">
-                    <Avatar />
-                    <p className="font-semibold flex-1">Bernice Underwood</p>
-                    <IconClose size={17} transparent />
-                  </div>
-                  <div className="flex gap-3 items-center hover:bg-black hover:bg-opacity-20 p-2 -ml-2 rounded cursor-pointer">
-                    <Avatar />
-                    <p className="font-semibold flex-1">Maggie Jenkins</p>
-                    <IconClose size={17} transparent />
-                  </div>
-                  <div className="flex gap-3 items-center hover:bg-black hover:bg-opacity-20 p-2 -ml-2 rounded cursor-pointer">
-                    <Avatar />
-                    <p className="font-semibold flex-1">Flora Larson</p>
-                    <IconClose size={17} transparent />
-                  </div>
-                  <div className="flex gap-3 items-center hover:bg-black hover:bg-opacity-20 p-2 -ml-2 rounded cursor-pointer">
-                    <Avatar />
-                    <p className="font-semibold flex-1">Agnes Chambers</p>
-                    <IconClose size={17} transparent />
-                  </div>
+                  {users?.map((e) => (
+                    <Link
+                      to={generatePath(PATH.User, { _id: e._id })}
+                      key={e._id}
+                      className="flex gap-3 items-center hover:bg-black hover:bg-opacity-20 p-2 -ml-2 rounded cursor-pointer"
+                    >
+                      <Avatar src={e.avatar} />
+                      <p className="font-semibold flex-1">{e.name}</p>
+                      <IconClose size={17} transparent />
+                    </Link>
+                  ))}
                 </div>
               </Card>
             }
@@ -128,7 +131,7 @@ export const Header = () => {
               </svg>
 
               <input
-                onClick={() => {}}
+                onChange={(ev) => setSearch(ev.target.value)}
                 placeholder="Search for everything...."
                 className="placeholder:text-sm outline-none bg-transparent flex-1 text-black dark:text-white"
               />
@@ -557,7 +560,10 @@ export const Header = () => {
                           className="px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
                           onClick={(ev) => {
                             ev.preventDefault();
-                            logout();
+                            removeGlobalState(USER_LOGIN);
+                            userStorage.clear();
+                            tokenStorage.clear();
+                            // logout();
                           }}
                         >
                           <IconLogout />
@@ -592,7 +598,10 @@ export const Header = () => {
               </>
             ) : (
               <div className="flex items-center gap-3">
-                <Button type="red" onClick={() => setOpenLogin(true)}>
+                <Button
+                  type="red"
+                  onClick={() => setGloablState(POPUP_LOGIN, true)}
+                >
                   Đăng nhập
                 </Button>
                 <Dropdown

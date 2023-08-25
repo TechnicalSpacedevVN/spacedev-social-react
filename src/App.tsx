@@ -6,16 +6,15 @@ import { AuthProvider } from "./components/AuthProvider";
 import { useEffect } from "react";
 import { tokenStorage, userStorage } from "./utils/createStorage";
 import { userService } from "./services/user";
-import { queryClient } from "./main";
 import { USER_DATA_KEY } from "./constants/queryKey";
+import { USER_LOGIN, queryClient, setGloablState } from "./store/queryClient";
 
 function App() {
   useEffect(() => {
     if (tokenStorage.get()) {
-      userService.getUser().then((res: any) => {
+      userService.getUser().then((res) => {
         userStorage.set(res);
-        queryClient.setQueriesData([USER_DATA_KEY], res);
-        queryClient.invalidateQueries([USER_DATA_KEY]);
+        setGloablState(USER_LOGIN, res);
       });
     }
   }, []);

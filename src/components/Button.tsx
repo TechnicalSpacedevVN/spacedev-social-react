@@ -22,7 +22,7 @@ export interface ButtonProps {
   disabled?: boolean;
   size?: "small" | "default" | "large";
   outline?: boolean;
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   loading?: boolean;
 }
 

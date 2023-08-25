@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { Activity } from "../components/Activity";
 import { useAuth } from "../components/AuthProvider";
 import { Button } from "../components/Button";
@@ -8,9 +9,22 @@ import { NewPost } from "../components/NewPost";
 import { Post } from "../components/Post";
 import { Story } from "../components/Story";
 import { SuggestedForYou } from "../components/SuggestedForYou";
+import {
+  POPUP_LOGIN,
+  USER_LOGIN,
+  setGloablState,
+  useGlobalState,
+} from "../store/queryClient";
+import { postService } from "../services/post";
 
 export const Home = () => {
-  const { user } = useAuth();
+  // const { user } = useAuth();
+  const user = useGlobalState(USER_LOGIN);
+  const { data, refetch } = useQuery({
+    queryKey: [],
+    queryFn: postService.getPosts,
+  });
+
   return (
     <div className="px-4 flex w-full gap-4 mt-4">
       <div className="w-sidebar flex gap-4 flex-col">
@@ -87,8 +101,18 @@ export const Home = () => {
         ) : (
           <>
             <div className="px-2">
-              <p className="text-sm">Đăng nhập để thực hiện các hành động như like, comment, chia sẻ,...</p>
-              <Button size="large" type="red" className="w-full mt-3">Đăng nhập</Button>
+              <p className="text-sm">
+                Đăng nhập để thực hiện các hành động như like, comment, chia
+                sẻ,...
+              </p>
+              <Button
+                size="large"
+                type="red"
+                className="w-full mt-3"
+                onClick={() => setGloablState(POPUP_LOGIN, true)}
+              >
+                Đăng nhập
+              </Button>
             </div>
           </>
         )}
@@ -100,13 +124,13 @@ export const Home = () => {
           {user && (
             <>
               <Story />
-              <NewPost />
+              <NewPost onSuccess={() => refetch()} />
             </>
           )}
 
-          <Post />
-          <Post />
-          <Post />
+          {data?.map((e) => (
+            <Post key={e._id} {...e} />
+          ))}
         </div>
       </div>
       <div className="w-sidebar flex gap-4 flex-col sticky self-end bottom-16">

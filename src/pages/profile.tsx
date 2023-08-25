@@ -10,19 +10,57 @@ import { NewPost } from "../components/NewPost";
 import { Post } from "../components/Post";
 import { ButtonIconCamera } from "../components/Icon/IconCamera";
 import { ModalAbout } from "../components/features/About";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
+import { GetProfileType, getUserProfile } from "../services";
+import { userService } from "../services/user";
+import { friendService } from "../services/friend";
+import { USER_LOGIN, useGlobalState } from "../store/queryClient";
+import { postService } from "../services/post";
 
 export const Profile = () => {
   const [open, setOpen] = useState(false);
   const [openAbout, setOpenAbout] = useState(false);
+  const user = useGlobalState(USER_LOGIN);
+  const { _id = "" } = useParams<{ _id?: string }>();
+  const { data, refetch: refetchCheckUser } = useQuery({
+    queryKey: [`profile-${_id}`],
+    queryFn: async () => {
+      if (_id) {
+        return await getUserProfile(_id);
+      }
+
+      return {
+        user: await userService.getUser(),
+        checkFriend: null,
+      } as GetProfileType;
+    },
+  });
+
+  const { data: posts, refetch } = useQuery({
+    queryKey: [`user-post-${_id === "" ? user?._id : _id}`],
+    queryFn: () =>
+      postService.getUserPosts(_id === "" ? (user?._id as any) : _id),
+  });
+
+  console.log(data);
+
   return (
     <>
-      <ModalFriends open={open} onCancel={() => setOpen(false)} />
+      <ModalFriends
+        open={open}
+        onCancel={() => setOpen(false)}
+        userId={_id || (user?._id as any)}
+      />
       <ModalAbout open={openAbout} onCancel={() => setOpenAbout(false)} />
       <div>
         <div className="bg-white dark:bg-slate-900">
           <div className="relative">
-            <div>
-              <img src="https://unsplash.it/2000/700" />
+            <div className="w-full h-[400px]">
+              <img
+                className="object-cover w-full h-full"
+                src={data?.user.cover}
+              />
             </div>
             <div className="container relative mx-auto">
               <div className="cursor-pointer hover:bg-opacity-60 absolute bottom-2 right-2 bg-black rounded bg-opacity-50 text-white  text-sm flex items-center px-2 py-0.5 drop-shadow-2xl shadow-white">
@@ -37,7 +75,7 @@ export const Profile = () => {
           <div className="container mx-auto px-4">
             <div className="flex gap-6 -mt-8 pb-8 border-b border-solid border-gray-300 px-4 dark:border-slate-700">
               <div className="relative shadow-[0_0_0_3px] shadow-white rounded-full dark:shadow-slate-900">
-                <Avatar size={180} />
+                <Avatar src={data?.user.avatar} size={180} />
                 <Icon className="absolute bottom-1 right-5">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -59,7 +97,10 @@ export const Profile = () => {
               </div>
               <div className="mt-auto">
                 <h1 className="text-3xl font-bold">
-                  Vương Đặng Thuyền <span className="font-normal">(Nar)</span>
+                  {data?.user.name}{" "}
+                  {data?.user.nickname && (
+                    <span className="font-normal">({data?.user.nickname})</span>
+                  )}
                 </h1>
                 <p className="text-gray-600 font-semibold">543 Friends</p>
                 <div className="flex [&>*]:-ml-1 [&>*]:shadow-[0_0_0_2px] [&>*]:shadow-gray-200 [&>*]:rounded-full dark:[&>*]:shadow-slate-900 mt-2">
@@ -73,6 +114,64 @@ export const Profile = () => {
                   <Avatar />
                   <Avatar />
                 </div>
+              </div>
+
+              <div className="flex items-end ml-auto">
+                {data?.checkFriend === null &&
+                  _id !== user?._id &&
+                  _id !== "" && (
+                    <Button
+                      className="min-w-[200px]"
+                      type="primary"
+                      onClick={async () => {
+                        await friendService.addFriend(_id);
+                        refetchCheckUser();
+                      }}
+                    >
+                      Kết bạn
+                    </Button>
+                  )}
+
+                {data?.checkFriend?.confirm && (
+                  <Button
+                    className="min-w-[200px]"
+                    type="red"
+                    onClick={async () => {
+                      await friendService.cancelFriendRequest(_id);
+                      refetchCheckUser();
+                    }}
+                  >
+                    Hủy bạn bè
+                  </Button>
+                )}
+
+                {data?.checkFriend?.sender._id === user?._id &&
+                  data?.checkFriend?.confirm == false && (
+                    <Button
+                      className="min-w-[200px]"
+                      type="red"
+                      onClick={async () => {
+                        await friendService.cancelFriendRequest(_id);
+                        refetchCheckUser();
+                      }}
+                    >
+                      Hủy lời mời
+                    </Button>
+                  )}
+
+                {data?.checkFriend?.sender._id === _id &&
+                  data?.checkFriend?.confirm === false && (
+                    <Button
+                      className="min-w-[200px]"
+                      type="primary"
+                      onClick={async () => {
+                        await friendService.confirm(_id);
+                        refetchCheckUser();
+                      }}
+                    >
+                      Đòng ý kết bạn
+                    </Button>
+                  )}
               </div>
             </div>
           </div>
@@ -95,16 +194,19 @@ export const Profile = () => {
               >
                 Tài khoản
               </a>
-              <a
-                onClick={(ev) => {
-                  ev.preventDefault();
-                  setOpen(true);
-                }}
-                href="#"
-                className="flex items-center dark:border-slate-900 dark:hover:bg-slate-800 pb-4 text-gray-700 dark:text-gray-400 px-3 border-b-2 border-solid border-white hover:bg-gray-100 rounded pt-4"
-              >
-                Friends
-              </a>
+              {data?.user.hideFriendList === false && (
+                <a
+                  onClick={(ev) => {
+                    ev.preventDefault();
+                    setOpen(true);
+                  }}
+                  href="#"
+                  className="flex items-center dark:border-slate-900 dark:hover:bg-slate-800 pb-4 text-gray-700 dark:text-gray-400 px-3 border-b-2 border-solid border-white hover:bg-gray-100 rounded pt-4"
+                >
+                  Friends
+                </a>
+              )}
+
               <a
                 href="#"
                 className="flex items-center dark:border-slate-900 dark:hover:bg-slate-800 pb-4 text-gray-700 dark:text-gray-400 px-3 border-b-2 border-solid border-white hover:bg-gray-100 rounded pt-4"
@@ -287,15 +389,14 @@ export const Profile = () => {
           </div>
 
           <div className="flex-1 rounded-lg flex gap-4 flex-col">
-            <NewPost />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
+            <NewPost
+              onSuccess={() => {
+                refetch();
+              }}
+            />
+            {posts?.map((e) => (
+              <Post key={e._id} {...e} />
+            ))}
           </div>
         </div>
       </div>

@@ -17,10 +17,14 @@ export const routes: RouteObject[] = [
         path: PATH.Profile,
         element: <Profile />,
       },
+      {
+        path: PATH.User,
+        element: <Profile />,
+      },
     ],
   },
   {
     element: <ChatPage />,
-    path: PATH.Messenger
-  }
+    path: PATH.Messenger,
+  },
 ];

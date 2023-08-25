@@ -9,7 +9,6 @@ export const Avatar: FC<{
   src?: string;
 }> = ({ size = 32, ...props }) => {
   const id = useId();
-  console.log(props.src);
   return (
     <div
       className={cn("relative h-fit h-8 w-8 cursor-pointer rounded-full", {

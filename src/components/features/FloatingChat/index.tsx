@@ -33,7 +33,7 @@ export const ChatScreen: FC = (props) => {
   const [value, setValue] = useState("");
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isHide, setIsHide] = useState(false);
-
+  return null;
   return (
     <div
       className={cn(
