@@ -4,30 +4,41 @@ import { Button } from "../components/Button";
 import { Card } from "../components/Card";
 import { Dropdown } from "../components/Dropdown";
 import { Icon } from "../components/Icon/Icon";
-import { ButtonIconThreeDotAction } from "../components/Icon/IconThreeDotAction";
+import {
+  ButtonIconThreeDotAction,
+  IconThreeDotAction,
+} from "../components/Icon/IconThreeDotAction";
 import { ModalFriends } from "../components/ModalFriends";
 import { NewPost } from "../components/NewPost";
 import { Post } from "../components/Post";
 import { ButtonIconCamera } from "../components/Icon/IconCamera";
 import { ModalAbout } from "../components/features/About";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { GetProfileType, getUserProfile } from "../services";
 import { userService } from "../services/user";
 import { friendService } from "../services/friend";
 import { USER_LOGIN, useGlobalState } from "../store/queryClient";
 import { postService } from "../services/post";
+import { message } from "antd";
+import { PATH } from "../constants/path";
 
 export const Profile = () => {
   const [open, setOpen] = useState(false);
   const [openAbout, setOpenAbout] = useState(false);
   const user = useGlobalState(USER_LOGIN);
+  const navigate = useNavigate();
   const { _id = "" } = useParams<{ _id?: string }>();
   const { data, refetch: refetchCheckUser } = useQuery({
     queryKey: [`profile-${_id}`],
     queryFn: async () => {
       if (_id) {
-        return await getUserProfile(_id);
+        let res = await getUserProfile(_id);
+        if (res.user === null) {
+          navigate(PATH.Home);
+        }
+
+        return res;
       }
 
       return {
@@ -43,8 +54,6 @@ export const Profile = () => {
       postService.getUserPosts(_id === "" ? (user?._id as any) : _id),
   });
 
-  console.log(data);
-
   return (
     <>
       <ModalFriends
@@ -59,7 +68,7 @@ export const Profile = () => {
             <div className="w-full h-[400px]">
               <img
                 className="object-cover w-full h-full"
-                src={data?.user.cover}
+                src={data?.user?.cover}
               />
             </div>
             <div className="container relative mx-auto">
@@ -75,7 +84,7 @@ export const Profile = () => {
           <div className="container mx-auto px-4">
             <div className="flex gap-6 -mt-8 pb-8 border-b border-solid border-gray-300 px-4 dark:border-slate-700">
               <div className="relative shadow-[0_0_0_3px] shadow-white rounded-full dark:shadow-slate-900">
-                <Avatar src={data?.user.avatar} size={180} />
+                <Avatar src={data?.user?.avatar} size={180} />
                 <Icon className="absolute bottom-1 right-5">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -97,9 +106,11 @@ export const Profile = () => {
               </div>
               <div className="mt-auto">
                 <h1 className="text-3xl font-bold">
-                  {data?.user.name}{" "}
-                  {data?.user.nickname && (
-                    <span className="font-normal">({data?.user.nickname})</span>
+                  {data?.user?.name}{" "}
+                  {data?.user?.nickname && (
+                    <span className="font-normal">
+                      ({data?.user?.nickname})
+                    </span>
                   )}
                 </h1>
                 <p className="text-gray-600 font-semibold">543 Friends</p>
@@ -172,6 +183,27 @@ export const Profile = () => {
                       Đòng ý kết bạn
                     </Button>
                   )}
+                {/* <div className="ml-4">
+                  <Dropdown
+                    placement="bottomRight"
+                    content={
+                      <div className="w-[200px]">
+                        {user?._id !== _id && (
+                          <div
+                            onClick={() => {
+                              userService.block(_id);
+                            }}
+                            className="p-2 text-sm text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-slate-700 cursor-pointer rounded"
+                          >
+                            Chặn người dùng
+                          </div>
+                        )}
+                      </div>
+                    }
+                  >
+                    <ButtonIconThreeDotAction />
+                  </Dropdown>
+                </div> */}
               </div>
             </div>
           </div>
@@ -194,7 +226,7 @@ export const Profile = () => {
               >
                 Tài khoản
               </a>
-              {data?.user.hideFriendList === false && (
+              {data?.user?.hideFriendList === false && (
                 <a
                   onClick={(ev) => {
                     ev.preventDefault();
@@ -231,7 +263,37 @@ export const Profile = () => {
               </Dropdown>
             </div>
             <div className="ml-auto">
-              <ButtonIconThreeDotAction />
+              <Dropdown
+                placement="bottomRight"
+                content={
+                  <div className="w-[200px]">
+                    {_id && user?._id !== _id && (
+                      <div
+                        onClick={async () => {
+                          await userService.block(_id);
+                          message.success("Chặn user thành công");
+                        }}
+                        className="p-2 text-sm text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-slate-700 cursor-pointer rounded"
+                      >
+                        Chặn người dùng
+                      </div>
+                    )}
+
+                    {_id && user?._id !== _id && (
+                      <div
+                        onClick={async () => {
+                          await userService.follow(_id);
+                        }}
+                        className="p-2 text-sm text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-slate-700 cursor-pointer rounded"
+                      >
+                        Theo dõi
+                      </div>
+                    )}
+                  </div>
+                }
+              >
+                <ButtonIconThreeDotAction />
+              </Dropdown>
             </div>
           </div>
         </div>

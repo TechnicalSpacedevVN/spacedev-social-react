@@ -7,4 +7,5 @@ interface User {
   cover: string;
   hideFriendList: boolean;
   distance?: number;
+  block: User[];
 }

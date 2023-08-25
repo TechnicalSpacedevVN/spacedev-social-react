@@ -11,11 +11,14 @@ import {
 import { Modal, ModalProps } from "./Modal";
 import { Button } from "./Button";
 import moment from "moment";
+import { Link, generatePath } from "react-router-dom";
+import { PATH } from "../constants/path";
 
 export interface PostProps extends Post {}
 
 export const Post: FC<PostProps> = ({ content, image, author, createdAt }) => {
   const [open, setOpen] = useState(false);
+  const userPath = generatePath(PATH.User, { _id: author._id });
   return (
     <>
       <ModalDetail
@@ -25,12 +28,16 @@ export const Post: FC<PostProps> = ({ content, image, author, createdAt }) => {
       />
       <div className="rounded-lg bg-white pb-4 dark:bg-slate-900">
         <div className="flex items-center gap-2 p-4">
-          <Avatar src={author.avatar} />
+          <Link to={userPath}>
+            <Avatar src={author.avatar} />
+          </Link>
           <div className="flex-1 -mt-1">
             <div className="flex gap-2 items-baseline">
-              <h4 className="text-sm font-semibold text-gray-900 dark:text-white">
-                {author.name}
-              </h4>
+              <Link to={userPath}>
+                <h4 className="text-sm font-semibold text-gray-900 dark:text-white">
+                  {author.name}
+                </h4>
+              </Link>
               - <span className="text-sm">{moment(createdAt).fromNow()}</span>
             </div>
             <p className="text-gray-500 text-xs">New York City, NY</p>

@@ -67,4 +67,34 @@ export const userService = {
   updateLocation: async (body: UpdateLatLngInput) => {
     return api.post("/user/update-location", body);
   },
+  block: async (userId: string) => {
+    return api.post(`/user/block/${userId}`);
+  },
+  unblock: async (userId: string) => {
+    return api.post(`/user/unblock/${userId}`);
+  },
+  follow: async (userId: string) => {
+    return api.post(`/user/follow/${userId}`);
+  },
+  unfollow: async (userId: string) => {
+    return api.post(`/user/unfollow/${userId}`);
+  },
+  getBlockUser: async () => {
+    let res = await client.query<{ profile: User }>({
+      fetchPolicy: "no-cache",
+      query: gql`
+        query Profile {
+          profile {
+            block {
+              name
+              _id
+              avatar
+              nickname
+            }
+          }
+        }
+      `,
+    });
+    return res.data.profile.block;
+  },
 };
