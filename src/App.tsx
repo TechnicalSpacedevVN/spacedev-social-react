@@ -7,7 +7,13 @@ import { useEffect } from "react";
 import { tokenStorage, userStorage } from "./utils/createStorage";
 import { userService } from "./services/user";
 import { USER_DATA_KEY } from "./constants/queryKey";
-import { USER_LOGIN, queryClient, setGloablState } from "./store/queryClient";
+import {
+  USER_LOGIN,
+  getGlobalState,
+  queryClient,
+  setGloablState,
+} from "./store/queryClient";
+import { updateUserLocation } from "./utils/getLocation";
 
 function App() {
   useEffect(() => {
@@ -18,6 +24,11 @@ function App() {
       });
     }
   }, []);
+
+  useEffect(() => {
+    setInterval(updateUserLocation, 60_000);
+  }, []);
+
   const element = useRoutes(routes);
   return (
     <DarkModeProvider>

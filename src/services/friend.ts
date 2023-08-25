@@ -40,4 +40,22 @@ export const friendService = {
     });
     return res.data.friends;
   },
+
+  async suggesedFriend() {
+    let res = await client.query<{ suggestionUser: User[] }>({
+      query: gql`
+        query {
+          suggestionUser {
+            _id
+            name
+            cover
+            nickname
+            distance
+          }
+        }
+      `,
+    });
+
+    return res.data.suggestionUser;
+  },
 };

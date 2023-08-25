@@ -6,4 +6,5 @@ interface User {
   nickname: string;
   cover: string;
   hideFriendList: boolean;
+  distance?: number;
 }

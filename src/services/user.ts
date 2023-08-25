@@ -12,6 +12,11 @@ export interface VerifyRegisterInput {
   code: string;
 }
 
+export interface UpdateLatLngInput {
+  lat: number;
+  lng: number;
+}
+
 export const userService = {
   getUser: async () => {
     // return api.get<User>("/user");
@@ -58,5 +63,8 @@ export const userService = {
       },
     });
     return res.data.users;
+  },
+  updateLocation: async (body: UpdateLatLngInput) => {
+    return api.post("/user/update-location", body);
   },
 };

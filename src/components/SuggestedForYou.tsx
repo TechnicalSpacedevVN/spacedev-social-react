@@ -1,8 +1,15 @@
+import { useQuery } from "@tanstack/react-query";
 import { Avatar } from "./Avatar";
 import { Card } from "./Card";
 import { IconAddFriend } from "./Icon/IconAddFriend";
+import { SUGGESED_USER } from "../constants/queryKey";
+import { friendService } from "../services/friend";
 
 export const SuggestedForYou = () => {
+  const { data } = useQuery({
+    queryKey: [SUGGESED_USER],
+    queryFn: friendService.suggesedFriend,
+  });
   return (
     <Card
       title="Suggested For You"
@@ -13,46 +20,20 @@ export const SuggestedForYou = () => {
       }
     >
       <div className="mt-4 flex flex-col gap-4">
-        <div className="flex gap-2 items-center">
-          <Avatar />
-          <div className="flex-1 ">
-            <h4 className="text-xs font-bold text-gray-900 dark:text-white">Lola Hines</h4>
-            <p className="text-xs text-gray-500">Recenfly</p>
+        {data?.map((e) => (
+          <div key={e._id} className="flex gap-2 items-center">
+            <Avatar src={e.avatar} />
+            <div className="flex-1 ">
+              <h4 className="text-xs font-bold text-gray-900 dark:text-white">
+                {e.name}
+              </h4>
+              <p className="text-xs text-gray-500">
+                Khoảng cách {Math.round(e.distance || 0)}m
+              </p>
+            </div>
+            <IconAddFriend disabled />
           </div>
-          <IconAddFriend disabled />
-        </div>
-        <div className="flex gap-2 items-center">
-          <Avatar />
-          <div className="flex-1 ">
-            <h4 className="text-xs font-bold text-gray-900 dark:text-white">Lola Hines</h4>
-            <p className="text-xs text-gray-500">Suggested for you</p>
-          </div>
-          <IconAddFriend />
-        </div>
-        <div className="flex gap-2 items-center">
-          <Avatar />
-          <div className="flex-1 ">
-            <h4 className="text-xs font-bold text-gray-900 dark:text-white">Lola Hines</h4>
-            <p className="text-xs text-gray-500">Following you</p>
-          </div>
-          <IconAddFriend />
-        </div>
-        <div className="flex gap-2 items-center">
-          <Avatar />
-          <div className="flex-1 ">
-            <h4 className="text-xs font-bold text-gray-900 dark:text-white">Lola Hines</h4>
-            <p className="text-xs text-gray-500">Following you</p>
-          </div>
-          <IconAddFriend />
-        </div>
-        <div className="flex gap-2 items-center">
-          <Avatar />
-          <div className="flex-1 ">
-            <h4 className="text-xs font-bold text-gray-900 dark:text-white">Lola Hines</h4>
-            <p className="text-xs text-gray-500">Following you</p>
-          </div>
-          <IconAddFriend />
-        </div>
+        ))}
       </div>
     </Card>
   );

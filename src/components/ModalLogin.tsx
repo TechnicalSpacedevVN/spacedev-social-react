@@ -16,6 +16,7 @@ import { tokenStorage, userStorage } from "../utils/createStorage";
 import { userService } from "../services/user";
 import { USER_LOGIN, setGloablState } from "../store/queryClient";
 import { ModalRegister } from "./ModalRegister";
+import { updateUserLocation } from "../utils/getLocation";
 
 export const ModalLogin: FC<ModalProps> = ({ ...props }) => {
   const { login } = useAuth();
@@ -33,6 +34,7 @@ export const ModalLogin: FC<ModalProps> = ({ ...props }) => {
         }}
         width={450}
         onSuccess={() => {
+          updateUserLocation();
           setOpenNormalLogin(false);
           setOpen(null);
           props.onCancel?.();
