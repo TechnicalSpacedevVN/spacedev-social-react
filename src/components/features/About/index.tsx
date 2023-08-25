@@ -10,6 +10,8 @@ import { useQuery } from "@tanstack/react-query";
 import { userService } from "../../../services/user";
 import { BLOCK_USER } from "../../../constants/queryKey";
 import { Button } from "../../Button";
+import { Switch } from "../../Switch";
+import { USER_LOGIN, useGlobalState } from "../../../store/queryClient";
 
 enum Menu {
   MyAccount = "MyAccount",
@@ -18,6 +20,7 @@ enum Menu {
 
 export const ModalAbout: FC<ModalProps> = (props) => {
   const [menu, setMenu] = useState<Menu>(Menu.MyAccount);
+  const user = useGlobalState(USER_LOGIN) as User;
 
   return (
     <Modal {...props} title="About">
@@ -81,34 +84,55 @@ export const ModalAbout: FC<ModalProps> = (props) => {
             </a>
           </div>
         </div>
-        {menu === Menu.MyAccount && (
-          <div className="flex-1 px-10">
-            <h2 className="font-bold py-5 border-b border-solid border-gray-300 dark:border-slate-700">
-              My Account
-            </h2>
-            <div className="flex gap-4 mt-3">
-              <div className="relative">
-                <Avatar size={70} />
-                <div className="absolute -right-1 -bottom-1">
-                  <ButtonIconCamera />
-                </div>
-              </div>
-              <div className="flex gap-2 flex-col">
-                Họ và tên
-                <input
-                  type="text"
-                  placeholder="Họ và tên"
-                  value="Đặng Thuyền Vương"
-                  className="outline-none bg-gray-100 px-2 rounded border border-solid border-gray-300 text-sm py-1 w-60 dark:bg-slate-800 dark:border-slate-700"
-                />
-              </div>
-            </div>
-          </div>
-        )}
+        {menu === Menu.MyAccount && <MenuAbout user={user} />}
 
         {menu === Menu.Block && <MenuBlock />}
       </div>
     </Modal>
+  );
+};
+
+export interface MenuAboutProps {
+  user: User;
+}
+export const MenuAbout: FC<MenuAboutProps> = ({ user }) => {
+  const [allowFollow, setAllowFollow] = useState(user.allowFollow);
+
+  return (
+    <div className="flex-1 px-10">
+      <h2 className="font-bold py-5 border-b border-solid border-gray-300 dark:border-slate-700">
+        My Account
+      </h2>
+      <div className="flex gap-4 mt-3">
+        <div className="relative">
+          <Avatar size={70} />
+          <div className="absolute -right-1 -bottom-1">
+            <ButtonIconCamera />
+          </div>
+        </div>
+        <div className="flex gap-2 flex-col">
+          Họ và tên
+          <input
+            type="text"
+            placeholder="Họ và tên"
+            value={user.name}
+            className="outline-none bg-gray-100 px-2 rounded border border-solid border-gray-300 text-sm py-1 w-60 dark:bg-slate-800 dark:border-slate-700"
+          />
+        </div>
+      </div>
+      <div className="flex gap-2 mt-4">
+        <div
+          className="flex items-center gap-2 cursor-pointer select-none"
+          onClick={async () => {
+            await userService.updateInfo({ allowFollow: !allowFollow });
+            setAllowFollow(!allowFollow);
+          }}
+        >
+          <p className="text-md">Cho phép theo dỗi</p>
+          <Switch checked={allowFollow} />
+        </div>
+      </div>
+    </div>
   );
 };
 

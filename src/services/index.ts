@@ -18,6 +18,7 @@ export const getUserProfile = async (_id: string) => {
           cover
           hideFriendList
           nickname
+          allowFollow
         }
         checkFriend(user: $q) {
           receiver {

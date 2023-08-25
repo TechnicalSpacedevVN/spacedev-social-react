@@ -14,7 +14,7 @@ import { Post } from "../components/Post";
 import { ButtonIconCamera } from "../components/Icon/IconCamera";
 import { ModalAbout } from "../components/features/About";
 import { useQuery } from "@tanstack/react-query";
-import { useNavigate, useParams } from "react-router-dom";
+import { useMatch, useNavigate, useParams } from "react-router-dom";
 import { GetProfileType, getUserProfile } from "../services";
 import { userService } from "../services/user";
 import { friendService } from "../services/friend";
@@ -22,6 +22,7 @@ import { USER_LOGIN, useGlobalState } from "../store/queryClient";
 import { postService } from "../services/post";
 import { message } from "antd";
 import { PATH } from "../constants/path";
+import { FOLLOWER } from "../constants/queryKey";
 
 export const Profile = () => {
   const [open, setOpen] = useState(false);
@@ -46,6 +47,12 @@ export const Profile = () => {
         checkFriend: null,
       } as GetProfileType;
     },
+  });
+
+  const { data: follow, refetch: refetchFollow } = useQuery({
+    queryFn: userService.getFollow,
+    queryKey: [FOLLOWER],
+    initialData: [],
   });
 
   const { data: posts, refetch } = useQuery({
@@ -216,16 +223,18 @@ export const Profile = () => {
               >
                 Posts
               </a>
-              <a
-                href="#"
-                className="flex items-center dark:border-slate-900 dark:hover:bg-slate-800 pb-4 text-gray-700 dark:text-gray-400 px-3 border-b-2 border-solid border-white hover:bg-gray-100 rounded pt-4"
-                onClick={(ev) => {
-                  ev.preventDefault();
-                  setOpenAbout(true);
-                }}
-              >
-                Tài khoản
-              </a>
+              {_id === "" && (
+                <a
+                  href="#"
+                  className="flex items-center dark:border-slate-900 dark:hover:bg-slate-800 pb-4 text-gray-700 dark:text-gray-400 px-3 border-b-2 border-solid border-white hover:bg-gray-100 rounded pt-4"
+                  onClick={(ev) => {
+                    ev.preventDefault();
+                    setOpenAbout(true);
+                  }}
+                >
+                  Tài khoản
+                </a>
+              )}
               {data?.user?.hideFriendList === false && (
                 <a
                   onClick={(ev) => {
@@ -279,15 +288,36 @@ export const Profile = () => {
                       </div>
                     )}
 
-                    {_id && user?._id !== _id && (
-                      <div
-                        onClick={async () => {
-                          await userService.follow(_id);
-                        }}
-                        className="p-2 text-sm text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-slate-700 cursor-pointer rounded"
-                      >
-                        Theo dõi
-                      </div>
+                    {data?.user?.allowFollow && (
+                      <>
+                        {_id &&
+                          user?._id !== _id &&
+                          follow.findIndex((e) => e._id === _id) === -1 && (
+                            <div
+                              onClick={async () => {
+                                await userService.follow(_id);
+                                refetchFollow();
+                              }}
+                              className="p-2 text-sm text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-slate-700 cursor-pointer rounded"
+                            >
+                              Theo dõi
+                            </div>
+                          )}
+
+                        {_id &&
+                          user?._id !== _id &&
+                          follow.findIndex((e) => e._id === _id) != -1 && (
+                            <div
+                              onClick={async () => {
+                                await userService.unfollow(_id);
+                                refetchFollow();
+                              }}
+                              className="p-2 text-sm text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-slate-700 cursor-pointer rounded"
+                            >
+                              Hủy theo dõi
+                            </div>
+                          )}
+                      </>
                     )}
                   </div>
                 }

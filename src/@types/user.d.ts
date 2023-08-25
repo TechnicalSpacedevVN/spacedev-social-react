@@ -8,4 +8,6 @@ interface User {
   hideFriendList: boolean;
   distance?: number;
   block: User[];
+  follow: User[];
+  allowFollow: boolean;
 }

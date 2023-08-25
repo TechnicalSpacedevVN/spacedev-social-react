@@ -17,6 +17,10 @@ export interface UpdateLatLngInput {
   lng: number;
 }
 
+export type UpdateUserInfo = Partial<
+  Pick<User, "avatar" | "cover" | "name" | "nickname" | "allowFollow">
+>;
+
 export const userService = {
   getUser: async () => {
     // return api.get<User>("/user");
@@ -32,11 +36,15 @@ export const userService = {
             nickname
             cover
             hideFriendList
+            allowFollow
           }
         }
       `,
     });
     return res.data.profile;
+  },
+  updateInfo: async (body: UpdateUserInfo) => {
+    return api.patch("/user/update-info", body);
   },
 
   register: async (body: RegisterInput) => {
@@ -96,5 +104,24 @@ export const userService = {
       `,
     });
     return res.data.profile.block;
+  },
+  getFollow: async () => {
+    let res = await client.query<{ profile: User }>({
+      fetchPolicy: "no-cache",
+      query: gql`
+        query Profile {
+          profile {
+            follow {
+              name
+              _id
+              avatar
+              nickname
+            }
+          }
+        }
+      `,
+    });
+
+    return res.data.profile.follow;
   },
 };
