@@ -6,9 +6,20 @@ export interface CreatePostInput {
   image: string;
 }
 
+export interface UpdatePostInput extends Partial<CreatePostInput> {}
+
 export const postService = {
   createPost(body: CreatePostInput) {
-    return api.post<Post>("/post", body);
+    return api.post<Post>("/post", body) as unknown as Post;
+  },
+  updatePost(id: string, body: UpdatePostInput) {
+    return api.patch(`/post/${id}`, body);
+  },
+  deletePost(id: string) {
+    return api.delete(`/post/${id}`);
+  },
+  hidePost(id: string) {
+    return api.post(`/post/hide-post/${id}`);
   },
   async getPosts() {
     let res = await client.query<{ posts: Post[] }>({

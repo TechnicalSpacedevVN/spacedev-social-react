@@ -7,6 +7,9 @@ import { IconArrow } from "./Icon/IconArrow";
 import { useMutation } from "@tanstack/react-query";
 import { postService } from "../services/post";
 import { USER_LOGIN, useGlobalState } from "../store/queryClient";
+import { ButtonIconImage } from "./Icon/IconImage";
+import { fileService } from "../services/file";
+import { ModalCreateEditPost } from "./ModalCreateEditPost";
 
 export interface NewPostProps {
   onSuccess?: (post: Post) => void;
@@ -16,10 +19,10 @@ export const NewPost: FC<NewPostProps> = (props) => {
 
   return (
     <>
-      <ModalCreate
+      <ModalCreateEditPost
         open={open}
         onCancel={() => setOpen(false)}
-        onSuccess={(post) => {
+        onCreateSuccess={(post) => {
           setOpen(false);
           props?.onSuccess?.(post);
         }}
@@ -145,114 +148,5 @@ export const NewPost: FC<NewPostProps> = (props) => {
         </div>
       </div>
     </>
-  );
-};
-
-export interface ModalCreateProps extends ModalProps {
-  onSuccess?: (post: Post) => void;
-}
-
-const ModalCreate: FC<ModalCreateProps> = (props) => {
-  const inputRef = useRef<HTMLTextAreaElement>(null);
-  const user = useGlobalState(USER_LOGIN);
-  const [value, setValue] = useState("");
-  useEffect(() => {
-    if (props.open) {
-      inputRef.current?.focus();
-    }
-  }, [props.open]);
-
-  const { mutate } = useMutation({
-    mutationFn: async () => {
-      let result = await postService.createPost({
-        content: value,
-        image: `https://unsplash.it/1000/500?t=` + Math.random(),
-      });
-
-      return result as unknown as Post;
-    },
-    onSuccess: (data) => {
-      setValue("");
-      props.onSuccess?.(data);
-    },
-  });
-
-  return (
-    <Modal {...props} title="Tạo bài post">
-      <div className="p-3">
-        <div className="flex gap-3">
-          <Avatar size={40} src={user?.avatar} />
-          <div>
-            <h3 className="font-bold">{user?.name}</h3>
-            <Dropdown
-              getPopupContainer={(parentNode) => parentNode}
-              content={
-                <div className="w-[200px]">
-                  <div className="text-gray-900 text-opacity-80 p-2 cursor-pointer rounded hover:bg-black hover:bg-opacity-10 text-sm dark:text-gray-300 hover:text-opacity-100 dark:hover:text-white">
-                    Công khai
-                  </div>
-                  <div className="text-gray-900 text-opacity-80 p-2 cursor-pointer rounded hover:bg-black hover:bg-opacity-10 text-sm dark:text-gray-300 hover:text-opacity-100 dark:hover:text-white">
-                    Chỉ mình tôi
-                  </div>
-                  <div className="text-gray-900 text-opacity-80 p-2 cursor-pointer rounded hover:bg-black hover:bg-opacity-10 text-sm dark:text-gray-300 hover:text-opacity-100 dark:hover:text-white">
-                    Chỉ bạn bè tôi
-                  </div>
-                  <div className="text-gray-900 text-opacity-80 p-2 cursor-pointer rounded hover:bg-black hover:bg-opacity-10 text-sm dark:text-gray-300 hover:text-opacity-100 dark:hover:text-white">
-                    Ẩn danh
-                  </div>
-                </div>
-              }
-            >
-              <Button size="small" className="flex gap-1 items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="icon icon-tabler icon-tabler-eye"
-                  width={17}
-                  height={17}
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-                  <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
-                </svg>
-                Only me{" "}
-                <IconArrow
-                  transparent
-                  className="!w-3 h-fit !p-0 h-3 !bg-transparent"
-                />
-              </Button>
-            </Dropdown>
-          </div>
-        </div>
-        <div>
-          <textarea
-            ref={inputRef}
-            placeholder="Bạn đang muốn nói điều gì với những người bạn quan tâm...."
-            className="text-xl bg-transparent outline-none w-full resize-none placeholder:text-xl mt-3"
-            name=""
-            id=""
-            rows={10}
-            spellCheck={false}
-            value={value}
-            onChange={(ev) => setValue(ev.target.value)}
-          ></textarea>
-        </div>
-        <div>
-          <Button
-            onClick={() => mutate()}
-            className="w-full"
-            disabled={!value}
-            type={value ? "primary" : "default"}
-          >
-            Post
-          </Button>
-        </div>
-      </div>
-    </Modal>
   );
 };

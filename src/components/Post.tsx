@@ -13,19 +13,44 @@ import { Button } from "./Button";
 import moment from "moment";
 import { Link, generatePath } from "react-router-dom";
 import { PATH } from "../constants/path";
+import { Dropdown } from "./Dropdown";
+import { ModalCreateEditPost } from "./ModalCreateEditPost";
+import { USER_LOGIN, useGlobalState } from "../store/queryClient";
+import { postService } from "../services/post";
+import { reportService } from "../services/report";
+import { ReporType } from "../@types/report";
 
-export interface PostProps extends Post {}
+export interface PostProps extends Post {
+  onDeleteSuccess?: () => void;
+  onEditSuccess?: () => void;
+  onReportSuccess?: () => void;
+  onHidePostSuccess?: () => void;
+}
 
-export const Post: FC<PostProps> = ({ content, image, author, createdAt }) => {
+export const Post: FC<PostProps> = (props) => {
+  const { content, image, author, createdAt, _id } = props;
+  const user = useGlobalState(USER_LOGIN);
   const [open, setOpen] = useState(false);
   const userPath = generatePath(PATH.User, { _id: author._id });
+  const [openModalCreate, setOpenModalCreate] = useState(false);
+
   return (
     <>
       <ModalDetail
         overlayCloseable
         open={open}
         onCancel={() => setOpen(false)}
+        {...props}
       />
+      <ModalCreateEditPost
+        open={openModalCreate}
+        onCancel={() => setOpenModalCreate(false)}
+        width={608}
+        post={props}
+        onEditSuccess={props.onEditSuccess}
+        edit
+      />
+
       <div className="rounded-lg bg-white pb-4 dark:bg-slate-900">
         <div className="flex items-center gap-2 p-4">
           <Link to={userPath}>
@@ -43,10 +68,60 @@ export const Post: FC<PostProps> = ({ content, image, author, createdAt }) => {
             <p className="text-gray-500 text-xs">New York City, NY</p>
           </div>
           <div>
-            <ButtonIconThreeDotAction className="bg-transparent" />
+            <Dropdown
+              placement="bottomRight"
+              content={
+                <div className="w-[200px]">
+                  {author._id === user?._id && (
+                    <div
+                      onClick={() => setOpenModalCreate(true)}
+                      className="p-2 text-sm text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-slate-700 cursor-pointer rounded"
+                    >
+                      Chỉnh sửa bài viết
+                    </div>
+                  )}
+                  {author._id === user?._id && (
+                    <div
+                      onClick={async () => {
+                        await postService.deletePost(_id);
+                        props?.onDeleteSuccess?.();
+                      }}
+                      className="p-2 text-sm text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-slate-700 cursor-pointer rounded"
+                    >
+                      Xóa bài viết
+                    </div>
+                  )}
+                  {author._id !== user?._id && (
+                    <div
+                      onClick={async () => {
+                        await postService.hidePost(_id);
+                        props.onHidePostSuccess?.();
+                      }}
+                      className="p-2 text-sm text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-slate-700 cursor-pointer rounded"
+                    >
+                      Ẩn bài viết
+                    </div>
+                  )}
+
+                  {author._id !== user?._id && (
+                    <div
+                      onClick={async () => {
+                        await reportService.createReport(_id, ReporType.Post);
+                        props.onReportSuccess?.();
+                      }}
+                      className="p-2 text-sm text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-slate-700 cursor-pointer rounded"
+                    >
+                      Báo cáo bài viết
+                    </div>
+                  )}
+                </div>
+              }
+            >
+              <ButtonIconThreeDotAction transparent />
+            </Dropdown>
           </div>
         </div>
-        <div className="p-1 overflow-hidden flex items-center">
+        <div className="p-1 overflow-hidden flex items-center max-h-[400px]">
           <a
             className="w-full"
             href="#"
@@ -82,16 +157,21 @@ export const Post: FC<PostProps> = ({ content, image, author, createdAt }) => {
             Liked by <b>Sue Franklin</b> and <b>1,993 others</b>
           </p>
         </div>
-        <p className="px-5 mt-4 text-sm">
-          <b>{author.name}</b>&nbsp;
-          {content}
-        </p>
+        {content && (
+          <p className="px-5 mt-4 text-sm">
+            <b>{author.name}</b>&nbsp;
+            {content}
+          </p>
+        )}
       </div>
     </>
   );
 };
 
-const ModalDetail: FC<ModalProps> = (props) => {
+export interface ModalPostDetail extends Post, ModalProps {}
+
+const ModalDetail: FC<ModalPostDetail> = (props) => {
+  let { content, image, author, _id, createdAt } = props;
   const [value, setValue] = useState("");
   return (
     <Modal
@@ -101,22 +181,22 @@ const ModalDetail: FC<ModalProps> = (props) => {
     >
       <div className="flex h-full">
         <div className="flex-1 w-1 bg-black items-center flex">
-          <img
-            className="object-contain"
-            src={`https://unsplash.it/1000/500?t=${Math.random()}`}
-          />
+          <img className="object-contain" src={image} />
         </div>
         <div className="flex-1 w-1 flex flex-col">
           <div className="flex gap-2 p-3 border-b border-solid border-gray-300 dark:border-slate-700">
             <Avatar size={40} />
             <div className="flex flex-col flex-1">
-              <h3 className="text-sm font-bold">Augusta Romero</h3>
-              <time className="text-gray-500 text-xs">3 month ago</time>
+              <h3 className="text-sm font-bold">{author.name}</h3>
+              <time className="text-gray-500 text-xs">
+                {moment(createdAt).fromNow()}
+              </time>
             </div>
             <div className="flex">
               <ButtonIconHeart />
               <IconShare />
               <IconBookmark />
+
               <ButtonIconThreeDotAction transparent />
             </div>
           </div>

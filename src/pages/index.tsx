@@ -129,7 +129,14 @@ export const Home = () => {
           )}
 
           {data?.map((e) => (
-            <Post key={e._id} {...e} />
+            <Post
+              key={e._id}
+              {...e}
+              onDeleteSuccess={refetch}
+              onEditSuccess={refetch}
+              onHidePostSuccess={refetch}
+              onReportSuccess={refetch}
+            />
           ))}
         </div>
       </div>
