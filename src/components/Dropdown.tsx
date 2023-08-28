@@ -113,7 +113,7 @@ export const Dropdown: FC<DropdownProps> = ({
             onClick={(ev) => ev.stopPropagation()}
             style={{ ...position }}
             className={cn(
-              "absolute p-2 dark:bg-slate-800 bg-white rounded-lg z-1 shadow-[5px_5px_15px_rgba(0,0,0,0.5)]",
+              "absolute z-50 p-2 dark:bg-slate-800 bg-white rounded-lg z-1 shadow-[5px_5px_15px_rgba(0,0,0,0.5)]",
               props.popupClassName
             )}
           >

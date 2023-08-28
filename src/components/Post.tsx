@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, useRef } from "react";
 import { Avatar } from "./Avatar";
 import { IconBookmark } from "./Icon/IconBookmark";
 import { IconComment } from "./Icon/IconComment";
@@ -19,6 +19,10 @@ import { USER_LOGIN, useGlobalState } from "../store/queryClient";
 import { postService } from "../services/post";
 import { reportService } from "../services/report";
 import { ReporType } from "../@types/report";
+import { commentService } from "../services/comment";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { COMMENT } from "../constants/queryKey";
+import { Menu } from "./Menu";
 
 export interface PostProps extends Post {
   onDeleteSuccess?: () => void;
@@ -71,50 +75,39 @@ export const Post: FC<PostProps> = (props) => {
             <Dropdown
               placement="bottomRight"
               content={
-                <div className="w-[200px]">
-                  {author._id === user?._id && (
-                    <div
-                      onClick={() => setOpenModalCreate(true)}
-                      className="p-2 text-sm text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-slate-700 cursor-pointer rounded"
-                    >
-                      Chỉnh sửa bài viết
-                    </div>
-                  )}
-                  {author._id === user?._id && (
-                    <div
-                      onClick={async () => {
+                <Menu
+                  menus={[
+                    {
+                      label: "Chỉnh sửa bài viết",
+                      onClick: () => setOpenModalCreate(true),
+                      enabled: author._id === user?._id,
+                    },
+                    {
+                      onClick: async () => {
                         await postService.deletePost(_id);
                         props?.onDeleteSuccess?.();
-                      }}
-                      className="p-2 text-sm text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-slate-700 cursor-pointer rounded"
-                    >
-                      Xóa bài viết
-                    </div>
-                  )}
-                  {author._id !== user?._id && (
-                    <div
-                      onClick={async () => {
+                      },
+                      label: "Xóa bài viết",
+                      enabled: author._id === user?._id,
+                    },
+                    {
+                      onClick: async () => {
                         await postService.hidePost(_id);
                         props.onHidePostSuccess?.();
-                      }}
-                      className="p-2 text-sm text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-slate-700 cursor-pointer rounded"
-                    >
-                      Ẩn bài viết
-                    </div>
-                  )}
-
-                  {author._id !== user?._id && (
-                    <div
-                      onClick={async () => {
+                      },
+                      enabled: author._id !== user?._id,
+                      label: "Ẩn bài viết",
+                    },
+                    {
+                      label: "Báo cáo bài viết",
+                      enabled: author._id !== user?._id,
+                      onClick: async () => {
                         await reportService.createReport(_id, ReporType.Post);
                         props.onReportSuccess?.();
-                      }}
-                      className="p-2 text-sm text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-slate-700 cursor-pointer rounded"
-                    >
-                      Báo cáo bài viết
-                    </div>
-                  )}
-                </div>
+                      },
+                    },
+                  ]}
+                />
               }
             >
               <ButtonIconThreeDotAction transparent />
@@ -172,6 +165,29 @@ export interface ModalPostDetail extends Post, ModalProps {}
 
 const ModalDetail: FC<ModalPostDetail> = (props) => {
   let { content, image, author, _id, createdAt } = props;
+  const { data: comments, refetch: refetchComment } = useQuery({
+    queryKey: [`${COMMENT}${_id}`],
+    queryFn: () => commentService.getComment(_id),
+    enabled: props.open,
+  });
+  const [commentEdit, setCommentEdit] = useState<IComment>();
+  const { mutate: actionSend } = useMutation({
+    mutationFn: async () => {
+      if (commentEdit) {
+        await commentService.updatedComment(commentEdit._id, {
+          content: value,
+        });
+        setCommentEdit(undefined);
+      } else {
+        await commentService.createComment({
+          content: value,
+          refId: _id,
+        });
+      }
+      setValue("");
+    },
+  });
+
   const [value, setValue] = useState("");
   return (
     <Modal
@@ -201,43 +217,19 @@ const ModalDetail: FC<ModalPostDetail> = (props) => {
             </div>
           </div>
           <div className="flex-1">
-            <div className="flex gap-3 p-3 items-center [&_.icon-action]:hover:opacity-100">
-              <Avatar />
-              <div className="flex-1">
-                <h3 className="text-sm font-bold">Nelle Pena</h3>
-                <div className="flex gap-2 text-xs">
-                  <time className="">3 phút trước</time>
-                  <a href="#" className="font-bold">
-                    2 Like
-                  </a>
-                  <a href="#" className="font-bold">
-                    Reply
-                  </a>
-                  <IconThreeDotAction className="ml-4 cursor-pointer icon-action opacity-0" />
-                </div>
-              </div>
-              <ButtonIconHeart className="icon-action opacity-0" />
-            </div>
-            <div className="flex gap-3 p-3 [&_.icon-action]:hover:opacity-100">
-              <Avatar />
-              <div className="flex-1">
-                <h3 className="text-sm font-bold">Nelle Pena</h3>
-                <div className="flex gap-2 text-xs ">
-                  <time className="">3 phút trước</time>
-                  <a href="#" className="font-bold">
-                    2 Like
-                  </a>
-                  <a href="#" className="font-bold">
-                    Reply
-                  </a>
-                  <IconThreeDotAction className="ml-4 cursor-pointer icon-action opacity-0" />
-                </div>
-                <div className="text-gray-400 flex items-baseline gap-2 cursor-pointer text-xs font-bold mt-4 before:content-normal before:block before:w-8 before:h-[1px] before:bg-gray-400">
-                  View replies (10)
-                </div>
-              </div>
-              <ButtonIconHeart className="icon-action opacity-0" />
-            </div>
+            {comments?.map((e) => (
+              <UserComment
+                onEdit={(comment) => {
+                  setCommentEdit(comment);
+                  setValue(comment.content);
+                }}
+                onDeleteSuccess={() => {
+                  refetchComment();
+                }}
+                key={e._id}
+                {...e}
+              />
+            ))}
           </div>
           <div className="">
             <div className="border-t border-solid border-gray-300 flex dark:border-slate-700">
@@ -251,13 +243,90 @@ const ModalDetail: FC<ModalPostDetail> = (props) => {
                 type={value ? "primary" : "default"}
                 disabled={!value}
                 className="rounded-none !px-10"
+                onClick={async () => {
+                  await actionSend();
+
+                  //fetch comment
+                  refetchComment();
+                }}
               >
-                Send
+                Gửi
               </Button>
             </div>
           </div>
         </div>
       </div>
     </Modal>
+  );
+};
+
+export interface CommentProps extends IComment {
+  onEdit?: (comment: IComment) => void;
+  onDeleteSuccess?: () => void;
+}
+
+export const UserComment: FC<CommentProps> = (props) => {
+  const { content, createdAt, createdBy, refId, onEdit, _id } = props;
+  const ref = useRef<HTMLDivElement>(null);
+  const user = useGlobalState(USER_LOGIN);
+  return (
+    <div
+      ref={ref}
+      className="flex gap-3 p-3 [&_.icon-action]:hover:opacity-100"
+    >
+      <Avatar src={createdBy.avatar} />
+      <div className="flex-1">
+        <div className="flex gap-2 items-center">
+          <h3 className="text-sm font-bold">{createdBy.name} </h3>
+          <time className="text-xs">{moment(createdAt).fromNow()}</time>
+        </div>
+        <p className="text-sm mb-2">{content}</p>
+        <div className="flex gap-2 text-xs ">
+          <a href="#" className="font-bold">
+            2 Like
+          </a>
+          <a href="#" className="font-bold">
+            Reply
+          </a>
+          <Dropdown
+            placement="bottomLeft"
+            content={
+              <Menu
+                menus={[
+                  {
+                    enabled: user?._id !== createdBy._id,
+                    label: "Báo cáo bình luận",
+                    onClick: () => {
+                      // onEdit?.(props);
+                    },
+                  },
+                  {
+                    enabled: user?._id === createdBy._id,
+                    label: "Chỉnh sửa",
+                    onClick: () => {
+                      onEdit?.(props);
+                    },
+                  },
+                  {
+                    enabled: user?._id === createdBy._id,
+                    label: "Xóa bình luận",
+                    onClick: async () => {
+                      await commentService.deleteComment(_id);
+                      props.onDeleteSuccess?.();
+                    },
+                  },
+                ]}
+              />
+            }
+          >
+            <IconThreeDotAction className="ml-4 cursor-pointer icon-action opacity-0" />
+          </Dropdown>
+        </div>
+        {/* <div className="text-gray-400 flex items-baseline gap-2 cursor-pointer text-xs font-bold mt-4 before:content-normal before:block before:w-8 before:h-[1px] before:bg-gray-400">
+          View replies (10)
+        </div> */}
+      </div>
+      <ButtonIconHeart className="icon-action opacity-0" />
+    </div>
   );
 };
