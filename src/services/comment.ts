@@ -5,6 +5,7 @@ export interface CreateCommentInput {
   refId: string;
   content?: string;
   image?: string;
+  replyId?: string;
 }
 
 export interface UpdateCommentInput {
@@ -31,6 +32,8 @@ export const commentService = {
             content
             createdAt
             image
+            refId
+            countReply
             createdBy {
               avatar
               _id
@@ -44,5 +47,33 @@ export const commentService = {
       },
     });
     return res.data.comments;
+  },
+  async getReplyComment(id: string) {
+    let res = await client.query<{
+      comment: { replys: IComment[]; countReply: number };
+    }>({
+      fetchPolicy: "no-cache",
+      query: gql`
+        query ($commentId: String!) {
+          comment(id: $commentId) {
+            countReply
+            replys {
+              _id
+              content
+              createdAt
+              createdBy {
+                avatar
+                name
+                _id
+              }
+            }
+          }
+        }
+      `,
+      variables: {
+        commentId: id,
+      },
+    });
+    return res.data.comment;
   },
 };

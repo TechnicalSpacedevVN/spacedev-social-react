@@ -33,6 +33,7 @@ export const postService = {
               name
               avatar
             }
+            countComment
             content
             createdAt
             image

@@ -23,6 +23,8 @@ import { commentService } from "../services/comment";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { COMMENT } from "../constants/queryKey";
 import { Menu } from "./Menu";
+import { ENTER_KEY } from "../constants";
+import { hideContentService } from "../services/hide-content";
 
 export interface PostProps extends Post {
   onDeleteSuccess?: () => void;
@@ -92,7 +94,7 @@ export const Post: FC<PostProps> = (props) => {
                     },
                     {
                       onClick: async () => {
-                        await postService.hidePost(_id);
+                        await hideContentService.hidePost(_id);
                         props.onHidePostSuccess?.();
                       },
                       enabled: author._id !== user?._id,
@@ -129,7 +131,9 @@ export const Post: FC<PostProps> = (props) => {
         <div className="flex items-center justify-between p-3">
           <div className="flex gap-0.5 ">
             <ButtonIconHeart />
-            <IconComment />
+            <div className="flex gap-1 items-center text-xs">
+              <IconComment /> {props.countComment}
+            </div>
             <IconShare />
           </div>
           <div>
@@ -216,16 +220,16 @@ const ModalDetail: FC<ModalPostDetail> = (props) => {
               <ButtonIconThreeDotAction transparent />
             </div>
           </div>
-          <div className="flex-1">
+          <div className="flex-1 overflow-auto">
             {comments?.map((e) => (
               <UserComment
                 onEdit={(comment) => {
                   setCommentEdit(comment);
                   setValue(comment.content);
                 }}
-                onDeleteSuccess={() => {
-                  refetchComment();
-                }}
+                onDeleteSuccess={refetchComment}
+                onHideCommentSuccess={refetchComment}
+                onReportCommentSuccess={refetchComment}
                 key={e._id}
                 {...e}
               />
@@ -263,70 +267,168 @@ const ModalDetail: FC<ModalPostDetail> = (props) => {
 export interface CommentProps extends IComment {
   onEdit?: (comment: IComment) => void;
   onDeleteSuccess?: () => void;
+  allowReply?: boolean;
+  onHideCommentSuccess?: () => void;
+  onReportCommentSuccess?: () => void;
 }
 
-export const UserComment: FC<CommentProps> = (props) => {
-  const { content, createdAt, createdBy, refId, onEdit, _id } = props;
+export const UserComment: FC<CommentProps> = ({
+  allowReply = true,
+  ...props
+}) => {
+  const { content, createdAt, createdBy, refId, onEdit, _id, countReply } =
+    props;
+  const [openReply, setOpenReply] = useState(false);
+  const [openReplyList, setOpenReplyList] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const [value, setValue] = useState("");
   const user = useGlobalState(USER_LOGIN);
+  const { data: replies, refetch: refetchReply } = useQuery({
+    queryFn: () => commentService.getReplyComment(_id),
+    enabled: openReplyList,
+  });
+
+  const { mutate } = useMutation({
+    mutationFn: () => {
+      return commentService.createComment({
+        replyId: _id,
+        content: value,
+        refId,
+      });
+    },
+  });
+
+  let _countReply = replies?.countReply || countReply;
   return (
-    <div
-      ref={ref}
-      className="flex gap-3 p-3 [&_.icon-action]:hover:opacity-100"
-    >
-      <Avatar src={createdBy.avatar} />
-      <div className="flex-1">
-        <div className="flex gap-2 items-center">
-          <h3 className="text-sm font-bold">{createdBy.name} </h3>
-          <time className="text-xs">{moment(createdAt).fromNow()}</time>
-        </div>
-        <p className="text-sm mb-2">{content}</p>
-        <div className="flex gap-2 text-xs ">
-          <a href="#" className="font-bold">
-            2 Like
-          </a>
-          <a href="#" className="font-bold">
-            Reply
-          </a>
-          <Dropdown
-            placement="bottomLeft"
-            content={
-              <Menu
-                menus={[
-                  {
-                    enabled: user?._id !== createdBy._id,
-                    label: "Báo cáo bình luận",
-                    onClick: () => {
-                      // onEdit?.(props);
+    <>
+      <div
+        ref={ref}
+        className="flex gap-3 p-3 [&_.icon-action]:hover:opacity-100"
+      >
+        <Avatar src={createdBy.avatar} />
+        <div className="flex-1">
+          <div className="flex gap-2 items-center">
+            <h3 className="text-sm font-bold">{createdBy.name} </h3>
+            <time className="text-xs">{moment(createdAt).fromNow()}</time>
+          </div>
+          <p className="text-sm mb-2">{content}</p>
+          <div className="flex gap-2 text-xs ">
+            <a href="#" className="font-bold">
+              2 Like
+            </a>
+            {allowReply && (
+              <a
+                href="#"
+                className="font-bold"
+                onClick={(ev) => {
+                  ev.preventDefault();
+                  setOpenReply(!openReply);
+                }}
+              >
+                Reply
+              </a>
+            )}
+
+            {allowReply && _countReply > 0 && (
+              <a
+                href="#"
+                className="font-bold"
+                onClick={(ev) => {
+                  ev.preventDefault();
+                  setOpenReplyList(!openReplyList);
+                }}
+              >
+                Bình luận ({_countReply})
+              </a>
+            )}
+
+            <Dropdown
+              placement="bottomLeft"
+              content={
+                <Menu
+                  menus={[
+                    {
+                      enabled: user?._id !== createdBy._id,
+                      label: "Báo cáo bình luận",
+                      onClick: async () => {
+                        // onEdit?.(props);
+                        await reportService.reportComment(_id);
+                        props?.onReportCommentSuccess?.();
+                      },
                     },
-                  },
-                  {
-                    enabled: user?._id === createdBy._id,
-                    label: "Chỉnh sửa",
-                    onClick: () => {
-                      onEdit?.(props);
+                    {
+                      enabled: user?._id !== createdBy._id,
+                      label: "Ẩn bình luận",
+                      onClick: async () => {
+                        // onEdit?.(props);
+                        await hideContentService.hideComment(_id);
+                        props?.onHideCommentSuccess?.();
+                      },
                     },
-                  },
-                  {
-                    enabled: user?._id === createdBy._id,
-                    label: "Xóa bình luận",
-                    onClick: async () => {
-                      await commentService.deleteComment(_id);
-                      props.onDeleteSuccess?.();
+                    {
+                      enabled: user?._id === createdBy._id,
+                      label: "Chỉnh sửa",
+                      onClick: () => {
+                        onEdit?.(props);
+                      },
                     },
-                  },
-                ]}
+                    {
+                      enabled: user?._id === createdBy._id,
+                      label: "Xóa bình luận",
+                      onClick: async () => {
+                        await commentService.deleteComment(_id);
+                        props.onDeleteSuccess?.();
+                      },
+                    },
+                  ]}
+                />
+              }
+            >
+              <IconThreeDotAction className="ml-4 cursor-pointer icon-action opacity-0" />
+            </Dropdown>
+          </div>
+          {openReply && (
+            <div className="mt-2">
+              <input
+                value={value}
+                onChange={(ev) => setValue(ev.target.value)}
+                onKeyUp={async (ev) => {
+                  if (ev.key === ENTER_KEY) {
+                    if (value.trim()) {
+                      await mutate();
+                      setOpenReply(false);
+                      setValue("");
+
+                      setOpenReplyList(true);
+                      refetchReply();
+                    }
+                  }
+                }}
+                placeholder="Bình luận...."
+                className="w-full border text-sm p-2 rounded outline-none"
               />
-            }
-          >
-            <IconThreeDotAction className="ml-4 cursor-pointer icon-action opacity-0" />
-          </Dropdown>
-        </div>
-        {/* <div className="text-gray-400 flex items-baseline gap-2 cursor-pointer text-xs font-bold mt-4 before:content-normal before:block before:w-8 before:h-[1px] before:bg-gray-400">
+            </div>
+          )}
+
+          {/* <div className="text-gray-400 flex items-baseline gap-2 cursor-pointer text-xs font-bold mt-4 before:content-normal before:block before:w-8 before:h-[1px] before:bg-gray-400">
           View replies (10)
         </div> */}
+        </div>
+        <ButtonIconHeart className="icon-action opacity-0" />
       </div>
-      <ButtonIconHeart className="icon-action opacity-0" />
-    </div>
+      {openReplyList && (
+        <div className="pl-10">
+          {replies?.replys?.map((e) => (
+            <UserComment
+              onHideCommentSuccess={refetchReply}
+              onReportCommentSuccess={refetchReply}
+              allowReply={false}
+              key={e._id}
+              {...e}
+            />
+          ))}
+        </div>
+      )}
+    </>
   );
 };

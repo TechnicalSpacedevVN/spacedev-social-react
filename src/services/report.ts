@@ -5,4 +5,7 @@ export const reportService = {
   createReport(id: string, type: ReporType) {
     return api.post(`/report/${id}`, { type });
   },
+  reportComment(id: string) {
+    return api.post(`/report/${id}`, { type: "Comment" });
+  },
 };

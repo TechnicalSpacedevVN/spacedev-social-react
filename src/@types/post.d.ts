@@ -5,4 +5,5 @@ interface Post {
   author: User;
   createdAt: number;
   updatedAt: number;
+  countComment: number;
 }

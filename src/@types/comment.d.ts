@@ -4,4 +4,5 @@ interface IComment {
   content: string;
   createdAt: number;
   createdBy: User;
+  countReply: number;
 }
