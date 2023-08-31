@@ -1,6 +1,6 @@
 import { FC, forwardRef } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
-import { cn } from "../utils";
+import { cn } from "../../utils";
 
 export interface InputProps extends UseFormRegisterReturn {
   label?: string;

@@ -1,15 +1,16 @@
 import { FC, useEffect, useRef, useState } from "react";
-import { Avatar } from "./Avatar";
-import { Modal, ModalProps } from "./Modal";
-import { Button } from "./Button";
-import { Dropdown } from "./Dropdown";
+import { Avatar } from "./atoms/Avatar";
+import { Modal, ModalProps } from "./atoms/Modal";
+import { Button } from "./atoms/Button";
+import { Dropdown } from "./atoms/Dropdown";
 import { IconArrow } from "./Icon/IconArrow";
+import { Menu } from "./atoms/Menu";
 
 export const NewPost = () => {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <ModalCreate open={open} onCancel={() => setOpen(false)} width={608}/>
+      <ModalCreate open={open} onCancel={() => setOpen(false)} width={608} />
       <div className="bg-white rounded-lg px-3 py-4 flex gap-4 dark:bg-slate-900">
         <Avatar />
         <div className="flex-1">
@@ -21,7 +22,10 @@ export const NewPost = () => {
             />
           </div>
           <div className="flex flex-wrap gap-2 mt-2">
-            <div onClick={() => setOpen(true)} className="whitespace-nowrap flex bg-gray-100 rounded-full text-sm text-gray-900 items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700">
+            <div
+              onClick={() => setOpen(true)}
+              className="whitespace-nowrap flex bg-gray-100 rounded-full text-sm text-gray-900 items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
+            >
               <div className="text-emerald-500">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +48,10 @@ export const NewPost = () => {
               </div>
               Photo/video
             </div>
-            <div onClick={() => setOpen(true)} className="whitespace-nowrap flex bg-gray-100 rounded-full text-sm text-gray-900 items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700">
+            <div
+              onClick={() => setOpen(true)}
+              className="whitespace-nowrap flex bg-gray-100 rounded-full text-sm text-gray-900 items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
+            >
               <div className="text-orange-500">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -69,7 +76,10 @@ export const NewPost = () => {
               </div>
               Poll
             </div>
-            <div onClick={() => setOpen(true)} className="whitespace-nowrap flex bg-gray-100 rounded-full text-sm text-gray-900 items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700">
+            <div
+              onClick={() => setOpen(true)}
+              className="whitespace-nowrap flex bg-gray-100 rounded-full text-sm text-gray-900 items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
+            >
               <div className="text-blue-500">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +103,10 @@ export const NewPost = () => {
               </div>
               Schedule
             </div>
-            <div onClick={() => setOpen(true)} className="whitespace-nowrap flex bg-gray-100 rounded-full text-sm text-gray-900 items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700">
+            <div
+              onClick={() => setOpen(true)}
+              className="whitespace-nowrap flex bg-gray-100 rounded-full text-sm text-gray-900 items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
+            >
               <div className="text-red-500">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -123,10 +136,10 @@ export const NewPost = () => {
 
 const ModalCreate: FC<ModalProps> = (props) => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState("");
   useEffect(() => {
     if (props.open) {
-      inputRef.current?.focus()
+      inputRef.current?.focus();
     }
   }, [props.open]);
   return (
@@ -139,20 +152,14 @@ const ModalCreate: FC<ModalProps> = (props) => {
             <Dropdown
               getPopupContainer={(parentNode) => parentNode}
               content={
-                <div className="w-[200px]">
-                  <div className="text-gray-900 text-opacity-80 p-2 cursor-pointer rounded hover:bg-black hover:bg-opacity-10 text-sm dark:text-gray-300 hover:text-opacity-100 dark:hover:text-white">
-                    Công khai
-                  </div>
-                  <div className="text-gray-900 text-opacity-80 p-2 cursor-pointer rounded hover:bg-black hover:bg-opacity-10 text-sm dark:text-gray-300 hover:text-opacity-100 dark:hover:text-white">
-                    Chỉ mình tôi
-                  </div>
-                  <div className="text-gray-900 text-opacity-80 p-2 cursor-pointer rounded hover:bg-black hover:bg-opacity-10 text-sm dark:text-gray-300 hover:text-opacity-100 dark:hover:text-white">
-                    Chỉ bạn bè tôi
-                  </div>
-                  <div className="text-gray-900 text-opacity-80 p-2 cursor-pointer rounded hover:bg-black hover:bg-opacity-10 text-sm dark:text-gray-300 hover:text-opacity-100 dark:hover:text-white">
-                    Ẩn danh
-                  </div>
-                </div>
+                <Menu
+                  menus={[
+                    { label: "Công khai" },
+                    { label: "Chỉ mình tôi" },
+                    { label: "Chỉ bạn bè tôi" },
+                    { label: "Ẩn danh" },
+                  ]}
+                />
               }
             >
               <Button size="small" className="flex gap-1 items-center">
@@ -173,7 +180,10 @@ const ModalCreate: FC<ModalProps> = (props) => {
                   <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
                 </svg>
                 Only me{" "}
-                <IconArrow transparent className="!w-3 h-fit !p-0 h-3 !bg-transparent" />
+                <IconArrow
+                  transparent
+                  className="!w-3 h-fit !p-0 h-3 !bg-transparent"
+                />
               </Button>
             </Dropdown>
           </div>
@@ -192,7 +202,13 @@ const ModalCreate: FC<ModalProps> = (props) => {
           ></textarea>
         </div>
         <div>
-          <Button className="w-full" disabled={!value} type={value ? 'primary' : 'default'}>Post</Button>
+          <Button
+            className="w-full"
+            disabled={!value}
+            type={value ? "primary" : "default"}
+          >
+            Post
+          </Button>
         </div>
       </div>
     </Modal>

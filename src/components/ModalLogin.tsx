@@ -1,13 +1,13 @@
 import { FC, useState } from "react";
-import { Modal, ModalProps } from "./Modal";
+import { Modal, ModalProps } from "./atoms/Modal";
 import { IconQR } from "./Icon/IconQR";
 import { ButtonIconUser } from "./Icon/IconUser";
 import { IconFacebook } from "./Icon/IconFacebook";
 import { IconInstagram } from "./Icon/IconInstagram";
 import { IconTwitter } from "./Icon/IconTwitter";
 import { useAuth } from "./AuthProvider";
-import { Input } from "./Input";
-import { Button } from "./Button";
+import { Input } from "./atoms/Input";
+import { Button } from "./atoms/Button";
 import { useForm, SubmitHandler } from "react-hook-form";
 import {
   LOGIN_MODAL,

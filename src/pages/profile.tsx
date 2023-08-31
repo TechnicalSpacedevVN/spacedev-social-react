@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Avatar } from "../components/Avatar";
-import { Button } from "../components/Button";
-import { Card } from "../components/Card";
-import { Dropdown } from "../components/Dropdown";
+import { Avatar } from "../components/atoms/Avatar";
+import { Button } from "../components/atoms/Button";
+import { Card } from "../components/atoms/Card";
+import { Dropdown } from "../components/atoms/Dropdown";
 import { Icon } from "../components/Icon/Icon";
 import { ButtonIconThreeDotAction } from "../components/Icon/IconThreeDotAction";
 import { ModalFriends } from "../components/ModalFriends";

@@ -1,7 +1,7 @@
 import { FC, startTransition, useEffect, useId, useRef, useState } from "react";
-import { cn } from "../utils";
+import { cn } from "../../utils";
 import { createPortal } from "react-dom";
-import { IconArrow } from "./Icon/IconArrow";
+import { IconArrow } from "../Icon/IconArrow";
 
 const container = document.createElement("div");
 interface Position {
@@ -36,19 +36,20 @@ export const Dropdown: FC<DropdownProps> = ({
   allowToggle = true,
   ...props
 }) => {
-  const ref = useRef<HTMLDivElement>(null);
+  const childrenRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const [position, setPosition] = useState<Position>({
     top: -99999,
     left: -99999,
   });
   useEffect(() => {
-    if (ref.current) {
-      let container = props?.getPopupContainer?.(ref.current);
+    if (childrenRef.current) {
+      let container = props?.getPopupContainer?.(childrenRef.current);
 
       let { top, left, height, right } =
         container?.getBoundingClientRect() ||
-        ref.current.getBoundingClientRect();
+        childrenRef.current.getBoundingClientRect();
 
       let pos: Position = {};
       if (placement === "bottomLeft") {
@@ -101,13 +102,13 @@ export const Dropdown: FC<DropdownProps> = ({
             });
           }
         }}
-        ref={ref}
+        ref={childrenRef}
         className={cn("flex gap-1 items-center", props.className)}
       >
         {props.children}
         {arrow && <IconArrow transparent />}
       </div>
-      {open &&
+      {/* {open &&
         createPortal(
           <div
             onClick={(ev) => ev.stopPropagation()}
@@ -120,7 +121,26 @@ export const Dropdown: FC<DropdownProps> = ({
             {props.content}
           </div>,
           props?.getPopupContainer?.(ref.current || container) || document.body
-        )}
+        )} */}
+
+      {open && (
+        <div
+          className="fixed top-0 left-0 w-screen h-screen"
+          onClick={() => setOpen(false)}
+        >
+          <div
+            ref={contentRef}
+            onClick={(ev) => ev.stopPropagation()}
+            style={{ ...position }}
+            className={cn(
+              "absolute p-2 dark:bg-slate-800 bg-white rounded-lg z-1 shadow-[5px_5px_15px_rgba(0,0,0,0.5)]",
+              props.popupClassName
+            )}
+          >
+            {props.content}
+          </div>
+        </div>
+      )}
     </>
   );
 };

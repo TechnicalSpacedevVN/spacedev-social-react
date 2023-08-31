@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { Avatar } from "./Avatar";
-import { Badge } from "./Badge";
-import { Card } from "./Card";
+import { Avatar } from "./atoms/Avatar";
+import { Badge } from "./atoms/Badge";
+import { Card } from "./atoms/Card";
 import { Icon } from "./Icon/Icon";
 import { PATH } from "../constants/path";
 
@@ -10,7 +10,10 @@ export const Message = () => {
     <Card
       title="Messages"
       action={
-        <Link to={PATH.Messenger} className="text-gray-400 font-semibold text-xs">
+        <Link
+          to={PATH.Messenger}
+          className="text-gray-400 font-semibold text-xs"
+        >
           See all
         </Link>
       }

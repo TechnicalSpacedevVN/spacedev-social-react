@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { Avatar } from "./Avatar";
+import { Avatar } from "./atoms/Avatar";
 import { IconBookmark } from "./Icon/IconBookmark";
 import { IconComment } from "./Icon/IconComment";
 import { ButtonIconHeart } from "./Icon/IconHeart";
@@ -8,8 +8,32 @@ import {
   ButtonIconThreeDotAction,
   IconThreeDotAction,
 } from "./Icon/IconThreeDotAction";
-import { Modal, ModalProps } from "./Modal";
-import { Button } from "./Button";
+import { Modal, ModalProps } from "./atoms/Modal";
+import { Button } from "./atoms/Button";
+import { Dropdown } from "./atoms/Dropdown";
+import { Menu } from "./atoms/Menu";
+
+const PostMenu = () => {
+  return (
+    <Dropdown
+      placement="bottomRight"
+      content={
+        <Menu
+          menus={[
+            { label: "Đưa bài viết vào thùng rác" },
+            { label: "Chỉnh sửa" },
+            { label: "Lưu trữ" },
+            { label: "Báo cáo bài viết" },
+            { label: "Ẩn bài viết" },
+            { label: "Tắt thông báo về bài viết này" },
+          ]}
+        />
+      }
+    >
+      <ButtonIconThreeDotAction className="bg-transparent" />
+    </Dropdown>
+  );
+};
 
 export const Post = () => {
   const [open, setOpen] = useState(false);
@@ -30,7 +54,7 @@ export const Post = () => {
             <p className="text-gray-500 text-xs">New York City, NY</p>
           </div>
           <div>
-            <ButtonIconThreeDotAction className="bg-transparent" />
+            <PostMenu />
           </div>
         </div>
         <div className="p-1 overflow-hidden flex items-center">
@@ -60,16 +84,16 @@ export const Post = () => {
         </div>
         <div className="flex px-5 gap-2 items-center">
           <div>
-            <Avatar size={27} border/>
+            <Avatar size={27} border />
           </div>
           <div className="-ml-2">
-            <Avatar size={27} border/>
+            <Avatar size={27} border />
           </div>
           <div className="-ml-2">
-            <Avatar size={27} border/>
+            <Avatar size={27} border />
           </div>
           <p className="text-sm">
-            Liked by <b>Sue Franklin</b> and <b>1,993 others</b>
+            Thả tim bởi <b>Sue Franklin</b> và <b>1,993 người khác</b>
           </p>
         </div>
         <p className="px-5 mt-4 text-sm">
@@ -85,7 +109,11 @@ export const Post = () => {
 const ModalDetail: FC<ModalProps> = (props) => {
   const [value, setValue] = useState("");
   return (
-    <Modal {...props} className="w-full max-h-[500px] h-full max-w-[900px] m-3" hideIconClose>
+    <Modal
+      {...props}
+      className="w-full max-h-[500px] h-full max-w-[900px] m-3"
+      hideIconClose
+    >
       <div className="flex h-full">
         <div className="flex-1 w-1 bg-black items-center flex">
           <img
@@ -98,13 +126,13 @@ const ModalDetail: FC<ModalProps> = (props) => {
             <Avatar size={40} />
             <div className="flex flex-col flex-1">
               <h3 className="text-sm font-bold">Augusta Romero</h3>
-              <time className="text-gray-500 text-xs">3 month ago</time>
+              <time className="text-gray-500 text-xs">3 tháng trước</time>
             </div>
             <div className="flex">
               <ButtonIconHeart />
               <IconShare />
               <IconBookmark />
-              <ButtonIconThreeDotAction transparent />
+              <PostMenu />
             </div>
           </div>
           <div className="flex-1">
@@ -118,7 +146,7 @@ const ModalDetail: FC<ModalProps> = (props) => {
                     2 Like
                   </a>
                   <a href="#" className="font-bold">
-                    Reply
+                    Trả lời
                   </a>
                   <IconThreeDotAction className="ml-4 cursor-pointer icon-action opacity-0" />
                 </div>
@@ -140,7 +168,7 @@ const ModalDetail: FC<ModalProps> = (props) => {
                   <IconThreeDotAction className="ml-4 cursor-pointer icon-action opacity-0" />
                 </div>
                 <div className="text-gray-400 flex items-baseline gap-2 cursor-pointer text-xs font-bold mt-4 before:content-normal before:block before:w-8 before:h-[1px] before:bg-gray-400">
-                  View replies (10)
+                  Bình luận (10)
                 </div>
               </div>
               <ButtonIconHeart className="icon-action opacity-0" />
@@ -151,7 +179,7 @@ const ModalDetail: FC<ModalProps> = (props) => {
               <input
                 value={value}
                 onChange={(ev) => setValue(ev.target.value)}
-                placeholder="Add a comment..."
+                placeholder="Thêm bình luận..."
                 className="outline-0 text-sm px-2 py-3 flex-1 bg-transparent"
               />
               <Button
@@ -159,7 +187,7 @@ const ModalDetail: FC<ModalProps> = (props) => {
                 disabled={!value}
                 className="rounded-none !px-10"
               >
-                Send
+                Gửi
               </Button>
             </div>
           </div>

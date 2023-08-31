@@ -1,5 +1,5 @@
-import { Avatar } from "./Avatar";
-import { Card } from "./Card";
+import { Avatar } from "./atoms/Avatar";
+import { Card } from "./atoms/Card";
 import { IconAddFriend } from "./Icon/IconAddFriend";
 
 export const Activity = () => {

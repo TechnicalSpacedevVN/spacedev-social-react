@@ -1,14 +1,19 @@
 import { FC } from "react";
-import { Avatar } from "./Avatar";
-import { BorderGradient } from "./BorderGradient";
-import { Button } from "./Button";
-import { Modal } from "./Modal";
+import { Avatar } from "./atoms/Avatar";
+import { BorderGradient } from "./atoms/BorderGradient";
+import { Button } from "./atoms/Button";
+import { Modal } from "./atoms/Modal";
 
 export const ModalFriends: FC<{ open?: boolean; onCancel?: () => void }> = (
   props
 ) => {
   return (
-    <Modal title="Friends" onCancel={props.onCancel} open={props.open} width={500}>
+    <Modal
+      title="Friends"
+      onCancel={props.onCancel}
+      open={props.open}
+      width={500}
+    >
       <div className="px-3 flex flex-col gap-3 py-3 max-h-[400px] overflow-auto">
         <div className="flex gap-2 items-center">
           <BorderGradient>

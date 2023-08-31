@@ -1,7 +1,7 @@
 import { Activity } from "../components/Activity";
 import { useAuth } from "../components/AuthProvider";
-import { Button } from "../components/Button";
-import { Card } from "../components/Card";
+import { Button } from "../components/atoms/Button";
+import { Card } from "../components/atoms/Card";
 import { GeneralInfo } from "../components/GeneralInfo";
 import { Message } from "../components/Message";
 import { NewPost } from "../components/NewPost";

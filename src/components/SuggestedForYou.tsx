@@ -1,5 +1,5 @@
-import { Avatar } from "./Avatar";
-import { Card } from "./Card";
+import { Avatar } from "./atoms/Avatar";
+import { Card } from "./atoms/Card";
 import { IconAddFriend } from "./Icon/IconAddFriend";
 
 export const SuggestedForYou = () => {
@@ -16,7 +16,9 @@ export const SuggestedForYou = () => {
         <div className="flex gap-2 items-center">
           <Avatar />
           <div className="flex-1 ">
-            <h4 className="text-xs font-bold text-gray-900 dark:text-white">Lola Hines</h4>
+            <h4 className="text-xs font-bold text-gray-900 dark:text-white">
+              Lola Hines
+            </h4>
             <p className="text-xs text-gray-500">Recenfly</p>
           </div>
           <IconAddFriend disabled />
@@ -24,7 +26,9 @@ export const SuggestedForYou = () => {
         <div className="flex gap-2 items-center">
           <Avatar />
           <div className="flex-1 ">
-            <h4 className="text-xs font-bold text-gray-900 dark:text-white">Lola Hines</h4>
+            <h4 className="text-xs font-bold text-gray-900 dark:text-white">
+              Lola Hines
+            </h4>
             <p className="text-xs text-gray-500">Suggested for you</p>
           </div>
           <IconAddFriend />
@@ -32,7 +36,9 @@ export const SuggestedForYou = () => {
         <div className="flex gap-2 items-center">
           <Avatar />
           <div className="flex-1 ">
-            <h4 className="text-xs font-bold text-gray-900 dark:text-white">Lola Hines</h4>
+            <h4 className="text-xs font-bold text-gray-900 dark:text-white">
+              Lola Hines
+            </h4>
             <p className="text-xs text-gray-500">Following you</p>
           </div>
           <IconAddFriend />
@@ -40,7 +46,9 @@ export const SuggestedForYou = () => {
         <div className="flex gap-2 items-center">
           <Avatar />
           <div className="flex-1 ">
-            <h4 className="text-xs font-bold text-gray-900 dark:text-white">Lola Hines</h4>
+            <h4 className="text-xs font-bold text-gray-900 dark:text-white">
+              Lola Hines
+            </h4>
             <p className="text-xs text-gray-500">Following you</p>
           </div>
           <IconAddFriend />
@@ -48,7 +56,9 @@ export const SuggestedForYou = () => {
         <div className="flex gap-2 items-center">
           <Avatar />
           <div className="flex-1 ">
-            <h4 className="text-xs font-bold text-gray-900 dark:text-white">Lola Hines</h4>
+            <h4 className="text-xs font-bold text-gray-900 dark:text-white">
+              Lola Hines
+            </h4>
             <p className="text-xs text-gray-500">Following you</p>
           </div>
           <IconAddFriend />

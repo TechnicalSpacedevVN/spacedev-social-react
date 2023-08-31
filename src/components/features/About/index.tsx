@@ -1,6 +1,6 @@
 import { FC } from "react";
-import { Modal, ModalProps } from "../../Modal";
-import { Avatar } from "../../Avatar";
+import { Modal, ModalProps } from "../../atoms/Modal";
+import { Avatar } from "../../atoms/Avatar";
 import { ButtonIconUser, IconUser } from "../../Icon/IconUser";
 import { IconNotification } from "../../Icon/IconNotification";
 import { IconApp } from "../../Icon/IconApp";

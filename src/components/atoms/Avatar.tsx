@@ -1,11 +1,11 @@
 import { FC, useId } from "react";
-import { cn } from "../utils";
+import { cn } from "../../utils";
 
 export const Avatar: FC<{
   size?: number;
   border?: boolean;
   online?: boolean;
-  showStatus?: boolean
+  showStatus?: boolean;
 }> = ({ size = 32, ...props }) => {
   const id = useId();
   return (

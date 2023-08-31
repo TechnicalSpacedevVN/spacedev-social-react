@@ -1,6 +1,6 @@
 import React from "react";
-import { Avatar } from "./Avatar";
-import { BorderGradient } from "./BorderGradient";
+import { Avatar } from "./atoms/Avatar";
+import { BorderGradient } from "./atoms/BorderGradient";
 
 export const Story = () => {
   return (

@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { Avatar } from "./Avatar";
-import { Badge } from "./Badge";
-import { Card } from "./Card";
+import { Avatar } from "./atoms/Avatar";
+import { Badge } from "./atoms/Badge";
+import { Card } from "./atoms/Card";
 import { useMode } from "./DarkModeProvider";
-import { Dropdown } from "./Dropdown";
+import { Dropdown } from "./atoms/Dropdown";
 import { GeneralInfo } from "./GeneralInfo";
 import { Icon } from "./Icon/Icon";
 import { IconClose } from "./Icon/IconClose";
@@ -17,9 +17,9 @@ import {
 import { ModalLogin } from "./ModalLogin";
 import { PATH } from "../constants/path";
 import { ButtonIconApplication } from "./Icon/IconApplication";
-import { Switch } from "./Switch";
+import { Switch } from "./atoms/Switch";
 import { useAuth } from "./AuthProvider";
-import { Button } from "./Button";
+import { Button } from "./atoms/Button";
 import { useState } from "react";
 import { Popconfirm } from "./Popconfirm";
 import { LOGIN_MODAL, setGlobalState } from "../store/queryClient";

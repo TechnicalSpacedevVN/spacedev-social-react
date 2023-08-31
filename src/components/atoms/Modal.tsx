@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { IconClose } from "./Icon/IconClose";
-import { cn } from "../utils";
+import { IconClose } from "../Icon/IconClose";
+import { cn } from "../../utils";
 
 export interface ModalProps {
   open?: boolean;
@@ -24,7 +24,7 @@ export const Modal: FC<ModalProps> = ({ width, ...props }) => {
     }
     return () => {
       document.body.classList.remove("overflow-hidden");
-    }
+    };
   }, [props.open]);
 
   if (!props.open) return null;
