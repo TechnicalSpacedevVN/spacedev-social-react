@@ -1,15 +1,15 @@
-import { useState } from "react";
-import { Avatar } from "../components/atoms/Avatar";
-import { Button } from "../components/atoms/Button";
-import { Card } from "../components/atoms/Card";
-import { Dropdown } from "../components/atoms/Dropdown";
-import { Icon } from "../components/Icon/Icon";
-import { ButtonIconThreeDotAction } from "../components/Icon/IconThreeDotAction";
-import { ModalFriends } from "../components/ModalFriends";
-import { NewPost } from "../components/NewPost";
-import { Post } from "../components/Post";
-import { ButtonIconCamera } from "../components/Icon/IconCamera";
-import { ModalAbout } from "../components/features/About";
+import { useState } from 'react';
+import { Icon } from '../components/Icon/Icon';
+import { ButtonIconCamera } from '../components/Icon/IconCamera';
+import { ButtonIconThreeDotAction } from '../components/Icon/IconThreeDotAction';
+import { ModalFriends } from '../components/ModalFriends';
+import { NewPost } from '../components/NewPost';
+import { Post } from '../components/Post';
+import { Avatar } from '../components/atoms/Avatar';
+import { Button } from '../components/atoms/Button';
+import { Card } from '../components/atoms/Card';
+import { Dropdown } from '../components/atoms/Dropdown';
+import { ModalAbout } from '../components/features/About';
 
 export const Profile = () => {
   const [open, setOpen] = useState(false);
@@ -21,8 +21,11 @@ export const Profile = () => {
       <div>
         <div className="bg-white dark:bg-slate-900">
           <div className="relative">
-            <div>
-              <img src="https://unsplash.it/2000/700" />
+            <div className="h-[500px] w-full">
+              <img
+                className="object-cover w-full h-full"
+                src="https://unsplash.it/2000/700"
+              />
             </div>
             <div className="container relative mx-auto">
               <div className="cursor-pointer hover:bg-opacity-60 absolute bottom-2 right-2 bg-black rounded bg-opacity-50 text-white  text-sm flex items-center px-2 py-0.5 drop-shadow-2xl shadow-white">

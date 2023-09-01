@@ -1,5 +1,3 @@
-import { FC } from "react";
-
 interface ApiErrorResponse {
   error: string;
   message: string;
@@ -8,4 +6,4 @@ interface ApiErrorResponse {
 interface DefaultProps {
   className?: string;
 }
-interface Atom<T = {}> extends FC<T & DefaultProps> {}
+interface Atom<T = {}> extends React.FC<T & DefaultProps> {}

@@ -1,7 +1,8 @@
 import { FC, useId } from "react";
 import { cn } from "../../utils";
+import { Atom } from "@@types/type";
 
-export const Avatar: FC<{
+export const Avatar: Atom<{
   size?: number;
   border?: boolean;
   online?: boolean;
@@ -10,9 +11,13 @@ export const Avatar: FC<{
   const id = useId();
   return (
     <div
-      className={cn("relative h-fit h-8 w-8 cursor-pointer rounded-full", {
-        "shadow-[0_0_0_2px_white] dark:shadow-slate-950": props.border,
-      })}
+      className={cn(
+        "relative h-fit h-8 w-8 cursor-pointer rounded-full",
+        props.className,
+        {
+          "shadow-[0_0_0_2px_white] dark:shadow-slate-950": props.border,
+        }
+      )}
       style={{ width: size, height: size }}
     >
       <div className={cn("rounded-full overflow-hidden")}>

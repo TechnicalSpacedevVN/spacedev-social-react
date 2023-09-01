@@ -1,9 +1,17 @@
-import { FC } from "react";
-import { cn } from "../../utils";
-export const BorderGradient: FC<any> = (props) => {
+import { cn } from '../../utils';
+export const BorderGradient: Atom<{ children: any; size?: number }> = ({
+  size = 2,
+  ...props
+}) => {
   return (
-    <div className="bg-gradient-to-r from-purple-500  via-pink-500 to-blue-500 p-0.5 rounded-full">
-      <div className={cn(props.className)}>{props.children}</div>
+    <div
+      className={cn(
+        'bg-gradient-to-r from-[#743ad5]  via-pink-500 to-[#d53a9d]',
+        props.className,
+      )}
+      style={{ padding: size }}
+    >
+      {props.children}
     </div>
   );
 };

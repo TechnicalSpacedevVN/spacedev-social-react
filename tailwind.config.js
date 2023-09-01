@@ -19,7 +19,7 @@ export default {
         },
       },
       lineHeight: {
-        12: '48px',
+        12: "48px",
       },
       screens: {
         sm: "480px",
@@ -42,5 +42,6 @@ export default {
     },
   },
   plugins: [],
+
   darkMode: "class",
 };

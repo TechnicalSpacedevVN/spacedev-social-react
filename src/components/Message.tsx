@@ -1,21 +1,35 @@
-import { Link } from "react-router-dom";
-import { Avatar } from "./atoms/Avatar";
-import { Badge } from "./atoms/Badge";
-import { Card } from "./atoms/Card";
-import { Icon } from "./Icon/Icon";
-import { PATH } from "../constants/path";
+import { IconSpin } from './Icon/IconSpin';
+import { ButtonIconThreeDotAction } from './Icon/IconThreeDotAction';
+import { Avatar } from './atoms/Avatar';
+import { Badge } from './atoms/Badge';
+import { Card } from './atoms/Card';
+import { Dropdown } from './atoms/Dropdown';
+import { Menu } from './atoms/Menu';
+import { Tab } from './atoms/Tab';
 
 export const Message = () => {
   return (
     <Card
-      title="Messages"
+      title="Tin nhắn"
       action={
-        <Link
-          to={PATH.Messenger}
-          className="text-gray-400 font-semibold text-xs"
+        <Dropdown
+          placement="bottomRight"
+          content={
+            <Menu
+              menus={[
+                { label: 'Âm thanh khi có người gọi' },
+                { label: 'Âm thanh khi có tin nhắn tới' },
+                { label: 'Tự động mở khi có tin nhắn mới' },
+                { line: true },
+                { label: 'Trạng thái hoạt động' },
+                { label: 'Tin nhắn chờ' },
+                { label: 'Tin nhắn chờ' },
+              ]}
+            />
+          }
         >
-          See all
-        </Link>
+          <ButtonIconThreeDotAction transparent />
+        </Dropdown>
       }
       className="h-[calc(100vh-130px)] flex flex-col"
     >
@@ -46,17 +60,11 @@ export const Message = () => {
           />
         </div>
         <div className="flex justify-between items-baseline">
-          <div className="flex mt-3 gap-3">
-            <a
-              href="#"
-              className="dark:text-white dark:border-white text-sm font-semibold text-gray-900 border-b-2 border-solid border-gray-900 pb-1"
-            >
-              Private
-            </a>
-            <a href="#" className="text-sm font-semibold text-gray-500">
-              Group
-            </a>
-          </div>
+          <Tab
+            className="mt-3 gap-3"
+            itemClass="whitespace-nowrap"
+            menus={[{ label: 'Cá nhân' }, { label: 'Nhóm' }]}
+          />
           <div>
             <a
               href="#"
@@ -68,169 +76,21 @@ export const Message = () => {
         </div>
         <div className="mt-4 flex flex-col gap-4 h-full overflow-auto pt-2">
           <div className="flex flex-col gap-4">
-            <div className="flex gap-2 items-center">
-              <Badge count={9}>
-                <Avatar />
-              </Badge>
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
+            {Array.from(new Array(10)).map((_, i) => (
+              <div key={i} className="flex gap-2 items-center">
+                <Badge count={9}>
+                  <Avatar />
+                </Badge>
+                <div className="flex-1 ">
+                  <h4 className="text-xs font-bold text-gray-900 dark:text-white">
+                    Lola Hines
+                  </h4>
+                  <p className="text-xs text-gray-500">Active 30m ago</p>
+                </div>
               </div>
-            </div>
-            <div className="flex gap-2 items-center ">
-              <Avatar />
-              <div className="flex-1">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
+            ))}
+            <div className="flex justify-center my-3">
+              <IconSpin />
             </div>
           </div>
         </div>

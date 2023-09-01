@@ -1,17 +1,23 @@
-import { FC, useState } from "react";
-import { Avatar } from "./atoms/Avatar";
-import { IconBookmark } from "./Icon/IconBookmark";
-import { IconComment } from "./Icon/IconComment";
-import { ButtonIconHeart } from "./Icon/IconHeart";
-import { IconShare } from "./Icon/IconShare";
-import {
-  ButtonIconThreeDotAction,
-  IconThreeDotAction,
-} from "./Icon/IconThreeDotAction";
-import { Modal, ModalProps } from "./atoms/Modal";
-import { Button } from "./atoms/Button";
-import { Dropdown } from "./atoms/Dropdown";
-import { Menu } from "./atoms/Menu";
+import { FC, useState } from 'react';
+import { IconArchive } from './Icon/IconArchive';
+import { IconBellOff } from './Icon/IconBellOf';
+import { IconBookmark } from './Icon/IconBookmark';
+import { IconComment } from './Icon/IconComment';
+import { IconExclamation } from './Icon/IconExclamation';
+import { IconEyeClose } from './Icon/IconEyeClose';
+import { ButtonIconHeart } from './Icon/IconHeart';
+import { IconPen } from './Icon/IconPen';
+import { IconShare } from './Icon/IconShare';
+import { IconSpin } from './Icon/IconSpin';
+import { ButtonIconThreeDotAction } from './Icon/IconThreeDotAction';
+import { IconTrash } from './Icon/IconTrash';
+import { Avatar } from './atoms/Avatar';
+import { Button } from './atoms/Button';
+import { Dropdown } from './atoms/Dropdown';
+import { Input } from './atoms/Input';
+import { Menu } from './atoms/Menu';
+import { Modal, ModalProps } from './atoms/Modal';
+import { Tag } from './atoms/Tag';
 
 const PostMenu = () => {
   return (
@@ -20,12 +26,12 @@ const PostMenu = () => {
       content={
         <Menu
           menus={[
-            { label: "Đưa bài viết vào thùng rác" },
-            { label: "Chỉnh sửa" },
-            { label: "Lưu trữ" },
-            { label: "Báo cáo bài viết" },
-            { label: "Ẩn bài viết" },
-            { label: "Tắt thông báo về bài viết này" },
+            { label: 'Đưa bài viết vào thùng rác', icon: <IconTrash /> },
+            { label: 'Chỉnh sửa', icon: <IconPen /> },
+            { label: 'Lưu trữ', icon: <IconArchive /> },
+            { label: 'Báo cáo bài viết', icon: <IconExclamation /> },
+            { label: 'Ẩn bài viết', icon: <IconEyeClose /> },
+            { label: 'Tắt thông báo về bài viết này', icon: <IconBellOff /> },
           ]}
         />
       }
@@ -74,32 +80,44 @@ export const Post = () => {
         </div>
         <div className="flex items-center justify-between p-3">
           <div className="flex gap-0.5 ">
+            <Tag className="flex items-center text-sm">
+              <IconComment />
+              60
+            </Tag>
+            <Tag className="flex items-center text-sm">
+              <IconShare />
+              20
+            </Tag>
             <ButtonIconHeart />
-            <IconComment />
-            <IconShare />
+            <div className="flex gap-2 items-center">
+              <div>
+                <Avatar size={27} border />
+              </div>
+              <div className="-ml-2">
+                <Avatar size={27} border />
+              </div>
+              <div className="-ml-2">
+                <Avatar size={27} border />
+              </div>
+              <p className="text-sm">
+                Thả tim bởi{' '}
+                <b>
+                  <a href="#">Sue Franklin</a>
+                </b>{' '}
+                và{' '}
+                <b>
+                  <a href="#">1,993 người khác</a>
+                </b>
+              </p>
+            </div>
           </div>
           <div>
             <IconBookmark />
           </div>
         </div>
-        <div className="flex px-5 gap-2 items-center">
-          <div>
-            <Avatar size={27} border />
-          </div>
-          <div className="-ml-2">
-            <Avatar size={27} border />
-          </div>
-          <div className="-ml-2">
-            <Avatar size={27} border />
-          </div>
-          <p className="text-sm">
-            Thả tim bởi <b>Sue Franklin</b> và <b>1,993 người khác</b>
-          </p>
-        </div>
-        <p className="px-5 mt-4 text-sm">
-          <b>Dean Atkins</b>
-          We know the voices in our heads aren't real, but sometimes their ideas
-          are just too good to ignore.
+        <p className="px-5 text-sm">
+          <b>Dean Atkins</b>&nbsp;We know the voices in our heads aren't real,
+          but sometimes their ideas are just too good to ignore.
         </p>
       </div>
     </>
@@ -107,7 +125,7 @@ export const Post = () => {
 };
 
 const ModalDetail: FC<ModalProps> = (props) => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
   return (
     <Modal
       {...props}
@@ -122,7 +140,7 @@ const ModalDetail: FC<ModalProps> = (props) => {
           />
         </div>
         <div className="flex-1 w-1 flex flex-col">
-          <div className="flex gap-2 p-3 border-b border-solid border-gray-300">
+          <div className="flex gap-2 p-3 border-b border-solid border-gray-300 dark:border-slate-700">
             <Avatar size={40} />
             <div className="flex flex-col flex-1">
               <h3 className="text-sm font-bold">Augusta Romero</h3>
@@ -135,47 +153,23 @@ const ModalDetail: FC<ModalProps> = (props) => {
               <PostMenu />
             </div>
           </div>
-          <div className="flex-1">
-            <div className="flex gap-3 p-3 items-center [&_.icon-action]:hover:opacity-100">
-              <Avatar />
-              <div className="flex-1">
-                <h3 className="text-sm font-bold">Nelle Pena</h3>
-                <div className="flex gap-2 text-xs">
-                  <time className="">3 phút trước</time>
-                  <a href="#" className="font-bold">
-                    2 Like
-                  </a>
-                  <a href="#" className="font-bold">
-                    Trả lời
-                  </a>
-                  <IconThreeDotAction className="ml-4 cursor-pointer icon-action opacity-0" />
-                </div>
-              </div>
-              <ButtonIconHeart className="icon-action opacity-0" />
-            </div>
-            <div className="flex gap-3 p-3 [&_.icon-action]:hover:opacity-100">
-              <Avatar />
-              <div className="flex-1">
-                <h3 className="text-sm font-bold">Nelle Pena</h3>
-                <div className="flex gap-2 text-xs ">
-                  <time className="">3 phút trước</time>
-                  <a href="#" className="font-bold">
-                    2 Like
-                  </a>
-                  <a href="#" className="font-bold">
-                    Reply
-                  </a>
-                  <IconThreeDotAction className="ml-4 cursor-pointer icon-action opacity-0" />
-                </div>
-                <div className="text-gray-400 flex items-baseline gap-2 cursor-pointer text-xs font-bold mt-4 before:content-normal before:block before:w-8 before:h-[1px] before:bg-gray-400">
-                  Bình luận (10)
-                </div>
-              </div>
-              <ButtonIconHeart className="icon-action opacity-0" />
+          <div className="flex-1 py-2 overflow-auto">
+            <UserComment replies={[{}, {}]} loadMore />
+            <UserComment />
+            <UserComment />
+            <UserComment />
+            <UserComment />
+            <UserComment />
+            <UserComment />
+            <UserComment />
+            <UserComment />
+            <UserComment />
+            <div className="flex justify-center my-3">
+              <IconSpin />
             </div>
           </div>
           <div className="">
-            <div className="border-t border-solid border-gray-300 flex">
+            <div className="border-t border-solid border-gray-300 flex dark:border-slate-700">
               <input
                 value={value}
                 onChange={(ev) => setValue(ev.target.value)}
@@ -183,7 +177,7 @@ const ModalDetail: FC<ModalProps> = (props) => {
                 className="outline-0 text-sm px-2 py-3 flex-1 bg-transparent"
               />
               <Button
-                type={value ? "primary" : "default"}
+                type={value ? 'primary' : 'default'}
                 disabled={!value}
                 className="rounded-none !px-10"
               >
@@ -194,5 +188,86 @@ const ModalDetail: FC<ModalProps> = (props) => {
         </div>
       </div>
     </Modal>
+  );
+};
+
+export interface UserCommentProps {
+  replies?: any[];
+  loadMore?: boolean;
+  isReply?: boolean;
+}
+const UserComment: Atom<UserCommentProps> = ({
+  replies,
+  loadMore,
+  isReply = true,
+}) => {
+  const [openReply, setOpenReply] = useState(false);
+  return (
+    <>
+      <div className="flex gap-3 px-3 py-1 [&_.icon-action]:hover:opacity-100">
+        <Avatar />
+        <div className="flex-1">
+          <h3 className="text-sm font-bold">Nelle Pena</h3>
+          <div className="flex gap-2 text-xs items-center">
+            <time className="">3 phút trước</time>
+            <a
+              href="#"
+              className="font-bold text-opacity-50 text-black hover:text-opacity-100 dark:text-white"
+            >
+              2 Thích
+            </a>
+            <a
+              href="#"
+              className="font-bold text-opacity-50 text-black hover:text-opacity-100 dark:text-white"
+              onClick={(ev) => {
+                ev.preventDefault();
+                setOpenReply(!openReply);
+              }}
+            >
+              Trả lời
+            </a>
+
+            <Dropdown
+              placement="bottomRight"
+              content={
+                <Menu
+                  menus={[
+                    { label: 'Xóa' },
+                    { label: 'Chỉnh sửa' },
+                    { label: 'Báo cáo' },
+                    { label: 'Ẩn bình luận' },
+                  ]}
+                />
+              }
+            >
+              <ButtonIconThreeDotAction
+                transparent
+                className="ml-4 cursor-pointer icon-action opacity-0"
+              />
+            </Dropdown>
+          </div>
+          {loadMore && (
+            <div className="text-gray-400 flex items-baseline gap-2 cursor-pointer text-xs font-bold mt-1 before:content-normal before:block before:w-8 before:h-[1px] before:bg-gray-400">
+              Bình luận (10)
+            </div>
+          )}
+        </div>
+        <ButtonIconHeart className="icon-action opacity-0" />
+      </div>
+      <div className="px-2 pl-10">
+        {replies?.map((e, i) => (
+          <UserComment isReply={false} key={i} />
+        ))}
+        {isReply && openReply && (
+          <div className="ml-3 flex gap-2 items-center">
+            <Avatar />
+            <Input
+              placeholder="Thêm bình luận...."
+              className="flex-1 text-xs"
+            />
+          </div>
+        )}
+      </div>
+    </>
   );
 };

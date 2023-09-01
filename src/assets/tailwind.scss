@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+*::-webkit-scrollbar-track {
+  @apply bg-transparent;
+  border-radius: 7px;
+}
+
+*::-webkit-scrollbar-thumb {
+  @apply bg-slate-500 dark:bg-slate-400;
+  border-radius: 100px;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-transition: 'color 9999s ease-out, background-color 9999s ease-out';
+  -webkit-transition-delay: 9999s;
+}
+
+@layer utilities {
+  .text-demo {
+    height: 10px;
+  }
+
+  .horizontal-scroll {
+    --finalHeight: 250px;
+    --itemWidth: 250px;
+    --finalWidth: calc(5 * var(--itemWidth));
+    --scrollBarHeight: 0;
+
+    position: absolute;
+    top: calc(10px - var(--finalHeight));
+    left: 10px;
+    width: var(--finalHeight);
+    max-height: var(--finalWidth);
+    overflow-y: auto;
+    overflow-x: hidden;
+    transform: rotate(-90deg) translateY(var(--finalHeight));
+    // transform-origin: right top;
+    padding: 0 0 0 0;
+
+    &::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+
+    &::-webkit-scrollbar-button {
+      width: 0;
+      height: 0;
+    }
+  }
+
+  .horizontal-scroll > * {
+    transform: rotate(90deg);
+    transform-origin: right top;
+    width: var(--itemWidth);
+    height: var(--finalHeight);
+
+    margin-top: calc(var(--itemWidth) - var(--finalHeight));
+    margin-left: calc(var(--finalHeight) - var(--itemWidth));
+
+    &:last-child {
+      margin-bottom: calc(0px - var(--finalHeight));
+    }
+
+    &:nth-last-child(2) {
+      margin-bottom: calc(var(--itemWidth) - var(--finalHeight));
+    }
+  }
+}

@@ -1,20 +1,22 @@
-import { Activity } from "../components/Activity";
-import { useAuth } from "../components/AuthProvider";
-import { Button } from "../components/atoms/Button";
-import { Card } from "../components/atoms/Card";
-import { GeneralInfo } from "../components/GeneralInfo";
-import { Message } from "../components/Message";
-import { NewPost } from "../components/NewPost";
-import { Post } from "../components/Post";
-import { Story } from "../components/Story";
-import { SuggestedForYou } from "../components/SuggestedForYou";
-import { LOGIN_MODAL, setGlobalState } from "../store/queryClient";
+import { IconSpin } from '@components/Icon/IconSpin';
+import { Tag } from '@components/atoms/Tag';
+import { Activity } from '../components/Activity';
+import { useAuth } from '../components/AuthProvider';
+import { GeneralInfo } from '../components/GeneralInfo';
+import { Message } from '../components/Message';
+import { NewPost } from '../components/NewPost';
+import { Post } from '../components/Post';
+import { Story } from '../components/Story';
+import { SuggestedForYou } from '../components/SuggestedForYou';
+import { Button } from '../components/atoms/Button';
+import { Card } from '../components/atoms/Card';
+import { LOGIN_MODAL, setGlobalState } from '../store/queryClient';
 
 export const Home = () => {
   const { user } = useAuth();
   return (
     <div className="px-4 flex w-full gap-4 mt-4">
-      <div className="w-sidebar flex gap-4 flex-col">
+      <div className="w-sidebar flex gap-4 flex-col sticky bottom-6 self-end">
         {user ? (
           <>
             <Activity />
@@ -28,60 +30,15 @@ export const Home = () => {
               }
             >
               <div className="flex gap-2 mt-4 flex-wrap">
-                <a
-                  href="#"
-                  className="leading-6 hover:bg-gray-200 bg-gray-100 rounded-full px-4 text-xs font-semibold text-gray-900 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
-                >
-                  #Product
-                </a>
-                <a
-                  href="#"
-                  className="leading-6 hover:bg-gray-200 bg-gray-100 rounded-full px-4 text-xs font-semibold text-gray-900 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
-                >
-                  #Website
-                </a>
-                <a
-                  href="#"
-                  className="leading-6 hover:bg-gray-200 bg-gray-100 rounded-full px-4 text-xs font-semibold text-gray-900 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
-                >
-                  #Spacedev.vn
-                </a>
-                <a
-                  href="#"
-                  className="leading-6 hover:bg-gray-200 bg-gray-100 rounded-full px-4 text-xs font-semibold text-gray-900 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
-                >
-                  #Reactjs
-                </a>
-                <a
-                  href="#"
-                  className="leading-6 hover:bg-gray-200 bg-gray-100 rounded-full px-4 text-xs font-semibold text-gray-900 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
-                >
-                  #Nodejs
-                </a>
-                <a
-                  href="#"
-                  className="leading-6 hover:bg-gray-200 bg-gray-100 rounded-full px-4 text-xs font-semibold text-gray-900 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
-                >
-                  #PHP
-                </a>
-                <a
-                  href="#"
-                  className="leading-6 hover:bg-gray-200 bg-gray-100 rounded-full px-4 text-xs font-semibold text-gray-900 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
-                >
-                  #AWS
-                </a>
-                <a
-                  href="#"
-                  className="leading-6 hover:bg-gray-200 bg-gray-100 rounded-full px-4 text-xs font-semibold text-gray-900 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
-                >
-                  #Python
-                </a>
-                <a
-                  href="#"
-                  className="leading-6 hover:bg-gray-200 bg-gray-100 rounded-full px-4 text-xs font-semibold text-gray-900 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
-                >
-                  #Go
-                </a>
+                <Tag>#Product</Tag>
+                <Tag>#Website</Tag>
+                <Tag>#Spacedev.vn</Tag>
+                <Tag>#Reactjs</Tag>
+                <Tag>#Nodejs</Tag>
+                <Tag>#PHP</Tag>
+                <Tag>#AWS</Tag>
+                <Tag>#Python</Tag>
+                <Tag>#Go</Tag>
               </div>
             </Card>
           </>
@@ -118,6 +75,9 @@ export const Home = () => {
           <Post />
           <Post />
           <Post />
+          <div className="flex justify-center my-3">
+            <IconSpin />
+          </div>
         </div>
       </div>
       <div className="w-sidebar flex gap-4 flex-col sticky self-end bottom-16">

@@ -1,7 +1,8 @@
-import { Outlet } from "react-router-dom";
-import { Header } from "../components/Header";
-import { FloatingChat } from "../components/features/FloatingChat";
-import { useAuth } from "../components/AuthProvider";
+import { FloatNotification } from '@components/features/FloatNotification';
+import { Outlet } from 'react-router-dom';
+import { useAuth } from '../components/AuthProvider';
+import { Header } from '../components/Header';
+import { FloatingChat } from '../components/features/FloatingChat';
 
 export const MainLayout = () => {
   const { user } = useAuth();
@@ -12,6 +13,7 @@ export const MainLayout = () => {
         <Outlet />
       </main>
       {user && <FloatingChat />}
+      <FloatNotification />
     </>
   );
 };

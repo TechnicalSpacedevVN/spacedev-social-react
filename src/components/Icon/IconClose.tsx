@@ -1,7 +1,14 @@
-import { FC } from "react";
-import { Icon } from "./Icon";
+import { Icon } from './Icon';
 
-export const IconClose: FC<any> = (props) => {
+export const ButtonIconClose: Atom<any> = (props) => {
+  return (
+    <Icon {...props}>
+      <IconClose />
+    </Icon>
+  );
+};
+
+export const IconClose: Atom<any> = (props) => {
   return (
     <Icon {...props}>
       <svg

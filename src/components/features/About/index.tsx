@@ -1,18 +1,18 @@
-import { FC } from "react";
-import { Modal, ModalProps } from "../../atoms/Modal";
-import { Avatar } from "../../atoms/Avatar";
-import { ButtonIconUser, IconUser } from "../../Icon/IconUser";
-import { IconNotification } from "../../Icon/IconNotification";
-import { IconApp } from "../../Icon/IconApp";
-import { IconWorld } from "../../Icon/IconWorld";
-import { ButtonIconCamera } from "../../Icon/IconCamera";
+import { FC } from 'react';
+import { IconApp } from '../../Icon/IconApp';
+import { ButtonIconCamera } from '../../Icon/IconCamera';
+import { IconNotification } from '../../Icon/IconNotification';
+import { IconUser } from '../../Icon/IconUser';
+import { IconWorld } from '../../Icon/IconWorld';
+import { Avatar } from '../../atoms/Avatar';
+import { Modal, ModalProps } from '../../atoms/Modal';
 
 export const ModalAbout: FC<ModalProps> = (props) => {
   return (
     <Modal {...props} title="About">
       <div className="w-[900px] flex min-h-[700px]">
         <div className="bg-gray-50 w-[250px] dark:bg-slate-800 dark:bg-opacity-50">
-          <h2 className="font-semibold text-sm p-3">Account</h2>
+          <h2 className="font-semibold text-sm p-3">Tài khoản</h2>
           <div className="px-3">
             <div className="flex gap-2 items-center">
               <Avatar />
@@ -30,34 +30,55 @@ export const ModalAbout: FC<ModalProps> = (props) => {
               className="flex gap-2 items-center hover:bg-black hover:bg-opacity-10 py-1 rounded px-2.5"
             >
               <IconUser />
-              <span className="text-sm">My account</span>
+              <span className="text-sm">Tài khoản</span>
+            </a>
+            <a
+              href="#"
+              className="flex gap-2 items-center hover:bg-black hover:bg-opacity-10 py-1 rounded px-2.5"
+            >
+              <IconUser />
+              <span className="text-sm">Bảo mật</span>
+            </a>
+            <a
+              href="#"
+              className="flex gap-2 items-center hover:bg-black hover:bg-opacity-10 py-1 rounded px-2.5"
+            >
+              <IconUser />
+              <span className="text-sm">Cài đặt & quyền riêng tư</span>
             </a>
             <a
               href="#"
               className="flex gap-2 items-center hover:bg-black hover:bg-opacity-10 py-1 rounded px-2.5"
             >
               <IconNotification />
-              <span className="text-sm">My notifications & settings</span>
+              <span className="text-sm">Cài đặt thông báo</span>
             </a>
             <a
               href="#"
               className="flex gap-2 items-center hover:bg-black hover:bg-opacity-10 py-1 rounded px-2.5"
             >
               <IconApp />
-              <span className="text-sm">My connections</span>
+              <span className="text-sm">Bạn bè và theo dõi</span>
+            </a>
+            <a
+              href="#"
+              className="flex gap-2 items-center hover:bg-black hover:bg-opacity-10 py-1 rounded px-2.5"
+            >
+              <IconApp />
+              <span className="text-sm">Nội dung</span>
             </a>
             <a
               href="#"
               className="flex gap-2 items-center hover:bg-black hover:bg-opacity-10 py-1 rounded px-2.5"
             >
               <IconWorld />
-              <span className="text-sm">Language & region</span>
+              <span className="text-sm">Ngôn ngữ và quốc gia</span>
             </a>
           </div>
         </div>
         <div className="flex-1 px-10">
           <h2 className="font-bold py-5 border-b border-solid border-gray-300 dark:border-slate-700">
-            My Account
+            Tài khoản của tôi
           </h2>
           <div className="flex gap-4 mt-3">
             <div className="relative">

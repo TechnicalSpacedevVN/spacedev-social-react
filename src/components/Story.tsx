@@ -1,126 +1,92 @@
-import React from "react";
-import { Avatar } from "./atoms/Avatar";
-import { BorderGradient } from "./atoms/BorderGradient";
+import { Avatar } from './atoms/Avatar';
+import { BorderGradient } from './atoms/BorderGradient';
+import { HorizontalScroll } from './atoms/HorizontalScroll';
 
 export const Story = () => {
   return (
-    <div className="dark:bg-slate-900 bg-white rounded-lg p-3 gap-3 snap-x snap-mandatory overflow-x-auto w-full flex">
-      <div className="flex flex-col items-center relative cursor-pointer snap-always snap-center gap-1">
-        <div className="dark:border-slate-700 flex items-center flex-col rounded-full border border-solid border-gray-300 p-0.5">
-          <Avatar size={40} />
-          <span className="w-3 h-3 flex items-center justify-center absolute bottom-5 right-0 bg-purple-600 text-white rounded-full shadow-[0_0_0_2px_white]">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="icon icon-tabler icon-tabler-plus"
-              width={11}
-              height={11}
-              viewBox="0 0 24 24"
-              strokeWidth={2}
-              stroke="currentColor"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M12 5l0 14" />
-              <path d="M5 12l14 0" />
-            </svg>
-          </span>
+    <HorizontalScroll
+      height={250}
+      itemWidth={150}
+      className="dark:bg-slate-900 bg-white rounded-lg p-3 gap-3 "
+    >
+      <div className="p-1">
+        <div className="flex flex-col items-center relative cursor-pointer snap-always snap-center gap-1 overflow-hidden w-full h-full">
+          <BorderGradient
+            size={3}
+            className="relative rounded-lg overflow-hidden w-full h-full"
+          >
+            <div className="rounded-lg overflow-hiddens w-full h-full">
+              <img
+                className="object-cover w-full h-full rounded-lg"
+                src={'https://unsplash.it/400/400'}
+              />
+            </div>
+            <div className="flex flex-col gap-3 items-center justify-end  text-md p-4 bottom-[3px] left-[3px] right-[3px] rounded-lg  font-semibold whitespace-nowrap text-white absolute bg-gradient-to-t from-[#000000]  h-[100px] to-[#00000000]">
+              <div className="w-7 h-7 flex items-center justify-center text-white bg-primary-500 hover:bg-primary-600 rounded-full shadow-[0_0_0_2px_white]">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="icon icon-tabler icon-tabler-plus"
+                  width={17}
+                  height={17}
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M12 5l0 14" />
+                  <path d="M5 12l14 0" />
+                </svg>
+              </div>
+              Tạo tin
+            </div>
+          </BorderGradient>
         </div>
-        <p className="text-gray-900 text-small font-semibold whitespace-nowrap dark:text-white">
-          Your story
-        </p>
       </div>
-      <div className="flex flex-col items-center relative cursor-pointer snap-always snap-center gap-1">
-        <BorderGradient>
-          <div className="p-0.5 bg-white rounded-full dark:bg-slate-900">
-            <Avatar size={40} />
+      {Array.from(new Array(10)).map((_, i) => (
+        <div key={i} className="p-1">
+          <div className="flex flex-col items-center relative cursor-pointer snap-always snap-center gap-1 overflow-hidden w-full h-full">
+            <BorderGradient
+              size={3}
+              className="relative rounded-lg overflow-hidden w-full h-full"
+            >
+              <div className="p-0.5 bg-white  dark:bg-slate-900 absolute top-2 left-2 overflow-hidden rounded-full">
+                <Avatar size={32} />
+              </div>
+              <div className="rounded-lg overflow-hiddens w-full h-full">
+                <img
+                  className="object-cover w-full h-full rounded-lg"
+                  src={`https://unsplash.it/400/400?t=${Math.random()}`}
+                />
+              </div>
+              <p className="text-md flex items-end p-4 bottom-[3px] left-[3px] right-[3px] rounded-lg font-semibold whitespace-nowrap text-white absolute bg-gradient-to-t from-[#000000]  h-[100px] to-[#00000000]">
+                Briggs
+              </p>
+            </BorderGradient>
+          </div>
+        </div>
+      ))}
+      {/* <div className="flex flex-col items-center relative cursor-pointer snap-always snap-center gap-1 px-1 pt-[7px] mb-[-150px]">
+        <BorderGradient
+          size={3}
+          className="relative rounded-lg overflow-hidden "
+        >
+          <div className="p-0.5 bg-white  dark:bg-slate-900 absolute top-2 left-2 overflow-hidden rounded-full">
+            <Avatar size={32} />
+          </div>
+          <div className="rounded-lg overflow-hiddens w-full h-full">
+            <img
+              className="object-cover w-full h-full"
+              src={'https://unsplash.it/400/400'}
+            />
           </div>
         </BorderGradient>
         <p className="text-gray-900 text-small font-semibold whitespace-nowrap dark:text-white">
           Briggs
         </p>
-      </div>
-      <div className="flex flex-col items-center relative cursor-pointer snap-always snap-center gap-1">
-        <BorderGradient>
-          <div className="p-0.5 bg-white rounded-full dark:bg-slate-900">
-            <Avatar size={40} />
-          </div>
-        </BorderGradient>
-        <p className="text-gray-900 text-small font-semibold whitespace-nowrap dark:text-white">
-          Lina
-        </p>
-      </div>
-      <div className="flex flex-col items-center relative cursor-pointer snap-always snap-center gap-1">
-        <BorderGradient>
-          <div className="p-0.5 bg-white rounded-full dark:bg-slate-900">
-            <Avatar size={40} />
-          </div>
-        </BorderGradient>
-        <p className="text-gray-900 text-small font-semibold whitespace-nowrap dark:text-white">
-          Georgie
-        </p>
-      </div>
-      <div className="flex flex-col items-center relative cursor-pointer snap-always snap-center gap-1">
-        <BorderGradient>
-          <div className="p-0.5 bg-white rounded-full dark:bg-slate-900">
-            <Avatar size={40} />
-          </div>
-        </BorderGradient>
-        <p className="text-gray-900 text-small font-semibold whitespace-nowrap dark:text-white">
-          Carolyn
-        </p>
-      </div>
-      <div className="flex flex-col items-center relative cursor-pointer snap-always snap-center gap-1">
-        <BorderGradient>
-          <div className="p-0.5 bg-white rounded-full dark:bg-slate-900">
-            <Avatar size={40} />
-          </div>
-        </BorderGradient>
-        <p className="text-gray-900 text-small font-semibold whitespace-nowrap dark:text-white">
-          Moody
-        </p>
-      </div>
-      <div className="flex flex-col items-center relative cursor-pointer snap-always snap-center gap-1">
-        <BorderGradient>
-          <div className="p-0.5 bg-white rounded-full dark:bg-slate-900">
-            <Avatar size={40} />
-          </div>
-        </BorderGradient>
-        <p className="text-gray-900 text-small font-semibold whitespace-nowrap dark:text-white">
-          Randy
-        </p>
-      </div>
-      <div className="flex flex-col items-center relative cursor-pointer snap-always snap-center gap-1">
-        <BorderGradient>
-          <div className="p-0.5 bg-white rounded-full dark:bg-slate-900">
-            <Avatar size={40} />
-          </div>
-        </BorderGradient>
-        <p className="text-gray-900 text-small font-semibold whitespace-nowrap dark:text-white">
-          McGee
-        </p>
-      </div>
-      <div className="flex flex-col items-center relative cursor-pointer snap-always snap-center gap-1">
-        <BorderGradient>
-          <div className="p-0.5 bg-white rounded-full dark:bg-slate-900">
-            <Avatar size={40} />
-          </div>
-        </BorderGradient>
-        <p className="text-gray-900 text-small font-semibold whitespace-nowrap dark:text-white">
-          Clarence
-        </p>
-      </div>
-      <div className="flex flex-col items-center relative cursor-pointer snap-always snap-center gap-1">
-        <BorderGradient>
-          <div className="p-0.5 bg-white rounded-full dark:bg-slate-900">
-            <Avatar size={40} />
-          </div>
-        </BorderGradient>
-        <p className="text-gray-900 text-small font-semibold whitespace-nowrap dark:text-white">
-          Ray
-        </p>
-      </div>
-    </div>
+      </div> */}
+    </HorizontalScroll>
   );
 };

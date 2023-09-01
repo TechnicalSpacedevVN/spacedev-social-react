@@ -1,68 +1,14 @@
-import { Avatar } from "./atoms/Avatar";
-import { Card } from "./atoms/Card";
-import { IconAddFriend } from "./Icon/IconAddFriend";
+import { Card } from './atoms/Card';
+import { UserItem } from './atoms/UserItem';
+import { IconAddFriend } from './Icon/IconAddFriend';
 
 export const SuggestedForYou = () => {
   return (
-    <Card
-      title="Suggested For You"
-      action={
-        <a href="#" className="text-gray-400 font-semibold text-xs">
-          See all
-        </a>
-      }
-    >
+    <Card title="Những người ở gần">
       <div className="mt-4 flex flex-col gap-4">
-        <div className="flex gap-2 items-center">
-          <Avatar />
-          <div className="flex-1 ">
-            <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-              Lola Hines
-            </h4>
-            <p className="text-xs text-gray-500">Recenfly</p>
-          </div>
-          <IconAddFriend disabled />
-        </div>
-        <div className="flex gap-2 items-center">
-          <Avatar />
-          <div className="flex-1 ">
-            <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-              Lola Hines
-            </h4>
-            <p className="text-xs text-gray-500">Suggested for you</p>
-          </div>
-          <IconAddFriend />
-        </div>
-        <div className="flex gap-2 items-center">
-          <Avatar />
-          <div className="flex-1 ">
-            <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-              Lola Hines
-            </h4>
-            <p className="text-xs text-gray-500">Following you</p>
-          </div>
-          <IconAddFriend />
-        </div>
-        <div className="flex gap-2 items-center">
-          <Avatar />
-          <div className="flex-1 ">
-            <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-              Lola Hines
-            </h4>
-            <p className="text-xs text-gray-500">Following you</p>
-          </div>
-          <IconAddFriend />
-        </div>
-        <div className="flex gap-2 items-center">
-          <Avatar />
-          <div className="flex-1 ">
-            <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-              Lola Hines
-            </h4>
-            <p className="text-xs text-gray-500">Following you</p>
-          </div>
-          <IconAddFriend />
-        </div>
+        {Array.from(new Array(10)).map((e, i) => (
+          <UserItem key={i} sub="3km" action={<IconAddFriend />} />
+        ))}
       </div>
     </Card>
   );

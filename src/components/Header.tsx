@@ -1,28 +1,26 @@
-import { Link } from "react-router-dom";
-import { Avatar } from "./atoms/Avatar";
-import { Badge } from "./atoms/Badge";
-import { Card } from "./atoms/Card";
-import { useMode } from "./DarkModeProvider";
-import { Dropdown } from "./atoms/Dropdown";
-import { GeneralInfo } from "./GeneralInfo";
-import { Icon } from "./Icon/Icon";
-import { IconClose } from "./Icon/IconClose";
-import { IconFeedback } from "./Icon/IconFeedback";
-import { IconLogout } from "./Icon/IconLogout";
-import { IconSetting } from "./Icon/IconSetting";
-import {
-  ButtonIconThreeDotAction,
-  IconThreeDotAction,
-} from "./Icon/IconThreeDotAction";
-import { ModalLogin } from "./ModalLogin";
-import { PATH } from "../constants/path";
-import { ButtonIconApplication } from "./Icon/IconApplication";
-import { Switch } from "./atoms/Switch";
-import { useAuth } from "./AuthProvider";
-import { Button } from "./atoms/Button";
-import { useState } from "react";
-import { Popconfirm } from "./Popconfirm";
-import { LOGIN_MODAL, setGlobalState } from "../store/queryClient";
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { PATH } from '../constants/path';
+import { LOGIN_MODAL, setGlobalState } from '../store/queryClient';
+import { useAuth } from './AuthProvider';
+import { useMode } from './DarkModeProvider';
+import { GeneralInfo } from './GeneralInfo';
+import { Icon } from './Icon/Icon';
+import { ButtonIconApplication } from './Icon/IconApplication';
+import { IconClose } from './Icon/IconClose';
+import { IconFeedback } from './Icon/IconFeedback';
+import { IconLogout } from './Icon/IconLogout';
+import { IconSetting } from './Icon/IconSetting';
+import { IconSpin } from './Icon/IconSpin';
+import { ButtonIconThreeDotAction } from './Icon/IconThreeDotAction';
+import { ModalLogin } from './ModalLogin';
+import { Avatar } from './atoms/Avatar';
+import { Badge } from './atoms/Badge';
+import { Button } from './atoms/Button';
+import { Card } from './atoms/Card';
+import { Dropdown } from './atoms/Dropdown';
+import { Menu } from './atoms/Menu';
+import { Switch } from './atoms/Switch';
 
 export const Header = () => {
   const { mode, toggleMode } = useMode();
@@ -52,6 +50,7 @@ export const Header = () => {
           <Dropdown
             className="flex-1 relative max-w-main-content mx-auto"
             allowToggle={false}
+            arrow={false}
             content={
               <Card
                 title="Recent searches"
@@ -100,7 +99,6 @@ export const Header = () => {
               </Card>
             }
             popupClassName="max-w-full w-full !left-0"
-            arrow={false}
             getPopupContainer={(parentNode) => parentNode}
           >
             <div className="dark:bg-slate-800 flex flex-1 bg-gray-100 rounded-full items-center gap-2 px-2 text-gray-600 h-7">
@@ -137,316 +135,71 @@ export const Header = () => {
                 <div className="flex items-center">
                   <Dropdown
                     getPopupContainer={(parentNode) => parentNode}
+                    preventClose
                     content={
                       <div className="w-[400px]  max-h-[calc(100vh-100px)] overflow-auto">
                         <Card
-                          title="Notifications"
+                          title="Thông báo"
                           action={
                             <a
                               href="#"
                               className="dark:hover:bg-slate-700 text-blue-500 hover:bg-gray-100 rounded px-3 py-0.5"
                             >
-                              See all
+                              Xem tất cả
                             </a>
                           }
                           className="dark:!bg-slate-800"
                         >
                           <div className="mt-3 max-h-full flex-1">
-                            <a
-                              href="#"
-                              className="[&:hover_.icon-action]:opacity-100 dark:text-white text-black rounded-lg flex gap-4 items-center hover:bg-black hover:bg-opacity-25 p-2 -ml-2"
-                            >
-                              <Avatar size={40} />
-                              <div className="flex flex-col flex-1">
-                                <p className="text-sm">
-                                  <span className="font-semibold">
-                                    Mark Ortega
-                                  </span>
-                                  &nbsp; Đã nhắc đến bạn trong một bài viết
-                                </p>
-                                <time className="text-sm text-blue-400">
-                                  4 hours ago
-                                </time>
-                              </div>
-                              <div className="flex gap-1 items-center">
-                                <div className="icon-action opacity-0">
-                                  <ButtonIconThreeDotAction />
+                            {Array.from(new Array(5)).map((_, i) => (
+                              <a
+                                key={i}
+                                href="#"
+                                className="[&:hover_.icon-action]:opacity-100 dark:text-white text-black rounded-lg flex gap-4 items-center hover:bg-black hover:bg-opacity-25 p-2 -ml-2"
+                              >
+                                <Avatar size={40} />
+                                <div className="flex flex-col flex-1">
+                                  <p className="text-sm">
+                                    <span className="font-semibold">
+                                      Mark Ortega
+                                    </span>
+                                    &nbsp; Đã nhắc đến bạn trong một bài viết
+                                  </p>
+                                  <time className="text-sm text-blue-400">
+                                    4 hours ago
+                                  </time>
                                 </div>
-                                <span className="rounded-full w-3 h-3 bg-blue-500"></span>
-                              </div>
-                            </a>
-                            <a
-                              href="#"
-                              className="text-gray-500 rounded-lg flex gap-4 items-center hover:bg-black hover:bg-opacity-30  p-2 -ml-2"
-                            >
-                              <Avatar size={40} />
-                              <div className="flex flex-col">
-                                <p className="text-sm">
-                                  <span className="font-semibold">
-                                    Mark Ortega
-                                  </span>
-                                  &nbsp; Đã nhắc đến bạn trong một bài viết
-                                </p>
-                                <time className=" text-sm text-gray-600 dark:text-gray-700">
-                                  4 hours ago
-                                </time>
-                              </div>
-                            </a>
-                            <a
-                              href="#"
-                              className="text-gray-500 rounded-lg flex gap-4 items-center hover:bg-black hover:bg-opacity-30  p-2 -ml-2"
-                            >
-                              <Avatar size={40} />
-                              <div className="flex flex-col">
-                                <p className="text-sm">
-                                  <span className="font-semibold">
-                                    Mark Ortega
-                                  </span>
-                                  &nbsp; Đã nhắc đến bạn trong một bài viết
-                                </p>
-                                <time className=" text-sm text-gray-600 dark:text-gray-700">
-                                  4 hours ago
-                                </time>
-                              </div>
-                            </a>
-                            <a
-                              href="#"
-                              className="text-gray-500 rounded-lg flex gap-4 items-center hover:bg-black hover:bg-opacity-30  p-2 -ml-2"
-                            >
-                              <Avatar size={40} />
-                              <div className="flex flex-col">
-                                <p className="text-sm">
-                                  <span className="font-semibold">
-                                    Mark Ortega
-                                  </span>
-                                  &nbsp; Đã nhắc đến bạn trong một bài viết
-                                </p>
-                                <time className=" text-sm text-gray-600 dark:text-gray-700">
-                                  4 hours ago
-                                </time>
-                              </div>
-                            </a>
-                            <a
-                              href="#"
-                              className="text-gray-500 rounded-lg flex gap-4 items-center hover:bg-black hover:bg-opacity-30  p-2 -ml-2"
-                            >
-                              <Avatar size={40} />
-                              <div className="flex flex-col">
-                                <p className="text-sm">
-                                  <span className="font-semibold">
-                                    Mark Ortega
-                                  </span>
-                                  &nbsp; Đã nhắc đến bạn trong một bài viết
-                                </p>
-                                <time className=" text-sm text-gray-600 dark:text-gray-700">
-                                  4 hours ago
-                                </time>
-                              </div>
-                            </a>
-                            <a
-                              href="#"
-                              className="text-gray-500 rounded-lg flex gap-4 items-center hover:bg-black hover:bg-opacity-30  p-2 -ml-2"
-                            >
-                              <Avatar size={40} />
-                              <div className="flex flex-col">
-                                <p className="text-sm">
-                                  <span className="font-semibold">
-                                    Mark Ortega
-                                  </span>
-                                  &nbsp; Đã nhắc đến bạn trong một bài viết
-                                </p>
-                                <time className=" text-sm text-gray-600 dark:text-gray-700">
-                                  4 hours ago
-                                </time>
-                              </div>
-                            </a>
-                            <a
-                              href="#"
-                              className="text-gray-500 rounded-lg flex gap-4 items-center hover:bg-black hover:bg-opacity-30  p-2 -ml-2"
-                            >
-                              <Avatar size={40} />
-                              <div className="flex flex-col">
-                                <p className="text-sm">
-                                  <span className="font-semibold">
-                                    Mark Ortega
-                                  </span>
-                                  &nbsp; Đã nhắc đến bạn trong một bài viết
-                                </p>
-                                <time className=" text-sm text-gray-600 dark:text-gray-700">
-                                  4 hours ago
-                                </time>
-                              </div>
-                            </a>
-                            <a
-                              href="#"
-                              className="text-gray-500 rounded-lg flex gap-4 items-center hover:bg-black hover:bg-opacity-30  p-2 -ml-2"
-                            >
-                              <Avatar size={40} />
-                              <div className="flex flex-col">
-                                <p className="text-sm">
-                                  <span className="font-semibold">
-                                    Mark Ortega
-                                  </span>
-                                  &nbsp; Đã nhắc đến bạn trong một bài viết
-                                </p>
-                                <time className=" text-sm text-gray-600 dark:text-gray-700">
-                                  4 hours ago
-                                </time>
-                              </div>
-                            </a>
-                            <a
-                              href="#"
-                              className="text-gray-500 rounded-lg flex gap-4 items-center hover:bg-black hover:bg-opacity-30  p-2 -ml-2"
-                            >
-                              <Avatar size={40} />
-                              <div className="flex flex-col">
-                                <p className="text-sm">
-                                  <span className="font-semibold">
-                                    Mark Ortega
-                                  </span>
-                                  &nbsp; Đã nhắc đến bạn trong một bài viết
-                                </p>
-                                <time className=" text-sm text-gray-600 dark:text-gray-700">
-                                  4 hours ago
-                                </time>
-                              </div>
-                            </a>
-                            <a
-                              href="#"
-                              className="text-gray-500 rounded-lg flex gap-4 items-center hover:bg-black hover:bg-opacity-30  p-2 -ml-2"
-                            >
-                              <Avatar size={40} />
-                              <div className="flex flex-col">
-                                <p className="text-sm">
-                                  <span className="font-semibold">
-                                    Mark Ortega
-                                  </span>
-                                  &nbsp; Đã nhắc đến bạn trong một bài viết
-                                </p>
-                                <time className=" text-sm text-gray-600 dark:text-gray-700">
-                                  4 hours ago
-                                </time>
-                              </div>
-                            </a>
-                            <a
-                              href="#"
-                              className="text-gray-500 rounded-lg flex gap-4 items-center hover:bg-black hover:bg-opacity-30  p-2 -ml-2"
-                            >
-                              <Avatar size={40} />
-                              <div className="flex flex-col">
-                                <p className="text-sm">
-                                  <span className="font-semibold">
-                                    Mark Ortega
-                                  </span>
-                                  &nbsp; Đã nhắc đến bạn trong một bài viết
-                                </p>
-                                <time className=" text-sm text-gray-600 dark:text-gray-700">
-                                  4 hours ago
-                                </time>
-                              </div>
-                            </a>
-                            <a
-                              href="#"
-                              className="text-gray-500 rounded-lg flex gap-4 items-center hover:bg-black hover:bg-opacity-30  p-2 -ml-2"
-                            >
-                              <Avatar size={40} />
-                              <div className="flex flex-col">
-                                <p className="text-sm">
-                                  <span className="font-semibold">
-                                    Mark Ortega
-                                  </span>
-                                  &nbsp; Đã nhắc đến bạn trong một bài viết
-                                </p>
-                                <time className=" text-sm text-gray-600 dark:text-gray-700">
-                                  4 hours ago
-                                </time>
-                              </div>
-                            </a>
-                            <a
-                              href="#"
-                              className="text-gray-500 rounded-lg flex gap-4 items-center hover:bg-black hover:bg-opacity-30  p-2 -ml-2"
-                            >
-                              <Avatar size={40} />
-                              <div className="flex flex-col">
-                                <p className="text-sm">
-                                  <span className="font-semibold">
-                                    Mark Ortega
-                                  </span>
-                                  &nbsp; Đã nhắc đến bạn trong một bài viết
-                                </p>
-                                <time className=" text-sm text-gray-600 dark:text-gray-700">
-                                  4 hours ago
-                                </time>
-                              </div>
-                            </a>
-                            <a
-                              href="#"
-                              className="text-gray-500 rounded-lg flex gap-4 items-center hover:bg-black hover:bg-opacity-30  p-2 -ml-2"
-                            >
-                              <Avatar size={40} />
-                              <div className="flex flex-col">
-                                <p className="text-sm">
-                                  <span className="font-semibold">
-                                    Mark Ortega
-                                  </span>
-                                  &nbsp; Đã nhắc đến bạn trong một bài viết
-                                </p>
-                                <time className=" text-sm text-gray-600 dark:text-gray-700">
-                                  4 hours ago
-                                </time>
-                              </div>
-                            </a>
-                            <a
-                              href="#"
-                              className="text-gray-500 rounded-lg flex gap-4 items-center hover:bg-black hover:bg-opacity-30  p-2 -ml-2"
-                            >
-                              <Avatar size={40} />
-                              <div className="flex flex-col">
-                                <p className="text-sm">
-                                  <span className="font-semibold">
-                                    Mark Ortega
-                                  </span>
-                                  &nbsp; Đã nhắc đến bạn trong một bài viết
-                                </p>
-                                <time className=" text-sm text-gray-600 dark:text-gray-700">
-                                  4 hours ago
-                                </time>
-                              </div>
-                            </a>
-                            <a
-                              href="#"
-                              className="text-gray-500 rounded-lg flex gap-4 items-center hover:bg-black hover:bg-opacity-30  p-2 -ml-2"
-                            >
-                              <Avatar size={40} />
-                              <div className="flex flex-col">
-                                <p className="text-sm">
-                                  <span className="font-semibold">
-                                    Mark Ortega
-                                  </span>
-                                  &nbsp; Đã nhắc đến bạn trong một bài viết
-                                </p>
-                                <time className=" text-sm text-gray-600 dark:text-gray-700">
-                                  4 hours ago
-                                </time>
-                              </div>
-                            </a>
-                            <a
-                              href="#"
-                              className="text-gray-500 rounded-lg flex gap-4 items-center hover:bg-black hover:bg-opacity-30  p-2 -ml-2"
-                            >
-                              <Avatar size={40} />
-                              <div className="flex flex-col">
-                                <p className="text-sm">
-                                  <span className="font-semibold">
-                                    Mark Ortega
-                                  </span>
-                                  &nbsp; Đã nhắc đến bạn trong một bài viết
-                                </p>
-                                <time className=" text-sm text-gray-600 dark:text-gray-700">
-                                  4 hours ago
-                                </time>
-                              </div>
-                            </a>
+                                <div className="flex gap-1 items-center">
+                                  <div className="icon-action opacity-0">
+                                    <Dropdown
+                                      placement="bottomRight"
+                                      content={
+                                        <Menu
+                                          menus={[
+                                            { label: 'Đánh dấu chưa đọc' },
+                                            { label: 'Xóa' },
+                                            {
+                                              label:
+                                                'Ẩn thông báo từ người này',
+                                            },
+                                            {
+                                              label:
+                                                'Không nhận thông báo từ bài viết này',
+                                            },
+                                          ]}
+                                        />
+                                      }
+                                    >
+                                      <ButtonIconThreeDotAction />
+                                    </Dropdown>
+                                  </div>
+                                  <span className="rounded-full w-3 h-3 bg-blue-500"></span>
+                                </div>
+                              </a>
+                            ))}
+                            <div className="flex justify-center my-3">
+                              <IconSpin />
+                            </div>
                           </div>
                         </Card>
                       </div>
@@ -480,6 +233,7 @@ export const Header = () => {
                 </div>
                 <Dropdown
                   getPopupContainer={(parentNode) => parentNode}
+                  preventClose
                   placement="bottomRight"
                   content={
                     <div className="w-[300px]">
@@ -523,7 +277,7 @@ export const Header = () => {
                             </svg>
                           </Icon>
                           <p className="flex-1">Dark mode</p>
-                          <Switch checked={mode === "dark"} />
+                          <Switch checked={mode === 'dark'} />
                         </a>
 
                         <a
@@ -622,7 +376,7 @@ export const Header = () => {
                             </svg>
                           </Icon>
                           <p className="flex-1">Dark mode</p>
-                          <Switch checked={mode === "dark"} />
+                          <Switch checked={mode === 'dark'} />
                         </a>
 
                         <a

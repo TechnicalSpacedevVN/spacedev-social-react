@@ -1,8 +1,8 @@
-import { FC } from "react";
-import { Icon } from "./Icon";
-import { IconProps } from "./type";
+import { FC } from 'react';
+import { Icon } from './Icon';
+import { ButtonIconProps } from './type';
 
-export const ButtonIconThreeDotAction: FC<any> = (props) => {
+export const ButtonIconThreeDotAction: Atom<ButtonIconProps> = (props) => {
   return (
     <Icon {...props}>
       <IconThreeDotAction />
@@ -10,7 +10,10 @@ export const ButtonIconThreeDotAction: FC<any> = (props) => {
   );
 };
 
-export const IconThreeDotAction: FC<IconProps> = ({ size = 17, ...props }) => {
+export const IconThreeDotAction: FC<ButtonIconProps> = ({
+  size = 17,
+  ...props
+}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
