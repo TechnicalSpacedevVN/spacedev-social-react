@@ -1,10 +1,10 @@
-import { FC } from 'react';
-import { Icon } from './Icon';
-import { ButtonIconProps } from './type';
+import { FC } from "react";
+import { Icon } from "./Icon";
+import { ButtonIconProps } from "./type";
 
 export const ButtonIconHeart: FC<any> = (props) => {
   return (
-    <Icon transparent {...props}>
+    <Icon {...props}>
       <IconHeart />
     </Icon>
   );

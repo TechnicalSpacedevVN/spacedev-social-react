@@ -1,23 +1,24 @@
-import { FC, useState } from 'react';
-import { IconArchive } from './Icon/IconArchive';
-import { IconBellOff } from './Icon/IconBellOf';
-import { IconBookmark } from './Icon/IconBookmark';
-import { IconComment } from './Icon/IconComment';
-import { IconExclamation } from './Icon/IconExclamation';
-import { IconEyeClose } from './Icon/IconEyeClose';
-import { ButtonIconHeart } from './Icon/IconHeart';
-import { IconPen } from './Icon/IconPen';
-import { IconShare } from './Icon/IconShare';
-import { IconSpin } from './Icon/IconSpin';
-import { ButtonIconThreeDotAction } from './Icon/IconThreeDotAction';
-import { IconTrash } from './Icon/IconTrash';
-import { Avatar } from './atoms/Avatar';
-import { Button } from './atoms/Button';
-import { Dropdown } from './atoms/Dropdown';
-import { Input } from './atoms/Input';
-import { Menu } from './atoms/Menu';
-import { Modal, ModalProps } from './atoms/Modal';
-import { Tag } from './atoms/Tag';
+import { FC, useState } from "react";
+import { IconArchive } from "./Icon/IconArchive";
+import { IconBellOff } from "./Icon/IconBellOf";
+import { IconBookmark } from "./Icon/IconBookmark";
+import { IconComment } from "./Icon/IconComment";
+import { IconExclamation } from "./Icon/IconExclamation";
+import { IconEyeClose } from "./Icon/IconEyeClose";
+import { ButtonIconHeart } from "./Icon/IconHeart";
+import { IconPen } from "./Icon/IconPen";
+import { IconShare } from "./Icon/IconShare";
+import { IconSpin } from "./Icon/IconSpin";
+import { ButtonIconThreeDotAction } from "./Icon/IconThreeDotAction";
+import { IconTrash } from "./Icon/IconTrash";
+import { Avatar } from "./atoms/Avatar";
+import { Button } from "./atoms/Button";
+import { Dropdown } from "./atoms/Dropdown";
+import { Input } from "./atoms/Input";
+import { Menu } from "./atoms/Menu";
+import { Modal, ModalProps } from "./atoms/Modal";
+import { Tag } from "./atoms/Tag";
+import { ButtonIconHeartFill } from "./Icon/IconHeartFill";
 
 const PostMenu = () => {
   return (
@@ -26,12 +27,12 @@ const PostMenu = () => {
       content={
         <Menu
           menus={[
-            { label: 'Đưa bài viết vào thùng rác', icon: <IconTrash /> },
-            { label: 'Chỉnh sửa', icon: <IconPen /> },
-            { label: 'Lưu trữ', icon: <IconArchive /> },
-            { label: 'Báo cáo bài viết', icon: <IconExclamation /> },
-            { label: 'Ẩn bài viết', icon: <IconEyeClose /> },
-            { label: 'Tắt thông báo về bài viết này', icon: <IconBellOff /> },
+            { label: "Đưa bài viết vào thùng rác", icon: <IconTrash /> },
+            { label: "Chỉnh sửa", icon: <IconPen /> },
+            { label: "Lưu trữ", icon: <IconArchive /> },
+            { label: "Báo cáo bài viết", icon: <IconExclamation /> },
+            { label: "Ẩn bài viết", icon: <IconEyeClose /> },
+            { label: "Tắt thông báo về bài viết này", icon: <IconBellOff /> },
           ]}
         />
       }
@@ -88,7 +89,11 @@ export const Post = () => {
               <IconShare />
               20
             </Tag>
-            <ButtonIconHeart />
+            {Math.random() > 0.5 ? (
+              <ButtonIconHeart transparent />
+            ) : (
+              <ButtonIconHeartFill transparent className="text-red-600" />
+            )}
             <div className="flex gap-2 items-center">
               <div>
                 <Avatar size={27} border />
@@ -100,11 +105,11 @@ export const Post = () => {
                 <Avatar size={27} border />
               </div>
               <p className="text-sm">
-                Thả tim bởi{' '}
+                Thả tim bởi{" "}
                 <b>
                   <a href="#">Sue Franklin</a>
-                </b>{' '}
-                và{' '}
+                </b>{" "}
+                và{" "}
                 <b>
                   <a href="#">1,993 người khác</a>
                 </b>
@@ -125,7 +130,7 @@ export const Post = () => {
 };
 
 const ModalDetail: FC<ModalProps> = (props) => {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   return (
     <Modal
       {...props}
@@ -177,7 +182,7 @@ const ModalDetail: FC<ModalProps> = (props) => {
                 className="outline-0 text-sm px-2 py-3 flex-1 bg-transparent"
               />
               <Button
-                type={value ? 'primary' : 'default'}
+                type={value ? "primary" : "default"}
                 disabled={!value}
                 className="rounded-none !px-10"
               >
@@ -207,7 +212,15 @@ const UserComment: Atom<UserCommentProps> = ({
       <div className="flex gap-3 px-3 py-1 [&_.icon-action]:hover:opacity-100">
         <Avatar />
         <div className="flex-1">
-          <h3 className="text-sm font-bold">Nelle Pena</h3>
+          <div className="text-sm">
+            <b> Nelle Pena</b>{" "}
+            <span>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo qui
+              atque quidem consectetur accusamus sint. Ducimus inventore sequi,
+              labore suscipit neque rem maiores aperiam enim velit praesentium
+              at ullam? Nostrum?
+            </span>
+          </div>
           <div className="flex gap-2 text-xs items-center">
             <time className="">3 phút trước</time>
             <a
@@ -232,10 +245,10 @@ const UserComment: Atom<UserCommentProps> = ({
               content={
                 <Menu
                   menus={[
-                    { label: 'Xóa' },
-                    { label: 'Chỉnh sửa' },
-                    { label: 'Báo cáo' },
-                    { label: 'Ẩn bình luận' },
+                    { label: "Xóa" },
+                    { label: "Chỉnh sửa" },
+                    { label: "Báo cáo" },
+                    { label: "Ẩn bình luận" },
                   ]}
                 />
               }

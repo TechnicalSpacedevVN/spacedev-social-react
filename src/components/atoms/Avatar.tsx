@@ -1,6 +1,5 @@
-import { FC, useId } from "react";
+import { useId } from "react";
 import { cn } from "../../utils";
-import { Atom } from "@@types/type";
 
 export const Avatar: Atom<{
   size?: number;

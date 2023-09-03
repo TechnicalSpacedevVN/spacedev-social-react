@@ -1,8 +1,8 @@
-import { motion } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
-import { ButtonIconClose } from '../Icon/IconClose';
-import { Avatar } from '../atoms/Avatar';
+import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { ButtonIconClose } from "../Icon/IconClose";
+import { Avatar } from "../atoms/Avatar";
 
 export const FloatNotification = () => {
   let [open, setOpen] = useState(true);
@@ -16,14 +16,14 @@ export const FloatNotification = () => {
 
   return createPortal(
     <motion.div
-      className="fixed bottom-3 left-3 rounded-xl p-4 bg-white dark:bg-slate-700 dark:text-white w-[300px]"
-      initial={{ opacity: 0, translateX: '-100%' }}
-      transition={{ duration: 0.5, type: 'spring' }}
+      className="fixed bottom-3 left-4 rounded-xl p-4 bg-white dark:bg-slate-700 dark:text-white w-[300px]"
+      initial={{ opacity: 0, translateX: "-100%" }}
+      transition={{ duration: 0.5, type: "spring" }}
       variants={{
         open: { opacity: 1, translateX: 0 },
-        close: { opacity: 0, translateX: '-100%' },
+        close: { opacity: 0, translateX: "-100%" },
       }}
-      animate={open ? 'open' : 'close'}
+      animate={open ? "open" : "close"}
       onMouseEnter={() => {
         clearTimeout(timeoutRef.current);
       }}
@@ -50,6 +50,6 @@ export const FloatNotification = () => {
         className="absolute top-2 right-2"
       />
     </motion.div>,
-    document.body,
+    document.body
   );
 };

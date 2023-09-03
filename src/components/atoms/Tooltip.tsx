@@ -1,5 +1,4 @@
-import { Atom } from "@@types/type";
-import { Fragment, useId } from "react";
+import { useId } from "react";
 
 export interface TooltipProps {
   children?: any;
