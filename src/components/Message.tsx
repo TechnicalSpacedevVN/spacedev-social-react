@@ -1,16 +1,34 @@
-import { Link } from "react-router-dom";
-import { Avatar } from "./Avatar";
-import { Badge } from "./Badge";
-import { Card } from "./Card";
-import { Icon } from "./Icon/Icon";
-import { PATH } from "../constants/path";
+import { Event } from '@constants/event';
+import { useMyFriends } from '@hooks/useMyFriends';
+import { socket } from '@socket';
+import {
+  CONVERSATION,
+  USER_LOGIN,
+  getGlobalState,
+  setGloablState,
+  useGlobalState,
+} from '@store/queryClient';
+import { Link } from 'react-router-dom';
+import { PATH } from '../constants/path';
+import { Avatar } from './Avatar';
+import { Badge } from './Badge';
+import { Card } from './Card';
 
 export const Message = () => {
+  const user = useGlobalState(USER_LOGIN);
+  let {
+    data: friends,
+    isLoading,
+    refetch: refetchGetMyFriend,
+  } = useMyFriends();
   return (
     <Card
       title="Messages"
       action={
-        <Link to={PATH.Messenger} className="text-gray-400 font-semibold text-xs">
+        <Link
+          to={PATH.Messenger}
+          className="text-gray-400 font-semibold text-xs"
+        >
           See all
         </Link>
       }
@@ -48,7 +66,7 @@ export const Message = () => {
               href="#"
               className="dark:text-white dark:border-white text-sm font-semibold text-gray-900 border-b-2 border-solid border-gray-900 pb-1"
             >
-              Private
+              Bạn bè
             </a>
             <a href="#" className="text-sm font-semibold text-gray-500">
               Group
@@ -65,170 +83,43 @@ export const Message = () => {
         </div>
         <div className="mt-4 flex flex-col gap-4 h-full overflow-auto pt-2">
           <div className="flex flex-col gap-4">
-            <div className="flex gap-2 items-center">
-              <Badge count={9}>
-                <Avatar />
-              </Badge>
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center ">
-              <Avatar />
-              <div className="flex-1">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <Avatar />
-              <div className="flex-1 ">
-                <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                  Lola Hines
-                </h4>
-                <p className="text-xs text-gray-500">Active 30m ago</p>
-              </div>
-            </div>
+            {friends?.map((e) => {
+              let userFriend =
+                e.sender._id === user?._id ? e.receiver : e.sender;
+
+              return (
+                <div
+                  key={e._id}
+                  className="flex gap-2 items-center cursor-pointer"
+                  onClick={() => {
+                    socket.emit(
+                      Event.Conversation,
+                      {
+                        users: [user?._id, userFriend._id],
+                      },
+                      (conversation: Conversation) => {
+                        console.log('conversation', conversation);
+                        let conversations = getGlobalState(CONVERSATION) || [];
+                        setGloablState(CONVERSATION, [
+                          ...conversations,
+                          conversation,
+                        ]);
+                      },
+                    );
+                  }}
+                >
+                  <Badge>
+                    <Avatar src={userFriend.avatar} />
+                  </Badge>
+                  <div className="flex-1 ">
+                    <h4 className="text-xs font-bold text-gray-900 dark:text-white">
+                      {userFriend.name}
+                    </h4>
+                    <p className="text-xs text-gray-500">Active 30m ago</p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

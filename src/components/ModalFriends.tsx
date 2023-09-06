@@ -1,14 +1,13 @@
-import { FC } from "react";
-import { Avatar } from "./Avatar";
-import { BorderGradient } from "./BorderGradient";
-import { Button } from "./Button";
-import { Modal, ModalProps } from "./Modal";
-import { useQuery } from "@tanstack/react-query";
-import { FRIENDS } from "../constants/queryKey";
-import { friendService } from "../services/friend";
-import { USER_LOGIN, useGlobalState } from "../store/queryClient";
-import { Link, generatePath } from "react-router-dom";
-import { PATH } from "../constants/path";
+import { useMyFriends } from '@hooks/useMyFriends';
+import { FC } from 'react';
+import { Link, generatePath } from 'react-router-dom';
+import { PATH } from '../constants/path';
+import { friendService } from '../services/friend';
+import { USER_LOGIN, useGlobalState } from '../store/queryClient';
+import { Avatar } from './Avatar';
+import { BorderGradient } from './BorderGradient';
+import { Button } from './Button';
+import { Modal, ModalProps } from './Modal';
 
 export interface ModalFriendProps extends ModalProps {
   userId: string;
@@ -16,14 +15,15 @@ export interface ModalFriendProps extends ModalProps {
 
 export const ModalFriends: FC<ModalFriendProps> = (props) => {
   const user = useGlobalState(USER_LOGIN);
-  const {
-    data,
-    isLoading,
-    refetch: refetchGetMyFriend,
-  } = useQuery({
-    queryKey: [FRIENDS],
-    queryFn: () => friendService.getUserFriend(props.userId),
-  });
+  // const {
+  //   data,
+  //   isLoading,
+  //   refetch: refetchGetMyFriend,
+  // } = useQuery({
+  //   queryKey: [FRIENDS],
+  //   queryFn: () => friendService.getUserFriend(props.userId),
+  // });
+  let { data, isLoading, refetch: refetchGetMyFriend } = useMyFriends();
   console.log(data);
 
   return (

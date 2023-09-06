@@ -1,22 +1,24 @@
-import { FC, useState } from "react";
-import { Modal, ModalProps } from "./Modal";
-import { IconQR } from "./Icon/IconQR";
-import { ButtonIconUser } from "./Icon/IconUser";
-import { IconFacebook } from "./Icon/IconFacebook";
-import { IconInstagram } from "./Icon/IconInstagram";
-import { IconTwitter } from "./Icon/IconTwitter";
-import { useAuth } from "./AuthProvider";
-import { Input } from "./Input";
-import { Button } from "./Button";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
-import { authService } from "../services/auth";
-import { message } from "antd";
-import { tokenStorage, userStorage } from "../utils/createStorage";
-import { userService } from "../services/user";
-import { USER_LOGIN, setGloablState } from "../store/queryClient";
-import { ModalRegister } from "./ModalRegister";
-import { updateUserLocation } from "../utils/getLocation";
+import { Event } from '@constants/event';
+import { socket } from '@socket';
+import { useMutation } from '@tanstack/react-query';
+import { message } from 'antd';
+import { FC, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { authService } from '../services/auth';
+import { userService } from '../services/user';
+import { USER_LOGIN, setGloablState } from '../store/queryClient';
+import { tokenStorage, userStorage } from '../utils/createStorage';
+import { updateUserLocation } from '../utils/getLocation';
+import { useAuth } from './AuthProvider';
+import { Button } from './Button';
+import { IconFacebook } from './Icon/IconFacebook';
+import { IconInstagram } from './Icon/IconInstagram';
+import { IconQR } from './Icon/IconQR';
+import { IconTwitter } from './Icon/IconTwitter';
+import { ButtonIconUser } from './Icon/IconUser';
+import { Input } from './Input';
+import { Modal, ModalProps } from './Modal';
+import { ModalRegister } from './ModalRegister';
 
 export const ModalLogin: FC<ModalProps> = ({ ...props }) => {
   const { login } = useAuth();
@@ -54,7 +56,7 @@ export const ModalLogin: FC<ModalProps> = ({ ...props }) => {
       />
       <Modal
         {...props}
-        open={typeof open === "boolean" ? open : props.open}
+        open={typeof open === 'boolean' ? open : props.open}
         title="Log in to Facinsrule"
         width={450}
       >
@@ -62,7 +64,7 @@ export const ModalLogin: FC<ModalProps> = ({ ...props }) => {
           <a
             onClick={(ev) => {
               ev.preventDefault();
-              login({ password: "asdfasdf", username: "asdfasdf" });
+              login({ password: 'asdfasdf', username: 'asdfasdf' });
               props.onCancel?.();
             }}
             href="#"
@@ -149,17 +151,17 @@ export const ModalLogin: FC<ModalProps> = ({ ...props }) => {
         </a> */}
         </div>
         <p className="px-10 pb-5 text-gray-400 text-xs text-center hover:[&_a]:underline [&_a]:text-gray-800">
-          By continuing, you agree to TikTok’s{" "}
+          By continuing, you agree to TikTok’s{' '}
           <a href="#" className="dark:text-white">
             Terms of Service
-          </a>{" "}
-          and confirm that you have read TikTok’s{" "}
+          </a>{' '}
+          and confirm that you have read TikTok’s{' '}
           <a href="#" className="dark:text-white">
             Privacy Policy
           </a>
         </p>
         <div className="py-4 text-center px-3 text-gray-900 border-t border-solid border-gray-300 dark:text-white dark:border-slate-700">
-          Don't have an account?{" "}
+          Don't have an account?{' '}
           <a
             onClick={(e) => {
               e.preventDefault();
@@ -192,7 +194,7 @@ const ModalLoginNormal: FC<ModalLoginModalProps> = (props) => {
     handleSubmit,
     getValues,
     formState: { errors, isValid },
-  } = useForm<LoginInput>({ mode: "onChange" });
+  } = useForm<LoginInput>({ mode: 'onChange' });
   const { mutate, isLoading } = useMutation({
     mutationFn: authService.login,
     onError: (err: ApiErrorResponse) => {
@@ -202,6 +204,7 @@ const ModalLoginNormal: FC<ModalLoginModalProps> = (props) => {
       tokenStorage.set(data);
       const user = await userService.getUser();
       setGloablState(USER_LOGIN, user);
+      socket.emit(Event.Login, user._id);
       userStorage.set(user);
       props?.onSuccess?.();
     },
@@ -219,19 +222,19 @@ const ModalLoginNormal: FC<ModalLoginModalProps> = (props) => {
       >
         <Input
           label="Email"
-          {...register("email", {
-            required: "Trường này là trường bắt buộc",
+          {...register('email', {
+            required: 'Trường này là trường bắt buộc',
             pattern: {
               value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-              message: "Vui lòng nhập đúng Email",
+              message: 'Vui lòng nhập đúng Email',
             },
           })}
           error={errors?.email?.message}
         />
         <Input
           label="Mật khẩu"
-          {...register("password", {
-            required: "Trường này là trường bắt buộc",
+          {...register('password', {
+            required: 'Trường này là trường bắt buộc',
           })}
           type="password"
           error={errors?.password?.message}

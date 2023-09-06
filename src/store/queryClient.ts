@@ -1,12 +1,16 @@
-import { QueryClient, useQuery } from "@tanstack/react-query";
-import { userStorage } from "../utils/createStorage";
+import { Event } from '@constants/event';
+import { socket } from '@socket';
+import { QueryClient, useQuery } from '@tanstack/react-query';
+import { userStorage } from '../utils/createStorage';
 
-export const POPUP_LOGIN = "POPUP_LOGIN";
-export const USER_LOGIN = "USER_LOGIN";
+export const POPUP_LOGIN = 'POPUP_LOGIN';
+export const USER_LOGIN = 'USER_LOGIN';
+export const CONVERSATION = 'CONVERSATION';
 
 export interface GlobalState {
   [POPUP_LOGIN]: boolean;
   [USER_LOGIN]?: User;
+  [CONVERSATION]: Conversation[];
 }
 
 export const queryClient = new QueryClient({
@@ -20,40 +24,48 @@ export const queryClient = new QueryClient({
 
 export const setGloablState = <T extends keyof GlobalState>(
   name: T,
-  value: Required<GlobalState>[T]
+  value: Required<GlobalState>[T],
 ) => {
   queryClient.setQueryData([name], value);
-  // queryClient.invalidateQueries([name]);
+  queryClient.invalidateQueries([name]);
 };
 
 export const getGlobalState = <T extends keyof GlobalState>(
-  name: T
+  name: T,
 ): GlobalState[T] => {
   return queryClient.getQueryData([name]) as GlobalState[T];
 };
 
 export const removeGlobalState = <T extends keyof GlobalState>(name: T) => {
   queryClient.setQueryData([name], null);
-  // queryClient.invalidateQueries([name]);
+  queryClient.invalidateQueries([name]);
 };
 
 export const useGlobalState = <T extends keyof GlobalState>(
   name: T,
-  defaultValue?: any
+  defaultValue?: any,
 ): GlobalState[T] => {
   let { data } = useQuery({
     queryKey: [name],
     queryFn: () => {
-      let value = getGlobalState(name);
-      if (typeof value !== "undefined") return value;
+      let value = getGlobalState(name) as any;
+      if (typeof value === 'object')
+        value.___id = Date.now() + '_' + Math.random();
+      if (typeof value !== 'undefined') return value;
 
-      if (typeof defaultValue !== "undefined") return defaultValue;
+      if (typeof defaultValue !== 'undefined') return defaultValue;
 
       return null;
     },
   });
   return data as GlobalState[T];
 };
+let user = userStorage.get();
 
 setGloablState(POPUP_LOGIN, false);
-setGloablState(USER_LOGIN, userStorage.get());
+setGloablState(USER_LOGIN, user);
+setGloablState(CONVERSATION, []);
+
+if (user) {
+  socket.emit(Event.Login, user._id);
+}
