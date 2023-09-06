@@ -1,3 +1,6 @@
+import { IconLock } from '@components/Icon/IconLock';
+import { IconSetting } from '@components/Icon/IconSetting';
+import { IconUserGroup } from '@components/Icon/IconUserGroup';
 import { FC } from 'react';
 import { IconApp } from '../../Icon/IconApp';
 import { ButtonIconCamera } from '../../Icon/IconCamera';
@@ -12,7 +15,7 @@ export const ModalAbout: FC<ModalProps> = (props) => {
     <Modal {...props} title="About">
       <div className="w-[900px] flex min-h-[700px]">
         <div className="bg-gray-50 w-[250px] dark:bg-slate-800 dark:bg-opacity-50">
-          <h2 className="font-semibold text-sm p-3">Tài khoản</h2>
+          <h2 className="font-semibold text-md p-3">Tài khoản</h2>
           <div className="px-3">
             <div className="flex gap-2 items-center">
               <Avatar />
@@ -27,49 +30,49 @@ export const ModalAbout: FC<ModalProps> = (props) => {
           <div className="px-0.5 flex flex-col gap-0.5 mt-3">
             <a
               href="#"
-              className="flex gap-2 items-center hover:bg-black hover:bg-opacity-10 py-1 rounded px-2.5"
+              className="flex gap-2 items-center hover:bg-black hover:bg-opacity-10 py-1.5 rounded px-2.5"
             >
               <IconUser />
               <span className="text-sm">Tài khoản</span>
             </a>
             <a
               href="#"
-              className="flex gap-2 items-center hover:bg-black hover:bg-opacity-10 py-1 rounded px-2.5"
+              className="flex gap-2 items-center hover:bg-black hover:bg-opacity-10 py-1.5 rounded px-2.5"
             >
-              <IconUser />
+              <IconLock />
               <span className="text-sm">Bảo mật</span>
             </a>
             <a
               href="#"
-              className="flex gap-2 items-center hover:bg-black hover:bg-opacity-10 py-1 rounded px-2.5"
+              className="flex gap-2 items-center hover:bg-black hover:bg-opacity-10 py-1.5 rounded px-2.5"
             >
-              <IconUser />
+              <IconSetting />
               <span className="text-sm">Cài đặt & quyền riêng tư</span>
             </a>
             <a
               href="#"
-              className="flex gap-2 items-center hover:bg-black hover:bg-opacity-10 py-1 rounded px-2.5"
+              className="flex gap-2 items-center hover:bg-black hover:bg-opacity-10 py-1.5 rounded px-2.5"
             >
               <IconNotification />
               <span className="text-sm">Cài đặt thông báo</span>
             </a>
             <a
               href="#"
-              className="flex gap-2 items-center hover:bg-black hover:bg-opacity-10 py-1 rounded px-2.5"
+              className="flex gap-2 items-center hover:bg-black hover:bg-opacity-10 py-1.5 rounded px-2.5"
             >
-              <IconApp />
+              <IconUserGroup />
               <span className="text-sm">Bạn bè và theo dõi</span>
             </a>
             <a
               href="#"
-              className="flex gap-2 items-center hover:bg-black hover:bg-opacity-10 py-1 rounded px-2.5"
+              className="flex gap-2 items-center hover:bg-black hover:bg-opacity-10 py-1.5 rounded px-2.5"
             >
               <IconApp />
               <span className="text-sm">Nội dung</span>
             </a>
             <a
               href="#"
-              className="flex gap-2 items-center hover:bg-black hover:bg-opacity-10 py-1 rounded px-2.5"
+              className="flex gap-2 items-center hover:bg-black hover:bg-opacity-10 py-1.5 rounded px-2.5"
             >
               <IconWorld />
               <span className="text-sm">Ngôn ngữ và quốc gia</span>

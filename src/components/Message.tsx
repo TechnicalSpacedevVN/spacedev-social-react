@@ -79,7 +79,7 @@ export const Message = () => {
             {Array.from(new Array(10)).map((_, i) => (
               <div key={i} className="flex gap-2 items-center">
                 <Badge count={9}>
-                  <Avatar />
+                  <Avatar showStatus online />
                 </Badge>
                 <div className="flex-1 ">
                   <h4 className="text-xs font-bold text-gray-900 dark:text-white">

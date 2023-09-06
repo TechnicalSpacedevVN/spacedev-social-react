@@ -6,7 +6,7 @@ import { Modal, ModalProps } from '@components/atoms/Modal';
 import { Tab } from '@components/atoms/Tab';
 import { Tooltip } from '@components/atoms/Tooltip';
 import { UserItem } from '@components/atoms/UserItem';
-import { FC, useRef, useState } from 'react';
+import { FC, useState } from 'react';
 import { cn } from '../../../utils';
 import { Icon } from '../../Icon/Icon';
 import { IconClose } from '../../Icon/IconClose';
@@ -34,15 +34,14 @@ const fullScreenClass = 'h-[600px] w-[550px]';
 const isHideClass =
   'h-[49px] w-[200px] [&_.main]:hidden [&_.footer]:hidden cursor-pointer';
 const anotherMessageclass =
-  '[&_.message]:bg-gray-700 [&_.message]:rounded-l [&_.message]:rounded-r-2xl';
+  '[&_.message]:bg-gray-700 [&_.message]:rounded-l [&_.message]:rounded-r-2xl [&_.wrap]:items-start';
 const myMessageClass =
-  'flex-row-reverse text-right [&_.message]:bg-blue-700 [&_.avatar]:hidden [&_.message]:rounded-r [&_.message]:rounded-l-2xl';
+  'flex-row-reverse text-right [&_.message]:bg-blue-700 [&_.avatar]:hidden [&_.message]:rounded-r [&_.message]:rounded-l-2xl [&_.wrap]:items-end';
 
-export const ChatScreen: FC = (props) => {
+export const ChatScreen: FC = () => {
   const [value, setValue] = useState('');
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isHide, setIsHide] = useState(false);
-  const inputRef = useRef<HTMLTextAreaElement>(null);
   const [openMember, setOpenMember] = useState(false);
 
   return (
@@ -123,7 +122,7 @@ export const ChatScreen: FC = (props) => {
           </div>
         </div>
         <div className="flex flex-col py-2 gap-2 flex-1 main overflow-auto">
-          <div className="flex flex-col items-center text-center gap-2 items-center px-2">
+          <div className="flex flex-col text-center gap-2 items-center px-2">
             <Avatar size={50} />
             <div className="">
               <h3 className="font-bold text-sm">
@@ -134,7 +133,7 @@ export const ChatScreen: FC = (props) => {
               </p>
             </div>
           </div>
-          <div className="text-center text-sm my-4 dark:text-slate-300 text-gray-500 text-sm font-semibold text-opacity-90">
+          <div className="text-center my-4 dark:text-slate-300 text-gray-500 text-sm font-semibold text-opacity-90">
             Thứ sáu, 11/05/2023
           </div>
           <div className="flex justify-center my-3">
@@ -147,10 +146,9 @@ export const ChatScreen: FC = (props) => {
             })}
           >
             <Avatar size={32} className="avatar" />
-            <div className="flex-1 flex flex-col gap-[1px] max-w-[60%]">
+            <div className="wrap flex-1 inline-flex flex-col gap-[1px] max-w-[60%]">
               <p className="message text-sm text-white px-3 py-2 first-of-type:!rounded-t-2xl last-of-type:!rounded-b-2xl ">
-                Xin chào! Tôi đang tìm một chiếc áo thể thao mới. Bạn có thể
-                giúp tôi không?
+                Xin chào! Tôi đang tìm
               </p>
               <p className="message text-sm text-white px-3 py-2 first-of-type:!rounded-t-2xl last-of-type:!rounded-b-2xl ">
                 Chào bạn! Tất nhiên, tôi rất vui được giúp bạn. Bạn có một số sở
@@ -169,7 +167,7 @@ export const ChatScreen: FC = (props) => {
             })}
           >
             <Avatar size={32} className="avatar" />
-            <div className="flex-1 flex flex-col gap-[1px] max-w-[70%]">
+            <div className="wrap flex-1 inline-flex flex-col gap-[1px] max-w-[60%]">
               <p className="message text-sm text-white px-3 py-2 first-of-type:!rounded-t-2xl last-of-type:!rounded-b-2xl">
                 Xin chào! Tôi đang tìm một
               </p>
@@ -185,7 +183,7 @@ export const ChatScreen: FC = (props) => {
             })}
           >
             <Avatar size={32} className="avatar" />
-            <div className="flex-1 flex flex-col gap-[1px] max-w-[70%]">
+            <div className="wrap flex-1 inline-flex flex-col gap-[1px] max-w-[60%]">
               <p className="message text-sm text-white px-3 py-2 first-of-type:!rounded-t-2xl last-of-type:!rounded-b-2xl">
                 Xin chào! Tôi đang tìm một
               </p>

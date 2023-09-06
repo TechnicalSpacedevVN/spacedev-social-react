@@ -13,6 +13,7 @@
   "dependencies": {
     "@tanstack/react-query": "^4.33.0",
     "@types/lodash": "^4.14.195",
+    "antd": "^5.8.6",
     "classnames": "^2.3.2",
     "framer-motion": "^10.16.2",
     "lodash": "^4.17.21",

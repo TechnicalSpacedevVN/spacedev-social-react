@@ -10,7 +10,7 @@ import { ButtonIconApplication } from './Icon/IconApplication';
 import { IconClose } from './Icon/IconClose';
 import { IconFeedback } from './Icon/IconFeedback';
 import { IconLogout } from './Icon/IconLogout';
-import { IconSetting } from './Icon/IconSetting';
+import { ButtonIconSetting } from './Icon/IconSetting';
 import { IconSpin } from './Icon/IconSpin';
 import { ButtonIconThreeDotAction } from './Icon/IconThreeDotAction';
 import { ModalLogin } from './ModalLogin';
@@ -291,7 +291,7 @@ export const Header = () => {
                           href=""
                           className=" px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
                         >
-                          <IconSetting />
+                          <ButtonIconSetting />
                           <p>Cài đặt</p>
                         </a>
                         <a
@@ -390,7 +390,7 @@ export const Header = () => {
                           href=""
                           className=" px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
                         >
-                          <IconSetting />
+                          <ButtonIconSetting />
                           <p>Cài đặt</p>
                         </a>
                         <GeneralInfo />
