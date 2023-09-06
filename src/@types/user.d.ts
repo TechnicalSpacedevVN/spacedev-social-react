@@ -10,4 +10,5 @@ interface User {
   block: User[];
   follow: User[];
   allowFollow: boolean;
+  online?: boolean;
 }

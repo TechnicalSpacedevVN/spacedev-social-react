@@ -6,7 +6,7 @@ import { Modal, ModalProps } from '@components/atoms/Modal';
 import { Tab } from '@components/atoms/Tab';
 import { Tooltip } from '@components/atoms/Tooltip';
 import { UserItem } from '@components/atoms/UserItem';
-import { Event, ReceiverEvent } from '@constants/event';
+import { ClientEvent, ServerEvent } from '@constants/event';
 import { socket } from '@socket';
 import {
   CONVERSATION,
@@ -43,10 +43,10 @@ export const FloatingChat = () => {
   const conversations = useGlobalState(CONVERSATION);
   console.log('FloatingChat');
   useEffect(() => {
-    socket.on(ReceiverEvent.ReceiverMessage, receiverMessageEvent);
+    socket.on(ClientEvent.ReceiverMessage, receiverMessageEvent);
 
     return () => {
-      socket.off(ReceiverEvent.ReceiverMessage, receiverMessageEvent);
+      socket.off(ClientEvent.ReceiverMessage, receiverMessageEvent);
     };
   }, []);
 
@@ -110,7 +110,11 @@ export const ChatScreen: FC<ChatScreenProps> = ({ conversation }) => {
           className="[&_.actions]:hover:opacity-100 flex gap-3 items-center p-2 border-b border-solid border-gray-300 dark:border-slate-700"
         >
           <Badge>
-            <Avatar src={anotherUser?.avatar} />
+            <Avatar
+              showStatus
+              userId={anotherUser?._id}
+              src={anotherUser?.avatar}
+            />
           </Badge>
           <h3 className="flex-1 font-bold text-sm">{anotherUser?.name}</h3>
           <div className="flex gap-0.5 items-center">
@@ -271,7 +275,7 @@ export const ChatScreen: FC<ChatScreenProps> = ({ conversation }) => {
               size="small"
               onClick={() => {
                 socket.emit(
-                  Event.SendToUser,
+                  ServerEvent.SendToUser,
                   {
                     userId: anotherUser?._id,
                     content: value,

@@ -1,3 +1,4 @@
+import { useUser } from '@hooks/useUser';
 import { useId } from 'react';
 import { cn } from '../../utils';
 
@@ -7,8 +8,10 @@ export const Avatar: Atom<{
   online?: boolean;
   showStatus?: boolean;
   src?: string;
+  userId?: string;
 }> = ({ size = 32, online, ...props }) => {
   const id = useId();
+  let user = useUser(props.userId);
   return (
     <div
       className={cn(
@@ -26,8 +29,16 @@ export const Avatar: Atom<{
           src={props.src || `https://unsplash.it/${size}/${size}?t=${id}`}
         />
       </div>
-      {props.showStatus && online && (
-        <span className="block w-2 h-2 rounded-full bg-green-500 absolute bottom-0 right-0 shadow-[0_0_0_2px_white] dark:shadow-slate-900"></span>
+      {props.showStatus && (
+        <span
+          className={cn(
+            'block w-2 h-2 rounded-full  absolute bottom-0 right-0 shadow-[0_0_0_2px_white] dark:shadow-slate-900',
+            {
+              'bg-green-500': user?.online,
+              'bg-gray-500': !user?.online,
+            },
+          )}
+        ></span>
       )}
     </div>
   );

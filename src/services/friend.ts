@@ -1,9 +1,9 @@
-import { gql } from "@apollo/client";
-import { api, client } from "../constants/api";
+import { gql } from '@apollo/client';
+import { api, client } from '../constants/api';
 
 export const friendService = {
   addFriend(userId: string) {
-    return api.post<Friend>("/friend/add-friend", { receiverId: userId });
+    return api.post<Friend>('/friend/add-friend', { receiverId: userId });
   },
   cancelFriendRequest(userId: string) {
     return api.post<Friend>(`/friend/cancel-friend-request/${userId}`);
@@ -13,7 +13,7 @@ export const friendService = {
   },
   async getUserFriend(userId?: string) {
     let res = await client.query<{ friends: Friend[] }>({
-      fetchPolicy: "no-cache",
+      fetchPolicy: 'no-cache',
       query: gql`
         query GetFriend($user: String) {
           friends(user: $user) {
@@ -23,6 +23,7 @@ export const friendService = {
               email
               name
               nickname
+              online
             }
             sender {
               _id
@@ -30,6 +31,7 @@ export const friendService = {
               email
               name
               nickname
+              online
             }
           }
         }

@@ -1,4 +1,4 @@
-import { Event } from '@constants/event';
+import { ServerEvent } from '@constants/event';
 import { useMyFriends } from '@hooks/useMyFriends';
 import { socket } from '@socket';
 import {
@@ -10,9 +10,10 @@ import {
 } from '@store/queryClient';
 import { Link } from 'react-router-dom';
 import { PATH } from '../constants/path';
-import { Avatar } from './Avatar';
 import { Badge } from './Badge';
 import { Card } from './Card';
+import { Avatar } from './atoms/Avatar';
+import { Tab } from './atoms/Tab';
 
 export const Message = () => {
   const user = useGlobalState(USER_LOGIN);
@@ -61,25 +62,11 @@ export const Message = () => {
           />
         </div>
         <div className="flex justify-between items-baseline">
-          <div className="flex mt-3 gap-3">
-            <a
-              href="#"
-              className="dark:text-white dark:border-white text-sm font-semibold text-gray-900 border-b-2 border-solid border-gray-900 pb-1"
-            >
-              Bạn bè
-            </a>
-            <a href="#" className="text-sm font-semibold text-gray-500">
-              Group
-            </a>
-          </div>
-          <div>
-            <a
-              href="#"
-              className="dark:text-purple-400 text-purple-800 text-xs font-semibold"
-            >
-              Request (2)
-            </a>
-          </div>
+          <Tab
+            className="gap-2 mt-2"
+            itemClass="whitespace-nowrap"
+            menus={[{ label: 'Bạn bè' }, { label: 'Nhóm' }]}
+          />
         </div>
         <div className="mt-4 flex flex-col gap-4 h-full overflow-auto pt-2">
           <div className="flex flex-col gap-4">
@@ -93,7 +80,7 @@ export const Message = () => {
                   className="flex gap-2 items-center cursor-pointer"
                   onClick={() => {
                     socket.emit(
-                      Event.Conversation,
+                      ServerEvent.Conversation,
                       {
                         users: [user?._id, userFriend._id],
                       },
@@ -109,7 +96,12 @@ export const Message = () => {
                   }}
                 >
                   <Badge>
-                    <Avatar src={userFriend.avatar} />
+                    <Avatar
+                      showStatus
+                      online={userFriend.online}
+                      src={userFriend.avatar}
+                      userId={userFriend._id}
+                    />
                   </Badge>
                   <div className="flex-1 ">
                     <h4 className="text-xs font-bold text-gray-900 dark:text-white">
