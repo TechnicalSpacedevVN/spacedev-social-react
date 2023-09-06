@@ -3,11 +3,13 @@ import { useMyFriends } from '@hooks/useMyFriends';
 import { socket } from '@socket';
 import {
   CONVERSATION,
+  CONVERSATION_GROUP,
   USER_LOGIN,
   getGlobalState,
   setGloablState,
   useGlobalState,
 } from '@store/queryClient';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { PATH } from '../constants/path';
 import { Badge } from './Badge';
@@ -15,8 +17,14 @@ import { Card } from './Card';
 import { Avatar } from './atoms/Avatar';
 import { Tab } from './atoms/Tab';
 
+enum TabActive {
+  Private = 'Private',
+  Group = 'Group',
+}
 export const Message = () => {
   const user = useGlobalState(USER_LOGIN);
+  const conversationGroups = useGlobalState(CONVERSATION_GROUP);
+  const [tabActive, setTabActive] = useState<TabActive>(TabActive.Private);
   let {
     data: friends,
     isLoading,
@@ -65,53 +73,98 @@ export const Message = () => {
           <Tab
             className="gap-2 mt-2"
             itemClass="whitespace-nowrap"
-            menus={[{ label: 'Bạn bè' }, { label: 'Nhóm' }]}
+            menus={[
+              {
+                label: 'Bạn bè',
+                onClick: () => setTabActive(TabActive.Private),
+              },
+              { label: 'Nhóm', onClick: () => setTabActive(TabActive.Group) },
+            ]}
           />
         </div>
         <div className="mt-4 flex flex-col gap-4 h-full overflow-auto pt-2">
           <div className="flex flex-col gap-4">
-            {friends?.map((e) => {
-              let userFriend =
-                e.sender._id === user?._id ? e.receiver : e.sender;
+            {tabActive === TabActive.Private &&
+              friends?.map((e) => {
+                let userFriend =
+                  e.sender._id === user?._id ? e.receiver : e.sender;
 
-              return (
+                return (
+                  <div
+                    key={e._id}
+                    className="flex gap-2 items-center cursor-pointer"
+                    onClick={() => {
+                      socket.emit(
+                        ServerEvent.Conversation,
+                        {
+                          users: [user?._id, userFriend._id],
+                        },
+                        (conversation: Conversation) => {
+                          console.log('conversation', conversation);
+                          let conversations =
+                            getGlobalState(CONVERSATION) || [];
+                          setGloablState(CONVERSATION, [
+                            ...conversations,
+                            conversation,
+                          ]);
+                        },
+                      );
+                    }}
+                  >
+                    <Badge>
+                      <Avatar
+                        showStatus
+                        online={userFriend.online}
+                        src={userFriend.avatar}
+                        userId={userFriend._id}
+                      />
+                    </Badge>
+                    <div className="flex-1 ">
+                      <h4 className="text-xs font-bold text-gray-900 dark:text-white">
+                        {userFriend.name}
+                      </h4>
+                      <p className="text-xs text-gray-500">Active 30m ago</p>
+                    </div>
+                  </div>
+                );
+              })}
+
+            {tabActive === TabActive.Group &&
+              conversationGroups.map((conversation) => (
                 <div
-                  key={e._id}
+                  key={conversation._id}
                   className="flex gap-2 items-center cursor-pointer"
                   onClick={() => {
-                    socket.emit(
-                      ServerEvent.Conversation,
-                      {
-                        users: [user?._id, userFriend._id],
-                      },
-                      (conversation: Conversation) => {
-                        console.log('conversation', conversation);
-                        let conversations = getGlobalState(CONVERSATION) || [];
-                        setGloablState(CONVERSATION, [
-                          ...conversations,
-                          conversation,
-                        ]);
-                      },
-                    );
+                    conversation.open = true;
+                    setGloablState(CONVERSATION_GROUP, [...conversationGroups]);
                   }}
+                  // onClick={() => {
+                  //   socket.emit(
+                  //     ServerEvent.Conversation,
+                  //     {
+                  //       users: [user?._id, userFriend._id],
+                  //     },
+                  //     (conversation: Conversation) => {
+                  //       console.log('conversation', conversation);
+                  //       let conversations = getGlobalState(CONVERSATION) || [];
+                  //       setGloablState(CONVERSATION, [
+                  //         ...conversations,
+                  //         conversation,
+                  //       ]);
+                  //     },
+                  //   );
+                  // }}
                 >
                   <Badge>
-                    <Avatar
-                      showStatus
-                      online={userFriend.online}
-                      src={userFriend.avatar}
-                      userId={userFriend._id}
-                    />
+                    <Avatar src={conversation.groupCover} />
                   </Badge>
-                  <div className="flex-1 ">
+                  <div className="flex-1">
                     <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                      {userFriend.name}
+                      {conversation.name}
                     </h4>
-                    <p className="text-xs text-gray-500">Active 30m ago</p>
                   </div>
                 </div>
-              );
-            })}
+              ))}
           </div>
         </div>
       </div>

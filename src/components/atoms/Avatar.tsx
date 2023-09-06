@@ -23,9 +23,9 @@ export const Avatar: Atom<{
       )}
       style={{ width: size, height: size }}
     >
-      <div className={cn('rounded-full overflow-hidden')}>
+      <div className={cn('rounded-full overflow-hidden h-full')}>
         <img
-          className="w-full h-full"
+          className="w-full h-full object-cover"
           src={props.src || `https://unsplash.it/${size}/${size}?t=${id}`}
         />
       </div>

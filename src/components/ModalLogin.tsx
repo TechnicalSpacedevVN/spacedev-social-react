@@ -1,5 +1,4 @@
-import { ServerEvent } from '@constants/event';
-import { socket } from '@socket';
+import { loginSocket } from '@socket';
 import { useMutation } from '@tanstack/react-query';
 import { message } from 'antd';
 import { FC, useState } from 'react';
@@ -204,7 +203,7 @@ const ModalLoginNormal: FC<ModalLoginModalProps> = (props) => {
       tokenStorage.set(data);
       const user = await userService.getUser();
       setGloablState(USER_LOGIN, user);
-      socket.emit(ServerEvent.Login, user._id);
+      loginSocket(user);
       userStorage.set(user);
       props?.onSuccess?.();
     },

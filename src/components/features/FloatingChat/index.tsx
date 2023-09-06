@@ -10,12 +10,13 @@ import { ClientEvent, ServerEvent } from '@constants/event';
 import { socket } from '@socket';
 import {
   CONVERSATION,
+  CONVERSATION_GROUP,
   USER_LOGIN,
   getGlobalState,
   setGloablState,
   useGlobalState,
 } from '@store/queryClient';
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useMemo, useRef, useState } from 'react';
 import { cn } from '../../../utils';
 import { Icon } from '../../Icon/Icon';
 import { IconClose } from '../../Icon/IconClose';
@@ -41,19 +42,47 @@ let receiverMessageEvent = (message: Message) => {
 
 export const FloatingChat = () => {
   const conversations = useGlobalState(CONVERSATION);
-  console.log('FloatingChat');
-  useEffect(() => {
-    socket.on(ClientEvent.ReceiverMessage, receiverMessageEvent);
+  const conversationGroup = useGlobalState(CONVERSATION_GROUP);
+  const user = useGlobalState(USER_LOGIN);
 
-    return () => {
-      socket.off(ClientEvent.ReceiverMessage, receiverMessageEvent);
-    };
-  }, []);
+  const conversationGroupOpen = useMemo(
+    () => conversationGroup.filter((e) => e.open),
+    [conversationGroup],
+  );
+
+  // console.log('FloatingChat');
+  // useEffect(() => {
+  //   socket.on(ClientEvent.ReceiverMessage, receiverMessageEvent);
+
+  //   return () => {
+  //     socket.off(ClientEvent.ReceiverMessage, receiverMessageEvent);
+  //   };
+  // }, []);
 
   return (
     <div className="fixed bottom-0 right-3 flex gap-3 items-end">
-      {conversations?.map((e) => (
-        <ChatScreen key={e._id} conversation={e} />
+      {conversations?.map((conversation) => {
+        let anotherUser = conversation.users.find(
+          (e) => e._id !== user?._id,
+        ) as User;
+
+        return (
+          <ChatScreen
+            key={conversation._id}
+            conversation={conversation}
+            cover={anotherUser.avatar as string}
+            name={anotherUser.name}
+            userId={anotherUser._id}
+          />
+        );
+      })}
+      {conversationGroupOpen.map((e) => (
+        <ChatScreen
+          key={e._id}
+          conversation={e}
+          cover={e.groupCover as string}
+          name={e.name as string}
+        />
       ))}
       {/* <ChatScreen />
       <ChatScreen /> */}
@@ -71,17 +100,50 @@ const myMessageClass =
 
 interface ChatScreenProps {
   conversation: Conversation;
+  name: string;
+  cover: string;
+  userId?: string;
 }
 
-export const ChatScreen: FC<ChatScreenProps> = ({ conversation }) => {
+export const ChatScreen: FC<ChatScreenProps> = ({ conversation, ...props }) => {
   const chatScreenRef = useRef<HTMLDivElement>(null);
   const user = useGlobalState(USER_LOGIN);
   const [value, setValue] = useState('');
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isHide, setIsHide] = useState(false);
   const [openMember, setOpenMember] = useState(false);
-  // const [messages, setMessages] = useState(conversation.messages);
-  let { messages } = conversation;
+  // let { messages } = conversation;
+  let [messages, setMessage] = useState<Message[]>([]);
+
+  useEffect(() => {
+    socket.emit(
+      ServerEvent.GetMessages,
+      conversation._id,
+      (_messages: Message[]) => {
+        setMessage(_messages);
+      },
+    );
+
+    socket.emit(ServerEvent.JoinRoom, conversation._id);
+
+    return () => {
+      socket.emit(ServerEvent.LeaveRoom, conversation._id);
+    };
+  }, []);
+
+  useEffect(() => {
+    let receiverMessageEvent = (message: Message) => {
+      setMessage([...messages, message]);
+    };
+
+    let eventName = `${ClientEvent.ReceiverMessage}-${conversation._id}`;
+
+    socket.on(eventName, receiverMessageEvent);
+
+    return () => {
+      socket.off(eventName, receiverMessageEvent);
+    };
+  }, [messages]);
 
   // useEffect(() => {
   //   setMessages(conversation.messages);
@@ -90,8 +152,6 @@ export const ChatScreen: FC<ChatScreenProps> = ({ conversation }) => {
   useEffect(() => {
     chatScreenRef.current?.scrollTo({ top: 99999999, behavior: 'smooth' });
   }, [messages]);
-
-  let anotherUser = conversation.users.find((e) => e._id !== user?._id);
 
   return (
     <>
@@ -110,13 +170,9 @@ export const ChatScreen: FC<ChatScreenProps> = ({ conversation }) => {
           className="[&_.actions]:hover:opacity-100 flex gap-3 items-center p-2 border-b border-solid border-gray-300 dark:border-slate-700"
         >
           <Badge>
-            <Avatar
-              showStatus
-              userId={anotherUser?._id}
-              src={anotherUser?.avatar}
-            />
+            <Avatar showStatus userId={props?.userId} src={props.cover} />
           </Badge>
-          <h3 className="flex-1 font-bold text-sm">{anotherUser?.name}</h3>
+          <h3 className="flex-1 font-bold text-sm">{props?.name}</h3>
           <div className="flex gap-0.5 items-center">
             <Dropdown
               placement="bottomRight"
@@ -275,9 +331,8 @@ export const ChatScreen: FC<ChatScreenProps> = ({ conversation }) => {
               size="small"
               onClick={() => {
                 socket.emit(
-                  ServerEvent.SendToUser,
+                  ServerEvent.SendToConversation,
                   {
-                    userId: anotherUser?._id,
                     content: value,
                     conversation: conversation._id,
                   },

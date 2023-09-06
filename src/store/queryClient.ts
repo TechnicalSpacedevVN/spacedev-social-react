@@ -1,5 +1,4 @@
-import { ServerEvent } from '@constants/event';
-import { socket } from '@socket';
+import { loginSocket } from '@socket';
 import { QueryClient, useQuery } from '@tanstack/react-query';
 import { userStorage } from '../utils/createStorage';
 
@@ -7,12 +6,14 @@ export const POPUP_LOGIN = 'POPUP_LOGIN';
 export const USER_LOGIN = 'USER_LOGIN';
 export const CONVERSATION = 'CONVERSATION';
 export const USERS = 'USERS';
+export const CONVERSATION_GROUP = 'CONVERSATION_GROUP';
 
 export interface GlobalState {
   [POPUP_LOGIN]: boolean;
   [USER_LOGIN]?: User;
   [CONVERSATION]: Conversation[];
   [USERS]: User[];
+  [CONVERSATION_GROUP]: (Conversation & { open?: boolean })[];
 }
 
 export const queryClient = new QueryClient({
@@ -68,9 +69,10 @@ setGloablState(POPUP_LOGIN, false);
 setGloablState(USER_LOGIN, user);
 setGloablState(CONVERSATION, []);
 setGloablState(USERS, []);
+setGloablState(CONVERSATION_GROUP, []);
 
 if (user) {
   setTimeout(() => {
-    socket.emit(ServerEvent.Login, user._id);
+    loginSocket(user);
   }, 1000);
 }
