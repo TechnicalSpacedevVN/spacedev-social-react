@@ -1,6 +1,6 @@
-import { Avatar } from './atoms/Avatar';
-import { BorderGradient } from './atoms/BorderGradient';
-import { HorizontalScroll } from './atoms/HorizontalScroll';
+import { Avatar } from "./atoms/Avatar";
+import { BorderGradient } from "./atoms/BorderGradient";
+import { HorizontalScroll } from "./atoms/HorizontalScroll";
 
 export const Story = () => {
   return (
@@ -12,13 +12,13 @@ export const Story = () => {
       <div className="p-1">
         <div className="flex flex-col items-center relative cursor-pointer snap-always snap-center gap-1 overflow-hidden w-full h-full">
           <BorderGradient
-            size={3}
+            size={2}
             className="relative rounded-lg overflow-hidden w-full h-full"
           >
             <div className="rounded-lg overflow-hiddens w-full h-full">
               <img
                 className="object-cover w-full h-full rounded-lg"
-                src={'https://unsplash.it/400/400'}
+                src={"https://unsplash.it/400/400"}
               />
             </div>
             <div className="flex flex-col gap-3 items-center justify-end  text-md p-4 bottom-[3px] left-[3px] right-[3px] rounded-lg  font-semibold whitespace-nowrap text-white absolute bg-gradient-to-t from-[#000000]  h-[100px] to-[#00000000]">

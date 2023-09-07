@@ -1,25 +1,26 @@
-import { IconSpin } from '@components/Icon/IconSpin';
-import { Badge } from '@components/atoms/Badge';
-import { Dropdown } from '@components/atoms/Dropdown';
-import { Menu } from '@components/atoms/Menu';
-import { Modal, ModalProps } from '@components/atoms/Modal';
-import { Tab } from '@components/atoms/Tab';
-import { Tooltip } from '@components/atoms/Tooltip';
-import { UserItem } from '@components/atoms/UserItem';
-import { FC, useState } from 'react';
-import { cn } from '../../../utils';
-import { Icon } from '../../Icon/Icon';
-import { IconClose } from '../../Icon/IconClose';
-import { ButtoniconEmotion } from '../../Icon/IconEmotion';
-import { ButtoniconGIF } from '../../Icon/IconGIF';
-import { IconMaximize } from '../../Icon/IconMaximize';
-import { IconMinimize } from '../../Icon/IconMinimize';
-import { IconMinus } from '../../Icon/IconMinus';
-import { IconPlus } from '../../Icon/IconPlus';
-import { ButtonIconThreeDotAction } from '../../Icon/IconThreeDotAction';
-import { ButtonIconUploadImage } from '../../Icon/IconUploadImage';
-import { Avatar } from '../../atoms/Avatar';
-import { Button } from '../../atoms/Button';
+import { IconSpin } from "@components/Icon/IconSpin";
+import { Badge } from "@components/atoms/Badge";
+import { Dropdown } from "@components/atoms/Dropdown";
+import { Menu } from "@components/atoms/Menu";
+import { Modal, ModalProps } from "@components/atoms/Modal";
+import { Tab } from "@components/atoms/Tab";
+import { Tooltip } from "@components/atoms/Tooltip";
+import { UserItem } from "@components/atoms/UserItem";
+import { FC, useEffect, useRef, useState } from "react";
+import { cn } from "../../../utils";
+import { Icon } from "../../Icon/Icon";
+import { IconClose } from "../../Icon/IconClose";
+import { ButtoniconEmotion } from "../../Icon/IconEmotion";
+import { ButtoniconGIF } from "../../Icon/IconGIF";
+import { IconMaximize } from "../../Icon/IconMaximize";
+import { IconMinimize } from "../../Icon/IconMinimize";
+import { IconMinus } from "../../Icon/IconMinus";
+import { IconPlus } from "../../Icon/IconPlus";
+import { ButtonIconThreeDotAction } from "../../Icon/IconThreeDotAction";
+import { ButtonIconUploadImage } from "../../Icon/IconUploadImage";
+import { Avatar } from "../../atoms/Avatar";
+import { Button } from "../../atoms/Button";
+import { handleSelectEnd } from "@utils/handleSelectEnd";
 
 export const FloatingChat = () => {
   return (
@@ -30,30 +31,46 @@ export const FloatingChat = () => {
   );
 };
 
-const fullScreenClass = 'h-[600px] w-[550px]';
+const fullScreenClass = "h-[600px] w-[550px]";
 const isHideClass =
-  'h-[49px] w-[200px] [&_.main]:hidden [&_.footer]:hidden cursor-pointer';
+  "h-[49px] w-[200px] [&_.main]:hidden [&_.footer]:hidden cursor-pointer";
 const anotherMessageclass =
-  '[&_.message]:bg-gray-700 [&_.message]:rounded-l [&_.message]:rounded-r-2xl [&_.wrap]:items-start';
+  "[&_.message]:bg-gray-700 [&_.message]:rounded-l [&_.message]:rounded-r-2xl [&_.wrap]:items-start";
 const myMessageClass =
-  'flex-row-reverse text-right [&_.message]:bg-blue-700 [&_.avatar]:hidden [&_.message]:rounded-r [&_.message]:rounded-l-2xl [&_.wrap]:items-end';
+  "flex-row-reverse text-right [&_.message]:bg-blue-700 [&_.avatar]:hidden [&_.message]:rounded-r [&_.message]:rounded-l-2xl [&_.wrap]:items-end";
 
 export const ChatScreen: FC = () => {
-  const [value, setValue] = useState('');
+  const chatScreenRef = useRef<HTMLDivElement>(null);
+  const [value, setValue] = useState("");
+  const inputRef = useRef<HTMLParagraphElement>(null);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isHide, setIsHide] = useState(false);
   const [openMember, setOpenMember] = useState(false);
+
+  useEffect(() => {
+    chatScreenRef.current?.scrollTo({
+      top: chatScreenRef.current.scrollHeight,
+      behavior: "smooth",
+    });
+  }, []);
+
+  const onSendMessage = () => {
+    if (inputRef.current) {
+      inputRef.current.innerHTML = "";
+    }
+    setValue("");
+  };
 
   return (
     <>
       <ModalGroupChat open={openMember} onCancel={() => setOpenMember(false)} />
       <div
         className={cn(
-          'transition-all duration-200 rounded-b-none shadow-[0_4px_5px_rgba(0,0,0,.5)] flex flex-col border border-solid border-b-0 border-gray-300 bg-white dark:bg-slate-900 dark:border-slate-700 text-gray-900 dark:text-white h-[400px] w-[350px] rounded-lg overflow-hidden',
+          "transition-all duration-200 rounded-b-none shadow-[0_4px_5px_rgba(0,0,0,.5)] flex flex-col border border-solid border-b-0 border-gray-300 bg-white dark:bg-slate-900 dark:border-slate-700 text-gray-900 dark:text-white h-[400px] w-[350px] rounded-lg overflow-hidden",
           {
             [fullScreenClass]: isFullScreen,
             [isHideClass]: isHide,
-          },
+          }
         )}
       >
         <div
@@ -71,32 +88,32 @@ export const ChatScreen: FC = () => {
                 <Menu
                   menus={[
                     {
-                      label: 'Mở trong màn hình lớn',
+                      label: "Mở trong màn hình lớn",
                     },
                     {
-                      label: 'Xem trang cá nhân',
+                      label: "Xem trang cá nhân",
                     },
                     {
-                      label: 'Thay đổi chủ đề',
+                      label: "Thay đổi chủ đề",
                     },
                     {
                       line: true,
                     },
                     {
-                      label: 'Nickname',
+                      label: "Nickname",
                     },
                     {
-                      label: 'Mã hóa tin nhắn',
+                      label: "Mã hóa tin nhắn",
                     },
                     {
-                      label: 'Thành viên nhóm',
+                      label: "Thành viên nhóm",
                       onClick: () => setOpenMember(true),
                     },
                     {
-                      label: 'Rời khỏi nhóm',
+                      label: "Rời khỏi nhóm",
                     },
                     {
-                      label: 'Cài đặt',
+                      label: "Cài đặt",
                     },
                   ]}
                 />
@@ -121,7 +138,10 @@ export const ChatScreen: FC = () => {
             <IconClose size={17} transparent />
           </div>
         </div>
-        <div className="flex flex-col py-2 gap-2 flex-1 main overflow-auto">
+        <div
+          ref={chatScreenRef}
+          className="flex flex-col py-2 gap-2 flex-1 main overflow-auto"
+        >
           <div className="flex flex-col text-center gap-2 items-center px-2">
             <Avatar size={50} />
             <div className="">
@@ -140,7 +160,7 @@ export const ChatScreen: FC = () => {
             <IconSpin />
           </div>
           <div
-            className={cn('px-2 flex gap-2', {
+            className={cn("px-2 flex gap-2", {
               [myMessageClass]: false,
               [anotherMessageclass]: true,
             })}
@@ -161,7 +181,7 @@ export const ChatScreen: FC = () => {
             </div>
           </div>
           <div
-            className={cn('px-2 flex gap-2', {
+            className={cn("px-2 flex gap-2", {
               [myMessageClass]: true,
               [anotherMessageclass]: false,
             })}
@@ -177,7 +197,7 @@ export const ChatScreen: FC = () => {
             </div>
           </div>
           <div
-            className={cn('px-2 flex gap-2', {
+            className={cn("px-2 flex gap-2", {
               [myMessageClass]: true,
               [anotherMessageclass]: false,
             })}
@@ -198,11 +218,24 @@ export const ChatScreen: FC = () => {
             <p
               onInput={(ev) => {
                 if (!ev.currentTarget.innerText.trim()) {
-                  ev.currentTarget.innerHTML = '';
+                  ev.currentTarget.innerHTML = "";
                 }
                 setValue(ev.currentTarget.innerHTML);
               }}
+              onKeyDown={(ev) => {
+                if (!ev.shiftKey && ev.key === "Enter") {
+                  ev.preventDefault();
+                  onSendMessage();
+                }
+                if (ev.shiftKey && ev.key === "Enter") {
+                  ev.preventDefault();
+                  ev.currentTarget.innerHTML += "<div><br></div>";
+                  handleSelectEnd(ev.currentTarget);
+                }
+              }}
+              ref={inputRef}
               contentEditable
+              suppressContentEditableWarning={true}
               placeholder="Viết tin nhắn..."
               className=" py-1 min-h-[30px] outline-none after:text-gray-500 dark:after:text-slate-400 after:empty:content-[attr(placeholder)] after:absolute after:-translate-y-1/2 after:top-1/2 relative"
             ></p>
@@ -216,10 +249,14 @@ export const ChatScreen: FC = () => {
           </div>
           <div className="ml-auto flex items-center">
             <Button
-              type={value ? 'primary' : 'default'}
+              type={value ? "primary" : "default"}
               disabled={!value}
               className="rounded-full px-5"
               size="small"
+              onClick={() => {
+                onSendMessage();
+                handleSelectEnd(inputRef.current as Node);
+              }}
             >
               Gửi
             </Button>
@@ -229,10 +266,10 @@ export const ChatScreen: FC = () => {
                 <Menu
                   menus={[
                     {
-                      label: 'Nhấn Enter để gửi tin nhắn',
+                      label: "Nhấn Enter để gửi tin nhắn",
                     },
                     {
-                      label: 'Nhấn nút để gửi tin nhắn',
+                      label: "Nhấn nút để gửi tin nhắn",
                     },
                   ]}
                 />
@@ -255,7 +292,7 @@ const ModalGroupChat: Atom<ModalGroupChatProps> = ({ ...props }) => {
       <Tab
         className="pt-3 justify-around border-b dark:border-slate-700"
         itemClass="pb-3"
-        menus={[{ label: 'Thành viên' }, { label: 'Ban quản trị' }]}
+        menus={[{ label: "Thành viên" }, { label: "Ban quản trị" }]}
       />
       <div className="flex flex-col gap-4 px-4 py-5 max-h-[400px] overflow-auto">
         {Array.from(new Array(10)).map((_, i) => (
@@ -269,13 +306,13 @@ const ModalGroupChat: Atom<ModalGroupChatProps> = ({ ...props }) => {
                     <Menu
                       menus={[
                         {
-                          label: 'Xem trang cá nhân',
+                          label: "Xem trang cá nhân",
                         },
                         {
-                          label: 'Nhắn tin',
+                          label: "Nhắn tin",
                         },
                         {
-                          label: 'Mời khỏi nhóm',
+                          label: "Mời khỏi nhóm",
                         },
                       ]}
                     />
