@@ -252,7 +252,7 @@ const ModalCreate: FC<ModalProps> = (props) => {
             </div>
           </div> */}
         </div>
-        <div className="flex gap-2 px-2 items-center mt-2">
+        <div className="flex gap-2 px-2 items-center mt-2 mb-2">
           <p className="text-sm">Thêm nội dung cho bài viết?</p>
           <ButtonIconImage />
         </div>

@@ -27,7 +27,8 @@ export interface DropdownProps {
   getPopupContainer?: (parentNode: HTMLDivElement) => HTMLElement;
   popupClassName?: string;
   allowToggle?: boolean;
-  preventClose?: boolean;
+  onClose?: () => void;
+  // preventClose?: boolean;
 }
 
 const Arrow = () => {
@@ -105,6 +106,10 @@ export const Dropdown: FC<DropdownProps> = ({
     }
   }, [open, placement]);
 
+  useEffect(() => {
+    if (!open) props.onClose?.();
+  }, [open]);
+
   return (
     <>
       <div
@@ -140,7 +145,7 @@ export const Dropdown: FC<DropdownProps> = ({
             ></div>
             <div
               onClick={() => {
-                if (!props.preventClose) setOpen(false);
+                // if (!props.preventClose) setOpen(false);
               }}
               ref={contentRef}
               // onClick={(ev) => ev.stopPropagation()}

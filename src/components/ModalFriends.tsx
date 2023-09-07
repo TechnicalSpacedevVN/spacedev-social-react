@@ -20,7 +20,7 @@ export const ModalFriends: FC<{ open?: boolean; onCancel?: () => void }> = (
       <Tab
         className="border-b dark:border-slate-700 w-full"
         itemClass="pb-4 pt-4"
-        menus={[{ label: 'Bạn bè' }, { label: 'Đang theo dõi' }]}
+        items={[{ label: 'Bạn bè' }, { label: 'Đang theo dõi' }]}
       />
       <div className="px-3 flex flex-col gap-3 py-3 max-h-[400px] overflow-auto">
         {Array.from(new Array(10)).map((_, i) => (

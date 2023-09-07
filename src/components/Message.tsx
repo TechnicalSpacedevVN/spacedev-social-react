@@ -34,7 +34,7 @@ export const Message = () => {
       className="h-[calc(100vh-130px)] flex flex-col"
     >
       <div className="flex flex-col flex-1 h-1">
-        <div className="dark:bg-slate-800 flex mt-4 bg-gray-100 rounded-full items-center gap-2 px-2 text-gray-600 h-7">
+        <div className="dark:bg-slate-800 flex mt-4 bg-gray-100 rounded-full items-center gap-2 px-2 text-gray-600 min-h-7 h-7">
           <span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -59,40 +59,55 @@ export const Message = () => {
             className="text-xs flex-1 placeholder:text-xs outline-none bg-transparent"
           />
         </div>
-        <div className="flex justify-between items-baseline">
+        <div className="flex-1 flex flex-col h-1">
           <Tab
-            className="mt-3 gap-3"
+            className="mt-3 gap-3 [&>a:last-child]:ml-auto"
             itemClass="whitespace-nowrap"
-            menus={[{ label: 'Cá nhân' }, { label: 'Nhóm' }]}
+            items={[
+              {
+                label: 'Cá nhân',
+                children: (
+                  <div className="mt-4 flex flex-col gap-4 overflow-auto pt-2 flex-1 h-1">
+                    <div className="flex flex-col gap-4">
+                      {Array.from(new Array(10)).map((_, i) => (
+                        <div key={i} className="flex gap-2 items-center">
+                          <Badge count={9}>
+                            <Avatar showStatus online />
+                          </Badge>
+                          <div className="flex-1 ">
+                            <h4 className="text-xs font-bold text-gray-900 dark:text-white">
+                              Lola Hines
+                            </h4>
+                            <p className="text-xs text-gray-500">
+                              Active 30m ago
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                      <div className="flex justify-center my-3">
+                        <IconSpin />
+                      </div>
+                    </div>
+                  </div>
+                ),
+              },
+              { label: 'Nhóm', children: 'Nhóm' },
+              {
+                label: (
+                  <div className="ml-auto">
+                    <a
+                      href="#"
+                      className="dark:text-purple-400 text-purple-800 text-xs font-semibold"
+                    >
+                      Request (2)
+                    </a>
+                  </div>
+                ),
+                children: 'Request',
+              },
+            ]}
           />
-          <div>
-            <a
-              href="#"
-              className="dark:text-purple-400 text-purple-800 text-xs font-semibold"
-            >
-              Request (2)
-            </a>
-          </div>
-        </div>
-        <div className="mt-4 flex flex-col gap-4 h-full overflow-auto pt-2">
-          <div className="flex flex-col gap-4">
-            {Array.from(new Array(10)).map((_, i) => (
-              <div key={i} className="flex gap-2 items-center">
-                <Badge count={9}>
-                  <Avatar showStatus online />
-                </Badge>
-                <div className="flex-1 ">
-                  <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                    Lola Hines
-                  </h4>
-                  <p className="text-xs text-gray-500">Active 30m ago</p>
-                </div>
-              </div>
-            ))}
-            <div className="flex justify-center my-3">
-              <IconSpin />
-            </div>
-          </div>
+          {/* <div className="flex justify-between items-baseline"></div> */}
         </div>
       </div>
     </Card>

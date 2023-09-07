@@ -1,7 +1,7 @@
-import { FC, useEffect, useRef } from "react";
-import { createPortal } from "react-dom";
-import { IconClose } from "../Icon/IconClose";
-import { cn } from "../../utils";
+import { FC, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
+import { cn } from '../../utils';
+import { IconClose } from '../Icon/IconClose';
 
 export interface ModalProps {
   open?: boolean;
@@ -10,20 +10,21 @@ export interface ModalProps {
   title?: any;
   overlayCloseable?: boolean;
   width?: number;
+  height?: number;
   hideIconClose?: boolean;
   className?: string;
 }
 
-export const Modal: FC<ModalProps> = ({ width, ...props }) => {
+export const Modal: FC<ModalProps> = ({ width, height, ...props }) => {
   const checkClickInsideRef = useRef(false);
   useEffect(() => {
     if (props.open) {
-      document.body.classList.add("overflow-hidden");
+      document.body.classList.add('overflow-hidden');
     } else {
-      document.body.classList.remove("overflow-hidden");
+      document.body.classList.remove('overflow-hidden');
     }
     return () => {
-      document.body.classList.remove("overflow-hidden");
+      document.body.classList.remove('overflow-hidden');
     };
   }, [props.open]);
 
@@ -38,20 +39,20 @@ export const Modal: FC<ModalProps> = ({ width, ...props }) => {
         checkClickInsideRef.current = false;
       }}
       className={
-        "px-3 z-20 flex items-center justify-center bg-black !bg-opacity-60 fixed top-0 left-0 w-full h-full"
+        'px-3 z-20 flex items-center justify-center bg-black !bg-opacity-60 fixed top-0 left-0 w-full h-full'
       }
     >
       <div
         className={cn(
-          "bg-white rounded-lg text-gray-900 dark:bg-slate-900 dark:text-white overflow-hidden",
-          props.className
+          'bg-white rounded-lg text-gray-900 dark:bg-slate-900 dark:text-white overflow-hidden',
+          props.className,
         )}
         onClick={(ev) => {
           ev.stopPropagation();
           checkClickInsideRef.current = false;
         }}
         onMouseDown={() => (checkClickInsideRef.current = true)}
-        style={{ width }}
+        style={{ width, height }}
       >
         <div className="relative">
           {props.title && (
@@ -72,6 +73,6 @@ export const Modal: FC<ModalProps> = ({ width, ...props }) => {
         {props.children}
       </div>
     </div>,
-    document.body
+    document.body,
   );
 };

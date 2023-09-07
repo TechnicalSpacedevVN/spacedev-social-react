@@ -7,6 +7,8 @@ import { useMode } from './DarkModeProvider';
 import { GeneralInfo } from './GeneralInfo';
 import { Icon } from './Icon/Icon';
 import { ButtonIconApplication } from './Icon/IconApplication';
+import { ButtonIconChevronLeft } from './Icon/IconChevronLeft';
+import { IconChevronRight } from './Icon/IconChevronRight';
 import { IconClose } from './Icon/IconClose';
 import { IconFeedback } from './Icon/IconFeedback';
 import { IconLogout } from './Icon/IconLogout';
@@ -20,12 +22,15 @@ import { Button } from './atoms/Button';
 import { Card } from './atoms/Card';
 import { Dropdown } from './atoms/Dropdown';
 import { Menu } from './atoms/Menu';
+import { Step } from './atoms/Step';
 import { Switch } from './atoms/Switch';
 
 export const Header = () => {
   const { mode, toggleMode } = useMode();
   const [openLogin, setOpenLogin] = useState(false);
   const { user, logout } = useAuth();
+  const [stepActive, setTabActive] = useState(0);
+
   return (
     <>
       <ModalLogin
@@ -135,7 +140,6 @@ export const Header = () => {
                 <div className="flex items-center">
                   <Dropdown
                     getPopupContainer={(parentNode) => parentNode}
-                    preventClose
                     content={
                       <div className="w-[400px]  max-h-[calc(100vh-100px)] overflow-auto">
                         <Card
@@ -233,81 +237,151 @@ export const Header = () => {
                 </div>
                 <Dropdown
                   getPopupContainer={(parentNode) => parentNode}
-                  preventClose
                   placement="bottomRight"
+                  onClose={() => setTabActive(0)}
                   content={
-                    <div className="w-[300px]">
-                      <Link
-                        to={PATH.Profile}
-                        className="py-2 px-3 border-gray-300 rounded border-b border-solid text-gray-900 dark:text-white dark:border-slate-700 pb-3 hover:bg-black hover:bg-opacity-20 flex items-center gap-3"
-                      >
-                        <Avatar />
-                        <h3 className="text-lg font-semibold">
-                          Đặng Thuyền Vương
-                        </h3>
-                      </Link>
-                      <div className="mt-3">
-                        <a
-                          onClick={(ev) => {
-                            ev.preventDefault();
-                            toggleMode();
-                          }}
-                          href="#"
-                          className="px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
+                    <Step active={stepActive}>
+                      <div className="w-[300px]">
+                        <Link
+                          to={PATH.Profile}
+                          className="py-2 px-3 border-gray-300 rounded border-b border-solid text-gray-900 dark:text-white dark:border-slate-700 pb-3 hover:bg-black hover:bg-opacity-20 flex items-center gap-3"
                         >
-                          <Icon className="dark:bg-slate-700">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="icon icon-tabler icon-tabler-moon"
-                              width={17}
-                              height={17}
-                              viewBox="0 0 24 24"
-                              strokeWidth={2}
-                              stroke="currentColor"
-                              fill="none"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            >
-                              <path
-                                stroke="none"
-                                d="M0 0h24v24H0z"
+                          <Avatar />
+                          <h3 className="text-lg font-semibold">
+                            Đặng Thuyền Vương
+                          </h3>
+                        </Link>
+                        <div className="mt-3">
+                          <a
+                            onClick={(ev) => {
+                              ev.preventDefault();
+                              toggleMode();
+                            }}
+                            href="#"
+                            className="px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
+                          >
+                            <Icon className="dark:bg-slate-700">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="icon icon-tabler icon-tabler-moon"
+                                width={17}
+                                height={17}
+                                viewBox="0 0 24 24"
+                                strokeWidth={2}
+                                stroke="currentColor"
                                 fill="none"
-                              />
-                              <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
-                            </svg>
-                          </Icon>
-                          <p className="flex-1">Dark mode</p>
-                          <Switch checked={mode === 'dark'} />
-                        </a>
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              >
+                                <path
+                                  stroke="none"
+                                  d="M0 0h24v24H0z"
+                                  fill="none"
+                                />
+                                <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+                              </svg>
+                            </Icon>
+                            <p className="flex-1">Dark mode</p>
+                            <Switch checked={mode === 'dark'} />
+                          </a>
 
-                        <a
-                          href=""
-                          className=" px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
-                        >
-                          <IconFeedback />
-                          <p>Để lại góp ý</p>
-                        </a>
-                        <a
-                          href=""
-                          className=" px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
-                        >
-                          <ButtonIconSetting />
-                          <p>Cài đặt</p>
-                        </a>
-                        <a
-                          href=""
-                          className="px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
-                          onClick={(ev) => {
-                            ev.preventDefault();
-                            logout();
-                          }}
-                        >
-                          <IconLogout />
-                          <p>Đăng xuất</p>
-                        </a>
-                        <GeneralInfo />
+                          <div
+                            className="cursor-pointer px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
+                            onClick={() => setTabActive(2)}
+                          >
+                            <IconFeedback />
+                            <p className="flex-1">Để lại góp ý</p>
+                            <IconChevronRight />
+                          </div>
+                          <a
+                            href=""
+                            className=" px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
+                            onClick={(ev) => {
+                              ev.preventDefault();
+                              setTabActive(1);
+                            }}
+                          >
+                            <ButtonIconSetting />
+                            <p className="flex-1">Cài đặt</p>
+                            <IconChevronRight />
+                          </a>
+                          <a
+                            href=""
+                            className="px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
+                            onClick={(ev) => {
+                              ev.preventDefault();
+                              logout();
+                            }}
+                          >
+                            <IconLogout />
+                            <p>Đăng xuất</p>
+                          </a>
+                          <GeneralInfo />
+                        </div>
                       </div>
-                    </div>
+                      <div className="w-[300px]">
+                        <h3 className="pt-2 dark:text-white text-lg font-bold flex gap-2 items-center">
+                          <ButtonIconChevronLeft
+                            onClick={() => setTabActive(0)}
+                          />
+                          Cài đặt
+                        </h3>
+                        <div className="mt-3">
+                          <a
+                            href="#"
+                            className="h-12 px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
+                          >
+                            Ngôn ngữ
+                          </a>
+                          <a
+                            href="#"
+                            className="h-12 px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
+                          >
+                            Tùy chọn Bảng feed
+                          </a>
+                          <a
+                            href="#"
+                            className="h-12 px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
+                          >
+                            Kiểm tra quyền riêng tư
+                          </a>
+                          <a
+                            href="#"
+                            className="h-12 px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
+                          >
+                            Nhật ký hoạt động
+                          </a>
+                        </div>
+                      </div>
+                      <div className="w-[300px]">
+                        <h3 className="pt-2 dark:text-white text-lg font-bold flex gap-2 items-center">
+                          <ButtonIconChevronLeft
+                            onClick={() => setTabActive(0)}
+                          />
+                          Trợ giúp & hỗ trợ
+                        </h3>
+                        <div className="mt-3">
+                          <a
+                            href="#"
+                            className="h-12 px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
+                          >
+                            Trung tâm trợ giúp
+                          </a>
+                          <a
+                            href="#"
+                            className="h-12 px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
+                          >
+                            Hộp thư hỗ trợ
+                          </a>
+                          <a
+                            href="#"
+                            className="h-12 px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
+                          >
+                            Báo cáo sự cố
+                          </a>
+                        </div>
+                      </div>
+                    </Step>
                   }
                 >
                   <div className="relative flex items-center">
