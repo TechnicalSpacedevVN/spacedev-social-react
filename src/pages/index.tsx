@@ -1,19 +1,40 @@
-import { IconSpin } from '@components/Icon/IconSpin';
-import { Tag } from '@components/atoms/Tag';
-import { Activity } from '../components/Activity';
-import { useAuth } from '../components/AuthProvider';
-import { GeneralInfo } from '../components/GeneralInfo';
-import { Message } from '../components/Message';
-import { NewPost } from '../components/NewPost';
-import { Post } from '../components/Post';
-import { Story } from '../components/Story';
-import { SuggestedForYou } from '../components/SuggestedForYou';
-import { Button } from '../components/atoms/Button';
-import { Card } from '../components/atoms/Card';
-import { LOGIN_MODAL, setGlobalState } from '../store/queryClient';
+import { IconSpin } from "@components/Icon/IconSpin";
+import { Tag } from "@components/atoms/Tag";
+import { Activity } from "../components/Activity";
+import { useAuth } from "../components/AuthProvider";
+import { GeneralInfo } from "../components/GeneralInfo";
+import { Message } from "../components/Message";
+import { NewPost } from "../components/NewPost";
+import { Post } from "../components/Post";
+import { Story } from "../components/Story";
+import { SuggestedForYou } from "../components/SuggestedForYou";
+import { Button } from "../components/atoms/Button";
+import { Card } from "../components/atoms/Card";
+import { LOGIN_MODAL, setGlobalState } from "../store/queryClient";
+import { InfinityLoading } from "@components/atoms/InfinityLoading";
+import { useEffect, useState } from "react";
 
 export const Home = () => {
   const { user } = useAuth();
+  const [posts, setPosts] = useState(() => Array.from(new Array(3)));
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    let event = () => {
+      let offset =
+        document.body.scrollHeight - window.scrollY - window.innerHeight;
+      if (offset < 200) {
+        setLoading(true);
+        setTimeout(() => {
+          setPosts([...posts, ...Array.from(new Array(10))]);
+        }, 300);
+      }
+    };
+    window.addEventListener("scroll", event);
+    return () => {
+      window.removeEventListener("scroll", event);
+    };
+  }, [posts]);
+
   return (
     <div className="px-4 flex w-full gap-4 mt-4">
       <div className="w-sidebar flex gap-4 flex-col sticky bottom-6 self-end">
@@ -72,12 +93,15 @@ export const Home = () => {
             </>
           )}
 
-          <Post />
-          <Post />
-          <Post />
-          <div className="flex justify-center my-3">
-            <IconSpin />
-          </div>
+          <InfinityLoading
+            loading={loading}
+            haveNext
+            className="flex flex-col gap-4"
+          >
+            {posts.map((e, i) => (
+              <Post key={i} />
+            ))}
+          </InfinityLoading>
         </div>
       </div>
       <div className="w-sidebar flex gap-4 flex-col sticky self-end bottom-16">

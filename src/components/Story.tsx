@@ -21,7 +21,7 @@ export const Story = () => {
                 src={"https://unsplash.it/400/400"}
               />
             </div>
-            <div className="flex flex-col gap-3 items-center justify-end  text-md p-4 bottom-[3px] left-[3px] right-[3px] rounded-lg  font-semibold whitespace-nowrap text-white absolute bg-gradient-to-t from-[#000000]  h-[100px] to-[#00000000]">
+            <div className="flex flex-col gap-3 items-center justify-end  text-md p-4 bottom-[2px] left-[2px] right-[2px] rounded-lg  font-semibold whitespace-nowrap text-white absolute bg-gradient-to-t from-[#000000]  h-[100px] to-[#00000000]">
               <div className="w-7 h-7 flex items-center justify-center text-white bg-primary-500 hover:bg-primary-600 rounded-full shadow-[0_0_0_2px_white]">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

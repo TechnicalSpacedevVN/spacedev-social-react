@@ -1,25 +1,27 @@
-import { handleSelectEnd, scollToElement } from '@utils';
-import { FC, useRef, useState } from 'react';
-import { IconArchive } from './Icon/IconArchive';
-import { IconBellOff } from './Icon/IconBellOf';
-import { IconBookmark } from './Icon/IconBookmark';
-import { IconComment } from './Icon/IconComment';
-import { IconExclamation } from './Icon/IconExclamation';
-import { IconEyeClose } from './Icon/IconEyeClose';
-import { ButtonIconHeart } from './Icon/IconHeart';
-import { ButtonIconHeartFill } from './Icon/IconHeartFill';
-import { IconPen } from './Icon/IconPen';
-import { IconShare } from './Icon/IconShare';
-import { IconSpin } from './Icon/IconSpin';
-import { ButtonIconThreeDotAction } from './Icon/IconThreeDotAction';
-import { IconTrash } from './Icon/IconTrash';
-import { Avatar } from './atoms/Avatar';
-import { Button } from './atoms/Button';
-import { Dropdown } from './atoms/Dropdown';
-import { Menu } from './atoms/Menu';
-import { MessageInput } from './atoms/MessageInput';
-import { Modal, ModalProps } from './atoms/Modal';
-import { Tag } from './atoms/Tag';
+import { handleSelectEnd, scollToElement } from "@utils";
+import { FC, useRef, useState } from "react";
+import { IconArchive } from "./Icon/IconArchive";
+import { IconBellOff } from "./Icon/IconBellOf";
+import { IconBookmark } from "./Icon/IconBookmark";
+import { IconComment } from "./Icon/IconComment";
+import { IconExclamation } from "./Icon/IconExclamation";
+import { IconEyeClose } from "./Icon/IconEyeClose";
+import { ButtonIconHeart } from "./Icon/IconHeart";
+import { ButtonIconHeartFill } from "./Icon/IconHeartFill";
+import { IconPen } from "./Icon/IconPen";
+import { IconShare } from "./Icon/IconShare";
+import { IconSpin } from "./Icon/IconSpin";
+import { ButtonIconThreeDotAction } from "./Icon/IconThreeDotAction";
+import { IconTrash } from "./Icon/IconTrash";
+import { Avatar } from "./atoms/Avatar";
+import { Button } from "./atoms/Button";
+import { Dropdown } from "./atoms/Dropdown";
+import { Menu } from "./atoms/Menu";
+import { MessageInput } from "./atoms/MessageInput";
+import { Modal, ModalProps } from "./atoms/Modal";
+import { Tag } from "./atoms/Tag";
+import { faker } from "@faker-js/faker";
+import moment from "moment";
 
 const PostMenu = () => {
   return (
@@ -28,12 +30,12 @@ const PostMenu = () => {
       content={
         <Menu
           menus={[
-            { label: 'Đưa bài viết vào thùng rác', icon: <IconTrash /> },
-            { label: 'Chỉnh sửa', icon: <IconPen /> },
-            { label: 'Lưu trữ', icon: <IconArchive /> },
-            { label: 'Báo cáo bài viết', icon: <IconExclamation /> },
-            { label: 'Ẩn bài viết', icon: <IconEyeClose /> },
-            { label: 'Tắt thông báo về bài viết này', icon: <IconBellOff /> },
+            { label: "Đưa bài viết vào thùng rác", icon: <IconTrash /> },
+            { label: "Chỉnh sửa", icon: <IconPen /> },
+            { label: "Lưu trữ", icon: <IconArchive /> },
+            { label: "Báo cáo bài viết", icon: <IconExclamation /> },
+            { label: "Ẩn bài viết", icon: <IconEyeClose /> },
+            { label: "Tắt thông báo về bài viết này", icon: <IconBellOff /> },
           ]}
         />
       }
@@ -45,6 +47,23 @@ const PostMenu = () => {
 
 export const Post = () => {
   const [open, setOpen] = useState(false);
+  const [name, setName] = useState(faker.person.fullName);
+  const [avatar, setAvatar] = useState(faker.internet.avatar);
+  const [country, setCountry] = useState(faker.location.country);
+  const [city, seCity] = useState(faker.location.city);
+  const [content, setContent] = useState(faker.lorem.paragraph);
+  const [createdAt, setCreatedAt] = useState(faker.date.past);
+  const [heartCount, setHeartCount] = useState(() =>
+    faker.number.int({ min: 0, max: 10000 })
+  );
+  const [commentCount, setCommentCount] = useState(() =>
+    faker.number.int({ min: 0, max: 100 })
+  );
+  const [shareCount, setShareCount] = useState(() =>
+    faker.number.int({ min: 0, max: 100 })
+  );
+  const [image, setImage] = useState(faker.image.url);
+
   return (
     <>
       <ModalDetail
@@ -54,12 +73,20 @@ export const Post = () => {
       />
       <div className="rounded-lg bg-white pb-4 dark:bg-slate-900">
         <div className="flex items-center gap-2 p-4">
-          <Avatar />
+          <Avatar src={avatar} />
           <div className="flex-1 -mt-1">
-            <h4 className="text-sm font-semibold text-gray-900 dark:text-white">
-              Lucas Nash
-            </h4>
-            <p className="text-gray-500 text-xs">New York City, NY</p>
+            <div className="flex items-center gap-2">
+              <h4 className="text-sm font-semibold text-gray-900 dark:text-white">
+                {name}
+              </h4>
+              -
+              <time className=" text-sm !text-opacity-70 text-black dark:text-white">
+                {moment(createdAt).fromNow()}
+              </time>
+            </div>
+            <p className="text-gray-500 text-xs">
+              {city}, {country}
+            </p>
           </div>
           <div>
             <PostMenu />
@@ -74,21 +101,18 @@ export const Post = () => {
               setOpen(true);
             }}
           >
-            <img
-              className="w-full h-full object-cover"
-              src={`https://unsplash.it/1000/500?t=${Math.random()}`}
-            />
+            <img className="w-full h-full object-cover" src={image} />
           </a>
         </div>
         <div className="flex items-center justify-between p-3">
           <div className="flex gap-0.5 ">
             <Tag className="flex items-center text-sm">
               <IconComment />
-              60
+              {commentCount}
             </Tag>
             <Tag className="flex items-center text-sm">
               <IconShare />
-              20
+              {shareCount}
             </Tag>
             {Math.random() > 0.5 ? (
               <ButtonIconHeart transparent />
@@ -97,22 +121,31 @@ export const Post = () => {
             )}
             <div className="flex gap-2 items-center">
               <div>
-                <Avatar size={27} border />
+                <Avatar
+                  size={27}
+                  className=" !shadow-[0_0_0_2px_white] !shadow-white dark:!shadow-slate-950"
+                />
               </div>
-              <div className="-ml-2">
-                <Avatar size={27} border />
+              <div className="-ml-2.5">
+                <Avatar
+                  size={27}
+                  className=" !shadow-[0_0_0_2px_white] !shadow-white dark:!shadow-slate-950"
+                />
               </div>
-              <div className="-ml-2">
-                <Avatar size={27} border />
+              <div className="-ml-2.5">
+                <Avatar
+                  size={27}
+                  className=" !shadow-[0_0_0_2px_white] !shadow-white dark:!shadow-slate-950"
+                />
               </div>
               <p className="text-sm">
-                Thả tim bởi{' '}
+                Thả tim bởi{" "}
                 <b>
                   <a href="#">Sue Franklin</a>
-                </b>{' '}
-                và{' '}
+                </b>{" "}
+                và{" "}
                 <b>
-                  <a href="#">1,993 người khác</a>
+                  <a href="#">{heartCount} người khác</a>
                 </b>
               </p>
             </div>
@@ -122,8 +155,7 @@ export const Post = () => {
           </div>
         </div>
         <p className="px-5 text-sm">
-          <b>Dean Atkins</b>&nbsp;We know the voices in our heads aren't real,
-          but sometimes their ideas are just too good to ignore.
+          <b>{name}</b>&nbsp;{content}
         </p>
       </div>
     </>
@@ -131,7 +163,8 @@ export const Post = () => {
 };
 
 const ModalDetail: FC<ModalProps> = (props) => {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
+  const [image, setImage] = useState(faker.image.url);
   return (
     <Modal
       {...props}
@@ -140,17 +173,14 @@ const ModalDetail: FC<ModalProps> = (props) => {
     >
       <div className="flex h-full">
         <div className="flex-1 w-1 bg-black items-center flex">
-          <img
-            className="object-contain"
-            src={`https://unsplash.it/1000/500?t=${Math.random()}`}
-          />
+          <img className="object-contain" src={image} />
         </div>
         <div className="flex-1 w-1 flex flex-col">
           <div className="flex gap-2 p-3 border-b border-solid border-gray-300 dark:border-slate-700">
             <Avatar size={40} />
             <div className="flex flex-col flex-1">
               <h3 className="text-sm font-bold">Augusta Romero</h3>
-              <time className="text-gray-500 text-xs">3 tháng trước</time>
+              <time className="text-gray-500 text-xs ">3 tháng trước</time>
             </div>
             <div className="flex">
               <ButtonIconHeart />
@@ -183,7 +213,7 @@ const ModalDetail: FC<ModalProps> = (props) => {
                 className="outline-0 text-sm px-2 py-3 flex-1 bg-transparent"
               />
               <Button
-                type={value ? 'primary' : 'default'}
+                type={value ? "primary" : "default"}
                 disabled={!value}
                 className="rounded-none !px-10"
               >
@@ -209,6 +239,9 @@ const UserComment: Atom<UserCommentProps> = ({
 }) => {
   const [openReply, setOpenReply] = useState(false);
   const inputRef = useRef<HTMLParagraphElement>(null);
+  const [content, setContent] = useState(() =>
+    faker.lorem.paragraph({ min: 1, max: 2 })
+  );
 
   // const onSendMessage = () => {
   //   if (inputRef.current) {
@@ -223,13 +256,7 @@ const UserComment: Atom<UserCommentProps> = ({
         <Avatar />
         <div className="flex-1">
           <div className="text-sm">
-            <b> Nelle Pena</b>{' '}
-            <span>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo qui
-              atque quidem consectetur accusamus sint. Ducimus inventore sequi,
-              labore suscipit neque rem maiores aperiam enim velit praesentium
-              at ullam? Nostrum?
-            </span>
+            <b> Nelle Pena</b> <span>{content}</span>
           </div>
           <div className="flex gap-2 text-xs items-center">
             <time className="">3 phút trước</time>
@@ -261,10 +288,10 @@ const UserComment: Atom<UserCommentProps> = ({
               content={
                 <Menu
                   menus={[
-                    { label: 'Xóa' },
-                    { label: 'Chỉnh sửa' },
-                    { label: 'Báo cáo' },
-                    { label: 'Ẩn bình luận' },
+                    { label: "Xóa" },
+                    { label: "Chỉnh sửa" },
+                    { label: "Báo cáo" },
+                    { label: "Ẩn bình luận" },
                   ]}
                 />
               }
@@ -297,7 +324,7 @@ const UserComment: Atom<UserCommentProps> = ({
               ref={inputRef}
               placeholder="Thêm bình luận...."
               onEnter={() => {
-                console.log('send reply');
+                console.log("send reply");
               }}
               clearWhenEnter={false}
               allowShiftEnter={false}

@@ -1,27 +1,28 @@
-import { IconSpin } from '@components/Icon/IconSpin';
-import { Badge } from '@components/atoms/Badge';
-import { Dropdown } from '@components/atoms/Dropdown';
-import { Menu } from '@components/atoms/Menu';
-import { MessageInput } from '@components/atoms/MessageInput';
-import { Modal, ModalProps } from '@components/atoms/Modal';
-import { Tab } from '@components/atoms/Tab';
-import { Tooltip } from '@components/atoms/Tooltip';
-import { UserItem } from '@components/atoms/UserItem';
-import { handleSelectEnd } from '@utils/handleSelectEnd';
-import { FC, useEffect, useRef, useState } from 'react';
-import { cn } from '../../../utils';
-import { Icon } from '../../Icon/Icon';
-import { IconClose } from '../../Icon/IconClose';
-import { ButtoniconEmotion } from '../../Icon/IconEmotion';
-import { ButtoniconGIF } from '../../Icon/IconGIF';
-import { IconMaximize } from '../../Icon/IconMaximize';
-import { IconMinimize } from '../../Icon/IconMinimize';
-import { IconMinus } from '../../Icon/IconMinus';
-import { IconPlus } from '../../Icon/IconPlus';
-import { ButtonIconThreeDotAction } from '../../Icon/IconThreeDotAction';
-import { ButtonIconUploadImage } from '../../Icon/IconUploadImage';
-import { Avatar } from '../../atoms/Avatar';
-import { Button } from '../../atoms/Button';
+import { IconSpin } from "@components/Icon/IconSpin";
+import { Badge } from "@components/atoms/Badge";
+import { Dropdown } from "@components/atoms/Dropdown";
+import { Menu } from "@components/atoms/Menu";
+import { MessageInput } from "@components/atoms/MessageInput";
+import { Modal, ModalProps } from "@components/atoms/Modal";
+import { Tab } from "@components/atoms/Tab";
+import { Tooltip } from "@components/atoms/Tooltip";
+import { UserItem } from "@components/atoms/UserItem";
+import { handleSelectEnd } from "@utils/handleSelectEnd";
+import { FC, useEffect, useRef, useState } from "react";
+import { cn } from "../../../utils";
+import { Icon } from "../../Icon/Icon";
+import { IconClose } from "../../Icon/IconClose";
+import { ButtoniconEmotion } from "../../Icon/IconEmotion";
+import { ButtoniconGIF } from "../../Icon/IconGIF";
+import { IconMaximize } from "../../Icon/IconMaximize";
+import { IconMinimize } from "../../Icon/IconMinimize";
+import { IconMinus } from "../../Icon/IconMinus";
+import { IconPlus } from "../../Icon/IconPlus";
+import { ButtonIconThreeDotAction } from "../../Icon/IconThreeDotAction";
+import { ButtonIconUploadImage } from "../../Icon/IconUploadImage";
+import { Avatar } from "../../atoms/Avatar";
+import { Button } from "../../atoms/Button";
+import { InfinityLoading } from "@components/atoms/InfinityLoading";
 
 export const FloatingChat = () => {
   return (
@@ -32,17 +33,17 @@ export const FloatingChat = () => {
   );
 };
 
-const fullScreenClass = 'h-[600px] w-[550px]';
+const fullScreenClass = "h-[600px] w-[550px]";
 const isHideClass =
-  'h-[49px] w-[200px] [&_.main]:hidden [&_.footer]:hidden cursor-pointer';
+  "h-[49px] w-[200px] [&_.main]:hidden [&_.footer]:hidden cursor-pointer";
 const anotherMessageclass =
-  '[&_.message]:bg-gray-700 [&_.message]:rounded-l [&_.message]:rounded-r-2xl [&_.wrap]:items-start';
+  "[&_.message]:bg-gray-700 [&_.message]:rounded-l [&_.message]:rounded-r-2xl [&_.wrap]:items-start";
 const myMessageClass =
-  'flex-row-reverse text-right [&_.message]:bg-blue-700 [&_.avatar]:hidden [&_.message]:rounded-r [&_.message]:rounded-l-2xl [&_.wrap]:items-end';
+  "flex-row-reverse text-right [&_.message]:bg-blue-700 [&_.avatar]:hidden [&_.message]:rounded-r [&_.message]:rounded-l-2xl [&_.wrap]:items-end";
 
 export const ChatScreen: FC = () => {
   const chatScreenRef = useRef<HTMLDivElement>(null);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const inputRef = useRef<HTMLParagraphElement>(null);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isHide, setIsHide] = useState(false);
@@ -51,7 +52,7 @@ export const ChatScreen: FC = () => {
   useEffect(() => {
     chatScreenRef.current?.scrollTo({
       top: chatScreenRef.current.scrollHeight,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
   }, []);
 
@@ -60,11 +61,11 @@ export const ChatScreen: FC = () => {
       <ModalGroupChat open={openMember} onCancel={() => setOpenMember(false)} />
       <div
         className={cn(
-          'transition-all duration-200 rounded-b-none shadow-[0_4px_5px_rgba(0,0,0,.5)] flex flex-col border border-solid border-b-0 border-gray-300 bg-white dark:bg-slate-900 dark:border-slate-700 text-gray-900 dark:text-white h-[400px] w-[350px] rounded-lg overflow-hidden',
+          "transition-all duration-200 rounded-b-none shadow-[0_4px_5px_rgba(0,0,0,.5)] flex flex-col border border-solid border-b-0 border-gray-300 bg-white dark:bg-slate-900 dark:border-slate-700 text-gray-900 dark:text-white h-[400px] w-[350px] rounded-lg overflow-hidden",
           {
             [fullScreenClass]: isFullScreen,
             [isHideClass]: isHide,
-          },
+          }
         )}
       >
         <div
@@ -72,7 +73,7 @@ export const ChatScreen: FC = () => {
           className="[&_.actions]:hover:opacity-100 flex gap-3 items-center p-2 border-b border-solid border-gray-300 dark:border-slate-700"
         >
           <Badge count={10}>
-            <Avatar />
+            <Avatar border={{}} />
           </Badge>
           <h3 className="flex-1 font-bold text-sm">Katherine Jordan</h3>
           <div className="flex gap-0.5 items-center">
@@ -82,32 +83,32 @@ export const ChatScreen: FC = () => {
                 <Menu
                   menus={[
                     {
-                      label: 'Mở trong màn hình lớn',
+                      label: "Mở trong màn hình lớn",
                     },
                     {
-                      label: 'Xem trang cá nhân',
+                      label: "Xem trang cá nhân",
                     },
                     {
-                      label: 'Thay đổi chủ đề',
+                      label: "Thay đổi chủ đề",
                     },
                     {
                       line: true,
                     },
                     {
-                      label: 'Nickname',
+                      label: "Nickname",
                     },
                     {
-                      label: 'Mã hóa tin nhắn',
+                      label: "Mã hóa tin nhắn",
                     },
                     {
-                      label: 'Thành viên nhóm',
+                      label: "Thành viên nhóm",
                       onClick: () => setOpenMember(true),
                     },
                     {
-                      label: 'Rời khỏi nhóm',
+                      label: "Rời khỏi nhóm",
                     },
                     {
-                      label: 'Cài đặt',
+                      label: "Cài đặt",
                     },
                   ]}
                 />
@@ -132,8 +133,13 @@ export const ChatScreen: FC = () => {
             <IconClose size={17} transparent />
           </div>
         </div>
-        <div
+
+        <InfinityLoading
           ref={chatScreenRef}
+          offset={50}
+          haveNext
+          placement="top"
+          loading
           className="flex flex-col py-2 gap-2 flex-1 main overflow-auto"
         >
           <div className="flex flex-col text-center gap-2 items-center px-2">
@@ -150,11 +156,8 @@ export const ChatScreen: FC = () => {
           <div className="text-center my-4 dark:text-slate-300 text-gray-500 text-sm font-semibold text-opacity-90">
             Thứ sáu, 11/05/2023
           </div>
-          <div className="flex justify-center my-3">
-            <IconSpin />
-          </div>
           <div
-            className={cn('px-2 flex gap-2', {
+            className={cn("px-2 flex gap-2", {
               [myMessageClass]: false,
               [anotherMessageclass]: true,
             })}
@@ -175,7 +178,7 @@ export const ChatScreen: FC = () => {
             </div>
           </div>
           <div
-            className={cn('px-2 flex gap-2', {
+            className={cn("px-2 flex gap-2", {
               [myMessageClass]: true,
               [anotherMessageclass]: false,
             })}
@@ -191,7 +194,7 @@ export const ChatScreen: FC = () => {
             </div>
           </div>
           <div
-            className={cn('px-2 flex gap-2', {
+            className={cn("px-2 flex gap-2", {
               [myMessageClass]: true,
               [anotherMessageclass]: false,
             })}
@@ -206,14 +209,14 @@ export const ChatScreen: FC = () => {
               </time>
             </div>
           </div>
-        </div>
+        </InfinityLoading>
         <div className="footer border-t border-solid border-gray-300 dark:border-slate-700 p-1">
           <MessageInput
             onChange={(val) => setValue(val)}
             ref={inputRef}
             onEnter={(val) => {
               console.log(val);
-              setValue('');
+              setValue("");
             }}
             placeholder="Viết tin nhắn..."
           />
@@ -226,16 +229,16 @@ export const ChatScreen: FC = () => {
           </div>
           <div className="ml-auto flex items-center">
             <Button
-              type={value ? 'primary' : 'default'}
+              type={value ? "primary" : "default"}
               disabled={!value}
               className="rounded-full px-5"
               size="small"
               onClick={() => {
-                console.log('send message');
+                console.log("send message");
                 handleSelectEnd(inputRef.current as Node);
-                setValue('');
+                setValue("");
                 if (inputRef.current) {
-                  inputRef.current.innerHTML = '';
+                  inputRef.current.innerHTML = "";
                 }
               }}
             >
@@ -247,10 +250,10 @@ export const ChatScreen: FC = () => {
                 <Menu
                   menus={[
                     {
-                      label: 'Nhấn Enter để gửi tin nhắn',
+                      label: "Nhấn Enter để gửi tin nhắn",
                     },
                     {
-                      label: 'Nhấn nút để gửi tin nhắn',
+                      label: "Nhấn nút để gửi tin nhắn",
                     },
                   ]}
                 />
@@ -281,7 +284,7 @@ const ModalGroupChat: Atom<ModalGroupChatProps> = ({ ...props }) => {
         itemClass="pb-3 flex-1"
         items={[
           {
-            label: 'Thành viên',
+            label: "Thành viên",
             children: (
               <div className="flex flex-col gap-4 px-4 py-5 max-h-[400px] overflow-auto">
                 {Array.from(new Array(10)).map((_, i) => (
@@ -295,13 +298,13 @@ const ModalGroupChat: Atom<ModalGroupChatProps> = ({ ...props }) => {
                             <Menu
                               menus={[
                                 {
-                                  label: 'Xem trang cá nhân',
+                                  label: "Xem trang cá nhân",
                                 },
                                 {
-                                  label: 'Nhắn tin',
+                                  label: "Nhắn tin",
                                 },
                                 {
-                                  label: 'Mời khỏi nhóm',
+                                  label: "Mời khỏi nhóm",
                                 },
                               ]}
                             />
@@ -316,7 +319,7 @@ const ModalGroupChat: Atom<ModalGroupChatProps> = ({ ...props }) => {
               </div>
             ),
           },
-          { label: 'Ban quản trị' },
+          { label: "Ban quản trị" },
         ]}
       />
     </Modal>

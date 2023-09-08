@@ -1,13 +1,18 @@
-import { IconSpin } from './Icon/IconSpin';
-import { ButtonIconThreeDotAction } from './Icon/IconThreeDotAction';
-import { Avatar } from './atoms/Avatar';
-import { Badge } from './atoms/Badge';
-import { Card } from './atoms/Card';
-import { Dropdown } from './atoms/Dropdown';
-import { Menu } from './atoms/Menu';
-import { Tab } from './atoms/Tab';
+import { useState } from "react";
+import { IconSpin } from "./Icon/IconSpin";
+import { ButtonIconThreeDotAction } from "./Icon/IconThreeDotAction";
+import { Avatar } from "./atoms/Avatar";
+import { Badge } from "./atoms/Badge";
+import { Card } from "./atoms/Card";
+import { Dropdown } from "./atoms/Dropdown";
+import { InfinityLoading } from "./atoms/InfinityLoading";
+import { Menu } from "./atoms/Menu";
+import { Tab } from "./atoms/Tab";
+import { faker } from "@faker-js/faker";
 
 export const Message = () => {
+  const [users, setUsers] = useState(() => Array.from(new Array(20)));
+  const [loading, setLoading] = useState(false);
   return (
     <Card
       title="Tin nhắn"
@@ -17,13 +22,13 @@ export const Message = () => {
           content={
             <Menu
               menus={[
-                { label: 'Âm thanh khi có người gọi' },
-                { label: 'Âm thanh khi có tin nhắn tới' },
-                { label: 'Tự động mở khi có tin nhắn mới' },
+                { label: "Âm thanh khi có người gọi" },
+                { label: "Âm thanh khi có tin nhắn tới" },
+                { label: "Tự động mở khi có tin nhắn mới" },
                 { line: true },
-                { label: 'Trạng thái hoạt động' },
-                { label: 'Tin nhắn chờ' },
-                { label: 'Tin nhắn chờ' },
+                { label: "Trạng thái hoạt động" },
+                { label: "Tin nhắn chờ" },
+                { label: "Tin nhắn chờ" },
               ]}
             />
           }
@@ -65,18 +70,46 @@ export const Message = () => {
             itemClass="whitespace-nowrap"
             items={[
               {
-                label: 'Cá nhân',
+                label: "Cá nhân",
                 children: (
-                  <div className="mt-4 flex flex-col gap-4 overflow-auto pt-2 flex-1 h-1">
+                  <InfinityLoading
+                    virtualized={{
+                      itemCount: users.length,
+                      itemSize: 32,
+                      data: users,
+                    }}
+                    loading={loading}
+                    className="mt-4 flex flex-col gap-4 overflow-auto pt-2 flex-1 h-1"
+                    haveNext={users.length < 100}
+                    offset={200}
+                    onNext={() => {
+                      setLoading(true);
+                      setTimeout(() => {
+                        setUsers([...users, ...Array.from(new Array(10))]);
+                        setLoading(false);
+                      }, 300);
+                    }}
+                  >
                     <div className="flex flex-col gap-4">
-                      {Array.from(new Array(10)).map((_, i) => (
+                      {users.map((_, i) => (
                         <div key={i} className="flex gap-2 items-center">
-                          <Badge count={9}>
-                            <Avatar showStatus online />
+                          <Badge
+                            count={
+                              i < 3 ? faker.number.int({ min: 1, max: 10 }) : 0
+                            }
+                          >
+                            <Avatar
+                              showStatus
+                              size={36}
+                              online={
+                                faker.number.int({ min: 0, max: 1 }) === 1
+                              }
+                              border={Math.random() > 0.8 ? {} : undefined}
+                            />
                           </Badge>
                           <div className="flex-1 ">
                             <h4 className="text-xs font-bold text-gray-900 dark:text-white">
-                              Lola Hines
+                              {faker.person.fullName()}
                             </h4>
                             <p className="text-xs text-gray-500">
                               Active 30m ago
@@ -84,26 +117,20 @@ export const Message = () => {
                           </div>
                         </div>
                       ))}
-                      <div className="flex justify-center my-3">
-                        <IconSpin />
-                      </div>
                     </div>
-                  </div>
+                  </InfinityLoading>
                 ),
               },
-              { label: 'Nhóm', children: 'Nhóm' },
+              { label: "Nhóm", children: "Nhóm" },
               {
                 label: (
                   <div className="ml-auto">
-                    <a
-                      href="#"
-                      className="dark:text-purple-400 text-purple-800 text-xs font-semibold"
-                    >
+                    <span className="dark:text-purple-400 text-purple-800 text-xs font-semibold">
                       Request (2)
-                    </a>
+                    </span>
                   </div>
                 ),
-                children: 'Request',
+                children: "Request",
               },
             ]}
           />
