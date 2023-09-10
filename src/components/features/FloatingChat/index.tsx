@@ -1,60 +1,86 @@
-import { IconSpin } from "@components/Icon/IconSpin";
+import { IconImage } from "@components/atoms/Icon/IconImage";
 import { Badge } from "@components/atoms/Badge";
+import { DropFile } from "@components/atoms/DropFile";
 import { Dropdown } from "@components/atoms/Dropdown";
+import { InfinityLoading } from "@components/atoms/InfinityLoading";
 import { Menu } from "@components/atoms/Menu";
 import { MessageInput } from "@components/atoms/MessageInput";
 import { Modal, ModalProps } from "@components/atoms/Modal";
 import { Tab } from "@components/atoms/Tab";
-import { Tooltip } from "@components/atoms/Tooltip";
+import { UploadFile, UploadfileRef } from "@components/atoms/UploadFile";
 import { UserItem } from "@components/atoms/UserItem";
 import { handleSelectEnd } from "@utils/handleSelectEnd";
-import { FC, useEffect, useRef, useState } from "react";
+import { fakeApi, mockMessage, mockUploadImage, randomId } from "@utils/mock";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { cn } from "../../../utils";
-import { Icon } from "../../Icon/Icon";
-import { IconClose } from "../../Icon/IconClose";
-import { ButtoniconEmotion } from "../../Icon/IconEmotion";
-import { ButtoniconGIF } from "../../Icon/IconGIF";
-import { IconMaximize } from "../../Icon/IconMaximize";
-import { IconMinimize } from "../../Icon/IconMinimize";
-import { IconMinus } from "../../Icon/IconMinus";
-import { IconPlus } from "../../Icon/IconPlus";
-import { ButtonIconThreeDotAction } from "../../Icon/IconThreeDotAction";
-import { ButtonIconUploadImage } from "../../Icon/IconUploadImage";
+import { Icon } from "../../atoms/Icon/Icon";
+import { ButtonIconClose, IconClose } from "../../atoms/Icon/IconClose";
+import { ButtoniconEmotion } from "../../atoms/Icon/IconEmotion";
+import { ButtoniconGIF } from "../../atoms/Icon/IconGIF";
+import { IconMaximize } from "../../atoms/Icon/IconMaximize";
+import { IconMinimize } from "../../atoms/Icon/IconMinimize";
+import { IconMinus } from "../../atoms/Icon/IconMinus";
+import { IconPlus } from "../../atoms/Icon/IconPlus";
+import { ButtonIconThreeDotAction } from "../../atoms/Icon/IconThreeDotAction";
+import { ButtonIconUploadImage } from "../../atoms/Icon/IconUploadImage";
 import { Avatar } from "../../atoms/Avatar";
 import { Button } from "../../atoms/Button";
-import { InfinityLoading } from "@components/atoms/InfinityLoading";
+import { MessageItem } from "./MessageItem";
+import { ModalGroupChat } from "./ModalGroupChat";
+import { convertImageUrlToFile } from "@utils/convertImageUrlToFile";
+import { faker } from "@faker-js/faker";
 
 export const FloatingChat = () => {
-  return (
+  return createPortal(
     <div className="fixed bottom-0 right-3 flex gap-3 items-end">
       <ChatScreen />
-      <ChatScreen />
-    </div>
+      {/* <ChatScreen /> */}
+    </div>,
+    document.body
   );
 };
 
 const fullScreenClass = "h-[600px] w-[550px]";
 const isHideClass =
   "h-[49px] w-[200px] [&_.main]:hidden [&_.footer]:hidden cursor-pointer";
-const anotherMessageclass =
-  "[&_.message]:bg-gray-700 [&_.message]:rounded-l [&_.message]:rounded-r-2xl [&_.wrap]:items-start";
-const myMessageClass =
-  "flex-row-reverse text-right [&_.message]:bg-blue-700 [&_.avatar]:hidden [&_.message]:rounded-r [&_.message]:rounded-l-2xl [&_.wrap]:items-end";
 
 export const ChatScreen: FC = () => {
+  const uploadFileRef = useRef<UploadfileRef>(null);
   const chatScreenRef = useRef<HTMLDivElement>(null);
   const [value, setValue] = useState("");
   const inputRef = useRef<HTMLParagraphElement>(null);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isHide, setIsHide] = useState(false);
   const [openMember, setOpenMember] = useState(false);
+  const [messages, setMessages] = useState(() => mockMessage(10));
+  const [loading, setLoading] = useState(false);
+  const [images, setImages] = useState<{ path: string; id: string }[]>([
+    // "https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80",
+    // "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg",
+    // "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg",
+    // "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg",
+    // "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg",
+  ]);
 
   useEffect(() => {
     chatScreenRef.current?.scrollTo({
       top: chatScreenRef.current.scrollHeight,
-      behavior: "smooth",
     });
   }, []);
+
+  const uploadFile = useCallback(
+    async (files: File[]) => {
+      let imgs = [];
+      for (let i in files) {
+        let imgSrc = await mockUploadImage(files[i]);
+        imgs.push(imgSrc);
+      }
+
+      setImages([...images, ...imgs]);
+    },
+    [images]
+  );
 
   return (
     <>
@@ -134,15 +160,61 @@ export const ChatScreen: FC = () => {
           </div>
         </div>
 
-        <InfinityLoading
-          ref={chatScreenRef}
-          offset={50}
-          haveNext
-          placement="top"
-          loading
-          className="flex flex-col py-2 gap-2 flex-1 main overflow-auto"
+        <DropFile
+          className="flex flex-col flex-1 h-1"
+          title={{
+            post: "Thả bài viết vào đây",
+            img: "Thả link hình ảnh vào đây",
+          }}
+          includes={{
+            img: async (value) => {
+              let file = await convertImageUrlToFile(value);
+              uploadFileRef.current?.trigger([file]);
+            },
+            post(value) {
+              setMessages([
+                ...messages,
+                {
+                  avatar: value.user,
+                  content: value.content,
+                  id: value.id,
+                  myMessage: true,
+                  url: value.url,
+                } as any,
+              ]);
+            },
+            files: (files) => {
+              uploadFileRef.current?.trigger(files);
+            },
+            text: (text) => {
+              console.log(inputRef.current, text);
+              if (inputRef.current) {
+                inputRef.current.innerHTML = text;
+              }
+            },
+            url: (url) => {
+              console.log(inputRef.current, url);
+              if (inputRef.current) {
+                inputRef.current.innerHTML = url;
+              }
+            },
+          }}
         >
-          <div className="flex flex-col text-center gap-2 items-center px-2">
+          <InfinityLoading
+            ref={chatScreenRef}
+            offset={50}
+            haveNext
+            placement="top"
+            loading={loading}
+            className="flex flex-col py-2 gap-2 flex-1 main overflow-auto"
+            onNext={async () => {
+              setLoading(true);
+              let res = await fakeApi(mockMessage);
+              setMessages([...res, ...messages]);
+              setLoading(false);
+            }}
+          >
+            {/* <div className="flex flex-col text-center gap-2 items-center px-2">
             <Avatar size={50} />
             <div className="">
               <h3 className="font-bold text-sm">
@@ -155,173 +227,115 @@ export const ChatScreen: FC = () => {
           </div>
           <div className="text-center my-4 dark:text-slate-300 text-gray-500 text-sm font-semibold text-opacity-90">
             Thứ sáu, 11/05/2023
-          </div>
-          <div
-            className={cn("px-2 flex gap-2", {
-              [myMessageClass]: false,
-              [anotherMessageclass]: true,
-            })}
-          >
-            <Avatar size={32} className="avatar" />
-            <div className="wrap flex-1 inline-flex flex-col gap-[1px] max-w-[60%]">
-              <p className="message text-sm text-white px-3 py-2 first-of-type:!rounded-t-2xl last-of-type:!rounded-b-2xl ">
-                Xin chào! Tôi đang tìm
-              </p>
-              <p className="message text-sm text-white px-3 py-2 first-of-type:!rounded-t-2xl last-of-type:!rounded-b-2xl ">
-                Chào bạn! Tất nhiên, tôi rất vui được giúp bạn. Bạn có một số sở
-                thích cụ thể về mẫu mã, màu sắc hoặc thương hiệu nào không?
-              </p>
-              <p className="message text-sm text-white px-3 py-2 first-of-type:!rounded-t-2xl last-of-type:!rounded-b-2xl ">
-                Tôi thích màu đen và thường mặc size S. Tôi cũng muốn có một áo
-                thoáng mát cho mùa hè này.
-              </p>
-            </div>
-          </div>
-          <div
-            className={cn("px-2 flex gap-2", {
-              [myMessageClass]: true,
-              [anotherMessageclass]: false,
-            })}
-          >
-            <Avatar size={32} className="avatar" />
-            <div className="wrap flex-1 inline-flex flex-col gap-[1px] max-w-[60%]">
-              <p className="message text-sm text-white px-3 py-2 first-of-type:!rounded-t-2xl last-of-type:!rounded-b-2xl">
-                Xin chào! Tôi đang tìm một
-              </p>
-              <p className="message text-sm text-white px-3 py-2 first-of-type:!rounded-t-2xl last-of-type:!rounded-b-2xl">
-                Tôi cũng muốn có một áo
-              </p>
-            </div>
-          </div>
-          <div
-            className={cn("px-2 flex gap-2", {
-              [myMessageClass]: true,
-              [anotherMessageclass]: false,
-            })}
-          >
-            <Avatar size={32} className="avatar" />
-            <div className="wrap flex-1 inline-flex flex-col gap-[1px] max-w-[60%]">
-              <p className="message text-sm text-white px-3 py-2 first-of-type:!rounded-t-2xl last-of-type:!rounded-b-2xl">
-                Xin chào! Tôi đang tìm một
-              </p>
-              <time className="mt-1 text-xs text-black text-opacity-80 dark:text-slate-400">
-                Gửi 1 ngày trước
-              </time>
-            </div>
-          </div>
-        </InfinityLoading>
-        <div className="footer border-t border-solid border-gray-300 dark:border-slate-700 p-1">
-          <MessageInput
-            onChange={(val) => setValue(val)}
-            ref={inputRef}
-            onEnter={(val) => {
-              console.log(val);
-              setValue("");
-            }}
-            placeholder="Viết tin nhắn..."
-          />
-        </div>
-        <div className="flex items-center border-t dark:border-slate-700 border-gray-300 py-1 px-2">
-          <div className="flex items-center">
-            <ButtonIconUploadImage transparent />
-            <ButtoniconGIF transparent />
-            <ButtoniconEmotion transparent />
-          </div>
-          <div className="ml-auto flex items-center">
-            <Button
-              type={value ? "primary" : "default"}
-              disabled={!value}
-              className="rounded-full px-5"
-              size="small"
-              onClick={() => {
-                console.log("send message");
-                handleSelectEnd(inputRef.current as Node);
+          </div> */}
+            {messages.map((e) => (
+              <MessageItem
+                key={e.id}
+                content={e.content}
+                myMessage={e.myMessage}
+                img={e.img}
+                url={e.url}
+              />
+            ))}
+          </InfinityLoading>
+
+          <div className="footer border-t border-solid border-gray-300 dark:border-slate-700 p-1">
+            {images.length > 0 && (
+              <div className="overflow-x-auto mb-0.5 pb-0.5">
+                <div className="flex gap-1  w-fit">
+                  <div
+                    onClick={() => {
+                      uploadFileRef.current?.trigger();
+                    }}
+                    className="border-base border dark:hover:bg-slate-800 select-none w-20 h-20 rounded overflow-hidden flex flex-col text-sm font-semibold gap-1 hover:bg-gray-100 items-center justify-center cursor-pointer"
+                  >
+                    <IconImage /> Thêm
+                  </div>
+                  {images.map((img) => (
+                    <div
+                      key={img.id}
+                      className="border-base border relative select-none w-20 h-20 rounded overflow-hidden"
+                    >
+                      <img
+                        src={img.path}
+                        className="pointer-events-none w-full h-full object-cover"
+                      />
+                      <ButtonIconClose
+                        size={14}
+                        width={30}
+                        height={30}
+                        className="absolute top-1 right-1"
+                        onClick={() =>
+                          setImages(images.filter((e) => e.id !== img.id))
+                        }
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            <MessageInput
+              onChange={(val) => setValue(val)}
+              ref={inputRef}
+              onEnter={(val) => {
+                console.log(val);
                 setValue("");
-                if (inputRef.current) {
-                  inputRef.current.innerHTML = "";
-                }
               }}
-            >
-              Gửi
-            </Button>
-            <Dropdown
-              placement="topRight"
-              content={
-                <Menu
-                  menus={[
-                    {
-                      label: "Nhấn Enter để gửi tin nhắn",
-                    },
-                    {
-                      label: "Nhấn nút để gửi tin nhắn",
-                    },
-                  ]}
-                />
-              }
-            >
-              <ButtonIconThreeDotAction transparent />
-            </Dropdown>
+              placeholder="Viết tin nhắn..."
+            />
           </div>
-        </div>
+
+          <div className="flex items-center border-t dark:border-slate-700 border-gray-300 py-1 px-2">
+            <div className="flex items-center">
+              <UploadFile
+                className="rounded-full"
+                ref={uploadFileRef}
+                multiple
+                onChange={uploadFile}
+              >
+                <ButtonIconUploadImage transparent />
+              </UploadFile>
+              <ButtoniconGIF transparent />
+              <ButtoniconEmotion transparent />
+            </div>
+            <div className="ml-auto flex items-center">
+              <Button
+                type={value ? "primary" : "default"}
+                disabled={!value}
+                className="rounded-full px-5"
+                size="small"
+                onClick={() => {
+                  console.log("send message");
+                  handleSelectEnd(inputRef.current as Node);
+                  setValue("");
+                  if (inputRef.current) {
+                    inputRef.current.innerHTML = "";
+                  }
+                }}
+              >
+                Gửi
+              </Button>
+              <Dropdown
+                placement="topRight"
+                content={
+                  <Menu
+                    menus={[
+                      {
+                        label: "Nhấn Enter để gửi tin nhắn",
+                      },
+                      {
+                        label: "Nhấn nút để gửi tin nhắn",
+                      },
+                    ]}
+                  />
+                }
+              >
+                <ButtonIconThreeDotAction transparent />
+              </Dropdown>
+            </div>
+          </div>
+        </DropFile>
       </div>
     </>
-  );
-};
-
-interface ModalGroupChatProps extends ModalProps {}
-
-const ModalGroupChat: Atom<ModalGroupChatProps> = ({ ...props }) => {
-  return (
-    <Modal
-      {...props}
-      overlayCloseable
-      width={400}
-      height={400}
-      title="Thành viên nhóm"
-    >
-      <Tab
-        className="pt-3 justify-around border-b dark:border-slate-700"
-        itemClass="pb-3 flex-1"
-        items={[
-          {
-            label: "Thành viên",
-            children: (
-              <div className="flex flex-col gap-4 px-4 py-5 max-h-[400px] overflow-auto">
-                {Array.from(new Array(10)).map((_, i) => (
-                  <UserItem
-                    key={i}
-                    action={
-                      <>
-                        <Dropdown
-                          placement="bottomRight"
-                          content={
-                            <Menu
-                              menus={[
-                                {
-                                  label: "Xem trang cá nhân",
-                                },
-                                {
-                                  label: "Nhắn tin",
-                                },
-                                {
-                                  label: "Mời khỏi nhóm",
-                                },
-                              ]}
-                            />
-                          }
-                        >
-                          <ButtonIconThreeDotAction transparent />
-                        </Dropdown>
-                      </>
-                    }
-                  />
-                ))}
-              </div>
-            ),
-          },
-          { label: "Ban quản trị" },
-        ]}
-      />
-    </Modal>
   );
 };

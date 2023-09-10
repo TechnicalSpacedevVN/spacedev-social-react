@@ -1,12 +1,15 @@
 import { FC } from "react";
 import { Icon } from "./Icon";
-import { cn } from "../../utils";
+import { cn } from "../../../utils";
 
 export const IconAddFriend: FC<{ disabled?: boolean }> = (props) => {
   return (
-    <Icon className={cn("text-purple-500 bg-purple-50 hover:bg-purple-100", {
-      '!text-gray-400 !bg-gray-100 pointer-events-none dark:!bg-transparent': props.disabled
-    })}>
+    <Icon
+      className={cn("text-purple-500 bg-purple-50 hover:bg-purple-100", {
+        "!text-gray-400 !bg-gray-100 pointer-events-none dark:!bg-transparent":
+          props.disabled,
+      })}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="icon icon-tabler icon-tabler-user-plus"

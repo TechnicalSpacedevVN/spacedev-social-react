@@ -58,7 +58,7 @@ export const Avatar: Atom<AvatarProps> = ({
         className="border-solid border-white rounded-full "
         size={["boolean", "undefined"].includes(typeof props.border) ? 0 : 2}
       >
-        <div className="border-2 border-solid border-white rounded-full">
+        <div className="border-2 border-solid border-white dark:border-slate-950 rounded-full">
           {child}
         </div>
       </BorderGradient>

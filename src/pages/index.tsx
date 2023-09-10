@@ -1,4 +1,4 @@
-import { IconSpin } from "@components/Icon/IconSpin";
+import { IconSpin } from "@components/atoms/Icon/IconSpin";
 import { Tag } from "@components/atoms/Tag";
 import { Activity } from "../components/Activity";
 import { useAuth } from "../components/AuthProvider";
@@ -13,10 +13,11 @@ import { Card } from "../components/atoms/Card";
 import { LOGIN_MODAL, setGlobalState } from "../store/queryClient";
 import { InfinityLoading } from "@components/atoms/InfinityLoading";
 import { useEffect, useState } from "react";
+import { fakeApi, mockPost } from "@utils/mock";
 
 export const Home = () => {
   const { user } = useAuth();
-  const [posts, setPosts] = useState(() => Array.from(new Array(3)));
+  const [posts, setPosts] = useState(() => mockPost(3));
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     let event = () => {
@@ -24,9 +25,10 @@ export const Home = () => {
         document.body.scrollHeight - window.scrollY - window.innerHeight;
       if (offset < 200) {
         setLoading(true);
-        setTimeout(() => {
-          setPosts([...posts, ...Array.from(new Array(10))]);
-        }, 300);
+        fakeApi(() => mockPost(5)).then((res) => {
+          setPosts([...posts, ...res]);
+          setLoading(false);
+        });
       }
     };
     window.addEventListener("scroll", event);

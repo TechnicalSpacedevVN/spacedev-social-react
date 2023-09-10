@@ -1,15 +1,15 @@
-import { useState } from 'react';
-import { Icon } from '../components/Icon/Icon';
-import { ButtonIconCamera } from '../components/Icon/IconCamera';
-import { ButtonIconThreeDotAction } from '../components/Icon/IconThreeDotAction';
-import { ModalFriends } from '../components/ModalFriends';
-import { NewPost } from '../components/NewPost';
-import { Post } from '../components/Post';
-import { Avatar } from '../components/atoms/Avatar';
-import { Button } from '../components/atoms/Button';
-import { Card } from '../components/atoms/Card';
-import { Dropdown } from '../components/atoms/Dropdown';
-import { ModalAbout } from '../components/features/About';
+import { useState } from "react";
+import { Icon } from "../components/atoms/Icon/Icon";
+import { ButtonIconCamera } from "../components/atoms/Icon/IconCamera";
+import { ButtonIconThreeDotAction } from "../components/atoms/Icon/IconThreeDotAction";
+import { ModalFriends } from "../components/ModalFriends";
+import { NewPost } from "../components/NewPost";
+import { Post } from "../components/Post";
+import { Avatar } from "../components/atoms/Avatar";
+import { Button } from "../components/atoms/Button";
+import { Card } from "../components/atoms/Card";
+import { Dropdown } from "../components/atoms/Dropdown";
+import { ModalAbout } from "../components/features/About";
 
 export const Profile = () => {
   const [open, setOpen] = useState(false);

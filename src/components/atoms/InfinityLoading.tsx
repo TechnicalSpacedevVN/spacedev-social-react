@@ -1,6 +1,6 @@
-import { IconSpin } from "@components/Icon/IconSpin";
+import { IconSpin } from "@components/atoms/Icon/IconSpin";
 import { forwardRef } from "react";
-import { FixedSizeList as List } from "react-window";
+// import { FixedSizeList as List } from "react-window";
 
 export interface InfinityLoadingProps extends DefaultProps {
   placement?: "top" | "bottom";
@@ -9,26 +9,31 @@ export interface InfinityLoadingProps extends DefaultProps {
   haveNext?: boolean;
   offset?: number;
   onNext?: () => void;
-  virtualized?: {
-    itemSize: number;
-    itemCount: number;
-    data: any;
-  };
+  // virtualized?: {
+  //   itemSize: number;
+  //   itemCount: number;
+  //   data: any;
+  // };
 }
 
-const Row = ({ index, style, children, ...props }: any) => {
-  console.log(props);
-  return <div style={style}>{children}</div>;
-};
+// const Row = ({ index, style, children, ...props }: any) => {
+//   console.log(props);
+//   return <div style={style}>{children}</div>;
+// };
 
-export const InfinityLoading = forwardRef<HTMLDivElement, InfinityLoadingProps>(
+export const InfinityLoading = forwardRef<
+  HTMLDivElement,
+  InfinityLoadingProps & React.HTMLAttributes<HTMLDivElement>
+>(
   (
     {
       placement = "bottom",
       children,
       loading,
       offset = 50,
-      virtualized,
+      haveNext,
+      onNext,
+      // virtualized,
       ...props
     },
     ref
@@ -51,18 +56,25 @@ export const InfinityLoading = forwardRef<HTMLDivElement, InfinityLoadingProps>(
     return (
       <div
         ref={ref}
-        className={props.className}
+        {...props}
         onScroll={(ev) => {
+          ev.preventDefault();
           let ele = ev.currentTarget;
-          let _offset = 0;
-          if (placement === "top") {
-            _offset = ele.scrollTop;
-          } else {
-            _offset = ele.scrollHeight - ele.scrollTop - ele.offsetHeight;
-          }
 
-          if (_offset < offset && props.haveNext) {
-            props.onNext?.();
+          if (!loading && haveNext) {
+            let _offset = 0;
+            if (placement === "top") {
+              _offset = ele.scrollTop;
+            } else {
+              _offset = ele.scrollHeight - ele.scrollTop - ele.offsetHeight;
+            }
+
+            if (_offset < offset) {
+              onNext?.();
+            }
+          }
+          if (loading && placement === "top" && ele.scrollTop < 1) {
+            ele.scrollTop = 1;
           }
         }}
       >

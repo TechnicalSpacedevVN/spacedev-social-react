@@ -1,29 +1,28 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { PATH } from '../constants/path';
-import { LOGIN_MODAL, setGlobalState } from '../store/queryClient';
-import { useAuth } from './AuthProvider';
-import { useMode } from './DarkModeProvider';
-import { GeneralInfo } from './GeneralInfo';
-import { Icon } from './Icon/Icon';
-import { ButtonIconApplication } from './Icon/IconApplication';
-import { ButtonIconChevronLeft } from './Icon/IconChevronLeft';
-import { IconChevronRight } from './Icon/IconChevronRight';
-import { IconClose } from './Icon/IconClose';
-import { IconFeedback } from './Icon/IconFeedback';
-import { IconLogout } from './Icon/IconLogout';
-import { ButtonIconSetting } from './Icon/IconSetting';
-import { IconSpin } from './Icon/IconSpin';
-import { ButtonIconThreeDotAction } from './Icon/IconThreeDotAction';
-import { ModalLogin } from './ModalLogin';
-import { Avatar } from './atoms/Avatar';
-import { Badge } from './atoms/Badge';
-import { Button } from './atoms/Button';
-import { Card } from './atoms/Card';
-import { Dropdown } from './atoms/Dropdown';
-import { Menu } from './atoms/Menu';
-import { Step } from './atoms/Step';
-import { Switch } from './atoms/Switch';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { PATH } from "../../../constants/path";
+import { LOGIN_MODAL, setGlobalState } from "../../../store/queryClient";
+import { useAuth } from "../../AuthProvider";
+import { useMode } from "../../DarkModeProvider";
+import { GeneralInfo } from "../../GeneralInfo";
+import { Icon } from "../../atoms/Icon/Icon";
+import { ButtonIconApplication } from "../../atoms/Icon/IconApplication";
+import { ButtonIconChevronLeft } from "../../atoms/Icon/IconChevronLeft";
+import { IconChevronRight } from "../../atoms/Icon/IconChevronRight";
+import { IconClose } from "../../atoms/Icon/IconClose";
+import { IconFeedback } from "../../atoms/Icon/IconFeedback";
+import { IconLogout } from "../../atoms/Icon/IconLogout";
+import { ButtonIconSetting } from "../../atoms/Icon/IconSetting";
+import { ButtonIconThreeDotAction } from "../../atoms/Icon/IconThreeDotAction";
+import { ModalLogin } from "./ModalLogin";
+import { Avatar } from "../../atoms/Avatar";
+import { Badge } from "../../atoms/Badge";
+import { Button } from "../../atoms/Button";
+import { Card } from "../../atoms/Card";
+import { Dropdown } from "../../atoms/Dropdown";
+import { Step } from "../../atoms/Step";
+import { Switch } from "../../atoms/Switch";
+import { Notification } from "../Notification";
 
 export const Header = () => {
   const { mode, toggleMode } = useMode();
@@ -37,7 +36,7 @@ export const Header = () => {
         open={openLogin}
         onCancel={() => setGlobalState(LOGIN_MODAL, false)}
       />
-      <header className="dark:bg-slate-900 bg-white h-header px-4 flex sticky top-0 z-10 border-b border-solid border-slate-300 dark:border-slate-700">
+      <header className="dark:bg-slate-900 bg-white h-header px-4 flex sticky top-0 z-10 border-b border-base">
         <div className="flex items-center gap-4 w-full">
           <div className="w-sidebar">
             <Link
@@ -140,74 +139,7 @@ export const Header = () => {
                 <div className="flex items-center">
                   <Dropdown
                     getPopupContainer={(parentNode) => parentNode}
-                    content={
-                      <div className="w-[400px]  max-h-[calc(100vh-100px)] overflow-auto">
-                        <Card
-                          title="Thông báo"
-                          action={
-                            <a
-                              href="#"
-                              className="dark:hover:bg-slate-700 text-blue-500 hover:bg-gray-100 rounded px-3 py-0.5"
-                            >
-                              Xem tất cả
-                            </a>
-                          }
-                          className="dark:!bg-slate-800"
-                        >
-                          <div className="mt-3 max-h-full flex-1">
-                            {Array.from(new Array(5)).map((_, i) => (
-                              <a
-                                key={i}
-                                href="#"
-                                className="[&:hover_.icon-action]:opacity-100 dark:text-white text-black rounded-lg flex gap-4 items-center hover:bg-black hover:bg-opacity-25 p-2 -ml-2"
-                              >
-                                <Avatar size={40} />
-                                <div className="flex flex-col flex-1">
-                                  <p className="text-sm">
-                                    <span className="font-semibold">
-                                      Mark Ortega
-                                    </span>
-                                    &nbsp; Đã nhắc đến bạn trong một bài viết
-                                  </p>
-                                  <time className="text-sm text-blue-400">
-                                    4 hours ago
-                                  </time>
-                                </div>
-                                <div className="flex gap-1 items-center">
-                                  <div className="icon-action opacity-0">
-                                    <Dropdown
-                                      placement="bottomRight"
-                                      content={
-                                        <Menu
-                                          menus={[
-                                            { label: 'Đánh dấu chưa đọc' },
-                                            { label: 'Xóa' },
-                                            {
-                                              label:
-                                                'Ẩn thông báo từ người này',
-                                            },
-                                            {
-                                              label:
-                                                'Không nhận thông báo từ bài viết này',
-                                            },
-                                          ]}
-                                        />
-                                      }
-                                    >
-                                      <ButtonIconThreeDotAction />
-                                    </Dropdown>
-                                  </div>
-                                  <span className="rounded-full w-3 h-3 bg-blue-500"></span>
-                                </div>
-                              </a>
-                            ))}
-                            <div className="flex justify-center my-3">
-                              <IconSpin />
-                            </div>
-                          </div>
-                        </Card>
-                      </div>
-                    }
+                    content={<Notification />}
                     arrow={false}
                     placement="bottomRight"
                   >
@@ -282,7 +214,7 @@ export const Header = () => {
                               </svg>
                             </Icon>
                             <p className="flex-1">Dark mode</p>
-                            <Switch checked={mode === 'dark'} />
+                            <Switch checked={mode === "dark"} />
                           </a>
 
                           <div
@@ -450,7 +382,7 @@ export const Header = () => {
                             </svg>
                           </Icon>
                           <p className="flex-1">Dark mode</p>
-                          <Switch checked={mode === 'dark'} />
+                          <Switch checked={mode === "dark"} />
                         </a>
 
                         <a

@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { IconSpin } from "./Icon/IconSpin";
+import { IconSpin } from "./atoms/Icon/IconSpin";
 import { Avatar } from "./atoms/Avatar";
 import { BorderGradient } from "./atoms/BorderGradient";
 import { Button } from "./atoms/Button";
@@ -7,12 +7,13 @@ import { Modal } from "./atoms/Modal";
 import { Tab } from "./atoms/Tab";
 import { InfinityLoading } from "./atoms/InfinityLoading";
 import { faker } from "@faker-js/faker";
+import { fakeApi, mockUser } from "@utils/mock";
 
 export const ModalFriends: FC<{ open?: boolean; onCancel?: () => void }> = (
   props
 ) => {
-  const [friends, setFriends] = useState(() => Array.from(new Array(20)));
-  const [follow, setFollow] = useState(() => Array.from(new Array(20)));
+  const [friends, setFriends] = useState(mockUser);
+  const [follow, setFollow] = useState(mockUser);
   const [loading, setLoading] = useState(false);
   return (
     <Modal
@@ -34,27 +35,24 @@ export const ModalFriends: FC<{ open?: boolean; onCancel?: () => void }> = (
                 haveNext
                 loading={loading}
                 offset={200}
-                onNext={() => {
+                onNext={async () => {
                   setLoading(true);
-                  setTimeout(() => {
-                    setFriends([...friends, ...Array.from(new Array(10))]);
-                    setLoading(false);
-                  }, 1000);
+                  let users = await fakeApi(mockUser);
+                  setFriends([...friends, ...users]);
+                  setLoading(false);
                 }}
                 className="px-3 flex flex-col gap-3 py-3 max-h-[400px] overflow-auto"
               >
-                {friends.map((_, i) => (
-                  <div key={i} className="flex gap-2 items-center">
-                    <Avatar border={{}} size={40} />
+                {friends.map((e, i) => (
+                  <div key={e.id} className="flex gap-2 items-center">
+                    <Avatar border={e.story ? {} : undefined} size={40} />
                     <div>
                       <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
-                        {faker.person.fullName()}
+                        {e.fullName}
                       </h3>
-                      <p className="text-xs text-gray-500">
-                        {faker.person.jobTitle()}
-                      </p>
+                      <p className="text-xs text-gray-500">{e.jobTitle}</p>
                     </div>
-                    <Button className="ml-auto">Remove</Button>
+                    <Button className="ml-auto">Hủy kết bạn</Button>
                   </div>
                 ))}
               </InfinityLoading>
@@ -67,27 +65,24 @@ export const ModalFriends: FC<{ open?: boolean; onCancel?: () => void }> = (
                 haveNext
                 loading={loading}
                 offset={200}
-                onNext={() => {
+                onNext={async () => {
                   setLoading(true);
-                  setTimeout(() => {
-                    setFollow([...follow, ...Array.from(new Array(10))]);
-                    setLoading(false);
-                  }, 1000);
+                  let users = await fakeApi(mockUser);
+                  setFollow([...follow, ...users]);
+                  setLoading(false);
                 }}
                 className="px-3 flex flex-col gap-3 py-3 max-h-[400px] overflow-auto"
               >
-                {follow.map((_, i) => (
-                  <div key={i} className="flex gap-2 items-center">
-                    <Avatar size={40} />
+                {follow.map((e, i) => (
+                  <div key={e.id} className="flex gap-2 items-center">
+                    <Avatar border={e.story ? {} : undefined} size={40} />
                     <div>
                       <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
-                        {faker.person.fullName()}
+                        {e.fullName}
                       </h3>
-                      <p className="text-xs text-gray-500">
-                        {faker.person.jobTitle()}
-                      </p>
+                      <p className="text-xs text-gray-500">{e.jobTitle}</p>
                     </div>
-                    <Button className="ml-auto">Remove</Button>
+                    <Button className="ml-auto">Hủy theo dõi</Button>
                   </div>
                 ))}
               </InfinityLoading>

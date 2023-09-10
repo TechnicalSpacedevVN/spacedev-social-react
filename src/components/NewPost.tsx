@@ -1,18 +1,18 @@
-import { FC, useEffect, useRef, useState } from 'react';
-import { IconArrow } from './Icon/IconArrow';
-import { ButtonIconImage } from './Icon/IconImage';
-import { Avatar } from './atoms/Avatar';
-import { Button } from './atoms/Button';
-import { Dropdown } from './atoms/Dropdown';
-import { ImageGrid } from './atoms/ImageGrid';
-import { Menu } from './atoms/Menu';
-import { Modal, ModalProps } from './atoms/Modal';
+import { FC, useEffect, useRef, useState } from "react";
+import { IconArrow } from "./atoms/Icon/IconArrow";
+import { ButtonIconImage } from "./atoms/Icon/IconImage";
+import { Avatar } from "./atoms/Avatar";
+import { Button } from "./atoms/Button";
+import { Dropdown } from "./atoms/Dropdown";
+import { ImageGrid } from "./atoms/ImageGrid";
+import { Menu } from "./atoms/Menu";
+import { Modal, ModalProps } from "./atoms/Modal";
 
-const upload2ImageClass = 'grid-cols-2';
+const upload2ImageClass = "grid-cols-2";
 const upload3ImageClass =
-  'grid-cols-3 [&>*:nth-child(1)]:col-span-2 [&>*:nth-child(1)]:row-span-2';
+  "grid-cols-3 [&>*:nth-child(1)]:col-span-2 [&>*:nth-child(1)]:row-span-2";
 const upload4ImageClass =
-  'h-[466px] relative [&>*]:absolute [&>*]:overflow-hidden [&>*:nth-child(1)]:inset-[calc(0%_+_0px)_calc(33.3333%_+_1.01px)_calc(0%_+_0px)_calc(0%_+_0px)] [&>*:nth-child(2)]:inset-[calc(0%_+_0px)_calc(0%_+_0px)_calc(66.6667%_+_1.01px)_calc(66.6667%_+_1.01px)] [&>*:nth-child(3)]:inset-[calc(33.3333%_+_1.01px)_calc(0%_+_0px)_calc(33.3333%_+_1.01px)_calc(66.6667%_+_1.01px)]  [&>*:nth-child(4)]:inset-[calc(66.6667%_+_1.01px)_calc(0%_+_0px)_calc(0%_+_0px)_calc(66.6667%_+_1.01px)]';
+  "h-[466px] relative [&>*]:absolute [&>*]:overflow-hidden [&>*:nth-child(1)]:inset-[calc(0%_+_0px)_calc(33.3333%_+_1.01px)_calc(0%_+_0px)_calc(0%_+_0px)] [&>*:nth-child(2)]:inset-[calc(0%_+_0px)_calc(0%_+_0px)_calc(66.6667%_+_1.01px)_calc(66.6667%_+_1.01px)] [&>*:nth-child(3)]:inset-[calc(33.3333%_+_1.01px)_calc(0%_+_0px)_calc(33.3333%_+_1.01px)_calc(66.6667%_+_1.01px)]  [&>*:nth-child(4)]:inset-[calc(66.6667%_+_1.01px)_calc(0%_+_0px)_calc(0%_+_0px)_calc(66.6667%_+_1.01px)]";
 
 export const NewPost = () => {
   const [open, setOpen] = useState(false);
@@ -144,7 +144,7 @@ export const NewPost = () => {
 
 const ModalCreate: FC<ModalProps> = (props) => {
   const inputRef = useRef<HTMLDivElement>(null);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   useEffect(() => {
     if (props.open) {
       inputRef.current?.focus();
@@ -162,10 +162,10 @@ const ModalCreate: FC<ModalProps> = (props) => {
               content={
                 <Menu
                   menus={[
-                    { label: 'Công khai' },
-                    { label: 'Chỉ mình tôi' },
-                    { label: 'Chỉ bạn bè tôi' },
-                    { label: 'Ẩn danh' },
+                    { label: "Công khai" },
+                    { label: "Chỉ mình tôi" },
+                    { label: "Chỉ bạn bè tôi" },
+                    { label: "Ẩn danh" },
                   ]}
                 />
               }
@@ -187,7 +187,7 @@ const ModalCreate: FC<ModalProps> = (props) => {
                   <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
                   <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
                 </svg>
-                Only me{' '}
+                Only me{" "}
                 <IconArrow
                   transparent
                   className="!w-3 h-fit !p-0 h-3 !bg-transparent"
@@ -209,20 +209,20 @@ const ModalCreate: FC<ModalProps> = (props) => {
             contentEditable
             onInput={(ev) => {
               if (!ev.currentTarget.innerText.trim()) {
-                ev.currentTarget.innerHTML = '';
+                ev.currentTarget.innerHTML = "";
               }
               setValue(ev.currentTarget.innerHTML);
             }}
           ></div>
           <ImageGrid
             images={[
-              'https://unsplash.it/600/700',
-              'https://unsplash.it/600/701',
-              'https://unsplash.it/600/702',
-              'https://unsplash.it/600/703',
-              'https://unsplash.it/600/704',
-              'https://unsplash.it/600/705',
-              'https://unsplash.it/600/706',
+              "https://unsplash.it/600/700",
+              "https://unsplash.it/600/701",
+              "https://unsplash.it/600/702",
+              "https://unsplash.it/600/703",
+              "https://unsplash.it/600/704",
+              "https://unsplash.it/600/705",
+              "https://unsplash.it/600/706",
             ]}
           />
           {/* <div className={cn('', upload4ImageClass)}>
@@ -260,7 +260,7 @@ const ModalCreate: FC<ModalProps> = (props) => {
           <Button
             className="w-full"
             disabled={!value}
-            type={value ? 'primary' : 'default'}
+            type={value ? "primary" : "default"}
             loading
           >
             Post

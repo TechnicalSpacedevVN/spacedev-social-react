@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { ButtonIconClose } from "../Icon/IconClose";
+import { ButtonIconClose } from "../atoms/Icon/IconClose";
 import { Avatar } from "../atoms/Avatar";
 
 export const FloatNotification = () => {

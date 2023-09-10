@@ -1,3 +1,4 @@
+import { IconPlus } from "./atoms/Icon/IconPlus";
 import { Avatar } from "./atoms/Avatar";
 import { BorderGradient } from "./atoms/BorderGradient";
 import { HorizontalScroll } from "./atoms/HorizontalScroll";
@@ -12,7 +13,7 @@ export const Story = () => {
       <div className="p-1">
         <div className="flex flex-col items-center relative cursor-pointer snap-always snap-center gap-1 overflow-hidden w-full h-full">
           <BorderGradient
-            size={2}
+            size={3}
             className="relative rounded-lg overflow-hidden w-full h-full"
           >
             <div className="rounded-lg overflow-hiddens w-full h-full">
@@ -21,24 +22,9 @@ export const Story = () => {
                 src={"https://unsplash.it/400/400"}
               />
             </div>
-            <div className="flex flex-col gap-3 items-center justify-end  text-md p-4 bottom-[2px] left-[2px] right-[2px] rounded-lg  font-semibold whitespace-nowrap text-white absolute bg-gradient-to-t from-[#000000]  h-[100px] to-[#00000000]">
+            <div className="flex flex-col gap-3 items-center justify-end  text-md p-4 bottom-[3px] left-[3px] right-[3px] rounded-lg  font-semibold whitespace-nowrap text-white absolute bg-gradient-to-t from-[#000000]  h-[100px] to-[#00000000]">
               <div className="w-7 h-7 flex items-center justify-center text-white bg-primary-500 hover:bg-primary-600 rounded-full shadow-[0_0_0_2px_white]">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="icon icon-tabler icon-tabler-plus"
-                  width={17}
-                  height={17}
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path d="M12 5l0 14" />
-                  <path d="M5 12l14 0" />
-                </svg>
+                <IconPlus />
               </div>
               Tạo tin
             </div>

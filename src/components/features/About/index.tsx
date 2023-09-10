@@ -1,14 +1,14 @@
-import { IconLock } from '@components/Icon/IconLock';
-import { IconSetting } from '@components/Icon/IconSetting';
-import { IconUserGroup } from '@components/Icon/IconUserGroup';
-import { FC } from 'react';
-import { IconApp } from '../../Icon/IconApp';
-import { ButtonIconCamera } from '../../Icon/IconCamera';
-import { IconNotification } from '../../Icon/IconNotification';
-import { IconUser } from '../../Icon/IconUser';
-import { IconWorld } from '../../Icon/IconWorld';
-import { Avatar } from '../../atoms/Avatar';
-import { Modal, ModalProps } from '../../atoms/Modal';
+import { IconLock } from "@components/atoms/Icon/IconLock";
+import { IconSetting } from "@components/atoms/Icon/IconSetting";
+import { IconUserGroup } from "@components/atoms/Icon/IconUserGroup";
+import { FC } from "react";
+import { IconApp } from "../../atoms/Icon/IconApp";
+import { ButtonIconCamera } from "../../atoms/Icon/IconCamera";
+import { IconNotification } from "../../atoms/Icon/IconNotification";
+import { IconUser } from "../../atoms/Icon/IconUser";
+import { IconWorld } from "../../atoms/Icon/IconWorld";
+import { Avatar } from "../../atoms/Avatar";
+import { Modal, ModalProps } from "../../atoms/Modal";
 
 export const ModalAbout: FC<ModalProps> = (props) => {
   return (

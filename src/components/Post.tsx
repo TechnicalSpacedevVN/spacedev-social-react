@@ -1,18 +1,18 @@
 import { handleSelectEnd, scollToElement } from "@utils";
-import { FC, useRef, useState } from "react";
-import { IconArchive } from "./Icon/IconArchive";
-import { IconBellOff } from "./Icon/IconBellOf";
-import { IconBookmark } from "./Icon/IconBookmark";
-import { IconComment } from "./Icon/IconComment";
-import { IconExclamation } from "./Icon/IconExclamation";
-import { IconEyeClose } from "./Icon/IconEyeClose";
-import { ButtonIconHeart } from "./Icon/IconHeart";
-import { ButtonIconHeartFill } from "./Icon/IconHeartFill";
-import { IconPen } from "./Icon/IconPen";
-import { IconShare } from "./Icon/IconShare";
-import { IconSpin } from "./Icon/IconSpin";
-import { ButtonIconThreeDotAction } from "./Icon/IconThreeDotAction";
-import { IconTrash } from "./Icon/IconTrash";
+import { FC, useRef, useState, useMemo } from "react";
+import { IconArchive } from "./atoms/Icon/IconArchive";
+import { IconBellOff } from "./atoms/Icon/IconBellOf";
+import { IconBookmark } from "./atoms/Icon/IconBookmark";
+import { IconComment } from "./atoms/Icon/IconComment";
+import { IconExclamation } from "./atoms/Icon/IconExclamation";
+import { IconEyeClose } from "./atoms/Icon/IconEyeClose";
+import { ButtonIconHeart } from "./atoms/Icon/IconHeart";
+import { ButtonIconHeartFill } from "./atoms/Icon/IconHeartFill";
+import { IconPen } from "./atoms/Icon/IconPen";
+import { IconShare } from "./atoms/Icon/IconShare";
+import { IconSpin } from "./atoms/Icon/IconSpin";
+import { ButtonIconThreeDotAction } from "./atoms/Icon/IconThreeDotAction";
+import { IconTrash } from "./atoms/Icon/IconTrash";
 import { Avatar } from "./atoms/Avatar";
 import { Button } from "./atoms/Button";
 import { Dropdown } from "./atoms/Dropdown";
@@ -22,6 +22,9 @@ import { Modal, ModalProps } from "./atoms/Modal";
 import { Tag } from "./atoms/Tag";
 import { faker } from "@faker-js/faker";
 import moment from "moment";
+import { setDropFileData } from "./atoms/DropFile";
+import { generatePath } from "react-router-dom";
+import { PATH } from "@constants/path";
 
 const PostMenu = () => {
   return (
@@ -44,7 +47,6 @@ const PostMenu = () => {
     </Dropdown>
   );
 };
-
 export const Post = () => {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState(faker.person.fullName);
@@ -63,7 +65,7 @@ export const Post = () => {
     faker.number.int({ min: 0, max: 100 })
   );
   const [image, setImage] = useState(faker.image.url);
-
+  let id = useMemo(() => Math.round(Math.random() * 10000000).toString(), []);
   return (
     <>
       <ModalDetail
@@ -71,7 +73,25 @@ export const Post = () => {
         open={open}
         onCancel={() => setOpen(false)}
       />
-      <div className="rounded-lg bg-white pb-4 dark:bg-slate-900">
+      <div
+        draggable
+        onDragStart={(ev) => {
+          let img = document.createElement("img");
+          img.src = image;
+          ev.dataTransfer.setDragImage(img, img.width / 2, img.height / 2);
+          setDropFileData(ev, "post", {
+            content: content,
+            id: id,
+            url: {
+              image: image,
+              link: generatePath(PATH.PostDetail, { id }),
+              title: content,
+            },
+            user: avatar,
+          });
+        }}
+        className="rounded-lg bg-white pb-4 dark:bg-slate-900"
+      >
         <div className="flex items-center gap-2 p-4">
           <Avatar src={avatar} />
           <div className="flex-1 -mt-1">
@@ -94,14 +114,17 @@ export const Post = () => {
         </div>
         <div className="p-1 overflow-hidden flex items-center">
           <a
-            className="w-full"
+            className="w-full select-none"
             href="#"
             onClick={(ev) => {
               ev.preventDefault();
               setOpen(true);
             }}
+            onDragStart={(ev) => {
+              setDropFileData(ev, "img", image);
+            }}
           >
-            <img className="w-full h-full object-cover" src={image} />
+            <img draggable className="w-full h-full object-cover" src={image} />
           </a>
         </div>
         <div className="flex items-center justify-between p-3">

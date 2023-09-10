@@ -1,24 +1,23 @@
 import { FC, useState } from "react";
-import { Modal, ModalProps } from "./atoms/Modal";
-import { IconQR } from "./Icon/IconQR";
-import { ButtonIconUser } from "./Icon/IconUser";
-import { IconFacebook } from "./Icon/IconFacebook";
-import { IconInstagram } from "./Icon/IconInstagram";
-import { IconTwitter } from "./Icon/IconTwitter";
-import { useAuth } from "./AuthProvider";
-import { Input } from "./atoms/Input";
-import { Button } from "./atoms/Button";
+import { Modal, ModalProps } from "../../atoms/Modal";
+import { IconQR } from "../../atoms/Icon/IconQR";
+import { ButtonIconUser } from "../../atoms/Icon/IconUser";
+import { IconFacebook } from "../../atoms/Icon/IconFacebook";
+import { IconInstagram } from "../../atoms/Icon/IconInstagram";
+import { IconTwitter } from "../../atoms/Icon/IconTwitter";
+import { useAuth } from "../../AuthProvider";
+import { Input } from "../../atoms/Input";
+import { Button } from "../../atoms/Button";
 import { useForm, SubmitHandler } from "react-hook-form";
 import {
   LOGIN_MODAL,
   getGlobalState,
   useGLobalState,
-} from "../store/queryClient";
+} from "../../../store/queryClient";
 
 export const ModalLogin: FC<ModalProps> = ({ ...props }) => {
   const { login } = useAuth();
   const _open = useGLobalState(LOGIN_MODAL, false);
-  console.log(_open);
 
   const [openNormalLogin, setOpenNormalLogin] = useState(false);
   const [openRegisterModal, setOpenRegisterModal] = useState(false);

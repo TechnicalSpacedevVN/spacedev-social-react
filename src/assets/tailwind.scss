@@ -29,6 +29,12 @@ input:-webkit-autofill:active {
   -webkit-transition-delay: 9999s;
 }
 
+@layer components {
+  .text-demo {
+    font-size: 100px;
+  }
+}
+
 @layer utilities {
   .text-demo {
     height: 10px;

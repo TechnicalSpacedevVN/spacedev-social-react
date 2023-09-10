@@ -41,7 +41,15 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    ({ addUtilities }) => {
+      addUtilities({
+        ".border-base": {
+          "@apply  border-solid border-gray-300 dark:border-slate-700": {},
+        },
+      });
+    },
+  ],
 
   darkMode: "class",
 };
