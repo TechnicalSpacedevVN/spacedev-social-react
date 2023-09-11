@@ -15,7 +15,7 @@ export const fakeApi = <T>(callback: () => T) =>
     }, Math.random() * 3000);
   });
 
-export const mockUser = mock(() => ({
+export const mockUser = () => ({
   id: randomId(),
   fullName: faker.person.fullName(),
   avatar: faker.internet.avatar(),
@@ -23,11 +23,11 @@ export const mockUser = mock(() => ({
   messageCount: faker.number.int({ min: 0, max: 10 }),
   story: Math.random() < 0.2,
   jobTitle: faker.person.jobTitle(),
-}));
+});
 
-export const mockMessage = mock(() => ({
+export const mockMessage = () => ({
   content: faker.lorem.paragraph(1),
-  avatar: faker.internet.avatar(),
+  sender: mockUser(),
   myMessage: Math.random() > 0.5,
   id: randomId(),
   img:
@@ -45,21 +45,26 @@ export const mockMessage = mock(() => ({
           link: faker.internet.url(),
         }
       : undefined,
-}));
+});
 
-export const mockPost = mock(() => ({
+export const mockPost = () => ({
   id: randomId(),
   content: faker.lorem.lines(2),
-}));
+  user: mockUser(),
+  country: faker.location.country(),
+  city: faker.location.city(),
+  createdAt: faker.date.past(),
+  heartCount: faker.number.int({ min: 0, max: 10000 }),
+  commentCount: faker.number.int({ min: 0, max: 100 }),
+  shareCount: faker.number.int({ min: 0, max: 100 }),
+  image: faker.image.url(),
+});
 
-export const mockStory = mock(() => ({
+export const mockStory = () => ({
   id: randomId(),
   src: faker.image.url({ height: 500, width: 500 }),
-  user: {
-    avatar: faker.internet.avatar(),
-    name: faker.person.fullName(),
-  },
-}));
+  user: mockUser(),
+});
 
 export const mockUploadImage = (file: File) => {
   return new Promise<{ path: string; id: string }>(async (res) => {
@@ -67,3 +72,8 @@ export const mockUploadImage = (file: File) => {
     res({ path: imgSrc, id: randomId() });
   });
 };
+
+export const mockMessages = mock(mockMessage);
+export const mockPosts = mock(mockPost);
+export const mockStories = mock(mockStory);
+export const mockUsers = mock(mockUser);

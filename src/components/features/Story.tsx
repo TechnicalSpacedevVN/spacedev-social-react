@@ -3,10 +3,10 @@ import { Avatar } from "@components/atoms/Avatar";
 import { BorderGradient } from "@components/atoms/BorderGradient";
 import { HorizontalScroll } from "@components/atoms/HorizontalScroll";
 import { useState } from "react";
-import { mockStory } from "@utils/mock";
+import { mockStories } from "@utils/mock";
 
 export const Story = () => {
-  const [stories, setStories] = useState(() => mockStory(10));
+  const [stories, setStories] = useState(() => mockStories(10));
   return (
     <HorizontalScroll
       height={250}
@@ -50,7 +50,7 @@ export const Story = () => {
               </div>
               <div className="text-xs flex items-end p-4 bottom-0 left-0 right-0 rounded-lg font-semibold whitespace-nowrap text-white absolute bg-gradient-to-t from-[#000000]  h-[100px] to-[#00000000]">
                 <p className="line-clamp-1 w-full block text-ellipsis">
-                  {story.user.name}
+                  {story.user.fullName}
                 </p>
               </div>
             </div>

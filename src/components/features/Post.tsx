@@ -25,6 +25,7 @@ import moment from "moment";
 import { setDropFileData } from "@components/atoms/DropFile";
 import { generatePath } from "react-router-dom";
 import { PATH } from "@constants/path";
+import { mockPost } from "@utils/mock";
 
 const PostMenu = () => {
   return (
@@ -49,22 +50,7 @@ const PostMenu = () => {
 };
 export const Post = () => {
   const [open, setOpen] = useState(false);
-  const [name, setName] = useState(faker.person.fullName);
-  const [avatar, setAvatar] = useState(faker.internet.avatar);
-  const [country, setCountry] = useState(faker.location.country);
-  const [city, seCity] = useState(faker.location.city);
-  const [content, setContent] = useState(faker.lorem.paragraph);
-  const [createdAt, setCreatedAt] = useState(faker.date.past);
-  const [heartCount, setHeartCount] = useState(() =>
-    faker.number.int({ min: 0, max: 10000 })
-  );
-  const [commentCount, setCommentCount] = useState(() =>
-    faker.number.int({ min: 0, max: 100 })
-  );
-  const [shareCount, setShareCount] = useState(() =>
-    faker.number.int({ min: 0, max: 100 })
-  );
-  const [image, setImage] = useState(faker.image.url);
+  const [post] = useState(mockPost);
   let id = useMemo(() => Math.round(Math.random() * 10000000).toString(), []);
   return (
     <>
@@ -77,35 +63,35 @@ export const Post = () => {
         draggable
         onDragStart={(ev) => {
           let img = document.createElement("img");
-          img.src = image;
+          img.src = post.image;
           ev.dataTransfer.setDragImage(img, img.width / 2, img.height / 2);
           setDropFileData(ev, "post", {
-            content: content,
+            content: post.content,
             id: id,
             url: {
-              image: image,
+              image: post.image,
               link: generatePath(PATH.PostDetail, { id }),
-              title: content,
+              title: post.content,
             },
-            user: avatar,
+            user: post.user.avatar,
           });
         }}
         className="rounded-lg bg-white pb-4 dark:bg-slate-900"
       >
         <div className="flex items-center gap-2 p-4">
-          <Avatar src={avatar} />
+          <Avatar src={post.user.avatar} />
           <div className="flex-1 -mt-1">
             <div className="flex items-center gap-2">
               <h4 className="text-sm font-semibold text-gray-900 dark:text-white">
-                {name}
+                {post.user.fullName}
               </h4>
               -
               <time className=" text-sm !text-opacity-70 text-black dark:text-white">
-                {moment(createdAt).fromNow()}
+                {moment(post.createdAt).fromNow()}
               </time>
             </div>
             <p className="text-gray-500 text-xs">
-              {city}, {country}
+              {post.city}, {post.country}
             </p>
           </div>
           <div>
@@ -121,21 +107,25 @@ export const Post = () => {
               setOpen(true);
             }}
             onDragStart={(ev) => {
-              setDropFileData(ev, "img", image);
+              setDropFileData(ev, "img", post.image);
             }}
           >
-            <img draggable className="w-full h-full object-cover" src={image} />
+            <img
+              draggable
+              className="w-full h-full object-cover"
+              src={post.image}
+            />
           </a>
         </div>
         <div className="flex items-center justify-between p-3">
           <div className="flex gap-0.5 ">
             <Tag className="flex items-center text-sm">
               <IconComment />
-              {commentCount}
+              {post.commentCount}
             </Tag>
             <Tag className="flex items-center text-sm">
               <IconShare />
-              {shareCount}
+              {post.shareCount}
             </Tag>
             {Math.random() > 0.5 ? (
               <ButtonIconHeart transparent />
@@ -168,7 +158,7 @@ export const Post = () => {
                 </b>{" "}
                 và{" "}
                 <b>
-                  <a href="#">{heartCount} người khác</a>
+                  <a href="#">{post.heartCount} người khác</a>
                 </b>
               </p>
             </div>
@@ -178,7 +168,7 @@ export const Post = () => {
           </div>
         </div>
         <p className="px-5 text-sm">
-          <b>{name}</b>&nbsp;{content}
+          <b>{post.user.fullName}</b>&nbsp;{post.content}
         </p>
       </div>
     </>

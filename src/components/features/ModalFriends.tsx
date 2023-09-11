@@ -1,4 +1,4 @@
-import { fakeApi, mockUser } from "@utils/mock";
+import { fakeApi, mockUsers } from "@utils/mock";
 import { FC, useState } from "react";
 import { Avatar } from "@/components/atoms/Avatar";
 import { Button } from "@/components/atoms/Button";
@@ -9,8 +9,8 @@ import { Tab } from "@/components/atoms/Tab";
 export const ModalFriends: FC<{ open?: boolean; onCancel?: () => void }> = (
   props
 ) => {
-  const [friends, setFriends] = useState(mockUser);
-  const [follow, setFollow] = useState(mockUser);
+  const [friends, setFriends] = useState(mockUsers);
+  const [follow, setFollow] = useState(mockUsers);
   const [loading, setLoading] = useState(false);
   return (
     <Modal
@@ -34,7 +34,7 @@ export const ModalFriends: FC<{ open?: boolean; onCancel?: () => void }> = (
                 offset={200}
                 onNext={async () => {
                   setLoading(true);
-                  let users = await fakeApi(mockUser);
+                  let users = await fakeApi(mockUsers);
                   setFriends([...friends, ...users]);
                   setLoading(false);
                 }}
@@ -64,7 +64,7 @@ export const ModalFriends: FC<{ open?: boolean; onCancel?: () => void }> = (
                 offset={200}
                 onNext={async () => {
                   setLoading(true);
-                  let users = await fakeApi(mockUser);
+                  let users = await fakeApi(mockUsers);
                   setFollow([...follow, ...users]);
                   setLoading(false);
                 }}

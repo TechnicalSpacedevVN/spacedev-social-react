@@ -10,7 +10,7 @@ import { Tab } from "@components/atoms/Tab";
 import { UploadFile, UploadfileRef } from "@components/atoms/UploadFile";
 import { UserItem } from "@components/atoms/UserItem";
 import { handleSelectEnd } from "@utils/handleSelectEnd";
-import { fakeApi, mockMessage, mockUploadImage, randomId } from "@utils/mock";
+import { fakeApi, mockMessages, mockUploadImage, randomId } from "@utils/mock";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { cn } from "../../../utils";
@@ -53,7 +53,7 @@ export const ChatScreen: FC = () => {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isHide, setIsHide] = useState(false);
   const [openMember, setOpenMember] = useState(false);
-  const [messages, setMessages] = useState(() => mockMessage(10));
+  const [messages, setMessages] = useState(() => mockMessages(10));
   const [loading, setLoading] = useState(false);
   const [images, setImages] = useState<{ path: string; id: string }[]>([
     // "https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80",
@@ -209,7 +209,7 @@ export const ChatScreen: FC = () => {
             className="flex flex-col py-2 gap-2 flex-1 main overflow-auto"
             onNext={async () => {
               setLoading(true);
-              let res = await fakeApi(mockMessage);
+              let res = await fakeApi(mockMessages);
               setMessages([...res, ...messages]);
               setLoading(false);
             }}

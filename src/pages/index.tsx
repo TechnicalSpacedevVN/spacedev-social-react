@@ -13,13 +13,13 @@ import { Card } from "../components/atoms/Card";
 import { LOGIN_MODAL, setGlobalState } from "../store/queryClient";
 import { InfinityLoading } from "@components/atoms/InfinityLoading";
 import { useEffect, useState } from "react";
-import { fakeApi, mockPost } from "@utils/mock";
+import { fakeApi, mockPosts } from "@utils/mock";
 import { useTitle } from "@hooks/useTitle";
 import { CardGroup } from "@components/features/CardGroup";
 
 export const Home = () => {
   const { user } = useAuth();
-  const [posts, setPosts] = useState(() => mockPost(3));
+  const [posts, setPosts] = useState(() => mockPosts(3));
   const [loading, setLoading] = useState(false);
   useTitle("Spacedev facinsrule");
 
@@ -29,7 +29,7 @@ export const Home = () => {
         document.body.scrollHeight - window.scrollY - window.innerHeight;
       if (offset < 200) {
         setLoading(true);
-        fakeApi(() => mockPost(5)).then((res) => {
+        fakeApi(() => mockPosts(5)).then((res) => {
           setPosts([...posts, ...res]);
           setLoading(false);
         });

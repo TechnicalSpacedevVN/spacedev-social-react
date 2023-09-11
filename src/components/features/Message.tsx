@@ -1,4 +1,4 @@
-import { fakeApi, mockUser } from "@utils/mock";
+import { fakeApi, mockUsers } from "@utils/mock";
 import { useState } from "react";
 import { Avatar } from "@components/atoms/Avatar";
 import { Badge } from "@components/atoms/Badge";
@@ -11,7 +11,7 @@ import { Menu } from "@components/atoms/Menu";
 import { Tab } from "@components/atoms/Tab";
 
 export const Message = () => {
-  const [users, setUsers] = useState(() => mockUser(20));
+  const [users, setUsers] = useState(() => mockUsers(20));
   const [loading, setLoading] = useState(false);
   return (
     <Card
@@ -62,7 +62,7 @@ export const Message = () => {
                     offset={200}
                     onNext={async () => {
                       setLoading(true);
-                      let res = await fakeApi(mockUser);
+                      let res = await fakeApi(mockUsers);
                       setUsers([...users, ...res]);
                       setLoading(false);
                     }}
