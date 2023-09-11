@@ -2,18 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --scrollbar-width: 7px;
+  --body-padding-right: 0px;
+}
+
 * {
   box-sizing: border-box;
 }
 
+// body {
+//   @apply pr-[var(--body-padding-right)];
+// }
+
+// .body-pr {
+//   @apply pr-[var(--body-padding-right)];
+// }
+
+hr {
+  @apply border-base;
+}
+
 *::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: var(--scrollbar-width);
+  height: var(--scrollbar-width);
 }
 
 *::-webkit-scrollbar-track {
   @apply bg-transparent;
-  border-radius: 7px;
+  border-radius: var(--scrollbar-width);
 }
 
 *::-webkit-scrollbar-thumb {
@@ -36,10 +53,6 @@ input:-webkit-autofill:active {
 }
 
 @layer utilities {
-  .text-demo {
-    height: 10px;
-  }
-
   .horizontal-scroll {
     --finalHeight: 250px;
     --itemWidth: 250px;

@@ -13,7 +13,7 @@ export const Story = () => {
       className="dark:bg-slate-900 bg-white rounded-lg p-3 gap-3 "
     >
       <div className="p-1">
-        <div className="flex flex-col items-center relative cursor-pointer snap-always snap-center gap-1 overflow-hidden w-full h-full">
+        <div className="active:scale-95 flex flex-col items-center relative cursor-pointer snap-always snap-center gap-1 overflow-hidden w-full h-full">
           <div className="relative rounded-lg overflow-hidden w-full h-full">
             <div className="rounded-lg overflow-hiddens w-full h-full">
               <img
@@ -32,7 +32,7 @@ export const Story = () => {
       </div>
       {stories.map((story) => (
         <div key={story.id} className="p-1">
-          <div className="flex flex-col items-center relative cursor-pointer snap-always snap-center gap-1 overflow-hidden w-full h-full">
+          <div className="active:scale-95 flex flex-col items-center relative cursor-pointer snap-always snap-center gap-1 overflow-hidden w-full h-full">
             <div className="relative overflow-hidden w-full h-full rounded-xl  border-solid">
               <div className="absolute top-2 left-2 overflow-hidden rounded-full">
                 <Avatar

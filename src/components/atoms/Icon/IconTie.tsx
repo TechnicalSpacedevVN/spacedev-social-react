@@ -1,20 +1,20 @@
 import { Icon } from "./Icon";
 import { ButtonIconProps, IconProps } from "./type";
 
-export const ButtonIconWorld: Atom<ButtonIconProps> = (props) => {
+export const ButtonIconTie: Atom<ButtonIconProps> = (props) => {
   return (
     <Icon {...props}>
-      <IconWorld />
+      <IconTie />
     </Icon>
   );
 };
 
-export const IconWorld: Atom<IconProps> = ({ size = 17, ...props }) => {
+export const IconTie: Atom<IconProps> = ({ size = 17, ...props }) => {
   return (
     <svg
       {...props}
       xmlns="http://www.w3.org/2000/svg"
-      className="icon icon-tabler icon-tabler-world"
+      className="icon icon-tabler icon-tabler-tie"
       width={size}
       height={size}
       viewBox="0 0 24 24"
@@ -25,11 +25,8 @@ export const IconWorld: Atom<IconProps> = ({ size = 17, ...props }) => {
       strokeLinejoin="round"
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
-      <path d="M3.6 9h16.8" />
-      <path d="M3.6 15h16.8" />
-      <path d="M11.5 3a17 17 0 0 0 0 18" />
-      <path d="M12.5 3a17 17 0 0 1 0 18" />
+      <path d="M12 22l4 -4l-2.5 -11l.993 -2.649a1 1 0 0 0 -.936 -1.351h-3.114a1 1 0 0 0 -.936 1.351l.993 2.649l-2.5 11l4 4z" />
+      <path d="M10.5 7h3l5 5.5" />
     </svg>
   );
 };

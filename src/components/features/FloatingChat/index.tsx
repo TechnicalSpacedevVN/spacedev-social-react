@@ -29,7 +29,7 @@ import { ModalGroupChat } from "./ModalGroupChat";
 
 export const FloatingChat = () => {
   return createPortal(
-    <div className="fixed bottom-0 right-3 flex gap-3 items-end">
+    <div className="fixed bottom-0 right-3 flex gap-3 items-end pr-[var(--body-padding-right)]">
       <ChatScreen />
       {/* <ChatScreen /> */}
     </div>,

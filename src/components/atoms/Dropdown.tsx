@@ -1,6 +1,7 @@
 import { FC, startTransition, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { cn } from "../../utils";
+import { useShortcut } from "@hooks/useShortcut";
 
 const container = document.createElement("div");
 interface Position {
@@ -28,7 +29,8 @@ export interface DropdownProps {
   popupClassName?: string;
   allowToggle?: boolean;
   onClose?: () => void;
-  // preventClose?: boolean;
+  autoClose?: boolean;
+  keyboard?: boolean;
 }
 
 const Arrow = () => {
@@ -49,6 +51,8 @@ export const Dropdown: FC<DropdownProps> = ({
   arrow = false,
   placement = "bottomLeft",
   allowToggle = true,
+  autoClose = false,
+  keyboard = true,
   ...props
 }) => {
   const childrenRef = useRef<HTMLDivElement>(null);
@@ -58,6 +62,19 @@ export const Dropdown: FC<DropdownProps> = ({
     top: -99999,
     left: -99999,
   });
+  useShortcut(
+    `Escape`,
+    () => {
+      console.log("dropdown");
+      if (keyboard) {
+        setOpen(false);
+      }
+    },
+    [keyboard],
+    open,
+    "dropdown"
+  );
+
   useEffect(() => {
     if (childrenRef.current) {
       const container = props?.getPopupContainer?.(childrenRef.current);
@@ -92,42 +109,32 @@ export const Dropdown: FC<DropdownProps> = ({
 
       setPosition(pos);
     }
-
-    // if (open) {
-    //   const event = () => {
-    //     setOpen(false);
-    //   };
-
-    //   window.addEventListener("click", event);
-
-    //   return () => {
-    //     window.removeEventListener("click", event);
-    //   };
-    // }
   }, [open, placement]);
 
   useEffect(() => {
     if (!open) props.onClose?.();
   }, [open]);
 
+  const _onClose = (ev?: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (allowToggle) {
+      startTransition(() => {
+        setOpen(!open);
+      });
+    } else {
+      if (open) {
+        ev?.stopPropagation();
+      }
+
+      startTransition(() => {
+        setOpen(true);
+      });
+    }
+  };
+
   return (
     <>
       <div
-        onClick={(ev) => {
-          if (allowToggle) {
-            startTransition(() => {
-              setOpen(!open);
-            });
-          } else {
-            if (open) {
-              ev.stopPropagation();
-            }
-
-            startTransition(() => {
-              setOpen(true);
-            });
-          }
-        }}
+        onClick={_onClose}
         ref={childrenRef}
         className={cn("inline-flex gap-1 items-center", props.className)}
       >
@@ -138,14 +145,11 @@ export const Dropdown: FC<DropdownProps> = ({
           <>
             <div
               className="fixed top-0 left-0 w-screen h-screen z-[1000]"
-              onClick={() => setOpen(false)}
-              onMouseDownCapture={() => {
-                console.log("capture");
-              }}
+              onClick={_onClose}
             ></div>
             <div
               onClick={() => {
-                // if (!props.preventClose) setOpen(false);
+                if (autoClose) setOpen(false);
               }}
               ref={contentRef}
               // onClick={(ev) => ev.stopPropagation()}

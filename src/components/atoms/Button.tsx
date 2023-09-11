@@ -25,12 +25,16 @@ export interface ButtonProps {
   outline?: boolean;
   onClick?: () => void;
   loading?: boolean;
+  iconPrefix?: any;
+  iconSuffix?: any;
 }
 
 export const Button: FC<ButtonProps> = ({
   size = "default",
   type = "default",
   loading,
+  iconPrefix,
+  iconSuffix,
   ...props
 }) => {
   return (
@@ -38,7 +42,7 @@ export const Button: FC<ButtonProps> = ({
       {...props}
       disabled={props.disabled || loading}
       className={cn(
-        "font-semibold rounded border-current border-solid",
+        "active:scale-95 font-semibold rounded border-current border-solid",
         props.className,
         sizeClass[size],
         typeClass[type],
@@ -47,9 +51,11 @@ export const Button: FC<ButtonProps> = ({
         }
       )}
     >
-      <span className="flex items-center justify-center">
-        {loading && <IconSpin className="mr-2" />}
+      <span className="flex gap-2 items-center justify-center">
+        {iconPrefix}
+        {loading && <IconSpin />}
         {props.children}
+        {iconSuffix}
       </span>
     </button>
   );

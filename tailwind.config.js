@@ -47,6 +47,9 @@ export default {
         ".border-base": {
           "@apply  border-solid border-gray-300 dark:border-slate-700": {},
         },
+        "body, .body-pr": {
+          "@apply pr-[var(--body-padding-right)]": {},
+        },
       });
     },
   ],

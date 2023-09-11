@@ -8,6 +8,8 @@ interface DropFileProps {
   content?: any;
   includes?: { [k in keyof DropFileType]?: (value: DropFileType[k]) => void };
   title?: { [k in keyof DropFileType]?: string };
+  hideBackdrop?: boolean;
+  backdropClassName?: string;
 }
 
 export const setDropFileData = <T extends keyof DropFileType>(
@@ -62,6 +64,7 @@ export const DropFile: Atom<DropFileProps> = ({
   children,
   className,
   includes,
+  hideBackdrop,
   ...props
 }) => {
   const [open, setOpen, setOpenImmediately] = useDebounce(false, 10);
@@ -87,7 +90,6 @@ export const DropFile: Atom<DropFileProps> = ({
 
     const onDragOver = (ev: DragEvent) => {
       ev.preventDefault();
-
       const types = ev.dataTransfer?.types || [];
 
       // console.log(allowTypes, types);
@@ -128,10 +130,14 @@ export const DropFile: Atom<DropFileProps> = ({
       {children}
       {open && (
         <div
-          onDragLeave={() => {}}
+          // onDragOver={(ev) => {
+          //   // ev.preventDefault();
+          //   // ev.stopPropagation();
+          // }}
           onDrop={async (ev) => {
+            ev.preventDefault();
+            // ev.stopPropagation();
             const types = ev.dataTransfer.types;
-            console.log(types);
             for (const i of types) {
               const checkIsDefault = _.findKey(defaultMap, (e) =>
                 e.types.includes(i)
@@ -150,34 +156,19 @@ export const DropFile: Atom<DropFileProps> = ({
                   break;
                 }
               }
-
-              // if (data) {
-              //   let check = _.findKey(defaultMap, (e) => e.types.includes(i));
-              //   if (check) {
-              //     includes?.[check as keyof typeof includes]?.(
-              //       defaultMap[check].handler(ev)
-              //     );
-              //   } else {
-              //     includes?.[check as keyof typeof includes]?.(
-              //       JSON.parse(data)
-              //     );
-              //   }
-              //   // if (defaultMap[i]) {
-              //   //   includes[i as keyof typeof includes]?.(
-              //   //     defaultMap[i].handler(ev) as any
-              //   //   );
-              //   // } else {
-              //   //   includes[i as keyof typeof includes]?.(JSON.parse(f));
-              //   // }
-              //   // return;
-              // }
             }
           }}
-          className="absolute top-0 left-0 w-full h-full dark:bg-white bg-black !bg-opacity-60 flex items-center justify-center text-white dark:text-black font-bold text-xl"
+          className={cn(
+            "absolute top-0 left-0 w-full h-full  dark:text-white bg-black !bg-opacity-60 flex items-center justify-center text-white font-bold text-xl",
+            {
+              "opacity-0": hideBackdrop,
+            },
+            props.backdropClassName
+          )}
         >
           {props?.title?.[type as keyof DropFileType] ||
             props.content ||
-            "Thả tẹp tại đây"}
+            "Thả tệp tại đây"}
         </div>
       )}
     </div>

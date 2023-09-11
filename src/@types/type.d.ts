@@ -7,7 +7,7 @@ interface DefaultProps {
   className?: string;
   style?: React.CSSProperties;
 }
-type Atom<T = {}> = React.FC<T & DefaultProps>
+type Atom<T = {}> = React.FC<T & DefaultProps>;
 
 interface DropFileType {
   img: string;

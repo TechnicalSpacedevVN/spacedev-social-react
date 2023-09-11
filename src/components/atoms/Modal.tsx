@@ -2,6 +2,7 @@ import { FC, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { cn } from "../../utils";
 import { ButtonIconClose } from "./Icon/IconClose";
+import { useShortcut } from "@hooks/useShortcut";
 
 export interface ModalProps {
   open?: boolean;
@@ -13,20 +14,49 @@ export interface ModalProps {
   height?: number;
   hideIconClose?: boolean;
   className?: string;
+  keyboard?: boolean;
 }
 
-export const Modal: FC<ModalProps> = ({ width, height, ...props }) => {
+export const Modal: FC<ModalProps> = ({
+  width,
+  height,
+  keyboard = true,
+  ...props
+}) => {
   const checkClickInsideRef = useRef(false);
   useEffect(() => {
     if (props.open) {
+      document.documentElement.style.setProperty(
+        "--body-padding-right",
+        `var(--scrollbar-width)`
+      );
       document.body.classList.add("overflow-hidden");
+      // document.body.style.paddingRight = "7px";
     } else {
       document.body.classList.remove("overflow-hidden");
+      // document.body.style.paddingRight = "0";
+      document.documentElement.style.setProperty("--body-padding-right", "0px");
     }
     return () => {
       document.body.classList.remove("overflow-hidden");
+      // document.body.style.paddingRight = "0";
+      document.documentElement.style.setProperty("--body-padding-right", "0px");
     };
   }, [props.open]);
+
+  useShortcut(
+    `Escape`,
+    () => {
+      console.log("modal");
+
+      if (keyboard) {
+        props.onCancel?.();
+      }
+    },
+    [keyboard],
+    props.open,
+    "modal"
+  );
 
   if (!props.open) return null;
 
@@ -44,7 +74,7 @@ export const Modal: FC<ModalProps> = ({ width, height, ...props }) => {
     >
       <div
         className={cn(
-          "bg-white rounded-lg text-gray-900 dark:bg-slate-900 dark:text-white overflow-hidden",
+          "flex flex-col bg-white rounded-lg text-gray-900 dark:bg-slate-900 dark:text-white overflow-hidden",
           props.className
         )}
         onClick={(ev) => {
@@ -65,7 +95,7 @@ export const Modal: FC<ModalProps> = ({ width, height, ...props }) => {
               <ButtonIconClose
                 onClick={props.onCancel}
                 transparent
-                className="!text-gray-700 dark:!text-slate-300 dark:hover:bg-gray-200 dark:hover:!bg-slate-700"
+                className="!text-gray-700 dark:!text-slate-300 dark:hover:bg-slate-700"
               />
             </div>
           )}

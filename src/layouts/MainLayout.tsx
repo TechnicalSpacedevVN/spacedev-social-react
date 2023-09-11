@@ -1,16 +1,19 @@
+import { DropFile } from "@components/atoms/DropFile";
 import { FloatNotification } from "@components/features/FloatNotification";
+import { createPost } from "@components/features/NewPost";
+import { mockUploadImage } from "@utils/mock";
+import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { useAuth } from "../components/features/AuthProvider";
-import { Header } from "../components/features/Header";
 import { FloatingChat } from "../components/features/FloatingChat";
-import { useEffect } from "react";
-
+import { Header } from "../components/features/Header";
+import "@utils/createTitleBadge";
+import { createTitleBadge } from "@utils/createTitleBadge";
 export const MainLayout = () => {
   const { user } = useAuth();
   useEffect(() => {
     let title = document.title;
     let check = true;
-    const count = 1;
 
     // select the target node
     const target = document.querySelector("title");
@@ -40,23 +43,39 @@ export const MainLayout = () => {
     }
 
     setInterval(() => {
+      let num = Math.round(Math.random() * 11);
       if (check) {
-        document.title = `(${count}) ${title}`;
+        createTitleBadge(num);
+        document.title = `(${num}) ${title}`;
       } else {
         document.title = title;
+        createTitleBadge(0);
       }
       check = !check;
     }, 1000);
   }, []);
 
   return (
-    <>
+    <DropFile
+      hideBackdrop
+      includes={{
+        files: async (files) => {
+          const imgs: string[] = [];
+          for (const i in files) {
+            const imgSrc = await mockUploadImage(files[i]);
+            imgs.push(imgSrc.path);
+          }
+          createPost({ images: imgs });
+          console.log("main drop file");
+        },
+      }}
+    >
       <Header />
       <main>
         <Outlet />
       </main>
       {user && <FloatingChat />}
       <FloatNotification />
-    </>
+    </DropFile>
   );
 };

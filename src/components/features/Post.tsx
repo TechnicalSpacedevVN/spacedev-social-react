@@ -5,6 +5,7 @@ import { Dropdown } from "@components/atoms/Dropdown";
 import { IconArchive } from "@components/atoms/Icon/IconArchive";
 import { IconBellOff } from "@components/atoms/Icon/IconBellOf";
 import { IconBookmark } from "@components/atoms/Icon/IconBookmark";
+import { ButtonIconClose } from "@components/atoms/Icon/IconClose";
 import { IconComment } from "@components/atoms/Icon/IconComment";
 import { IconExclamation } from "@components/atoms/Icon/IconExclamation";
 import { IconEyeClose } from "@components/atoms/Icon/IconEyeClose";
@@ -20,9 +21,8 @@ import { MessageInput } from "@components/atoms/MessageInput";
 import { Modal, ModalProps } from "@components/atoms/Modal";
 import { Tag } from "@components/atoms/Tag";
 import { PATH } from "@constants/path";
-import { faker } from "@faker-js/faker";
 import { handleSelectEnd, scollToElement } from "@utils";
-import { mockPost } from "@utils/mock";
+import { IComment, IPost, mockPost } from "@utils/mock";
 import moment from "moment";
 import { FC, useMemo, useRef, useState } from "react";
 import { generatePath } from "react-router-dom";
@@ -30,6 +30,7 @@ import { generatePath } from "react-router-dom";
 const PostMenu = () => {
   return (
     <Dropdown
+      autoClose
       placement="bottomRight"
       content={
         <Menu
@@ -44,7 +45,7 @@ const PostMenu = () => {
         />
       }
     >
-      <ButtonIconThreeDotAction className="bg-transparent" />
+      <ButtonIconThreeDotAction transparent />
     </Dropdown>
   );
 };
@@ -58,6 +59,7 @@ export const Post = () => {
         overlayCloseable
         open={open}
         onCancel={() => setOpen(false)}
+        post={post}
       />
       <div
         draggable
@@ -127,10 +129,10 @@ export const Post = () => {
               <IconShare />
               {post.shareCount}
             </Tag>
-            {Math.random() > 0.5 ? (
-              <ButtonIconHeart transparent />
-            ) : (
+            {post.like ? (
               <ButtonIconHeartFill transparent className="!text-red-600" />
+            ) : (
+              <ButtonIconHeart transparent />
             )}
             <div className="flex gap-2 items-center">
               <div>
@@ -175,46 +177,52 @@ export const Post = () => {
   );
 };
 
-const ModalDetail: FC<ModalProps> = (props) => {
+export interface ModelDetailProps extends ModalProps {
+  post: IPost;
+}
+
+const ModalDetail: FC<ModelDetailProps> = ({ post, ...props }) => {
   const [value, setValue] = useState("");
-  const [image] = useState(faker.image.url);
   return (
     <Modal
       {...props}
       className="w-full h-full  m-3"
       hideIconClose
+      overlayCloseable={false}
       height={700}
       width={1000}
+      keyboard={false}
     >
       <div className="flex h-full">
         <div className="flex-1 w-1 bg-black items-center flex">
-          <img className="object-contain" src={image} />
+          <img className="object-contain" src={post.image} />
         </div>
         <div className="flex-1 w-1 flex flex-col">
           <div className="flex gap-2 p-3 border-b border-solid border-gray-300 dark:border-slate-700">
-            <Avatar size={40} />
+            <Avatar size={40} src={post.user.avatar} />
             <div className="flex flex-col flex-1">
-              <h3 className="text-sm font-bold">Augusta Romero</h3>
-              <time className="text-gray-500 text-xs ">3 tháng trước</time>
+              <h3 className="text-sm font-bold">{post.user.fullName}</h3>
+              <time className="text-gray-500 text-xs ">
+                {moment(post.createdAt).fromNow()}
+              </time>
             </div>
-            <div className="flex">
-              <ButtonIconHeart />
+            <div className="flex items-center">
+              {post.like ? (
+                <ButtonIconHeartFill transparent className="!text-red-600" />
+              ) : (
+                <ButtonIconHeart />
+              )}
               <IconShare />
               <IconBookmark />
               <PostMenu />
+              <ButtonIconClose transparent onClick={props.onCancel} />
             </div>
           </div>
           <div className="flex-1 py-2 overflow-auto">
-            <UserComment replies={[{}, {}]} loadMore />
-            <UserComment />
-            <UserComment />
-            <UserComment />
-            <UserComment />
-            <UserComment />
-            <UserComment />
-            <UserComment />
-            <UserComment />
-            <UserComment />
+            {post.comments.map((comment) => (
+              <UserComment key={comment.id} loadMore comment={comment} />
+            ))}
+
             <div className="flex justify-center my-3">
               <IconSpin />
             </div>
@@ -243,18 +251,17 @@ const ModalDetail: FC<ModalProps> = (props) => {
 };
 
 export interface UserCommentProps {
-  replies?: any[];
   loadMore?: boolean;
   isReply?: boolean;
+  comment: IComment;
 }
 const UserComment: Atom<UserCommentProps> = ({
-  replies,
   loadMore,
   isReply = true,
+  comment,
 }) => {
   const [openReply, setOpenReply] = useState(false);
   const inputRef = useRef<HTMLParagraphElement>(null);
-  const [content] = useState(() => faker.lorem.paragraph({ min: 1, max: 2 }));
 
   // const onSendMessage = () => {
   //   if (inputRef.current) {
@@ -265,14 +272,14 @@ const UserComment: Atom<UserCommentProps> = ({
 
   return (
     <>
-      <div className="flex gap-3 px-3 py-1 [&_.icon-action]:hover:opacity-100">
+      <div className="flex gap-3 px-3 py-2 [&_.icon-action]:hover:opacity-100">
         <Avatar />
         <div className="flex-1">
           <div className="text-sm">
-            <b> Nelle Pena</b> <span>{content}</span>
+            <b> {comment.user.fullName}</b> <span>{comment.content}</span>
           </div>
           <div className="flex gap-2 text-xs items-center">
-            <time className="">3 phút trước</time>
+            <time className="">{moment(comment.createdAt).fromNow()}</time>
             <a
               href="#"
               className="font-bold text-opacity-50 text-black hover:text-opacity-100 dark:text-white"
@@ -297,6 +304,7 @@ const UserComment: Atom<UserCommentProps> = ({
             </a>
 
             <Dropdown
+              autoClose
               placement="bottomRight"
               content={
                 <Menu
@@ -317,15 +325,15 @@ const UserComment: Atom<UserCommentProps> = ({
           </div>
           {loadMore && (
             <div className="text-gray-400 flex items-baseline gap-2 cursor-pointer text-xs font-bold mt-1 before:content-normal before:block before:w-8 before:h-[1px] before:bg-gray-400">
-              Bình luận (10)
+              Bình luận ({comment.replyCount})
             </div>
           )}
         </div>
         <ButtonIconHeart className="icon-action opacity-0" />
       </div>
       <div className="px-2 pl-10">
-        {replies?.map((_, i) => (
-          <UserComment isReply={false} key={i} />
+        {comment.replies?.map((co, i) => (
+          <UserComment isReply={false} key={i} comment={co as IComment} />
         ))}
         {isReply && openReply && (
           <div className="ml-3 flex gap-3 items-center">
@@ -342,10 +350,6 @@ const UserComment: Atom<UserCommentProps> = ({
               clearWhenEnter={false}
               allowShiftEnter={false}
             />
-            {/* <Input
-              placeholder="Thêm bình luận...."
-              className="flex-1 text-xs"
-            /> */}
           </div>
         )}
       </div>

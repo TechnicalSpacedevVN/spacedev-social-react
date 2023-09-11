@@ -11,7 +11,7 @@ export const Icon: Atom<IconProps> = ({
   return (
     <div
       className={cn(
-        "dark:text-white dark:hover:bg-slate-700 dark:bg-slate-800 text-gray-600 rounded-full w-8 h-8 flex items-center justify-center cursor-pointer hover:bg-gray-200 bg-gray-100",
+        "active:scale-95 select-none dark:text-white dark:hover:bg-slate-700 dark:bg-slate-800 text-gray-600 rounded-full w-8 h-8 flex items-center justify-center cursor-pointer hover:bg-gray-200 bg-gray-100",
         { "bg-transparent dark:bg-transparent": transparent },
         className
       )}

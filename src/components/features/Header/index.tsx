@@ -23,6 +23,7 @@ import { Step } from "../../atoms/Step";
 import { Switch } from "../../atoms/Switch";
 import { Notification } from "../Notification";
 import { ModalLogin } from "./ModalLogin";
+import { IconSearch } from "@components/atoms/Icon/IconSearch";
 
 export const Header = () => {
   const { mode, toggleMode } = useMode();
@@ -38,7 +39,7 @@ export const Header = () => {
       />
       <header className="dark:bg-slate-900 bg-white h-header px-4 flex sticky top-0 z-10 border-b border-base">
         <div className="flex items-center gap-4 w-full">
-          <div className="w-sidebar">
+          <div className="w-sidebar text-left">
             <Link
               to={PATH.Home}
               className="dark:text-white text-slate-800 text-2xl font-bold flex items-center gap-1"
@@ -48,7 +49,7 @@ export const Header = () => {
                 src="https://spacedev.vn/images/LOGO-image-full.svg"
                 className="w-[25px]"
               />
-              Fucinsrule
+              <span>Fucinsrule</span>
             </Link>
           </div>
           <Dropdown
@@ -106,22 +107,7 @@ export const Header = () => {
             getPopupContainer={(parentNode) => parentNode}
           >
             <div className="dark:bg-slate-800 flex flex-1 bg-gray-100 rounded-full items-center gap-2 px-2 text-gray-600 h-7">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="icon icon-tabler icon-tabler-search"
-                width={17}
-                height={17}
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
-                <path d="M21 21l-6 -6" />
-              </svg>
+              <IconSearch />
 
               <input
                 onClick={() => {}}
@@ -316,7 +302,7 @@ export const Header = () => {
                     </Step>
                   }
                 >
-                  <div className="relative flex items-center">
+                  <div className="active:scale-95 relative flex items-center">
                     <Avatar />
                     <Icon className="absolute !w-3 !h-3 right-0 -bottom-1">
                       <svg

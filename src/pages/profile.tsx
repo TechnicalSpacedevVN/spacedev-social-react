@@ -1,4 +1,8 @@
+import { IconAddressBook } from "@components/atoms/Icon/IconAddressBook";
 import { IconArrowDown } from "@components/atoms/Icon/IconArrow";
+import { IconTie } from "@components/atoms/Icon/IconTie";
+import { IconWorld } from "@components/atoms/Icon/IconWorld";
+import { Menu } from "@components/atoms/Menu";
 import { CardGroup } from "@components/features/CardGroup";
 import { useTitle } from "@hooks/useTitle";
 import { useState } from "react";
@@ -13,6 +17,7 @@ import { ModalAbout } from "../components/features/About";
 import { ModalFriends } from "../components/features/ModalFriends";
 import { NewPost } from "../components/features/NewPost";
 import { Post } from "../components/features/Post";
+import { DropFile } from "@components/atoms/DropFile";
 
 export const Profile = () => {
   const [open, setOpen] = useState(false);
@@ -26,12 +31,19 @@ export const Profile = () => {
       <div>
         <div className="bg-white dark:bg-slate-900">
           <div className="relative">
-            <div className="h-[500px] w-full">
+            <DropFile
+              className="h-[500px] w-full"
+              includes={{
+                files: () => {
+                  console.log("cover drop file");
+                },
+              }}
+            >
               <img
                 className="object-cover w-full h-full"
                 src="https://unsplash.it/2000/700"
               />
-            </div>
+            </DropFile>
             <div className="container relative mx-auto">
               <div className="cursor-pointer hover:bg-opacity-60 absolute bottom-2 right-2 bg-black rounded bg-opacity-50 text-white  text-sm flex items-center px-2 py-0.5 drop-shadow-2xl shadow-white">
                 <ButtonIconCamera
@@ -44,27 +56,53 @@ export const Profile = () => {
           </div>
           <div className="container mx-auto px-4">
             <div className="flex gap-6 -mt-8 pb-8 border-b border-solid border-gray-300 px-4 dark:border-slate-700">
-              <div className="relative shadow-[0_0_0_3px] shadow-white rounded-full dark:shadow-slate-900">
-                <Avatar size={180} />
-                <Icon className="absolute bottom-1 right-5">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="icon icon-tabler icon-tabler-camera"
-                    width={17}
-                    height={17}
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    stroke="currentColor"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+              <Dropdown
+                autoClose
+                content={
+                  <Menu
+                    menus={[
+                      {
+                        label: "Xem ảnh đại diện",
+                        onClick: () => {},
+                      },
+                      {
+                        label: "Cập nhật ảnh đại diện",
+                      },
+                      {
+                        label: "Bảo vệ ảnh đại diện",
+                      },
+                    ]}
+                  />
+                }
+              >
+                <div className="active:scale-95 relative shadow-[0_0_0_3px] shadow-white rounded-full dark:shadow-slate-900">
+                  <DropFile
+                    backdropClassName="rounded-full"
+                    includes={{ files: () => {} }}
                   >
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M5 7h1a2 2 0 0 0 2 -2a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1a2 2 0 0 0 2 2h1a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2" />
-                    <path d="M9 13a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
-                  </svg>
-                </Icon>
-              </div>
+                    <Avatar className="select-none" size={180} />
+                  </DropFile>
+                  <Icon className="absolute bottom-1 right-5">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="icon icon-tabler icon-tabler-camera"
+                      width={17}
+                      height={17}
+                      viewBox="0 0 24 24"
+                      strokeWidth={2}
+                      stroke="currentColor"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M5 7h1a2 2 0 0 0 2 -2a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1a2 2 0 0 0 2 2h1a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2" />
+                      <path d="M9 13a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+                    </svg>
+                  </Icon>
+                </div>
+              </Dropdown>
+
               <div className="mt-auto">
                 <h1 className="text-3xl font-bold">
                   Vương Đặng Thuyền <span className="font-normal">(Nar)</span>
@@ -143,11 +181,36 @@ export const Profile = () => {
         </div>
         <div className="container mx-auto p-4 flex gap-4">
           <div className="relative flex">
-            <div className="flex flex-col gap-4 w-[400px] sticky bottom-0 self-end">
+            <div className="text-sm flex flex-col gap-4 w-[400px] sticky bottom-6 self-end">
               <Card title="Giới thiệu">
-                <p className="text-center mt-2 mb-2">
+                <p className="text-center mt-8 mb-2">
                   There's no victory without sacrifice
                 </p>
+                <hr className="my-4" />
+                <div className="flex flex-col gap-2 mb-6">
+                  <div className="flex gap-2 items-center">
+                    <IconTie size={20} />
+                    Lập trình viên Fullstack
+                  </div>
+                  <div className="flex gap-2 items-center">
+                    <IconTie size={20} />
+                    Lập trình Backend
+                  </div>
+                  <div className="flex gap-2 items-center">
+                    <IconTie size={20} />
+                    Lập trình viên Frontend
+                  </div>
+                  <div className="flex gap-2 items-center">
+                    <IconAddressBook size={20} />
+                    Hồ Chí Minh
+                  </div>
+                  <div className="flex gap-2 items-center">
+                    <IconWorld size={20} />
+                    <a href="#" target="_blank" className="text-blue-500">
+                      spacedev.vn
+                    </a>
+                  </div>
+                </div>
                 <Button className="w-full">Chỉnh sửa</Button>
               </Card>
               <CardGroup />

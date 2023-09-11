@@ -1,6 +1,7 @@
 import { useId } from "react";
 import { cn } from "../../utils";
 import { BorderGradient, BorderGradientProps } from "./BorderGradient";
+import { Link } from "react-router-dom";
 
 export interface AvatarProps {
   size?: number;
@@ -27,8 +28,9 @@ export const Avatar: Atom<AvatarProps> = ({
   }
 
   const child = (
-    <a
-      href={link}
+    <Link
+      draggable={false}
+      to={link}
       className={cn(
         "relative cursor-pointer rounded-full block ",
         props.className
@@ -37,6 +39,7 @@ export const Avatar: Atom<AvatarProps> = ({
     >
       <div className={cn("rounded-full overflow-hidden w-full h-full")}>
         <img
+          draggable={false}
           className="w-full h-full"
           src={props.src || `https://unsplash.it/${_w}/${_h}?t=${id}`}
         />
@@ -49,7 +52,7 @@ export const Avatar: Atom<AvatarProps> = ({
           )}
         ></span>
       )}
-    </a>
+    </Link>
   );
 
   if (typeof props.border === "object") {
