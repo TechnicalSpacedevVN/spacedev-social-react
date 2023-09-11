@@ -247,7 +247,7 @@ export const ChatScreen: FC = () => {
                     onClick={() => {
                       uploadFileRef.current?.trigger();
                     }}
-                    className="border-base border dark:hover:bg-slate-800 select-none w-20 h-20 rounded overflow-hidden flex flex-col text-sm font-semibold gap-1 hover:bg-gray-100 items-center justify-center cursor-pointer"
+                    className="border-base border dark:hover:bg-slate-800 select-none w-20 h-20 rounded overflow-hidden flex flex-col !text-opacity-60 text-black dark:text-white text-sm font-semibold gap-1 hover:bg-gray-100 items-center justify-center cursor-pointer"
                   >
                     <IconImage /> Thêm
                   </div>

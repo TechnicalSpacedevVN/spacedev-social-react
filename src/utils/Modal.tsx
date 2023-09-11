@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom/client";
-import { Popconfirm } from "../components/Popconfirm";
+import { Popconfirm } from "@components/features/Popconfirm";
 
 const container = document.createElement("div");
 document.body.appendChild(container);

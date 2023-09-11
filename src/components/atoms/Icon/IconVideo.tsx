@@ -1,23 +1,20 @@
-import { FC } from "react";
 import { Icon } from "./Icon";
 import { ButtonIconProps, IconProps } from "./type";
 
-export const ButtonIconThreeDotAction: Atom<ButtonIconProps> = (props) => {
+export const ButtonIconVideo: Atom<ButtonIconProps> = (props) => {
   return (
     <Icon {...props}>
-      <IconThreeDotAction />
+      <IconVideo />
     </Icon>
   );
 };
 
-export const IconThreeDotAction: Atom<IconProps> = ({
-  size = 17,
-  ...props
-}) => {
+export const IconVideo: Atom<IconProps> = ({ size = 17, ...props }) => {
   return (
     <svg
       {...props}
       xmlns="http://www.w3.org/2000/svg"
+      className="icon icon-tabler icon-tabler-brand-zoom"
       width={size}
       height={size}
       viewBox="0 0 24 24"
@@ -28,9 +25,8 @@ export const IconThreeDotAction: Atom<IconProps> = ({
       strokeLinejoin="round"
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-      <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-      <path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+      <path d="M17.011 9.385v5.128l3.989 3.487v-12z" />
+      <path d="M3.887 6h10.08c1.468 0 3.033 1.203 3.033 2.803v8.196a.991 .991 0 0 1 -.975 1h-10.373c-1.667 0 -2.652 -1.5 -2.652 -3l.01 -8a.882 .882 0 0 1 .208 -.71a.841 .841 0 0 1 .67 -.287z" />
     </svg>
   );
 };

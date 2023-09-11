@@ -1,6 +1,6 @@
-import { Card } from "./atoms/Card";
-import { UserItem } from "./atoms/UserItem";
-import { IconAddFriend } from "./atoms/Icon/IconAddFriend";
+import { Card } from "@components/atoms/Card";
+import { UserItem } from "@components/atoms/UserItem";
+import { IconAddFriend } from "@components/atoms/Icon/IconAddFriend";
 
 export const SuggestedForYou = () => {
   return (

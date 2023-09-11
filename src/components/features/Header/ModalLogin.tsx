@@ -5,7 +5,7 @@ import { ButtonIconUser } from "../../atoms/Icon/IconUser";
 import { IconFacebook } from "../../atoms/Icon/IconFacebook";
 import { IconInstagram } from "../../atoms/Icon/IconInstagram";
 import { IconTwitter } from "../../atoms/Icon/IconTwitter";
-import { useAuth } from "../../AuthProvider";
+import { useAuth } from "@components/features/AuthProvider";
 import { Input } from "../../atoms/Input";
 import { Button } from "../../atoms/Button";
 import { useForm, SubmitHandler } from "react-hook-form";

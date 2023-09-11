@@ -28,7 +28,7 @@ export default {
         xl: "1440px",
       },
       width: {
-        sidebar: 250,
+        sidebar: 300,
       },
       maxWidth: {
         "main-content": 768,

@@ -1,13 +1,10 @@
-import { FC, useState } from "react";
-import { IconSpin } from "./atoms/Icon/IconSpin";
-import { Avatar } from "./atoms/Avatar";
-import { BorderGradient } from "./atoms/BorderGradient";
-import { Button } from "./atoms/Button";
-import { Modal } from "./atoms/Modal";
-import { Tab } from "./atoms/Tab";
-import { InfinityLoading } from "./atoms/InfinityLoading";
-import { faker } from "@faker-js/faker";
 import { fakeApi, mockUser } from "@utils/mock";
+import { FC, useState } from "react";
+import { Avatar } from "@/components/atoms/Avatar";
+import { Button } from "@/components/atoms/Button";
+import { InfinityLoading } from "@/components/atoms/InfinityLoading";
+import { Modal } from "@/components/atoms/Modal";
+import { Tab } from "@/components/atoms/Tab";
 
 export const ModalFriends: FC<{ open?: boolean; onCancel?: () => void }> = (
   props

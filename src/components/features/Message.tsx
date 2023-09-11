@@ -1,16 +1,14 @@
-import { useState } from "react";
-import { IconSpin } from "./atoms/Icon/IconSpin";
-import { ButtonIconThreeDotAction } from "./atoms/Icon/IconThreeDotAction";
-import { Avatar } from "./atoms/Avatar";
-import { Badge } from "./atoms/Badge";
-import { Card } from "./atoms/Card";
-import { Dropdown } from "./atoms/Dropdown";
-import { InfinityLoading } from "./atoms/InfinityLoading";
-import { Menu } from "./atoms/Menu";
-import { Tab } from "./atoms/Tab";
-import { faker } from "@faker-js/faker";
 import { fakeApi, mockUser } from "@utils/mock";
-import { IconSearch } from "./atoms/Icon/IconSearch";
+import { useState } from "react";
+import { Avatar } from "@components/atoms/Avatar";
+import { Badge } from "@components/atoms/Badge";
+import { Card } from "@components/atoms/Card";
+import { Dropdown } from "@components/atoms/Dropdown";
+import { IconSearch } from "@components/atoms/Icon/IconSearch";
+import { ButtonIconThreeDotAction } from "@components/atoms/Icon/IconThreeDotAction";
+import { InfinityLoading } from "@components/atoms/InfinityLoading";
+import { Menu } from "@components/atoms/Menu";
+import { Tab } from "@components/atoms/Tab";
 
 export const Message = () => {
   const [users, setUsers] = useState(() => mockUser(20));
@@ -103,7 +101,7 @@ export const Message = () => {
                 label: (
                   <div className="ml-auto">
                     <span className="dark:text-purple-400 text-purple-800 text-xs font-semibold">
-                      Request (2)
+                      Yêu cầu (2)
                     </span>
                   </div>
                 ),

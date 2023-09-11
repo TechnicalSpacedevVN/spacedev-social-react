@@ -52,6 +52,15 @@ export const mockPost = mock(() => ({
   content: faker.lorem.lines(2),
 }));
 
+export const mockStory = mock(() => ({
+  id: randomId(),
+  src: faker.image.url({ height: 500, width: 500 }),
+  user: {
+    avatar: faker.internet.avatar(),
+    name: faker.person.fullName(),
+  },
+}));
+
 export const mockUploadImage = (file: File) => {
   return new Promise<{ path: string; id: string }>(async (res) => {
     let imgSrc = await convertFileToImage(file);

@@ -1,23 +1,20 @@
-import { FC } from "react";
 import { Icon } from "./Icon";
 import { ButtonIconProps, IconProps } from "./type";
 
-export const ButtonIconThreeDotAction: Atom<ButtonIconProps> = (props) => {
+export const ButtonIconPoll: Atom<ButtonIconProps> = (props) => {
   return (
     <Icon {...props}>
-      <IconThreeDotAction />
+      <IconPoll />
     </Icon>
   );
 };
 
-export const IconThreeDotAction: Atom<IconProps> = ({
-  size = 17,
-  ...props
-}) => {
+export const IconPoll: Atom<IconProps> = ({ size = 17, ...props }) => {
   return (
     <svg
       {...props}
       xmlns="http://www.w3.org/2000/svg"
+      className="icon icon-tabler icon-tabler-list"
       width={size}
       height={size}
       viewBox="0 0 24 24"
@@ -28,9 +25,12 @@ export const IconThreeDotAction: Atom<IconProps> = ({
       strokeLinejoin="round"
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-      <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-      <path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+      <path d="M9 6l11 0" />
+      <path d="M9 12l11 0" />
+      <path d="M9 18l11 0" />
+      <path d="M5 6l0 .01" />
+      <path d="M5 12l0 .01" />
+      <path d="M5 18l0 .01" />
     </svg>
   );
 };

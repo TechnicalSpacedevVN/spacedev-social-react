@@ -1,6 +1,6 @@
 import { FC } from "react";
-import { Modal } from "./atoms/Modal";
-import { Button } from "./atoms/Button";
+import { Modal } from "@components/atoms/Modal";
+import { Button } from "@components/atoms/Button";
 
 export const Popconfirm: FC<{
   onOk?: () => void;

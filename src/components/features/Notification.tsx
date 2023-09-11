@@ -5,6 +5,7 @@ import { Button } from "@components/atoms/Button";
 import { Card } from "@components/atoms/Card";
 import { Dropdown } from "@components/atoms/Dropdown";
 import { Menu } from "@components/atoms/Menu";
+import { ButtonIconSetting } from "@components/atoms/Icon/IconSetting";
 
 export const Notification = () => {
   return (
@@ -12,12 +13,26 @@ export const Notification = () => {
       <Card
         title="Thông báo"
         action={
-          <a
-            href="#"
-            className="dark:hover:bg-slate-700 text-blue-500 hover:bg-gray-100 rounded px-3 py-0.5"
+          <Dropdown
+            placement="bottomRight"
+            content={
+              <Menu
+                menus={[
+                  {
+                    label: "Đánh dấu tất cả là đã đọc",
+                  },
+                  {
+                    label: "Cài đặt nhận thông báo",
+                  },
+                  {
+                    label: "Tạm thời tắt thông báo",
+                  },
+                ]}
+              />
+            }
           >
-            Xem tất cả
-          </a>
+            <ButtonIconSetting />
+          </Dropdown>
         }
         className="dark:!bg-slate-800"
       >

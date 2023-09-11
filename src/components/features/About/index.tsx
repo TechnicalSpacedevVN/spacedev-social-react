@@ -12,7 +12,7 @@ import { Modal, ModalProps } from "../../atoms/Modal";
 
 export const ModalAbout: FC<ModalProps> = (props) => {
   return (
-    <Modal {...props} title="About">
+    <Modal {...props} overlayCloseable title="Tài khoản">
       <div className="w-[900px] flex min-h-[700px]">
         <div className="bg-gray-50 w-[250px] dark:bg-slate-800 dark:bg-opacity-50">
           <h2 className="font-semibold text-md p-3">Tài khoản</h2>

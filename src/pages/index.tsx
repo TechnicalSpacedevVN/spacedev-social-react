@@ -1,24 +1,28 @@
 import { IconSpin } from "@components/atoms/Icon/IconSpin";
 import { Tag } from "@components/atoms/Tag";
-import { Activity } from "../components/Activity";
-import { useAuth } from "../components/AuthProvider";
-import { GeneralInfo } from "../components/GeneralInfo";
-import { Message } from "../components/Message";
-import { NewPost } from "../components/NewPost";
-import { Post } from "../components/Post";
-import { Story } from "../components/Story";
-import { SuggestedForYou } from "../components/SuggestedForYou";
+import { Activity } from "../components/features/Activity";
+import { useAuth } from "../components/features//AuthProvider";
+import { GeneralInfo } from "../components/features//GeneralInfo";
+import { Message } from "../components/features//Message";
+import { NewPost } from "../components/features//NewPost";
+import { Post } from "../components/features//Post";
+import { Story } from "../components/features//Story";
+import { SuggestedForYou } from "../components/features//SuggestedForYou";
 import { Button } from "../components/atoms/Button";
 import { Card } from "../components/atoms/Card";
 import { LOGIN_MODAL, setGlobalState } from "../store/queryClient";
 import { InfinityLoading } from "@components/atoms/InfinityLoading";
 import { useEffect, useState } from "react";
 import { fakeApi, mockPost } from "@utils/mock";
+import { useTitle } from "@hooks/useTitle";
+import { CardGroup } from "@components/features/CardGroup";
 
 export const Home = () => {
   const { user } = useAuth();
   const [posts, setPosts] = useState(() => mockPost(3));
   const [loading, setLoading] = useState(false);
+  useTitle("Spacedev facinsrule");
+
   useEffect(() => {
     let event = () => {
       let offset =
@@ -42,28 +46,9 @@ export const Home = () => {
       <div className="w-sidebar flex gap-4 flex-col sticky bottom-6 self-end">
         {user ? (
           <>
-            <Activity />
             <SuggestedForYou />
-            <Card
-              title="Explore"
-              action={
-                <a href="#" className="text-gray-400 font-semibold text-xs">
-                  See all
-                </a>
-              }
-            >
-              <div className="flex gap-2 mt-4 flex-wrap">
-                <Tag>#Product</Tag>
-                <Tag>#Website</Tag>
-                <Tag>#Spacedev.vn</Tag>
-                <Tag>#Reactjs</Tag>
-                <Tag>#Nodejs</Tag>
-                <Tag>#PHP</Tag>
-                <Tag>#AWS</Tag>
-                <Tag>#Python</Tag>
-                <Tag>#Go</Tag>
-              </div>
-            </Card>
+            <CardGroup />
+            <Activity />
           </>
         ) : (
           <>

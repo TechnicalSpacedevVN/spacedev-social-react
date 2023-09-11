@@ -1,19 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Icon } from "../components/atoms/Icon/Icon";
 import { ButtonIconCamera } from "../components/atoms/Icon/IconCamera";
 import { ButtonIconThreeDotAction } from "../components/atoms/Icon/IconThreeDotAction";
-import { ModalFriends } from "../components/ModalFriends";
-import { NewPost } from "../components/NewPost";
-import { Post } from "../components/Post";
+import { ModalFriends } from "../components/features/ModalFriends";
+import { NewPost } from "../components/features/NewPost";
+import { Post } from "../components/features/Post";
 import { Avatar } from "../components/atoms/Avatar";
 import { Button } from "../components/atoms/Button";
 import { Card } from "../components/atoms/Card";
 import { Dropdown } from "../components/atoms/Dropdown";
 import { ModalAbout } from "../components/features/About";
+import { Tag } from "@components/atoms/Tag";
+import {
+  ButtonIconArrowDown,
+  IconArrowDown,
+} from "@components/atoms/Icon/IconArrow";
+import { useTitle } from "@hooks/useTitle";
+import { CardGroup } from "@components/features/CardGroup";
 
 export const Profile = () => {
   const [open, setOpen] = useState(false);
   const [openAbout, setOpenAbout] = useState(false);
+
+  useTitle("Đặng Thuyền Vương");
   return (
     <>
       <ModalFriends open={open} onCancel={() => setOpen(false)} />
@@ -106,16 +115,15 @@ export const Profile = () => {
                 href="#"
                 className="flex items-center dark:border-slate-900 dark:hover:bg-slate-800 pb-4 text-gray-700 dark:text-gray-400 px-3 border-b-2 border-solid border-white hover:bg-gray-100 rounded pt-4"
               >
-                Friends
+                Bạn bè
               </a>
               <a
                 href="#"
                 className="flex items-center dark:border-slate-900 dark:hover:bg-slate-800 pb-4 text-gray-700 dark:text-gray-400 px-3 border-b-2 border-solid border-white hover:bg-gray-100 rounded pt-4"
               >
-                Photos
+                Hình ảnh
               </a>
               <Dropdown
-                arrow
                 content={
                   <div className="w-[200px]">
                     <div className="p-2 text-sm text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-slate-700 cursor-pointer rounded">
@@ -129,6 +137,7 @@ export const Profile = () => {
                 className="dark:border-slate-900 dark:hover:bg-slate-800 pb-4 text-gray-700 dark:text-gray-400 px-3 border-b-2 border-solid border-white hover:bg-gray-100 rounded pt-4 cursor-pointer"
               >
                 Xem thêm
+                <IconArrowDown />
               </Dropdown>
             </div>
             <div className="ml-auto">
@@ -138,13 +147,14 @@ export const Profile = () => {
         </div>
         <div className="container mx-auto p-4 flex gap-4">
           <div className="relative flex">
-            <div className="flex flex-col gap-4 w-[400px] sticky bottom-6 self-end">
-              <Card title="Intro">
+            <div className="flex flex-col gap-4 w-[400px] sticky bottom-0 self-end">
+              <Card title="Giới thiệu">
                 <p className="text-center mt-2 mb-2">
                   There's no victory without sacrifice
                 </p>
-                <Button className="w-full">Edit bio</Button>
+                <Button className="w-full">Chỉnh sửa</Button>
               </Card>
+              <CardGroup />
               <Card
                 title="Photos"
                 action={
@@ -152,7 +162,7 @@ export const Profile = () => {
                     href="#"
                     className="dark:hover:bg-slate-800 text-blue-500 hover:bg-gray-100 rounded px-3 py-0.5"
                   >
-                    See all photos
+                    Xem tất cả
                   </a>
                 }
               >
@@ -167,123 +177,6 @@ export const Profile = () => {
                       </div>
                     </a>
                   ))}
-                </div>
-              </Card>
-              <Card
-                title="Friends"
-                className="pb-6"
-                action={
-                  <a
-                    href="#"
-                    className="dark:hover:bg-slate-800 text-blue-500 hover:bg-gray-100 rounded px-3 py-0.5"
-                  >
-                    See all friends
-                  </a>
-                }
-              >
-                <p className="text-gray-600 dark:text-gray-400">
-                  41 mutual friends
-                </p>
-                <div className="mt-3 gap-3 grid grid-cols-3 flex-wrap">
-                  <a href="#" className="">
-                    <div className="rounded-lg flex-1 overflow-hidden aspect-square">
-                      <img
-                        className="object-cover w-full h-full"
-                        src={`https://unsplash.it/150/150?t=${Math.random()}`}
-                      />
-                    </div>
-                    <p className="mt-1 text-sm font-semibold text-gray-900 dark:text-white">
-                      Ronald Peters
-                    </p>
-                  </a>
-                  <a href="#" className="">
-                    <div className="rounded-lg flex-1 overflow-hidden aspect-square">
-                      <img
-                        className="object-cover w-full h-full"
-                        src={`https://unsplash.it/150/150?t=${Math.random()}`}
-                      />
-                    </div>
-                    <p className="mt-1 text-sm font-semibold text-gray-900 dark:text-white">
-                      Mitchell Watkins
-                    </p>
-                  </a>
-                  <a href="#" className="">
-                    <div className="rounded-lg flex-1 overflow-hidden aspect-square">
-                      <img
-                        className="object-cover w-full h-full"
-                        src={`https://unsplash.it/150/150?t=${Math.random()}`}
-                      />
-                    </div>
-                    <p className="mt-1 text-sm font-semibold text-gray-900 dark:text-white">
-                      Cynthia Love
-                    </p>
-                  </a>
-                  <a href="#" className="">
-                    <div className="rounded-lg flex-1 overflow-hidden aspect-square">
-                      <img
-                        className="object-cover w-full h-full"
-                        src={`https://unsplash.it/150/150?t=${Math.random()}`}
-                      />
-                    </div>
-                    <p className="mt-1 text-sm font-semibold text-gray-900 dark:text-white">
-                      Todd Smith
-                    </p>
-                  </a>
-                  <a href="#" className="">
-                    <div className="rounded-lg flex-1 overflow-hidden aspect-square">
-                      <img
-                        className="object-cover w-full h-full"
-                        src={`https://unsplash.it/150/150?t=${Math.random()}`}
-                      />
-                    </div>
-                    <p className="mt-1 text-sm font-semibold text-gray-900 dark:text-white">
-                      Mabel Cannon
-                    </p>
-                  </a>
-                  <a href="#" className="">
-                    <div className="rounded-lg flex-1 overflow-hidden aspect-square">
-                      <img
-                        className="object-cover w-full h-full"
-                        src={`https://unsplash.it/150/150?t=${Math.random()}`}
-                      />
-                    </div>
-                    <p className="mt-1 text-sm font-semibold text-gray-900 dark:text-white">
-                      Lora Ruiz
-                    </p>
-                  </a>
-                  <a href="#" className="">
-                    <div className="rounded-lg flex-1 overflow-hidden aspect-square">
-                      <img
-                        className="object-cover w-full h-full"
-                        src={`https://unsplash.it/150/150?t=${Math.random()}`}
-                      />
-                    </div>
-                    <p className="mt-1 text-sm font-semibold text-gray-900 dark:text-white">
-                      Lilly Sims
-                    </p>
-                  </a>
-                  <a href="#" className="">
-                    <div className="rounded-lg flex-1 overflow-hidden aspect-square">
-                      <img
-                        className="object-cover w-full h-full"
-                        src={`https://unsplash.it/150/150?t=${Math.random()}`}
-                      />
-                    </div>
-                    <p className="mt-1 text-sm font-semibold text-gray-900 dark:text-white">
-                      Jerry Warren
-                    </p>
-                  </a>
-                  <a href="#" className="">
-                    <div className="rounded-lg flex-1 overflow-hidden aspect-square">
-                      <img
-                        className="object-cover w-full h-full"
-                        src={`https://unsplash.it/150/150?t=${Math.random()}`}
-                      />
-                    </div>
-                    <p className="mt-1 text-sm font-semibold text-gray-900 dark:text-white">
-                      Noah Bryan
-                    </p>
-                  </a>
                 </div>
               </Card>
             </div>

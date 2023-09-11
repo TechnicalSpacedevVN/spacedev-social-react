@@ -1,12 +1,15 @@
 import { FC, useEffect, useRef, useState } from "react";
-import { IconArrow } from "./atoms/Icon/IconArrow";
-import { ButtonIconImage } from "./atoms/Icon/IconImage";
-import { Avatar } from "./atoms/Avatar";
-import { Button } from "./atoms/Button";
-import { Dropdown } from "./atoms/Dropdown";
-import { ImageGrid } from "./atoms/ImageGrid";
-import { Menu } from "./atoms/Menu";
-import { Modal, ModalProps } from "./atoms/Modal";
+import { ButtonIconArrowDown } from "@components/atoms/Icon/IconArrow";
+import { ButtonIconImage, IconImage } from "@components/atoms/Icon/IconImage";
+import { Avatar } from "@components/atoms/Avatar";
+import { Button } from "@components/atoms/Button";
+import { Dropdown } from "@components/atoms/Dropdown";
+import { ImageGrid } from "@components/atoms/ImageGrid";
+import { Menu } from "@components/atoms/Menu";
+import { Modal, ModalProps } from "@components/atoms/Modal";
+import { IconPoll } from "@components/atoms/Icon/IconPoll";
+import { IconCalendar } from "@components/atoms/Icon/IconCalendar";
+import { IconVideo } from "@components/atoms/Icon/IconVideo";
 
 const upload2ImageClass = "grid-cols-2";
 const upload3ImageClass =
@@ -35,24 +38,7 @@ export const NewPost = () => {
               className="whitespace-nowrap flex bg-gray-100 rounded-full text-sm text-gray-900 items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
             >
               <div className="text-emerald-500">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="icon icon-tabler icon-tabler-photo"
-                  width={17}
-                  height={17}
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path d="M15 8h.01" />
-                  <path d="M3 6a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v12a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3v-12z" />
-                  <path d="M3 16l5 -5c.928 -.893 2.072 -.893 3 0l5 5" />
-                  <path d="M14 14l1 -1c.928 -.893 2.072 -.893 3 0l3 3" />
-                </svg>
+                <IconImage />
               </div>
               Photo/video
             </div>
@@ -61,53 +47,16 @@ export const NewPost = () => {
               className="whitespace-nowrap flex bg-gray-100 rounded-full text-sm text-gray-900 items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
             >
               <div className="text-orange-500">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="icon icon-tabler icon-tabler-list"
-                  width={17}
-                  height={17}
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path d="M9 6l11 0" />
-                  <path d="M9 12l11 0" />
-                  <path d="M9 18l11 0" />
-                  <path d="M5 6l0 .01" />
-                  <path d="M5 12l0 .01" />
-                  <path d="M5 18l0 .01" />
-                </svg>
+                <IconPoll />
               </div>
               Poll
             </div>
-            <div
+            {/* <div
               onClick={() => setOpen(true)}
               className="whitespace-nowrap flex bg-gray-100 rounded-full text-sm text-gray-900 items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
             >
               <div className="text-blue-500">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="icon icon-tabler icon-tabler-calendar-due"
-                  width={17}
-                  height={17}
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z" />
-                  <path d="M16 3v4" />
-                  <path d="M8 3v4" />
-                  <path d="M4 11h16" />
-                  <path d="M12 16m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-                </svg>
+                <IconCalendar />
               </div>
               Schedule
             </div>
@@ -116,25 +65,10 @@ export const NewPost = () => {
               className="whitespace-nowrap flex bg-gray-100 rounded-full text-sm text-gray-900 items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
             >
               <div className="text-red-500">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="icon icon-tabler icon-tabler-brand-zoom"
-                  width={14}
-                  height={14}
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path d="M17.011 9.385v5.128l3.989 3.487v-12z" />
-                  <path d="M3.887 6h10.08c1.468 0 3.033 1.203 3.033 2.803v8.196a.991 .991 0 0 1 -.975 1h-10.373c-1.667 0 -2.652 -1.5 -2.652 -3l.01 -8a.882 .882 0 0 1 .208 -.71a.841 .841 0 0 1 .67 -.287z" />
-                </svg>
+                <IconVideo />
               </div>
               Live video
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -188,7 +122,7 @@ const ModalCreate: FC<ModalProps> = (props) => {
                   <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
                 </svg>
                 Only me{" "}
-                <IconArrow
+                <ButtonIconArrowDown
                   transparent
                   className="!w-3 h-fit !p-0 h-3 !bg-transparent"
                 />
@@ -263,7 +197,7 @@ const ModalCreate: FC<ModalProps> = (props) => {
             type={value ? "primary" : "default"}
             loading
           >
-            Post
+            Viết bài
           </Button>
         </div>
       </div>

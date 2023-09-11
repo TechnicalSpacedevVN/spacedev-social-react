@@ -7,8 +7,8 @@ import {
   useMemo,
   useState,
 } from "react";
-import { userStorage } from "../utils/createStorage";
-import { Modal } from "../utils/Modal";
+import { userStorage } from "@utils/createStorage";
+import { Modal } from "@utils/Modal";
 
 export interface LoginForm {
   username: string;

@@ -7,7 +7,7 @@ export interface ButtonIconProps extends React.DOMAttributes<HTMLDivElement> {
   height?: number;
 }
 
-export interface IconProps extends React.DOMAttributes<HTMLDivElement> {
+export interface IconProps extends React.DOMAttributes<HTMLOrSVGElement> {
   size?: number;
   transparent?: boolean;
   children?: any;

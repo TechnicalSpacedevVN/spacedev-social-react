@@ -30,7 +30,7 @@ export const Avatar: Atom<AvatarProps> = ({
     <a
       href={link}
       className={cn(
-        "relative w-8 cursor-pointer rounded-full block shadow-[0_0_0_1px_gray] shadow-slate-300 dark:shadow-slate-700",
+        "relative cursor-pointer rounded-full block ",
         props.className
       )}
       style={{ width: _w, height: _h }}
@@ -54,13 +54,8 @@ export const Avatar: Atom<AvatarProps> = ({
 
   if (typeof props.border === "object") {
     return (
-      <BorderGradient
-        className="border-solid border-white rounded-full "
-        size={["boolean", "undefined"].includes(typeof props.border) ? 0 : 2}
-      >
-        <div className="border-2 border-solid border-white dark:border-slate-950 rounded-full">
-          {child}
-        </div>
+      <BorderGradient className="rounded-full " size={props.border.size}>
+        <div className=" rounded-full">{child}</div>
       </BorderGradient>
     );
   }

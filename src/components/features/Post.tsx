@@ -1,28 +1,28 @@
 import { handleSelectEnd, scollToElement } from "@utils";
 import { FC, useRef, useState, useMemo } from "react";
-import { IconArchive } from "./atoms/Icon/IconArchive";
-import { IconBellOff } from "./atoms/Icon/IconBellOf";
-import { IconBookmark } from "./atoms/Icon/IconBookmark";
-import { IconComment } from "./atoms/Icon/IconComment";
-import { IconExclamation } from "./atoms/Icon/IconExclamation";
-import { IconEyeClose } from "./atoms/Icon/IconEyeClose";
-import { ButtonIconHeart } from "./atoms/Icon/IconHeart";
-import { ButtonIconHeartFill } from "./atoms/Icon/IconHeartFill";
-import { IconPen } from "./atoms/Icon/IconPen";
-import { IconShare } from "./atoms/Icon/IconShare";
-import { IconSpin } from "./atoms/Icon/IconSpin";
-import { ButtonIconThreeDotAction } from "./atoms/Icon/IconThreeDotAction";
-import { IconTrash } from "./atoms/Icon/IconTrash";
-import { Avatar } from "./atoms/Avatar";
-import { Button } from "./atoms/Button";
-import { Dropdown } from "./atoms/Dropdown";
-import { Menu } from "./atoms/Menu";
-import { MessageInput } from "./atoms/MessageInput";
-import { Modal, ModalProps } from "./atoms/Modal";
-import { Tag } from "./atoms/Tag";
+import { IconArchive } from "@components/atoms/Icon/IconArchive";
+import { IconBellOff } from "@components/atoms/Icon/IconBellOf";
+import { IconBookmark } from "@components/atoms/Icon/IconBookmark";
+import { IconComment } from "@components/atoms/Icon/IconComment";
+import { IconExclamation } from "@components/atoms/Icon/IconExclamation";
+import { IconEyeClose } from "@components/atoms/Icon/IconEyeClose";
+import { ButtonIconHeart } from "@components/atoms/Icon/IconHeart";
+import { ButtonIconHeartFill } from "@components/atoms/Icon/IconHeartFill";
+import { IconPen } from "@components/atoms/Icon/IconPen";
+import { IconShare } from "@components/atoms/Icon/IconShare";
+import { IconSpin } from "@components/atoms/Icon/IconSpin";
+import { ButtonIconThreeDotAction } from "@components/atoms/Icon/IconThreeDotAction";
+import { IconTrash } from "@components/atoms/Icon/IconTrash";
+import { Avatar } from "@components/atoms/Avatar";
+import { Button } from "@components/atoms/Button";
+import { Dropdown } from "@components/atoms/Dropdown";
+import { Menu } from "@components/atoms/Menu";
+import { MessageInput } from "@components/atoms/MessageInput";
+import { Modal, ModalProps } from "@components/atoms/Modal";
+import { Tag } from "@components/atoms/Tag";
 import { faker } from "@faker-js/faker";
 import moment from "moment";
-import { setDropFileData } from "./atoms/DropFile";
+import { setDropFileData } from "@components/atoms/DropFile";
 import { generatePath } from "react-router-dom";
 import { PATH } from "@constants/path";
 
@@ -191,8 +191,10 @@ const ModalDetail: FC<ModalProps> = (props) => {
   return (
     <Modal
       {...props}
-      className="w-full max-h-[500px] h-full max-w-[900px] m-3"
+      className="w-full h-full  m-3"
       hideIconClose
+      height={700}
+      width={1000}
     >
       <div className="flex h-full">
         <div className="flex-1 w-1 bg-black items-center flex">
