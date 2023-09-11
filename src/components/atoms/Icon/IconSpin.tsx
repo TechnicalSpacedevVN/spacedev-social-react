@@ -1,8 +1,8 @@
-import { cn } from '@utils';
-import { Icon } from './Icon';
-import { ButtonIconProps } from './type';
+import { cn } from "@utils";
+import { Icon } from "./Icon";
+import { ButtonIconProps, IconProps } from "./type";
 
-export const ButtonIconSpin: Atom<any> = (props) => {
+export const ButtonIconSpin: Atom<ButtonIconProps> = (props) => {
   return (
     <Icon {...props}>
       <IconSpin />
@@ -10,11 +10,11 @@ export const ButtonIconSpin: Atom<any> = (props) => {
   );
 };
 
-export const IconSpin: Atom<ButtonIconProps> = ({ size = 17, ...props }) => {
+export const IconSpin: Atom<IconProps> = ({ size = 17, ...props }) => {
   return (
     <svg
       {...props}
-      className={cn('animate-spin -ml-1 h-5 w-5', props.className)}
+      className={cn("animate-spin -ml-1 h-5 w-5", props.className)}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"

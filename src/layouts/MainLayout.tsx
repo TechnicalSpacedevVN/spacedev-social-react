@@ -10,20 +10,20 @@ export const MainLayout = () => {
   useEffect(() => {
     let title = document.title;
     let check = true;
-    let count = 1;
+    const count = 1;
 
     // select the target node
-    var target = document.querySelector("title");
+    const target = document.querySelector("title");
 
     // create an observer instance
-    var observer = new MutationObserver(function (mutations) {
+    const observer = new MutationObserver(function (mutations) {
       // We need only first event and only new value of the title
 
-      let newTitle = mutations[0].target.textContent || "";
+      const newTitle = mutations[0].target.textContent || "";
 
-      let regexp = new RegExp(`(.+) ${title}`);
+      const regexp = new RegExp(`(.+) ${title}`);
 
-      let check =
+      const check =
         title === newTitle ||
         regexp.test(mutations[0].target.textContent || "");
       if (!check) {
@@ -32,7 +32,7 @@ export const MainLayout = () => {
     });
 
     // configuration of the observer:
-    var config = { subtree: true, characterData: true, childList: true };
+    const config = { subtree: true, characterData: true, childList: true };
 
     // pass in the target node, as well as the observer options
     if (target) {

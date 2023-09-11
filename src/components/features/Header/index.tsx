@@ -26,7 +26,7 @@ import { ModalLogin } from "./ModalLogin";
 
 export const Header = () => {
   const { mode, toggleMode } = useMode();
-  const [openLogin, setOpenLogin] = useState(false);
+  const [openLogin] = useState(false);
   const { user, logout } = useAuth();
   const [stepActive, setTabActive] = useState(0);
 

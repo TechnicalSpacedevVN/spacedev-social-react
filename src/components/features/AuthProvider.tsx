@@ -31,7 +31,7 @@ export const AuthProvider: FC<{ children: any }> = (props) => {
     userStorage.set(user);
   }, [user]);
 
-  const login = useCallback<AuthProviderProps["login"]>((form) => {
+  const login = useCallback<AuthProviderProps["login"]>(() => {
     setUser({
       name: "Đặng Thuyền Vương",
     });

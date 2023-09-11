@@ -5,7 +5,7 @@ import { Modal, ModalProps } from "@components/atoms/Modal";
 import { Tab } from "@components/atoms/Tab";
 import { UserItem } from "@components/atoms/UserItem";
 
-export interface ModalGroupChatProps extends ModalProps {}
+export type ModalGroupChatProps = ModalProps
 
 export const ModalGroupChat: Atom<ModalGroupChatProps> = ({ ...props }) => {
   return (

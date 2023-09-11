@@ -1,4 +1,3 @@
-import { FC } from "react";
 import { Icon } from "./Icon";
 import { ButtonIconProps, IconProps } from "./type";
 

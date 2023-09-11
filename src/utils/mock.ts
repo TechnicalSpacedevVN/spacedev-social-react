@@ -68,7 +68,7 @@ export const mockStory = () => ({
 
 export const mockUploadImage = (file: File) => {
   return new Promise<{ path: string; id: string }>(async (res) => {
-    let imgSrc = await convertFileToImage(file);
+    const imgSrc = await convertFileToImage(file);
     res({ path: imgSrc, id: randomId() });
   });
 };

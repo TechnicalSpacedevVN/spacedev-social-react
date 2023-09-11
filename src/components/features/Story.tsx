@@ -1,12 +1,11 @@
-import { IconPlus } from "@components/atoms/Icon/IconPlus";
 import { Avatar } from "@components/atoms/Avatar";
-import { BorderGradient } from "@components/atoms/BorderGradient";
 import { HorizontalScroll } from "@components/atoms/HorizontalScroll";
-import { useState } from "react";
+import { IconPlus } from "@components/atoms/Icon/IconPlus";
 import { mockStories } from "@utils/mock";
+import { useState } from "react";
 
 export const Story = () => {
-  const [stories, setStories] = useState(() => mockStories(10));
+  const [stories] = useState(() => mockStories(10));
   return (
     <HorizontalScroll
       height={250}
@@ -31,7 +30,7 @@ export const Story = () => {
           </div>
         </div>
       </div>
-      {stories.map((story, i) => (
+      {stories.map((story) => (
         <div key={story.id} className="p-1">
           <div className="flex flex-col items-center relative cursor-pointer snap-always snap-center gap-1 overflow-hidden w-full h-full">
             <div className="relative overflow-hidden w-full h-full rounded-xl  border-solid">

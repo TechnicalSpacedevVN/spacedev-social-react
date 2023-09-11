@@ -7,9 +7,9 @@ export const useDebounce = <T>(
   defaultValue: T,
   delay = 300
 ): [...UseDebounceRes<T>, UseDebounceRes<T>[1]] => {
-  let [value, _setValue] = useState(defaultValue);
+  const [value, _setValue] = useState(defaultValue);
   const timeoutRef = useRef<NodeJS.Timeout>();
-  let setValue: UseDebounceDispatch<T> = (value: any) => {
+  const setValue: UseDebounceDispatch<T> = (value: any) => {
     clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(() => {
       _setValue(value);

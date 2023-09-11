@@ -1,21 +1,13 @@
-import { FC, useEffect, useRef, useState } from "react";
-import { ButtonIconArrowDown } from "@components/atoms/Icon/IconArrow";
-import { ButtonIconImage, IconImage } from "@components/atoms/Icon/IconImage";
 import { Avatar } from "@components/atoms/Avatar";
 import { Button } from "@components/atoms/Button";
 import { Dropdown } from "@components/atoms/Dropdown";
+import { ButtonIconArrowDown } from "@components/atoms/Icon/IconArrow";
+import { ButtonIconImage, IconImage } from "@components/atoms/Icon/IconImage";
+import { IconPoll } from "@components/atoms/Icon/IconPoll";
 import { ImageGrid } from "@components/atoms/ImageGrid";
 import { Menu } from "@components/atoms/Menu";
 import { Modal, ModalProps } from "@components/atoms/Modal";
-import { IconPoll } from "@components/atoms/Icon/IconPoll";
-import { IconCalendar } from "@components/atoms/Icon/IconCalendar";
-import { IconVideo } from "@components/atoms/Icon/IconVideo";
-
-const upload2ImageClass = "grid-cols-2";
-const upload3ImageClass =
-  "grid-cols-3 [&>*:nth-child(1)]:col-span-2 [&>*:nth-child(1)]:row-span-2";
-const upload4ImageClass =
-  "h-[466px] relative [&>*]:absolute [&>*]:overflow-hidden [&>*:nth-child(1)]:inset-[calc(0%_+_0px)_calc(33.3333%_+_1.01px)_calc(0%_+_0px)_calc(0%_+_0px)] [&>*:nth-child(2)]:inset-[calc(0%_+_0px)_calc(0%_+_0px)_calc(66.6667%_+_1.01px)_calc(66.6667%_+_1.01px)] [&>*:nth-child(3)]:inset-[calc(33.3333%_+_1.01px)_calc(0%_+_0px)_calc(33.3333%_+_1.01px)_calc(66.6667%_+_1.01px)]  [&>*:nth-child(4)]:inset-[calc(66.6667%_+_1.01px)_calc(0%_+_0px)_calc(0%_+_0px)_calc(66.6667%_+_1.01px)]";
+import { FC, useEffect, useRef, useState } from "react";
 
 export const NewPost = () => {
   const [open, setOpen] = useState(false);

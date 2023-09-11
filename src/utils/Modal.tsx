@@ -10,7 +10,7 @@ export const Modal = {
     onOk?: () => void;
     onCancel?: () => void;
   }) => {
-    let ui = ReactDOM.createRoot(container);
+    const ui = ReactDOM.createRoot(container);
     ui.render(
       <Popconfirm
         title={props.title}

@@ -1,9 +1,6 @@
 import { Card } from "@components/atoms/Card";
 import { Dropdown } from "@components/atoms/Dropdown";
-import {
-  ButtonIconThreeDotAction,
-  IconThreeDotAction,
-} from "@components/atoms/Icon/IconThreeDotAction";
+import { ButtonIconThreeDotAction } from "@components/atoms/Icon/IconThreeDotAction";
 import { Menu } from "@components/atoms/Menu";
 import { Tag } from "@components/atoms/Tag";
 

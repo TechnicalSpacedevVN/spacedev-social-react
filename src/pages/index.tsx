@@ -1,6 +1,9 @@
-import { IconSpin } from "@components/atoms/Icon/IconSpin";
-import { Tag } from "@components/atoms/Tag";
-import { Activity } from "../components/features/Activity";
+import { InfinityLoading } from "@components/atoms/InfinityLoading";
+import { CardGroup } from "@components/features/CardGroup";
+import { useTitle } from "@hooks/useTitle";
+import { fakeApi, mockPosts } from "@utils/mock";
+import { useEffect, useState } from "react";
+import { Button } from "../components/atoms/Button";
 import { useAuth } from "../components/features//AuthProvider";
 import { GeneralInfo } from "../components/features//GeneralInfo";
 import { Message } from "../components/features//Message";
@@ -8,14 +11,8 @@ import { NewPost } from "../components/features//NewPost";
 import { Post } from "../components/features//Post";
 import { Story } from "../components/features//Story";
 import { SuggestedForYou } from "../components/features//SuggestedForYou";
-import { Button } from "../components/atoms/Button";
-import { Card } from "../components/atoms/Card";
+import { Activity } from "../components/features/Activity";
 import { LOGIN_MODAL, setGlobalState } from "../store/queryClient";
-import { InfinityLoading } from "@components/atoms/InfinityLoading";
-import { useEffect, useState } from "react";
-import { fakeApi, mockPosts } from "@utils/mock";
-import { useTitle } from "@hooks/useTitle";
-import { CardGroup } from "@components/features/CardGroup";
 
 export const Home = () => {
   const { user } = useAuth();
@@ -24,8 +21,8 @@ export const Home = () => {
   useTitle("Spacedev facinsrule");
 
   useEffect(() => {
-    let event = () => {
-      let offset =
+    const event = () => {
+      const offset =
         document.body.scrollHeight - window.scrollY - window.innerHeight;
       if (offset < 200) {
         setLoading(true);
@@ -85,7 +82,7 @@ export const Home = () => {
             haveNext
             className="flex flex-col gap-4"
           >
-            {posts.map((e, i) => (
+            {posts.map((_, i) => (
               <Post key={i} />
             ))}
           </InfinityLoading>

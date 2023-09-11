@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { cn } from "../../utils";
-import { ButtonIconClose, IconClose } from "./Icon/IconClose";
+import { ButtonIconClose } from "./Icon/IconClose";
 
 export interface ModalProps {
   open?: boolean;
@@ -32,7 +32,7 @@ export const Modal: FC<ModalProps> = ({ width, height, ...props }) => {
 
   return createPortal(
     <div
-      onClick={(ev) => {
+      onClick={() => {
         if (props.overlayCloseable && !checkClickInsideRef.current) {
           props.onCancel?.();
         }

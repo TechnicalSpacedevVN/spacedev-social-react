@@ -26,7 +26,7 @@ export const Avatar: Atom<AvatarProps> = ({
     _h -= props.border.size || 8;
   }
 
-  let child = (
+  const child = (
     <a
       href={link}
       className={cn(

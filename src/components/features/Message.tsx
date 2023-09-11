@@ -62,7 +62,7 @@ export const Message = () => {
                     offset={200}
                     onNext={async () => {
                       setLoading(true);
-                      let res = await fakeApi(mockUsers);
+                      const res = await fakeApi(mockUsers);
                       setUsers([...users, ...res]);
                       setLoading(false);
                     }}

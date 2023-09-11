@@ -5,8 +5,8 @@ import { ButtonIconClose } from "../atoms/Icon/IconClose";
 import { Avatar } from "../atoms/Avatar";
 
 export const FloatNotification = () => {
-  let [open, setOpen] = useState(true);
-  let timeoutRef = useRef<NodeJS.Timeout>();
+  const [open, setOpen] = useState(true);
+  const timeoutRef = useRef<NodeJS.Timeout>();
   useEffect(() => {
     setOpen(true);
     timeoutRef.current = setTimeout(() => {

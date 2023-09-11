@@ -1,19 +1,15 @@
+import { useAuth } from "@components/features/AuthProvider";
 import { FC, useState } from "react";
-import { Modal, ModalProps } from "../../atoms/Modal";
-import { IconQR } from "../../atoms/Icon/IconQR";
-import { ButtonIconUser } from "../../atoms/Icon/IconUser";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { LOGIN_MODAL, useGLobalState } from "../../../store/queryClient";
+import { Button } from "../../atoms/Button";
 import { IconFacebook } from "../../atoms/Icon/IconFacebook";
 import { IconInstagram } from "../../atoms/Icon/IconInstagram";
+import { IconQR } from "../../atoms/Icon/IconQR";
 import { IconTwitter } from "../../atoms/Icon/IconTwitter";
-import { useAuth } from "@components/features/AuthProvider";
+import { ButtonIconUser } from "../../atoms/Icon/IconUser";
 import { Input } from "../../atoms/Input";
-import { Button } from "../../atoms/Button";
-import { useForm, SubmitHandler } from "react-hook-form";
-import {
-  LOGIN_MODAL,
-  getGlobalState,
-  useGLobalState,
-} from "../../../store/queryClient";
+import { Modal, ModalProps } from "../../atoms/Modal";
 
 export const ModalLogin: FC<ModalProps> = ({ ...props }) => {
   const { login } = useAuth();
@@ -178,11 +174,10 @@ const ModalLoginNormal: FC<ModalLoginModalProps> = (props) => {
   const {
     register,
     handleSubmit,
-    getValues,
     formState: { errors, isValid },
   } = useForm<LoginInput>({ mode: "onChange" });
 
-  const submit: SubmitHandler<LoginInput> = (values) => {};
+  const submit: SubmitHandler<LoginInput> = () => {};
 
   return (
     <Modal title="Use phone / email / username" {...props}>
@@ -236,7 +231,6 @@ const ModalRegister: FC<ModalRegisterModalProps> = (props) => {
   const {
     register,
     handleSubmit,
-    getValues,
     formState: { errors, isValid },
   } = useForm<RegisterInput>({ mode: "onChange" });
 

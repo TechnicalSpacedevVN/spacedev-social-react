@@ -11,7 +11,7 @@ export interface MessageInput extends DefaultProps {
 }
 export const MessageInput = forwardRef<HTMLParagraphElement, MessageInput>(
   ({ allowShiftEnter = true, clearWhenEnter = true, ...props }, inputRef) => {
-    let classNames = useClassNames(
+    const classNames = useClassNames(
       'flex-1 w-full px-3 py-1 max-h-[150px] overflow-auto bg-gray-200 rounded dark:bg-slate-700 text-sm',
       props.className,
     );

@@ -1,10 +1,10 @@
-import { fakeApi, mockUsers } from "@utils/mock";
-import { FC, useState } from "react";
 import { Avatar } from "@/components/atoms/Avatar";
 import { Button } from "@/components/atoms/Button";
 import { InfinityLoading } from "@/components/atoms/InfinityLoading";
 import { Modal } from "@/components/atoms/Modal";
 import { Tab } from "@/components/atoms/Tab";
+import { fakeApi, mockUsers } from "@utils/mock";
+import { FC, useState } from "react";
 
 export const ModalFriends: FC<{ open?: boolean; onCancel?: () => void }> = (
   props
@@ -34,13 +34,13 @@ export const ModalFriends: FC<{ open?: boolean; onCancel?: () => void }> = (
                 offset={200}
                 onNext={async () => {
                   setLoading(true);
-                  let users = await fakeApi(mockUsers);
+                  const users = await fakeApi(mockUsers);
                   setFriends([...friends, ...users]);
                   setLoading(false);
                 }}
                 className="px-3 flex flex-col gap-3 py-3 max-h-[400px] overflow-auto"
               >
-                {friends.map((e, i) => (
+                {friends.map((e) => (
                   <div key={e.id} className="flex gap-2 items-center">
                     <Avatar border={e.story ? {} : undefined} size={40} />
                     <div>
@@ -64,13 +64,13 @@ export const ModalFriends: FC<{ open?: boolean; onCancel?: () => void }> = (
                 offset={200}
                 onNext={async () => {
                   setLoading(true);
-                  let users = await fakeApi(mockUsers);
+                  const users = await fakeApi(mockUsers);
                   setFollow([...follow, ...users]);
                   setLoading(false);
                 }}
                 className="px-3 flex flex-col gap-3 py-3 max-h-[400px] overflow-auto"
               >
-                {follow.map((e, i) => (
+                {follow.map((e) => (
                   <div key={e.id} className="flex gap-2 items-center">
                     <Avatar border={e.story ? {} : undefined} size={40} />
                     <div>

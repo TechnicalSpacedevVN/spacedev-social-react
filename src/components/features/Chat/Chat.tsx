@@ -1,7 +1,5 @@
-import { sample, sampleSize } from "lodash";
-
-import React from "react";
 import { useMode } from "@components/features/DarkModeProvider";
+import React from "react";
 
 export const Chat = () => {
   const { mode, toggleMode } = useMode();

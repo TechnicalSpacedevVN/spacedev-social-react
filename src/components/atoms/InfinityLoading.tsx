@@ -38,7 +38,7 @@ export const InfinityLoading = forwardRef<
     },
     ref
   ) => {
-    let _children = children;
+    const _children = children;
     // if (virtualized) {
     //   _children = (
     //     <List
@@ -59,7 +59,7 @@ export const InfinityLoading = forwardRef<
         {...props}
         onScroll={(ev) => {
           ev.preventDefault();
-          let ele = ev.currentTarget;
+          const ele = ev.currentTarget;
 
           if (!loading && haveNext) {
             let _offset = 0;

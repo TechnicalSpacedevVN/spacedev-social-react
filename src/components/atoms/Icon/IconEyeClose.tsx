@@ -1,7 +1,7 @@
-import { Icon } from './Icon';
-import { ButtonIconProps } from './type';
+import { Icon } from "./Icon";
+import { ButtonIconProps, IconProps } from "./type";
 
-export const ButtonIconTrash: Atom<any> = (props) => {
+export const ButtonIconTrash: Atom<ButtonIconProps> = (props) => {
   return (
     <Icon {...props}>
       <IconEyeClose />
@@ -9,10 +9,7 @@ export const ButtonIconTrash: Atom<any> = (props) => {
   );
 };
 
-export const IconEyeClose: Atom<ButtonIconProps> = ({
-  size = 17,
-  ...props
-}) => {
+export const IconEyeClose: Atom<IconProps> = ({ size = 17, ...props }) => {
   return (
     <svg
       {...props}

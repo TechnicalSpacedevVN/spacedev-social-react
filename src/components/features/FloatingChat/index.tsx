@@ -1,19 +1,19 @@
-import { IconImage } from "@components/atoms/Icon/IconImage";
 import { Badge } from "@components/atoms/Badge";
 import { DropFile } from "@components/atoms/DropFile";
 import { Dropdown } from "@components/atoms/Dropdown";
+import { IconImage } from "@components/atoms/Icon/IconImage";
 import { InfinityLoading } from "@components/atoms/InfinityLoading";
 import { Menu } from "@components/atoms/Menu";
 import { MessageInput } from "@components/atoms/MessageInput";
-import { Modal, ModalProps } from "@components/atoms/Modal";
-import { Tab } from "@components/atoms/Tab";
 import { UploadFile, UploadfileRef } from "@components/atoms/UploadFile";
-import { UserItem } from "@components/atoms/UserItem";
+import { convertImageUrlToFile } from "@utils/convertImageUrlToFile";
 import { handleSelectEnd } from "@utils/handleSelectEnd";
-import { fakeApi, mockMessages, mockUploadImage, randomId } from "@utils/mock";
+import { fakeApi, mockMessages, mockUploadImage } from "@utils/mock";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { cn } from "../../../utils";
+import { Avatar } from "../../atoms/Avatar";
+import { Button } from "../../atoms/Button";
 import { Icon } from "../../atoms/Icon/Icon";
 import { ButtonIconClose, IconClose } from "../../atoms/Icon/IconClose";
 import { ButtoniconEmotion } from "../../atoms/Icon/IconEmotion";
@@ -24,12 +24,8 @@ import { IconMinus } from "../../atoms/Icon/IconMinus";
 import { IconPlus } from "../../atoms/Icon/IconPlus";
 import { ButtonIconThreeDotAction } from "../../atoms/Icon/IconThreeDotAction";
 import { ButtonIconUploadImage } from "../../atoms/Icon/IconUploadImage";
-import { Avatar } from "../../atoms/Avatar";
-import { Button } from "../../atoms/Button";
 import { MessageItem } from "./MessageItem";
 import { ModalGroupChat } from "./ModalGroupChat";
-import { convertImageUrlToFile } from "@utils/convertImageUrlToFile";
-import { faker } from "@faker-js/faker";
 
 export const FloatingChat = () => {
   return createPortal(
@@ -71,9 +67,9 @@ export const ChatScreen: FC = () => {
 
   const uploadFile = useCallback(
     async (files: File[]) => {
-      let imgs = [];
-      for (let i in files) {
-        let imgSrc = await mockUploadImage(files[i]);
+      const imgs = [];
+      for (const i in files) {
+        const imgSrc = await mockUploadImage(files[i]);
         imgs.push(imgSrc);
       }
 
@@ -168,7 +164,7 @@ export const ChatScreen: FC = () => {
           }}
           includes={{
             img: async (value) => {
-              let file = await convertImageUrlToFile(value);
+              const file = await convertImageUrlToFile(value);
               uploadFileRef.current?.trigger([file]);
             },
             post(value) {
@@ -209,7 +205,7 @@ export const ChatScreen: FC = () => {
             className="flex flex-col py-2 gap-2 flex-1 main overflow-auto"
             onNext={async () => {
               setLoading(true);
-              let res = await fakeApi(mockMessages);
+              const res = await fakeApi(mockMessages);
               setMessages([...res, ...messages]);
               setLoading(false);
             }}

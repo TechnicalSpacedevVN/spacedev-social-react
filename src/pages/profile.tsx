@@ -1,22 +1,18 @@
-import { useEffect, useState } from "react";
-import { Icon } from "../components/atoms/Icon/Icon";
-import { ButtonIconCamera } from "../components/atoms/Icon/IconCamera";
-import { ButtonIconThreeDotAction } from "../components/atoms/Icon/IconThreeDotAction";
-import { ModalFriends } from "../components/features/ModalFriends";
-import { NewPost } from "../components/features/NewPost";
-import { Post } from "../components/features/Post";
+import { IconArrowDown } from "@components/atoms/Icon/IconArrow";
+import { CardGroup } from "@components/features/CardGroup";
+import { useTitle } from "@hooks/useTitle";
+import { useState } from "react";
 import { Avatar } from "../components/atoms/Avatar";
 import { Button } from "../components/atoms/Button";
 import { Card } from "../components/atoms/Card";
 import { Dropdown } from "../components/atoms/Dropdown";
+import { Icon } from "../components/atoms/Icon/Icon";
+import { ButtonIconCamera } from "../components/atoms/Icon/IconCamera";
+import { ButtonIconThreeDotAction } from "../components/atoms/Icon/IconThreeDotAction";
 import { ModalAbout } from "../components/features/About";
-import { Tag } from "@components/atoms/Tag";
-import {
-  ButtonIconArrowDown,
-  IconArrowDown,
-} from "@components/atoms/Icon/IconArrow";
-import { useTitle } from "@hooks/useTitle";
-import { CardGroup } from "@components/features/CardGroup";
+import { ModalFriends } from "../components/features/ModalFriends";
+import { NewPost } from "../components/features/NewPost";
+import { Post } from "../components/features/Post";
 
 export const Profile = () => {
   const [open, setOpen] = useState(false);

@@ -1,4 +1,4 @@
-import { QueryCache, QueryClient, useQuery } from "@tanstack/react-query";
+import { QueryClient, useQuery } from "@tanstack/react-query";
 
 export const LOGIN_MODAL = "LOGIN_MODAL";
 export const USER_DATA = "USER_DATA";
@@ -45,13 +45,13 @@ export const useGLobalState = <T extends keyof IGlobalState>(
   name: T,
   defaultValue?: IGlobalState[T]
 ): IGlobalState[T] => {
-  let { data } = useQuery({
+  const { data } = useQuery({
     queryKey: [name],
     staleTime: Infinity,
     cacheTime: Infinity,
     initialData: defaultValue,
     queryFn: () => {
-      let value = getGlobalState(name);
+      const value = getGlobalState(name);
 
       if (typeof value !== "undefined") return value;
 

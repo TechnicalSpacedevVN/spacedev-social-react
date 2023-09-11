@@ -1,6 +1,5 @@
 import { useDebounce } from "@hooks/useDebounce";
 import { cn } from "@utils";
-import { convertImageUrlToFile } from "@utils/convertImageUrlToFile";
 import _ from "lodash";
 import { useEffect, useState } from "react";
 
@@ -28,7 +27,7 @@ export const getDropFileData = <T extends keyof DropFileType>(
   return ev.dataTransfer.getData(type) as DropFileType[T];
 };
 
-let defaultMap: {
+const defaultMap: {
   [k: string]: {
     types: string[];
     handler(ev: React.DragEvent<HTMLDivElement>): any;
@@ -84,15 +83,15 @@ export const DropFile: Atom<DropFileProps> = ({
 
   const [type, setType] = useState("");
   useEffect(() => {
-    let allowTypes = getAllowTypes();
+    const allowTypes = getAllowTypes();
 
-    let onDragOver = (ev: DragEvent) => {
+    const onDragOver = (ev: DragEvent) => {
       ev.preventDefault();
 
-      let types = ev.dataTransfer?.types || [];
+      const types = ev.dataTransfer?.types || [];
 
       // console.log(allowTypes, types);
-      let check = _.findIndex(allowTypes, (el) => _.includes(types, el));
+      const check = _.findIndex(allowTypes, (el) => _.includes(types, el));
 
       if (check !== -1) {
         setType(allowTypes[check]);
@@ -103,7 +102,7 @@ export const DropFile: Atom<DropFileProps> = ({
       ev.preventDefault();
       setOpen(false);
     };
-    const onDragLeave = (ev: DragEvent): void => {
+    const onDragLeave = (): void => {
       setOpen(false);
       // setCurrentType("");
     };
@@ -131,21 +130,21 @@ export const DropFile: Atom<DropFileProps> = ({
         <div
           onDragLeave={() => {}}
           onDrop={async (ev) => {
-            let types = ev.dataTransfer.types;
+            const types = ev.dataTransfer.types;
             console.log(types);
-            for (let i of types) {
-              let checkIsDefault = _.findKey(defaultMap, (e) =>
+            for (const i of types) {
+              const checkIsDefault = _.findKey(defaultMap, (e) =>
                 e.types.includes(i)
               );
 
               if (checkIsDefault) {
-                let data = defaultMap[checkIsDefault].handler(ev);
+                const data = defaultMap[checkIsDefault].handler(ev);
                 if (data) {
                   includes?.[checkIsDefault as keyof typeof includes]?.(data);
                   break;
                 }
               } else {
-                let data = ev.dataTransfer.getData(i);
+                const data = ev.dataTransfer.getData(i);
                 if (data) {
                   includes?.[i as keyof typeof includes]?.(JSON.parse(data));
                   break;

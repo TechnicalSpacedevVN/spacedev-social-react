@@ -1,5 +1,7 @@
-import { handleSelectEnd, scollToElement } from "@utils";
-import { FC, useRef, useState, useMemo } from "react";
+import { Avatar } from "@components/atoms/Avatar";
+import { Button } from "@components/atoms/Button";
+import { setDropFileData } from "@components/atoms/DropFile";
+import { Dropdown } from "@components/atoms/Dropdown";
 import { IconArchive } from "@components/atoms/Icon/IconArchive";
 import { IconBellOff } from "@components/atoms/Icon/IconBellOf";
 import { IconBookmark } from "@components/atoms/Icon/IconBookmark";
@@ -13,19 +15,17 @@ import { IconShare } from "@components/atoms/Icon/IconShare";
 import { IconSpin } from "@components/atoms/Icon/IconSpin";
 import { ButtonIconThreeDotAction } from "@components/atoms/Icon/IconThreeDotAction";
 import { IconTrash } from "@components/atoms/Icon/IconTrash";
-import { Avatar } from "@components/atoms/Avatar";
-import { Button } from "@components/atoms/Button";
-import { Dropdown } from "@components/atoms/Dropdown";
 import { Menu } from "@components/atoms/Menu";
 import { MessageInput } from "@components/atoms/MessageInput";
 import { Modal, ModalProps } from "@components/atoms/Modal";
 import { Tag } from "@components/atoms/Tag";
-import { faker } from "@faker-js/faker";
-import moment from "moment";
-import { setDropFileData } from "@components/atoms/DropFile";
-import { generatePath } from "react-router-dom";
 import { PATH } from "@constants/path";
+import { faker } from "@faker-js/faker";
+import { handleSelectEnd, scollToElement } from "@utils";
 import { mockPost } from "@utils/mock";
+import moment from "moment";
+import { FC, useMemo, useRef, useState } from "react";
+import { generatePath } from "react-router-dom";
 
 const PostMenu = () => {
   return (
@@ -51,7 +51,7 @@ const PostMenu = () => {
 export const Post = () => {
   const [open, setOpen] = useState(false);
   const [post] = useState(mockPost);
-  let id = useMemo(() => Math.round(Math.random() * 10000000).toString(), []);
+  const id = useMemo(() => Math.round(Math.random() * 10000000).toString(), []);
   return (
     <>
       <ModalDetail
@@ -62,7 +62,7 @@ export const Post = () => {
       <div
         draggable
         onDragStart={(ev) => {
-          let img = document.createElement("img");
+          const img = document.createElement("img");
           img.src = post.image;
           ev.dataTransfer.setDragImage(img, img.width / 2, img.height / 2);
           setDropFileData(ev, "post", {
@@ -177,7 +177,7 @@ export const Post = () => {
 
 const ModalDetail: FC<ModalProps> = (props) => {
   const [value, setValue] = useState("");
-  const [image, setImage] = useState(faker.image.url);
+  const [image] = useState(faker.image.url);
   return (
     <Modal
       {...props}
@@ -254,9 +254,7 @@ const UserComment: Atom<UserCommentProps> = ({
 }) => {
   const [openReply, setOpenReply] = useState(false);
   const inputRef = useRef<HTMLParagraphElement>(null);
-  const [content, setContent] = useState(() =>
-    faker.lorem.paragraph({ min: 1, max: 2 })
-  );
+  const [content] = useState(() => faker.lorem.paragraph({ min: 1, max: 2 }));
 
   // const onSendMessage = () => {
   //   if (inputRef.current) {
@@ -326,7 +324,7 @@ const UserComment: Atom<UserCommentProps> = ({
         <ButtonIconHeart className="icon-action opacity-0" />
       </div>
       <div className="px-2 pl-10">
-        {replies?.map((e, i) => (
+        {replies?.map((_, i) => (
           <UserComment isReply={false} key={i} />
         ))}
         {isReply && openReply && (

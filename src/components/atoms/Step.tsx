@@ -4,7 +4,7 @@ export interface StepProps {
   children: any;
 }
 export const Step: Atom<StepProps> = ({ active, children }) => {
-  let _children = Children.toArray(children);
+  const _children = Children.toArray(children);
   return (
     <div className="wrap">
       <div className="child">{_children[active]}</div>

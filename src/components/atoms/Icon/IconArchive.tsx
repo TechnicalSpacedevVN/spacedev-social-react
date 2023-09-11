@@ -1,7 +1,7 @@
-import { Icon } from './Icon';
-import { ButtonIconProps } from './type';
+import { Icon } from "./Icon";
+import { ButtonIconProps, IconProps } from "./type";
 
-export const ButtonIconArchive: Atom<any> = (props) => {
+export const ButtonIconArchive: Atom<ButtonIconProps> = (props) => {
   return (
     <Icon {...props}>
       <IconArchive />
@@ -9,7 +9,7 @@ export const ButtonIconArchive: Atom<any> = (props) => {
   );
 };
 
-export const IconArchive: Atom<ButtonIconProps> = ({ size = 17, ...props }) => {
+export const IconArchive: Atom<IconProps> = ({ size = 17, ...props }) => {
   return (
     <svg
       {...props}

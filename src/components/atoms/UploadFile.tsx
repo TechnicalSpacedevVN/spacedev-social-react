@@ -27,7 +27,7 @@ export const UploadFile = forwardRef<UploadfileRef, UploadFileProps>(
     );
     const fileRef = useRef<HTMLInputElement>(null);
     const onChange: React.ChangeEventHandler<HTMLInputElement> = (ev) => {
-      let files = ev.target.files;
+      const files = ev.target.files;
       if (files && files?.length > 0) {
         props.onChange?.(Array.from(files));
         if (fileRef.current) {

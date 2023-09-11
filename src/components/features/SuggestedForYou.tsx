@@ -6,7 +6,7 @@ export const SuggestedForYou = () => {
   return (
     <Card title="Những người ở gần">
       <div className="mt-4 flex flex-col gap-4">
-        {Array.from(new Array(10)).map((e, i) => (
+        {Array.from(new Array(10)).map((_, i) => (
           <UserItem key={i} sub="3km" action={<IconAddFriend />} />
         ))}
       </div>

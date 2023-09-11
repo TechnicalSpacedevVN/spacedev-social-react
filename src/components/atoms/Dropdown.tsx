@@ -60,13 +60,13 @@ export const Dropdown: FC<DropdownProps> = ({
   });
   useEffect(() => {
     if (childrenRef.current) {
-      let container = props?.getPopupContainer?.(childrenRef.current);
+      const container = props?.getPopupContainer?.(childrenRef.current);
 
-      let { top, left, height, right } =
+      const { top, left, height, right } =
         container?.getBoundingClientRect() ||
         childrenRef.current.getBoundingClientRect();
 
-      let contentRect = contentRef.current?.getBoundingClientRect() || null;
+      const contentRect = contentRef.current?.getBoundingClientRect() || null;
 
       let pos: Position = {};
       if (placement === "bottomLeft") {
@@ -93,17 +93,17 @@ export const Dropdown: FC<DropdownProps> = ({
       setPosition(pos);
     }
 
-    if (open) {
-      const event = () => {
-        setOpen(false);
-      };
+    // if (open) {
+    //   const event = () => {
+    //     setOpen(false);
+    //   };
 
-      // window.addEventListener("click", event);
+    //   window.addEventListener("click", event);
 
-      // return () => {
-      //   window.removeEventListener("click", event);
-      // };
-    }
+    //   return () => {
+    //     window.removeEventListener("click", event);
+    //   };
+    // }
   }, [open, placement]);
 
   useEffect(() => {
