@@ -113,7 +113,13 @@ const ModalCreate: FC<ModalCreateProps> = ({ post, ...props }) => {
   }, [props.open]);
   const disableBtn = !value && images.length === 0;
   return (
-    <Modal {...props} title="Tạo bài viết" className="min-h-[500px]">
+    <Modal
+      {...props}
+      title="Tạo bài viết"
+      className="min-h-[500px]"
+      keyboard={false}
+      overlayCloseable={false}
+    >
       <div className="p-3 flex flex-col flex-1">
         <div className="flex gap-3">
           <Avatar size={40} />

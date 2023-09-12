@@ -2,6 +2,13 @@ import { FC, startTransition, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { cn } from "../../utils";
 import { useShortcut } from "@hooks/useShortcut";
+import { Observable } from "@utils/Observable";
+
+const observable = new Observable();
+
+document.body.addEventListener("click", (...args) => {
+  observable.emit(args);
+});
 
 const container = document.createElement("div");
 interface Position {
@@ -56,6 +63,7 @@ export const Dropdown: FC<DropdownProps> = ({
   ...props
 }) => {
   const childrenRef = useRef<HTMLDivElement>(null);
+  const clickChildrenRef = useRef(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const [position, setPosition] = useState<Position>({
@@ -65,14 +73,12 @@ export const Dropdown: FC<DropdownProps> = ({
   useShortcut(
     `Escape`,
     () => {
-      console.log("dropdown");
       if (keyboard) {
         setOpen(false);
       }
     },
     [keyboard],
-    open,
-    "dropdown"
+    open
   );
 
   useEffect(() => {
@@ -115,15 +121,31 @@ export const Dropdown: FC<DropdownProps> = ({
     if (!open) props.onClose?.();
   }, [open]);
 
+  useEffect(() => {
+    const onClickBody = () => {
+      if (!clickChildrenRef.current) {
+        setOpen(false);
+      }
+
+      clickChildrenRef.current = false;
+    };
+    window.addEventListener("click", onClickBody);
+    return () => {
+      window.removeEventListener("click", onClickBody);
+    };
+  }, []);
+
   const _onClose = (ev?: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    clickChildrenRef.current = true;
     if (allowToggle) {
+      // ev?.stopPropagation();
       startTransition(() => {
         setOpen(!open);
       });
     } else {
-      if (open) {
-        ev?.stopPropagation();
-      }
+      // if (open) {
+      //   ev?.stopPropagation();
+      // }
 
       startTransition(() => {
         setOpen(true);
@@ -143,10 +165,10 @@ export const Dropdown: FC<DropdownProps> = ({
       {open &&
         createPortal(
           <>
-            <div
+            {/* <div
               className="fixed top-0 left-0 w-screen h-screen z-[1000]"
               onClick={_onClose}
-            ></div>
+            ></div> */}
             <div
               onClick={() => {
                 if (autoClose) setOpen(false);

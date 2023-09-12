@@ -57,8 +57,14 @@ export const MainLayout = () => {
 
   return (
     <DropFile
-      hideBackdrop
+      isGlobal
+      backdropClassName="hidden"
       includes={{
+        img: (img) => {
+          console.log(img);
+          createPost({ images: [img] });
+          console.log("main drop img");
+        },
         files: async (files) => {
           const imgs: string[] = [];
           for (const i in files) {

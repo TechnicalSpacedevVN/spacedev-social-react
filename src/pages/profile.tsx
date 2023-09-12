@@ -18,10 +18,14 @@ import { ModalFriends } from "../components/features/ModalFriends";
 import { NewPost } from "../components/features/NewPost";
 import { Post } from "../components/features/Post";
 import { DropFile } from "@components/atoms/DropFile";
+import { convertFileToImage } from "@utils/convertFIleToImage";
+import { mockUser } from "@utils/mock";
 
 export const Profile = () => {
   const [open, setOpen] = useState(false);
   const [openAbout, setOpenAbout] = useState(false);
+  const [cover, setCover] = useState("https://unsplash.it/2000/700");
+  const [user, setUser] = useState(mockUser);
 
   useTitle("Đặng Thuyền Vương");
   return (
@@ -34,15 +38,13 @@ export const Profile = () => {
             <DropFile
               className="h-[500px] w-full"
               includes={{
-                files: () => {
-                  console.log("cover drop file");
+                files: async ([file]) => {
+                  const img = await convertFileToImage(file);
+                  setCover(img);
                 },
               }}
             >
-              <img
-                className="object-cover w-full h-full"
-                src="https://unsplash.it/2000/700"
-              />
+              <img className="object-cover w-full h-full" src={cover} />
             </DropFile>
             <div className="container relative mx-auto">
               <div className="cursor-pointer hover:bg-opacity-60 absolute bottom-2 right-2 bg-black rounded bg-opacity-50 text-white  text-sm flex items-center px-2 py-0.5 drop-shadow-2xl shadow-white">
@@ -78,9 +80,18 @@ export const Profile = () => {
                 <div className="active:scale-95 relative shadow-[0_0_0_3px] shadow-white rounded-full dark:shadow-slate-900">
                   <DropFile
                     backdropClassName="rounded-full"
-                    includes={{ files: () => {} }}
+                    includes={{
+                      files: async ([file]) => {
+                        const img = await convertFileToImage(file);
+                        setUser({ ...user, avatar: img });
+                      },
+                    }}
                   >
-                    <Avatar className="select-none" size={180} />
+                    <Avatar
+                      className="select-none"
+                      size={180}
+                      src={user.avatar}
+                    />
                   </DropFile>
                   <Icon className="absolute bottom-1 right-5">
                     <svg

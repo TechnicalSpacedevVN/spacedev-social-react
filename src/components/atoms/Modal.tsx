@@ -47,15 +47,14 @@ export const Modal: FC<ModalProps> = ({
   useShortcut(
     `Escape`,
     () => {
-      console.log("modal");
-
       if (keyboard) {
-        props.onCancel?.();
+        setTimeout(() => {
+          props.onCancel?.();
+        }, 100);
       }
     },
     [keyboard],
-    props.open,
-    "modal"
+    props.open
   );
 
   if (!props.open) return null;
@@ -78,8 +77,8 @@ export const Modal: FC<ModalProps> = ({
           props.className
         )}
         onClick={(ev) => {
-          ev.stopPropagation();
-          checkClickInsideRef.current = false;
+          // ev.stopPropagation();
+          checkClickInsideRef.current = true;
         }}
         onMouseDown={() => (checkClickInsideRef.current = true)}
         style={{ width, height }}

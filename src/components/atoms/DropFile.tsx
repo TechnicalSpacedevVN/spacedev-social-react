@@ -1,38 +1,48 @@
 import { useDebounce } from "@hooks/useDebounce";
 import { cn } from "@utils";
+import { Observable } from "@utils/Observable";
 import _ from "lodash";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { fromEvent } from "rxjs";
+
+const observableDragOver = new Observable(
+  fromEvent<DragEvent>(window, "dragover")
+);
+const observableDrop = new Observable(fromEvent<DragEvent>(window, "drop"));
+const observableDragLeave = new Observable(
+  fromEvent<DragEvent>(window, "dragleave")
+);
 
 interface DropFileProps {
   children: any;
   content?: any;
   includes?: { [k in keyof DropFileType]?: (value: DropFileType[k]) => void };
   title?: { [k in keyof DropFileType]?: string };
-  hideBackdrop?: boolean;
   backdropClassName?: string;
+  isGlobal?: boolean;
 }
 
 export const setDropFileData = <T extends keyof DropFileType>(
-  ev: React.DragEvent<any>,
+  ev: DragEvent | React.DragEvent<HTMLElement>,
   type: T,
   data: DropFileType[T]
 ) => {
   ev.stopPropagation();
-  ev.dataTransfer.clearData();
-  ev.dataTransfer.setData(type, JSON.stringify(data));
+  ev?.dataTransfer?.clearData();
+  ev?.dataTransfer?.setData(type, JSON.stringify(data));
 };
 
 export const getDropFileData = <T extends keyof DropFileType>(
-  ev: React.DragEvent<any>,
+  ev: DragEvent,
   type: T
 ): DropFileType[T] => {
-  return ev.dataTransfer.getData(type) as DropFileType[T];
+  return ev?.dataTransfer?.getData(type) as DropFileType[T];
 };
 
 const defaultMap: {
   [k: string]: {
     types: string[];
-    handler(ev: React.DragEvent<HTMLDivElement>): any;
+    handler(ev: DragEvent): any;
     title: string;
   };
 } = {
@@ -55,7 +65,7 @@ const defaultMap: {
     title: "Thả file vào đây",
     types: ["Files"],
     handler(ev) {
-      return Array.from(ev.dataTransfer?.files);
+      return Array.from(ev?.dataTransfer?.files || []);
     },
   },
 };
@@ -64,10 +74,10 @@ export const DropFile: Atom<DropFileProps> = ({
   children,
   className,
   includes,
-  hideBackdrop,
   ...props
 }) => {
   const [open, setOpen, setOpenImmediately] = useDebounce(false, 10);
+  const checkRef = useRef(false);
 
   const getAllowTypes = () => {
     let allowTypes = Object.keys(includes || {});
@@ -85,44 +95,80 @@ export const DropFile: Atom<DropFileProps> = ({
   };
 
   const [type, setType] = useState("");
+
+  const onDrop = async (ev: DragEvent) => {
+    ev.preventDefault();
+    // ev.stopPropagation();
+    const types = ev?.dataTransfer?.types;
+    if (types) {
+      for (const i of types) {
+        const checkIsDefault = _.findKey(defaultMap, (e) =>
+          e.types.includes(i)
+        );
+
+        if (checkIsDefault) {
+          const data = defaultMap[checkIsDefault].handler(ev);
+          if (data) {
+            includes?.[checkIsDefault as keyof typeof includes]?.(data);
+            break;
+          }
+        } else {
+          const data = ev.dataTransfer.getData(i);
+          if (data) {
+            includes?.[i as keyof typeof includes]?.(JSON.parse(data));
+            break;
+          }
+        }
+      }
+    }
+  };
+
   useEffect(() => {
     const allowTypes = getAllowTypes();
 
-    const onDragOver = (ev: DragEvent) => {
+    const unsubscribe1 = observableDragOver.subscribe((ev: DragEvent) => {
       ev.preventDefault();
       const types = ev.dataTransfer?.types || [];
 
-      // console.log(allowTypes, types);
       const check = _.findIndex(allowTypes, (el) => _.includes(types, el));
 
       if (check !== -1) {
         setType(allowTypes[check]);
         setOpenImmediately(true);
       }
-    };
-    const onDrop = (ev: DragEvent): void => {
-      ev.preventDefault();
-      setOpen(false);
-    };
-    const onDragLeave = (): void => {
-      setOpen(false);
-      // setCurrentType("");
-    };
+      return true;
+    });
+    const unsubscribe2 = observableDrop.subscribe((ev: DragEvent) => {
+      if (checkRef.current) {
+        checkRef.current = false;
+        onDrop(ev);
+        return false;
+      }
+    });
 
-    // const onDragEnd = () => {
-    //   dragStartEvent = null;
-    //   url = undefined;
-    // };
-    // window.addEventListener("dragend", onDragEnd);
-    window.addEventListener("dragover", onDragOver);
-    window.addEventListener("drop", onDrop);
-    window.addEventListener("dragleave", onDragLeave);
+    const unsubscribe5 = observableDrop.alway((ev: DragEvent) => {
+      setOpen(false);
+      checkRef.current = false;
+    });
+    const unsubscribe3 = observableDragLeave.subscribe(() => {
+      setOpen(false);
+      checkRef.current = false;
+    });
+
+    const unsubscribe4 = props.isGlobal
+      ? observableDrop.subscribe((ev: DragEvent) => {
+          ev.preventDefault();
+          onDrop(ev);
+          return false;
+        })
+      : null;
+
     return () => {
-      window.removeEventListener("dragover", onDragOver);
-      window.removeEventListener("drop", onDrop);
-      window.removeEventListener("dragleave", onDragLeave);
-      // window.removeEventListener("dragstart", onDragStart);
-      // window.removeEventListener("dragend", onDragEnd);
+      unsubscribe1();
+      unsubscribe2();
+      unsubscribe3();
+      unsubscribe4?.();
+      unsubscribe5();
     };
   }, []);
   return (
@@ -130,39 +176,11 @@ export const DropFile: Atom<DropFileProps> = ({
       {children}
       {open && (
         <div
-          // onDragOver={(ev) => {
-          //   // ev.preventDefault();
-          //   // ev.stopPropagation();
-          // }}
-          onDrop={async (ev) => {
-            ev.preventDefault();
-            // ev.stopPropagation();
-            const types = ev.dataTransfer.types;
-            for (const i of types) {
-              const checkIsDefault = _.findKey(defaultMap, (e) =>
-                e.types.includes(i)
-              );
-
-              if (checkIsDefault) {
-                const data = defaultMap[checkIsDefault].handler(ev);
-                if (data) {
-                  includes?.[checkIsDefault as keyof typeof includes]?.(data);
-                  break;
-                }
-              } else {
-                const data = ev.dataTransfer.getData(i);
-                if (data) {
-                  includes?.[i as keyof typeof includes]?.(JSON.parse(data));
-                  break;
-                }
-              }
-            }
+          onDrop={() => {
+            checkRef.current = true;
           }}
           className={cn(
             "absolute top-0 left-0 w-full h-full  dark:text-white bg-black !bg-opacity-60 flex items-center justify-center text-white font-bold text-xl",
-            {
-              "opacity-0": hideBackdrop,
-            },
             props.backdropClassName
           )}
         >
