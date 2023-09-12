@@ -9,7 +9,7 @@ export const Card: FC<{
   return (
     <div
       className={cn(
-        "dark:bg-slate-900 bg-white rounded-lg px-3 py-4",
+        "shadow dark:bg-slate-900 bg-white rounded-lg px-3 py-4",
         props.className
       )}
     >

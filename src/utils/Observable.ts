@@ -4,17 +4,30 @@ export interface EmitOpts {
   inverse?: boolean;
 }
 
+export interface SubcribeOpts {
+  last?: boolean;
+}
+
 export type Handler = (...args: any[]) => void | boolean;
 export class Observable<T> {
   private handlers: Handler[] = [];
   private always: Handler[] = [];
+  private lasts: Handler[] = [];
   constructor(ob?: ObservableR<T>, opts?: EmitOpts) {
     ob?.subscribe((...args) => {
       this.emit(args, opts);
     });
   }
 
-  subscribe(handler: Handler) {
+  subscribe(handler: Handler, opts?: SubcribeOpts) {
+    if (opts?.last) {
+      this.lasts.push(handler);
+
+      return () => {
+        this.lasts = this.lasts.filter((e) => e !== handler);
+      };
+    }
+
     this.handlers.push(handler);
 
     return () => {
@@ -31,7 +44,10 @@ export class Observable<T> {
   }
 
   emit(args: any[], opts?: EmitOpts): void {
-    let handlers = opts?.inverse ? this.handlers.reverse() : this.handlers;
+    let handlers = [
+      ...(opts?.inverse ? this.handlers.reverse() : this.handlers),
+      ...this.lasts,
+    ];
 
     for (let i = 0; i < handlers.length; i++) {
       let check = handlers[i](...args);

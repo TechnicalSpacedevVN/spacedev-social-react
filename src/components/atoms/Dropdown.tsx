@@ -135,7 +135,7 @@ export const Dropdown: FC<DropdownProps> = ({
     };
   }, []);
 
-  const _onClose = (ev?: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const _onClose = () => {
     clickChildrenRef.current = true;
     if (allowToggle) {
       // ev?.stopPropagation();

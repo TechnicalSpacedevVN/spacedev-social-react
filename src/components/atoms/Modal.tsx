@@ -76,7 +76,7 @@ export const Modal: FC<ModalProps> = ({
           "flex flex-col bg-white rounded-lg text-gray-900 dark:bg-slate-900 dark:text-white overflow-hidden",
           props.className
         )}
-        onClick={(ev) => {
+        onClick={() => {
           // ev.stopPropagation();
           checkClickInsideRef.current = true;
         }}

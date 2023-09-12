@@ -76,12 +76,12 @@ export const MainLayout = () => {
         },
       }}
     >
-      <Header />
-      <main>
+      <main className="bg-gray-200 text-gray-800 dark:bg-slate-950 dark:text-slate-300">
+        <Header />
         <Outlet />
+        {user && <FloatingChat />}
+        <FloatNotification />
       </main>
-      {user && <FloatingChat />}
-      <FloatNotification />
     </DropFile>
   );
 };

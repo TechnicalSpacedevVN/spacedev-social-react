@@ -146,7 +146,7 @@ export const DropFile: Atom<DropFileProps> = ({
       }
     });
 
-    const unsubscribe5 = observableDrop.alway((ev: DragEvent) => {
+    const unsubscribe5 = observableDrop.alway(() => {
       setOpen(false);
       checkRef.current = false;
     });
@@ -156,11 +156,14 @@ export const DropFile: Atom<DropFileProps> = ({
     });
 
     const unsubscribe4 = props.isGlobal
-      ? observableDrop.subscribe((ev: DragEvent) => {
-          ev.preventDefault();
-          onDrop(ev);
-          return false;
-        })
+      ? observableDrop.subscribe(
+          (ev: DragEvent) => {
+            ev.preventDefault();
+            onDrop(ev);
+            return false;
+          },
+          { last: true }
+        )
       : null;
 
     return () => {

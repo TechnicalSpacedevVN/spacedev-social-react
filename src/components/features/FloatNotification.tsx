@@ -16,7 +16,7 @@ export const FloatNotification = () => {
 
   return createPortal(
     <motion.div
-      className="fixed bottom-3 left-4 rounded-xl p-4 bg-white dark:bg-slate-700 dark:text-white w-[300px]"
+      className="shadow fixed bottom-3 left-4 rounded-xl p-4 bg-slate-100 dark:bg-slate-700 dark:text-white w-[300px]"
       initial={{ opacity: 0, translateX: "-100%" }}
       transition={{ duration: 0.5, type: "spring" }}
       variants={{
