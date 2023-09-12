@@ -4,10 +4,13 @@ import { Menu } from "@components/atoms/Menu";
 import { Modal, ModalProps } from "@components/atoms/Modal";
 import { Tab } from "@components/atoms/Tab";
 import { UserItem } from "@components/atoms/UserItem";
+import { useState } from "react";
+import { mockUsers } from "@utils/mock";
 
-export type ModalGroupChatProps = ModalProps
+export type ModalGroupChatProps = ModalProps;
 
 export const ModalGroupChat: Atom<ModalGroupChatProps> = ({ ...props }) => {
+  const [users] = useState(mockUsers);
   return (
     <Modal
       {...props}
@@ -24,9 +27,10 @@ export const ModalGroupChat: Atom<ModalGroupChatProps> = ({ ...props }) => {
             label: "Thành viên",
             children: (
               <div className="flex flex-col gap-4 px-4 py-5 max-h-[400px] overflow-auto">
-                {Array.from(new Array(10)).map((_, i) => (
+                {users.map((u) => (
                   <UserItem
-                    key={i}
+                    user={u}
+                    key={u.id}
                     action={
                       <>
                         <Dropdown

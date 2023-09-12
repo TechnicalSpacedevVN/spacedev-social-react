@@ -103,3 +103,4 @@ export const mockComments = mock(mockComment);
 
 export interface IPost extends ReturnType<typeof mockPost> {}
 export interface IComment extends ReturnType<typeof mockComment> {}
+export interface IUser extends ReturnType<typeof mockUser> {}

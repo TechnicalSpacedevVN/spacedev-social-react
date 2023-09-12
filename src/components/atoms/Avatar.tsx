@@ -32,7 +32,7 @@ export const Avatar: Atom<AvatarProps> = ({
       draggable={false}
       to={link}
       className={cn(
-        "relative cursor-pointer rounded-full block ",
+        "border-base border relative cursor-pointer rounded-full block ",
         props.className
       )}
       style={{ width: _w, height: _h }}
@@ -40,7 +40,7 @@ export const Avatar: Atom<AvatarProps> = ({
       <div className={cn("rounded-full overflow-hidden w-full h-full")}>
         <img
           draggable={false}
-          className="w-full h-full"
+          className="w-full h-full object-cover"
           src={props.src || `https://unsplash.it/${_w}/${_h}?t=${id}`}
         />
       </div>

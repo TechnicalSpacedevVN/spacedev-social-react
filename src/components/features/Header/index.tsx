@@ -160,15 +160,12 @@ export const Header = () => {
                   content={
                     <Step active={stepActive}>
                       <div className="w-[300px]">
-                        <Link
-                          to={PATH.Profile}
-                          className="py-2 px-3 border-gray-300 rounded border-b border-solid text-gray-900 dark:text-white dark:border-slate-700 pb-3 hover:bg-black hover:bg-opacity-20 flex items-center gap-3"
-                        >
-                          <Avatar />
+                        <div className="py-2 px-3 border-gray-300 rounded border-b border-solid text-gray-900 dark:text-white dark:border-slate-700 pb-3 hover:bg-black hover:bg-opacity-20 flex items-center gap-3">
+                          <Avatar link={PATH.Profile} />
                           <h3 className="text-lg font-semibold">
                             Đặng Thuyền Vương
                           </h3>
-                        </Link>
+                        </div>
                         <div className="mt-3">
                           <a
                             onClick={(ev) => {

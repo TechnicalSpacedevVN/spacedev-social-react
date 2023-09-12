@@ -17,8 +17,12 @@ import { IPost, mockUploadImage } from "@utils/mock";
 import { FC, useEffect, useRef, useState } from "react";
 
 let _setPost: (post: Partial<IPost>) => void | undefined;
-export const createPost = (post: Partial<IPost>) => {
-  _setPost?.(post);
+export const createPost = (newPost: Partial<IPost>) => {
+  (_setPost as any)?.((post: any) => ({
+    ...post,
+    ...newPost,
+    images: [...(post?.images || []), ...(newPost?.images || [])],
+  }));
 };
 
 export const NewPost = () => {
@@ -154,6 +158,7 @@ const ModalCreate: FC<ModalCreateProps> = ({ post, ...props }) => {
         </div>
         <DropFile
           className="flex-1"
+          backdropClassName="bg-transparent"
           includes={{
             files: async (files) => {
               uploadfileRef.current?.trigger(files);

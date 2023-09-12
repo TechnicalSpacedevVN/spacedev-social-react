@@ -135,18 +135,13 @@ export const Dropdown: FC<DropdownProps> = ({
     };
   }, []);
 
-  const _onClose = () => {
+  const _onClick = () => {
     clickChildrenRef.current = true;
     if (allowToggle) {
-      // ev?.stopPropagation();
       startTransition(() => {
         setOpen(!open);
       });
     } else {
-      // if (open) {
-      //   ev?.stopPropagation();
-      // }
-
       startTransition(() => {
         setOpen(true);
       });
@@ -156,7 +151,7 @@ export const Dropdown: FC<DropdownProps> = ({
   return (
     <>
       <div
-        onClick={_onClose}
+        onClick={_onClick}
         ref={childrenRef}
         className={cn("inline-flex gap-1 items-center", props.className)}
       >
@@ -170,8 +165,12 @@ export const Dropdown: FC<DropdownProps> = ({
               onClick={_onClose}
             ></div> */}
             <div
-              onClick={() => {
-                if (autoClose) setOpen(false);
+              onClick={(ev) => {
+                if (autoClose) {
+                  setOpen(false);
+                } else {
+                  ev.stopPropagation();
+                }
               }}
               ref={contentRef}
               // onClick={(ev) => ev.stopPropagation()}

@@ -1,11 +1,14 @@
 import { Avatar } from "@components/atoms/Avatar";
+import { setDropFileData } from "@components/atoms/DropFile";
 import { HorizontalScroll } from "@components/atoms/HorizontalScroll";
 import { IconPlus } from "@components/atoms/Icon/IconPlus";
+import { faker } from "@faker-js/faker";
 import { mockStories } from "@utils/mock";
 import { useState } from "react";
 
 export const Story = () => {
   const [stories] = useState(() => mockStories(10));
+  const [img] = useState(() => faker.image.url({ height: 400, width: 400 }));
   return (
     <HorizontalScroll
       height={250}
@@ -18,7 +21,7 @@ export const Story = () => {
             <div className="rounded-lg overflow-hiddens w-full h-full">
               <img
                 className="object-cover w-full h-full rounded-lg"
-                src={"https://unsplash.it/400/400"}
+                src={img}
               />
             </div>
             <div className="flex flex-col gap-3 items-center justify-end  text-md p-4 bottom-0 left-0 right-0 rounded-lg  font-semibold whitespace-nowrap text-white absolute bg-gradient-to-t from-[#000000]  h-[100px] to-[#00000000]">
@@ -45,6 +48,9 @@ export const Story = () => {
                 <img
                   className="object-cover w-full h-full rounded-lg"
                   src={story.src}
+                  onDragStart={(ev) => {
+                    setDropFileData(ev, "img", story.src);
+                  }}
                 />
               </div>
               <div className="text-xs flex items-end p-4 bottom-0 left-0 right-0 rounded-lg font-semibold whitespace-nowrap text-white absolute bg-gradient-to-t from-[#000000]  h-[100px] to-[#00000000]">
