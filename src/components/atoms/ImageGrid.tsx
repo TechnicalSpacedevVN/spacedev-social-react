@@ -5,6 +5,7 @@ export interface ImageGridProps {
   images: string[];
   removeAble?: boolean;
   onRemove?: (images: string[]) => void;
+  imgClassName?: string;
 }
 
 const upload1ImageClass = "h-[500px] [&>*:nth-child(1)]:inset-[calc(0%_+_0px)]";
@@ -39,7 +40,10 @@ export const ImageGrid: Atom<ImageGridProps> = ({
     <div className={cn("relative", props.className, (map as any)[classIndex])}>
       {_images.map((e, i) => (
         <div className="absolute overflow-hiddens" key={`${i}-${e}`}>
-          <img className="w-full h-full object-cover" src={e} />
+          <img
+            className={cn("w-full h-full object-cover", props.imgClassName)}
+            src={e}
+          />
           {images.length > 5 && i === 4 && (
             <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 text-white flex text-4xl items-center justify-center font-semibold">
               + {images.length - _images.length + 1}

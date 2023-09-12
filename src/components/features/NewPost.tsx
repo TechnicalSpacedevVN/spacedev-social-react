@@ -175,7 +175,11 @@ const ModalCreate: FC<ModalCreateProps> = ({ post, ...props }) => {
                 setValue(ev.currentTarget.innerHTML);
               }}
             ></div>
-            <ImageGrid images={images} onRemove={setImages} />
+            <ImageGrid
+              imgClassName="object-contain"
+              images={images}
+              onRemove={setImages}
+            />
           </div>
         </DropFile>
         <div className="flex gap-2 px-2 items-center mt-2 mb-2">
