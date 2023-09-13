@@ -25,6 +25,9 @@ export const MessageItem: Atom<MessageItemProps> = ({
 }) => {
   return (
     <div
+      onSelect={() => {
+        console.log("select");
+      }}
       className={cn("px-2 flex gap-2 mb-2", {
         [myMessageClass]: myMessage,
         [anotherMessageclass]: !myMessage,

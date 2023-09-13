@@ -89,6 +89,11 @@ export const ChatScreen: FC = () => {
             [isHideClass]: isHide,
           }
         )}
+        onClick={() => {
+          if (!window?.getSelection()?.toString()) {
+            inputRef.current?.focus();
+          }
+        }}
       >
         <div
           onClick={() => setIsHide(false)}
@@ -277,6 +282,9 @@ export const ChatScreen: FC = () => {
                 console.log(val);
                 setValue("");
               }}
+              onPasteFile={async (files) => {
+                uploadFileRef.current?.trigger(files);
+              }}
               placeholder="Viết tin nhắn..."
             />
           </div>
@@ -313,6 +321,7 @@ export const ChatScreen: FC = () => {
               </Button>
               <Dropdown
                 placement="topRight"
+                autoClose
                 content={
                   <Menu
                     menus={[

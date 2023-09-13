@@ -65,6 +65,7 @@ const defaultMap: {
     title: "Thả file vào đây",
     types: ["Files"],
     handler(ev) {
+      console.log(ev?.dataTransfer?.files);
       return Array.from(ev?.dataTransfer?.files || []);
     },
   },
@@ -129,7 +130,6 @@ export const DropFile: Atom<DropFileProps> = ({
     const unsubscribe1 = observableDragOver.subscribe((ev: DragEvent) => {
       ev.preventDefault();
       const types = ev.dataTransfer?.types || [];
-
       const check = _.findIndex(allowTypes, (el) => _.includes(types, el));
 
       if (check !== -1) {

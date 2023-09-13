@@ -1,27 +1,27 @@
-import { IconSpin } from "@components/atoms/Icon/IconSpin";
-import { FC } from "react";
-import { cn } from "../../utils";
+import { IconSpin } from '@components/atoms/Icon/IconSpin';
+import { FC } from 'react';
+import { cn } from '../../utils';
 
 const typeClass = {
   default:
-    "hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-900  dark:bg-slate-800 dark:text-white bg-gray-100 hover:bg-gray-200",
-  primary: "bg-primary bg-opacity-90 hover:bg-opacity-100 text-white",
-  link: "",
-  red: "bg-red-700 bg-opacity-90 hover:bg-opacity-100 text-white",
+    'text-gray-900  dark:bg-white dark:text-white bg-black !bg-opacity-5 hover:!bg-opacity-10',
+  primary: 'bg-primary bg-opacity-90 hover:bg-opacity-100 text-white',
+  link: '',
+  red: 'bg-red-700 bg-opacity-90 hover:bg-opacity-100 text-white',
 };
 
 const sizeClass = {
-  small: "text-xs px-2 leading-7 text-sm",
-  default: "text-sm px-3 leading-9",
-  large: "px-5 leading-12 text-lg",
+  small: 'text-xs px-2 leading-7',
+  default: 'text-sm px-3 leading-9',
+  large: 'px-5 leading-12 text-lg',
 };
 
 export interface ButtonProps {
   children: any;
   className?: string;
-  type?: "default" | "primary" | "link" | "red";
+  type?: 'default' | 'primary' | 'link' | 'red';
   disabled?: boolean;
-  size?: "small" | "default" | "large";
+  size?: 'small' | 'default' | 'large';
   outline?: boolean;
   onClick?: () => void;
   loading?: boolean;
@@ -30,8 +30,8 @@ export interface ButtonProps {
 }
 
 export const Button: FC<ButtonProps> = ({
-  size = "default",
-  type = "default",
+  size = 'default',
+  type = 'default',
   loading,
   iconPrefix,
   iconSuffix,
@@ -42,13 +42,13 @@ export const Button: FC<ButtonProps> = ({
       {...props}
       disabled={props.disabled || loading}
       className={cn(
-        "active:scale-95 font-semibold rounded border-current border-solid",
+        'active:scale-95 font-semibold rounded border-current border-solid',
         props.className,
         sizeClass[size],
         typeClass[type],
         {
-          "opacity-50 pointer-events-none": props.disabled,
-        }
+          'opacity-50 pointer-events-none': props.disabled,
+        },
       )}
     >
       <span className="flex gap-2 items-center justify-center">

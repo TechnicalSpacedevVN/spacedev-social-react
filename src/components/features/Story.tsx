@@ -34,9 +34,9 @@ export const Story = () => {
         </div>
       </div>
       {stories.map((story) => (
-        <div key={story.id} className="p-1">
-          <div className="active:scale-95 flex flex-col items-center relative cursor-pointer snap-always snap-center gap-1 overflow-hidden w-full h-full">
-            <div className="relative overflow-hidden w-full h-full rounded-xl  border-solid">
+        <div key={story.id} className="p-1 ">
+          <div className=" active:scale-95 flex flex-col items-center relative cursor-pointer snap-always snap-center gap-1 overflow-hidden w-full h-full">
+            <div className=" border-[2px] border-[#00ffe7] relative overflow-hidden w-full h-full rounded-xl  border-solid">
               <div className="absolute top-2 left-2 overflow-hidden rounded-full">
                 <Avatar
                   src={story.user.avatar}

@@ -15,9 +15,10 @@ export interface AvatarProps {
 export const Avatar: Atom<AvatarProps> = ({
   size = 32,
   online,
-  link = "#",
+  link = "",
   ...props
 }) => {
+  let TagWraper = link ? Link : "div";
   const id = useId();
   let _w = size;
   let _h = size;
@@ -28,7 +29,7 @@ export const Avatar: Atom<AvatarProps> = ({
   }
 
   const child = (
-    <Link
+    <TagWraper
       draggable={false}
       to={link}
       className={cn(
@@ -52,7 +53,7 @@ export const Avatar: Atom<AvatarProps> = ({
           )}
         ></span>
       )}
-    </Link>
+    </TagWraper>
   );
 
   if (typeof props.border === "object") {

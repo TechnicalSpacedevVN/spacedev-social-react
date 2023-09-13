@@ -1,29 +1,29 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { PATH } from "../../../constants/path";
-import { LOGIN_MODAL, setGlobalState } from "../../../store/queryClient";
-import { useAuth } from "@components/features/AuthProvider";
-import { useMode } from "@components/features/DarkModeProvider";
-import { GeneralInfo } from "@components/features/GeneralInfo";
-import { Avatar } from "../../atoms/Avatar";
-import { Badge } from "../../atoms/Badge";
-import { Button } from "../../atoms/Button";
-import { Card } from "../../atoms/Card";
-import { Dropdown } from "../../atoms/Dropdown";
-import { Icon } from "../../atoms/Icon/Icon";
-import { ButtonIconApplication } from "../../atoms/Icon/IconApplication";
-import { ButtonIconChevronLeft } from "../../atoms/Icon/IconChevronLeft";
-import { IconChevronRight } from "../../atoms/Icon/IconChevronRight";
-import { IconClose } from "../../atoms/Icon/IconClose";
-import { IconFeedback } from "../../atoms/Icon/IconFeedback";
-import { IconLogout } from "../../atoms/Icon/IconLogout";
-import { ButtonIconSetting } from "../../atoms/Icon/IconSetting";
-import { ButtonIconThreeDotAction } from "../../atoms/Icon/IconThreeDotAction";
-import { Step } from "../../atoms/Step";
-import { Switch } from "../../atoms/Switch";
-import { Notification } from "../Notification";
-import { ModalLogin } from "./ModalLogin";
-import { IconSearch } from "@components/atoms/Icon/IconSearch";
+import { IconSearch } from '@components/atoms/Icon/IconSearch';
+import { useAuth } from '@components/features/AuthProvider';
+import { useMode } from '@components/features/DarkModeProvider';
+import { GeneralInfo } from '@components/features/GeneralInfo';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { PATH } from '../../../constants/path';
+import { LOGIN_MODAL, setGlobalState } from '../../../store/queryClient';
+import { Avatar } from '../../atoms/Avatar';
+import { Badge } from '../../atoms/Badge';
+import { Button } from '../../atoms/Button';
+import { Card } from '../../atoms/Card';
+import { Dropdown } from '../../atoms/Dropdown';
+import { Icon } from '../../atoms/Icon/Icon';
+import { ButtonIconApplication } from '../../atoms/Icon/IconApplication';
+import { ButtonIconChevronLeft } from '../../atoms/Icon/IconChevronLeft';
+import { IconChevronRight } from '../../atoms/Icon/IconChevronRight';
+import { IconClose } from '../../atoms/Icon/IconClose';
+import { IconFeedback } from '../../atoms/Icon/IconFeedback';
+import { IconLogout } from '../../atoms/Icon/IconLogout';
+import { ButtonIconSetting } from '../../atoms/Icon/IconSetting';
+import { ButtonIconThreeDotAction } from '../../atoms/Icon/IconThreeDotAction';
+import { Step } from '../../atoms/Step';
+import { Switch } from '../../atoms/Switch';
+import { Notification } from '../Notification';
+import { ModalLogin } from './ModalLogin';
 
 export const Header = () => {
   const { mode, toggleMode } = useMode();
@@ -160,12 +160,15 @@ export const Header = () => {
                   content={
                     <Step active={stepActive}>
                       <div className="w-[300px]">
-                        <div className="py-2 px-3 border-gray-300 rounded border-b border-solid text-gray-900 dark:text-white dark:border-slate-700 pb-3 hover:bg-black hover:bg-opacity-20 flex items-center gap-3">
-                          <Avatar link={PATH.Profile} />
+                        <Link
+                          to={PATH.Profile}
+                          className="py-2 px-3 border-gray-300 rounded border-b border-solid text-gray-900 dark:text-white dark:border-slate-700 pb-3 hover:bg-black hover:bg-opacity-20 flex items-center gap-3"
+                        >
+                          <Avatar />
                           <h3 className="text-lg font-semibold">
                             Đặng Thuyền Vương
                           </h3>
-                        </div>
+                        </Link>
                         <div className="mt-3">
                           <a
                             onClick={(ev) => {
@@ -197,7 +200,7 @@ export const Header = () => {
                               </svg>
                             </Icon>
                             <p className="flex-1">Dark mode</p>
-                            <Switch checked={mode === "dark"} />
+                            <Switch checked={mode === 'dark'} />
                           </a>
 
                           <div
@@ -365,7 +368,7 @@ export const Header = () => {
                             </svg>
                           </Icon>
                           <p className="flex-1">Dark mode</p>
-                          <Switch checked={mode === "dark"} />
+                          <Switch checked={mode === 'dark'} />
                         </a>
 
                         <a

@@ -1,37 +1,40 @@
-import { Avatar } from "@components/atoms/Avatar";
-import { Button } from "@components/atoms/Button";
-import { DropFile } from "@components/atoms/DropFile";
-import { Dropdown } from "@components/atoms/Dropdown";
-import { IconArrowDown } from "@components/atoms/Icon/IconArrow";
-import { IconEye } from "@components/atoms/Icon/IconEye";
-import { IconHacker } from "@components/atoms/Icon/IconHacker";
-import { ButtonIconImage, IconImage } from "@components/atoms/Icon/IconImage";
-import { IconLock } from "@components/atoms/Icon/IconLock";
-import { IconPoll } from "@components/atoms/Icon/IconPoll";
-import { IconUser } from "@components/atoms/Icon/IconUser";
-import { ImageGrid } from "@components/atoms/ImageGrid";
-import { Menu } from "@components/atoms/Menu";
-import { Modal, ModalProps } from "@components/atoms/Modal";
-import { UploadFile, UploadfileRef } from "@components/atoms/UploadFile";
-import { IPost, mockUploadImage } from "@utils/mock";
-import { FC, useEffect, useRef, useState } from "react";
-
-let _setPost: (post: Partial<IPost>) => void | undefined;
-export const createPost = (newPost: Partial<IPost>) => {
-  (_setPost as any)?.((post: any) => ({
-    ...post,
-    ...newPost,
-    images: [...(post?.images || []), ...(newPost?.images || [])],
-  }));
-};
+import { Avatar } from '@components/atoms/Avatar';
+import { Button } from '@components/atoms/Button';
+import { DropFile } from '@components/atoms/DropFile';
+import { Dropdown } from '@components/atoms/Dropdown';
+import { IconArrowDown } from '@components/atoms/Icon/IconArrow';
+import { IconEye } from '@components/atoms/Icon/IconEye';
+import { IconHacker } from '@components/atoms/Icon/IconHacker';
+import { ButtonIconImage, IconImage } from '@components/atoms/Icon/IconImage';
+import { IconLock } from '@components/atoms/Icon/IconLock';
+import { IconPoll } from '@components/atoms/Icon/IconPoll';
+import { IconUser } from '@components/atoms/Icon/IconUser';
+import { ImageGrid } from '@components/atoms/ImageGrid';
+import { Menu } from '@components/atoms/Menu';
+import { Modal, ModalProps } from '@components/atoms/Modal';
+import { UploadFile, UploadfileRef } from '@components/atoms/UploadFile';
+import { EventName } from '@constants/eventName';
+import { Event } from '@utils/event';
+import { IPost, mockUploadImage } from '@utils/mock';
+import { FC, useEffect, useRef, useState } from 'react';
 
 export const NewPost = () => {
   const [open, setOpen] = useState(false);
   let [post, setPost] = useState<Partial<IPost>>({});
+
   useEffect(() => {
-    _setPost = (post) => {
-      setPost(post);
+    let event = (newPost: EventHandlerType['CreatePost']) => {
+      setPost((post: any) => ({
+        ...post,
+        ...newPost,
+        images: [...(post?.images || []), ...(newPost?.images || [])],
+      }));
       setOpen(true);
+    };
+    Event.on(EventName.CreatePost, event);
+
+    return () => {
+      Event.off(EventName.CreatePost, event);
     };
   }, []);
   return (
@@ -95,6 +98,12 @@ export const NewPost = () => {
     </>
   );
 };
+const PostVisibility = [
+  { label: 'Công khai', icon: <IconEye /> },
+  { label: 'Chỉ mình tôi', icon: <IconLock /> },
+  { label: 'Chỉ bạn bè tôi', icon: <IconUser /> },
+  { label: 'Ẩn danh', icon: <IconHacker /> },
+];
 
 export interface ModalCreateProps extends ModalProps {
   post?: Partial<IPost>;
@@ -104,7 +113,8 @@ const ModalCreate: FC<ModalCreateProps> = ({ post, ...props }) => {
   const inputRef = useRef<HTMLDivElement>(null);
   const [images, setImages] = useState<string[]>([]);
   const uploadfileRef = useRef<UploadfileRef>(null);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
+  const [visibility, setVisibility] = useState(PostVisibility[0]);
   useEffect(() => {
     if (post?.images) {
       setImages(post.images || []);
@@ -131,24 +141,23 @@ const ModalCreate: FC<ModalCreateProps> = ({ post, ...props }) => {
             <h3 className="font-bold">Charles Schwartz</h3>
             <Dropdown
               getPopupContainer={(parentNode) => parentNode}
+              autoClose
               content={
                 <Menu
-                  menus={[
-                    { label: "Công khai", icon: <IconEye /> },
-                    { label: "Chỉ mình tôi", icon: <IconLock /> },
-                    { label: "Chỉ bạn bè tôi", icon: <IconUser /> },
-                    { label: "Ẩn danh", icon: <IconHacker /> },
-                  ]}
+                  onChange={(menu) =>
+                    setVisibility(menu as (typeof PostVisibility)[0])
+                  }
+                  menus={PostVisibility}
                 />
               }
             >
               <Button
-                iconPrefix={<IconEye />}
+                iconPrefix={visibility.icon}
                 iconSuffix={<IconArrowDown />}
                 size="small"
                 className="flex items-center"
               >
-                Chỉ mình tôi
+                {visibility.label}
               </Button>
             </Dropdown>
           </div>
@@ -175,7 +184,7 @@ const ModalCreate: FC<ModalCreateProps> = ({ post, ...props }) => {
               contentEditable
               onInput={(ev) => {
                 if (!ev.currentTarget.innerText.trim()) {
-                  ev.currentTarget.innerHTML = "";
+                  ev.currentTarget.innerHTML = '';
                 }
                 setValue(ev.currentTarget.innerHTML);
               }}
@@ -208,7 +217,7 @@ const ModalCreate: FC<ModalCreateProps> = ({ post, ...props }) => {
           <Button
             className="w-full"
             disabled={disableBtn}
-            type={!disableBtn ? "primary" : "default"}
+            type={!disableBtn ? 'primary' : 'default'}
             loading
           >
             Viết bài

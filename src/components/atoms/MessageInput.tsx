@@ -8,6 +8,7 @@ export interface MessageInput extends DefaultProps {
   onEnter?: (value: string) => void;
   clearWhenEnter?: boolean;
   allowShiftEnter?: boolean;
+  onPasteFile?: (file: File[]) => void;
 }
 export const MessageInput = forwardRef<HTMLParagraphElement, MessageInput>(
   ({ allowShiftEnter = true, clearWhenEnter = true, ...props }, inputRef) => {
@@ -21,6 +22,29 @@ export const MessageInput = forwardRef<HTMLParagraphElement, MessageInput>(
         <p
           spellCheck={false}
           ref={inputRef}
+          onPaste={(pasteEvent) => {
+            // props.onPasteFile?.();
+            let files: File[] = [];
+            let items = Array.from(pasteEvent.clipboardData.items);
+            for (let i in items) {
+              let item = items[i];
+              if (item.type.indexOf("image") === 0) {
+                var file = item.getAsFile();
+                if (file) {
+                  files.push(file);
+                }
+                // var reader = new FileReader();
+                // reader.onload = function (event) {
+                //   document.getElementById("container").src =
+                //     event.target.result;
+                // };
+
+                // reader.readAsDataURL(blob);
+              }
+            }
+
+            props.onPasteFile?.(files);
+          }}
           onInput={(ev) => {
             if (!ev.currentTarget.innerText.trim()) {
               ev.currentTarget.innerHTML = "";

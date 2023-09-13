@@ -1,6 +1,5 @@
 import { DropFile } from "@components/atoms/DropFile";
 import { FloatNotification } from "@components/features/FloatNotification";
-import { createPost } from "@components/features/NewPost";
 import { mockUploadImage } from "@utils/mock";
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
@@ -9,6 +8,8 @@ import { FloatingChat } from "../components/features/FloatingChat";
 import { Header } from "../components/features/Header";
 import "@utils/createTitleBadge";
 import { createTitleBadge } from "@utils/createTitleBadge";
+import { Event } from "@utils/event";
+import { EventName } from "@constants/eventName";
 export const MainLayout = () => {
   const { user } = useAuth();
   useEffect(() => {
@@ -62,16 +63,17 @@ export const MainLayout = () => {
       includes={{
         img: (img) => {
           console.log(img);
-          createPost({ images: [img] });
+          Event.emit(EventName.CreatePost, { images: [img] });
           console.log("main drop img");
         },
         files: async (files) => {
+          console.log(files);
           const imgs: string[] = [];
           for (const i in files) {
             const imgSrc = await mockUploadImage(files[i]);
             imgs.push(imgSrc.path);
           }
-          createPost({ images: imgs });
+          Event.emit(EventName.CreatePost, { images: imgs });
           console.log("main drop file");
         },
       }}

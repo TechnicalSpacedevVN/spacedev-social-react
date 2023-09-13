@@ -1,24 +1,23 @@
-import { InfinityLoading } from "@components/atoms/InfinityLoading";
-import { CardGroup } from "@components/features/CardGroup";
-import { useTitle } from "@hooks/useTitle";
-import { fakeApi, mockPosts } from "@utils/mock";
-import { useEffect, useState } from "react";
-import { Button } from "../components/atoms/Button";
-import { useAuth } from "../components/features//AuthProvider";
-import { GeneralInfo } from "../components/features//GeneralInfo";
-import { Message } from "../components/features//Message";
-import { NewPost } from "../components/features//NewPost";
-import { Post } from "../components/features//Post";
-import { Story } from "../components/features//Story";
-import { SuggestedForYou } from "../components/features//SuggestedForYou";
-import { Activity } from "../components/features/Activity";
-import { LOGIN_MODAL, setGlobalState } from "../store/queryClient";
+import { InfinityLoading } from '@components/atoms/InfinityLoading';
+import { CardGroup } from '@components/features/CardGroup';
+import { useTitle } from '@hooks/useTitle';
+import { fakeApi, mockPosts } from '@utils/mock';
+import { useEffect, useState } from 'react';
+import { Button } from '../components/atoms/Button';
+import { useAuth } from '../components/features//AuthProvider';
+import { GeneralInfo } from '../components/features//GeneralInfo';
+import { Message } from '../components/features//Message';
+import { NewPost } from '../components/features//NewPost';
+import { Post } from '../components/features//Post';
+import { Story } from '../components/features//Story';
+import { SuggestedForYou } from '../components/features//SuggestedForYou';
+import { LOGIN_MODAL, setGlobalState } from '../store/queryClient';
 
 export const Home = () => {
   const { user } = useAuth();
   const [posts, setPosts] = useState(() => mockPosts(3));
   const [loading, setLoading] = useState(false);
-  useTitle("Spacedev facinsrule");
+  useTitle('Spacedev facinsrule');
 
   useEffect(() => {
     const event = () => {
@@ -32,9 +31,9 @@ export const Home = () => {
         });
       }
     };
-    window.addEventListener("scroll", event);
+    window.addEventListener('scroll', event);
     return () => {
-      window.removeEventListener("scroll", event);
+      window.removeEventListener('scroll', event);
     };
   }, [posts]);
 
@@ -45,7 +44,7 @@ export const Home = () => {
           <>
             <SuggestedForYou />
             <CardGroup />
-            <Activity />
+            {/* <Activity /> */}
           </>
         ) : (
           <>

@@ -1,33 +1,38 @@
-import { IconAddressBook } from "@components/atoms/Icon/IconAddressBook";
-import { IconArrowDown } from "@components/atoms/Icon/IconArrow";
-import { IconTie } from "@components/atoms/Icon/IconTie";
-import { IconWorld } from "@components/atoms/Icon/IconWorld";
-import { Menu } from "@components/atoms/Menu";
-import { CardGroup } from "@components/features/CardGroup";
-import { useTitle } from "@hooks/useTitle";
-import { useState } from "react";
-import { Avatar } from "../components/atoms/Avatar";
-import { Button } from "../components/atoms/Button";
-import { Card } from "../components/atoms/Card";
-import { Dropdown } from "../components/atoms/Dropdown";
-import { Icon } from "../components/atoms/Icon/Icon";
-import { ButtonIconCamera } from "../components/atoms/Icon/IconCamera";
-import { ButtonIconThreeDotAction } from "../components/atoms/Icon/IconThreeDotAction";
-import { ModalAbout } from "../components/features/About";
-import { ModalFriends } from "../components/features/ModalFriends";
-import { NewPost } from "../components/features/NewPost";
-import { Post } from "../components/features/Post";
-import { DropFile } from "@components/atoms/DropFile";
-import { convertFileToImage } from "@utils/convertFIleToImage";
-import { mockUser } from "@utils/mock";
+import { Contenteditable } from '@components/atoms/Contenteditable';
+import { DropFile } from '@components/atoms/DropFile';
+import { IconAddressBook } from '@components/atoms/Icon/IconAddressBook';
+import { IconArrowDown } from '@components/atoms/Icon/IconArrow';
+import { IconTie } from '@components/atoms/Icon/IconTie';
+import { IconWorld } from '@components/atoms/Icon/IconWorld';
+import { Menu } from '@components/atoms/Menu';
+import { UploadFile, UploadfileRef } from '@components/atoms/UploadFile';
+import { CardGroup } from '@components/features/CardGroup';
+import { useTitle } from '@hooks/useTitle';
+import { cn } from '@utils';
+import { convertFileToImage } from '@utils/convertFIleToImage';
+import { mockUser } from '@utils/mock';
+import { useRef, useState } from 'react';
+import { Avatar } from '../components/atoms/Avatar';
+import { Button } from '../components/atoms/Button';
+import { Card } from '../components/atoms/Card';
+import { Dropdown } from '../components/atoms/Dropdown';
+import { ButtonIconCamera } from '../components/atoms/Icon/IconCamera';
+import { ButtonIconThreeDotAction } from '../components/atoms/Icon/IconThreeDotAction';
+import { ModalAbout } from '../components/features/About';
+import { ModalFriends } from '../components/features/ModalFriends';
+import { NewPost } from '../components/features/NewPost';
+import { Post } from '../components/features/Post';
 
 export const Profile = () => {
   const [open, setOpen] = useState(false);
   const [openAbout, setOpenAbout] = useState(false);
-  const [cover, setCover] = useState("https://unsplash.it/2000/700");
+  const [cover, setCover] = useState('https://unsplash.it/2000/700');
   const [user, setUser] = useState(mockUser);
+  const uploadFileAvatarRef = useRef<UploadfileRef>(null);
 
-  useTitle("Đặng Thuyền Vương");
+  useTitle('Đặng Thuyền Vương');
+  const [isEditBio, setIsEditBio] = useState(false);
+
   return (
     <>
       <ModalFriends open={open} onCancel={() => setOpen(false)} />
@@ -47,13 +52,20 @@ export const Profile = () => {
               <img className="object-cover w-full h-full" src={cover} />
             </DropFile>
             <div className="container relative mx-auto">
-              <div className="cursor-pointer hover:bg-opacity-60 absolute bottom-2 right-2 bg-black rounded bg-opacity-50 text-white  text-sm flex items-center px-2 py-0.5 drop-shadow-2xl shadow-white">
-                <ButtonIconCamera
-                  transparent
-                  className="text-white hover:bg-transparent"
-                />
-                Thay đổi ảnh bìa
-              </div>
+              <UploadFile
+                onChange={async ([file]) => {
+                  const img = await convertFileToImage(file);
+                  setCover(img);
+                }}
+              >
+                <Button className="cursor-pointer absolute bottom-2 right-2 text-white  text-sm flex items-center !bg-black !bg-opacity-30 hover:!bg-opacity-40">
+                  <ButtonIconCamera
+                    transparent
+                    className="text-white hover:bg-transparent"
+                  />
+                  Thay đổi ảnh bìa
+                </Button>
+              </UploadFile>
             </div>
           </div>
           <div className="container mx-auto px-4">
@@ -64,14 +76,15 @@ export const Profile = () => {
                   <Menu
                     menus={[
                       {
-                        label: "Xem ảnh đại diện",
+                        label: 'Xem ảnh đại diện',
                         onClick: () => {},
                       },
                       {
-                        label: "Cập nhật ảnh đại diện",
+                        label: 'Cập nhật ảnh đại diện',
+                        onClick: () => uploadFileAvatarRef.current?.trigger(),
                       },
                       {
-                        label: "Bảo vệ ảnh đại diện",
+                        label: 'Bảo vệ ảnh đại diện',
                       },
                     ]}
                   />
@@ -93,24 +106,15 @@ export const Profile = () => {
                       src={user.avatar}
                     />
                   </DropFile>
-                  <Icon className="absolute bottom-1 right-5">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="icon icon-tabler icon-tabler-camera"
-                      width={17}
-                      height={17}
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      stroke="currentColor"
-                      fill="none"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                      <path d="M5 7h1a2 2 0 0 0 2 -2a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1a2 2 0 0 0 2 2h1a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2" />
-                      <path d="M9 13a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
-                    </svg>
-                  </Icon>
+                  <UploadFile
+                    ref={uploadFileAvatarRef}
+                    onChange={async ([file]) => {
+                      const img = await convertFileToImage(file);
+                      setUser({ ...user, avatar: img });
+                    }}
+                  >
+                    <ButtonIconCamera className="absolute bottom-1 right-5" />
+                  </UploadFile>
                 </div>
               </Dropdown>
 
@@ -194,10 +198,36 @@ export const Profile = () => {
           <div className="relative flex">
             <div className="text-sm flex flex-col gap-4 w-[400px] sticky bottom-6 self-end">
               <Card title="Giới thiệu">
-                <p className="text-center mt-8 mb-2">
+                {/* <Textarea
+                  placeholder="Mô tả về bạn"
+                  maxLength={150}
+                  isTextarea={isEditBio}
+                  className={cn(
+                    'border-b-slate-700 border-transparent border font-bold text-center mt-4 mb-4 w-full bg-transparent px-3 py-4 resize-none overflow-hidden select-none cursor-text',
+                    {
+                      'focus:!border-primary-500 !border-slate-700 rounded bg-black bg-opacity-10 h-[70px]':
+                        isEditBio,
+                    },
+                  )}
+                  disabled={!isEditBio}
+                >
                   There's no victory without sacrifice
-                </p>
-                <hr className="my-4" />
+                </Textarea> */}
+                <Contenteditable
+                  placeholder="Thêm mô tả về bạn"
+                  maxLength={125}
+                  className={cn(
+                    'after:left-1/2 after:-translate-x-1/2 text-center border-b-slate-700 border-transparent border font-bold  mt-4 mb-4 w-full bg-transparent px-3 py-4 resize-none overflow-hidden select-none cursor-text min-h-[54px]',
+                    {
+                      'focus:!border-primary-500 !border-slate-700 rounded !bg-black !bg-opacity-30':
+                        isEditBio,
+                    },
+                  )}
+                  disabled={!isEditBio}
+                >
+                  There's no victory without sacrifice
+                </Contenteditable>
+                {/* <hr className="my-4" /> */}
                 <div className="flex flex-col gap-2 mb-6">
                   <div className="flex gap-2 items-center">
                     <IconTie size={20} />
@@ -222,7 +252,12 @@ export const Profile = () => {
                     </a>
                   </div>
                 </div>
-                <Button className="w-full">Chỉnh sửa</Button>
+                <Button
+                  className="w-full"
+                  onClick={() => setIsEditBio(!isEditBio)}
+                >
+                  Chỉnh sửa
+                </Button>
               </Card>
               <CardGroup />
               <Card

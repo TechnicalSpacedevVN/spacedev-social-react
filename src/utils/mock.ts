@@ -1,13 +1,12 @@
-import { faker } from "@faker-js/faker";
-import { convertFileToImage } from "./convertFIleToImage";
-import { uniqueId } from "lodash";
+import { faker } from '@faker-js/faker';
+import _, { uniqueId } from 'lodash';
+import { convertFileToImage } from './convertFIleToImage';
 
 const mock =
   <T>(callback: () => T) =>
   (count = 10) =>
     Array.from(new Array(Math.round(count))).map(callback);
 
-export const randomId = () => uniqueId();
 export const fakeApi = <T>(callback: () => T) =>
   new Promise<T>((res) => {
     setTimeout(() => {
@@ -16,7 +15,7 @@ export const fakeApi = <T>(callback: () => T) =>
   });
 
 export const mockUser = () => ({
-  id: randomId(),
+  id: uniqueId(),
   fullName: faker.person.fullName(),
   avatar: faker.internet.avatar(),
   online: Math.random() < 0.5,
@@ -26,7 +25,7 @@ export const mockUser = () => ({
 });
 
 export const mockComment = () => ({
-  id: randomId(),
+  id: uniqueId(),
   user: mockUser(),
   content: faker.lorem.sentence({ min: 1, max: 10 }),
   createdAt: faker.date.past(),
@@ -48,11 +47,11 @@ export const mockMessage = () => ({
   content: faker.lorem.paragraph(1),
   sender: mockUser(),
   myMessage: Math.random() > 0.5,
-  id: randomId(),
+  id: uniqueId(),
   img:
     Math.random() < 0.1
       ? mock(() => ({
-          id: randomId(),
+          id: uniqueId(),
           thumbnail: faker.image.url({ height: 500, width: 500 }),
         }))(Math.round(Math.random() * 10) + 1)
       : undefined,
@@ -67,7 +66,7 @@ export const mockMessage = () => ({
 });
 
 export const mockPost = () => ({
-  id: randomId(),
+  id: uniqueId(),
   content: faker.lorem.lines(2),
   user: mockUser(),
   country: faker.location.country(),
@@ -83,7 +82,7 @@ export const mockPost = () => ({
 });
 
 export const mockStory = () => ({
-  id: randomId(),
+  id: uniqueId(),
   src: faker.image.url({ height: 500, width: 500 }),
   user: mockUser(),
 });
@@ -91,16 +90,26 @@ export const mockStory = () => ({
 export const mockUploadImage = (file: File) => {
   return new Promise<{ path: string; id: string }>(async (res) => {
     const imgSrc = await convertFileToImage(file);
-    res({ path: imgSrc, id: randomId() });
+    res({ path: imgSrc, id: uniqueId() });
   });
 };
+
+export const mockNotification = () => ({
+  id: uniqueId(),
+  user: mockUser(),
+  createdAt: faker.date.past(),
+  type: _.sample(['AddFriend', 'Tag', 'Follow', 'Like', 'TagStory']) as any,
+  isRead: Math.random() > 0.3,
+});
 
 export const mockMessages = mock(mockMessage);
 export const mockPosts = mock(mockPost);
 export const mockStories = mock(mockStory);
 export const mockUsers = mock(mockUser);
 export const mockComments = mock(mockComment);
+export const mockNotifications = mock(mockNotification);
 
 export interface IPost extends ReturnType<typeof mockPost> {}
 export interface IComment extends ReturnType<typeof mockComment> {}
 export interface IUser extends ReturnType<typeof mockUser> {}
+export interface INotification extends ReturnType<typeof mockNotification> {}

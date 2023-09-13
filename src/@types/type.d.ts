@@ -25,3 +25,7 @@ interface DropFileType {
   files: File[];
   url: string;
 }
+
+interface EventHandlerType {
+  CreatePost: Partial<any>;
+}
