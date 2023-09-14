@@ -1,10 +1,13 @@
 import { Icon } from './Icon';
 import { ButtonIconProps, IconProps } from './type';
 
-export const ButtonIconChevronLeft: Atom<ButtonIconProps> = (props) => {
+export const ButtonIconChevronLeft: Atom<ButtonIconProps> = ({
+  size,
+  ...props
+}) => {
   return (
     <Icon {...props}>
-      <IconChevronLeft />
+      <IconChevronLeft size={size} />
     </Icon>
   );
 };

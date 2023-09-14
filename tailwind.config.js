@@ -39,6 +39,14 @@ export default {
       fontSize: {
         small: 10,
       },
+      keyframes: {
+        shine: {
+          to: { backgroundPositionX: '-200%' },
+        },
+      },
+      animation: {
+        shine: '1.5s shine linear infinite',
+      },
     },
   },
   plugins: [

@@ -1,11 +1,23 @@
+import { FC } from 'react';
+import { Icon } from './Icon';
+import { ButtonIconProps, IconProps } from './type';
 
-export const IconNotification = () => {
+export const ButtonIconNotification: FC<ButtonIconProps> = (props) => {
+  return (
+    <Icon {...props}>
+      <IconNotification />
+    </Icon>
+  );
+};
+
+export const IconNotification: FC<IconProps> = ({ size = 17, ...props }) => {
   return (
     <svg
+      {...props}
       xmlns="http://www.w3.org/2000/svg"
       className="icon icon-tabler icon-tabler-bell-ringing"
-      width={17}
-      height={17}
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       strokeWidth={2}
       stroke="currentColor"

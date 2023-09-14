@@ -73,7 +73,7 @@ export const Post = () => {
             user: post.user.avatar,
           });
         }}
-        className="rounded-lg bg-white pb-4 dark:bg-slate-900"
+        className="rounded-lg bg-white pb-4 dark:bg-slate-900 shadow"
       >
         <div className="flex items-center gap-2 p-4">
           <Avatar src={post.user.avatar} />

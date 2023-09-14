@@ -1,11 +1,12 @@
-import { IconSpin } from "@components/atoms/Icon/IconSpin";
-import { forwardRef } from "react";
+import { IconSpin } from '@components/atoms/Icon/IconSpin';
+import { forwardRef } from 'react';
 // import { FixedSizeList as List } from "react-window";
 
 export interface InfinityLoadingProps extends DefaultProps {
-  placement?: "top" | "bottom";
+  placement?: 'top' | 'bottom';
   children?: any;
   loading?: boolean;
+  loadingRender?: any;
   haveNext?: boolean;
   offset?: number;
   onNext?: () => void;
@@ -27,7 +28,7 @@ export const InfinityLoading = forwardRef<
 >(
   (
     {
-      placement = "bottom",
+      placement = 'bottom',
       children,
       loading,
       offset = 50,
@@ -36,7 +37,7 @@ export const InfinityLoading = forwardRef<
       // virtualized,
       ...props
     },
-    ref
+    ref,
   ) => {
     const _children = children;
     // if (virtualized) {
@@ -63,7 +64,7 @@ export const InfinityLoading = forwardRef<
 
           if (!loading && haveNext) {
             let _offset = 0;
-            if (placement === "top") {
+            if (placement === 'top') {
               _offset = ele.scrollTop;
             } else {
               _offset = ele.scrollHeight - ele.scrollTop - ele.offsetHeight;
@@ -73,24 +74,28 @@ export const InfinityLoading = forwardRef<
               onNext?.();
             }
           }
-          if (loading && placement === "top" && ele.scrollTop < 1) {
+          if (loading && placement === 'top' && ele.scrollTop < 1) {
             ele.scrollTop = 1;
           }
         }}
       >
-        {loading && placement === "top" && (
-          <div className="flex justify-center my-3">
-            <IconSpin />
-          </div>
-        )}
+        {loading &&
+          placement === 'top' &&
+          (props.loadingRender || (
+            <div className="flex justify-center my-3">
+              <IconSpin />
+            </div>
+          ))}
 
         {_children}
-        {loading && placement === "bottom" && (
-          <div className="flex justify-center my-3">
-            <IconSpin />
-          </div>
-        )}
+        {loading &&
+          placement === 'bottom' &&
+          (props.loadingRender || (
+            <div className="flex justify-center my-3">
+              <IconSpin />
+            </div>
+          ))}
       </div>
     );
-  }
+  },
 );

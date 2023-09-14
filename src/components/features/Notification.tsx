@@ -6,6 +6,7 @@ import { ButtonIconSetting } from '@components/atoms/Icon/IconSetting';
 import { ButtonIconThreeDotAction } from '@components/atoms/Icon/IconThreeDotAction';
 import { InfinityLoading } from '@components/atoms/InfinityLoading';
 import { Menu } from '@components/atoms/Menu';
+import { Skeleton } from '@components/atoms/Skeleton';
 import { cn } from '@utils';
 import { INotification, fakeApi, mockNotifications } from '@utils/mock';
 import moment from 'moment';
@@ -65,47 +66,53 @@ export const Notification = () => {
   const [notifications, setNotifications] = useState(mockNotifications);
   const [loading, setLoading] = useState(false);
   return (
-    <InfinityLoading
-      haveNext
-      loading={loading}
-      onNext={async () => {
-        setLoading(true);
-        setNotifications([
-          ...notifications,
-          ...(await fakeApi(mockNotifications)),
-        ]);
-        setLoading(false);
-      }}
-      className="w-[400px] max-h-[calc(100vh-100px)] overflow-auto"
+    <Card
+      title="Thông báo"
+      titleClassName="pl-2"
+      action={
+        <Dropdown
+          placement="bottomRight"
+          content={
+            <Menu
+              menus={[
+                {
+                  label: 'Đánh dấu tất cả là đã đọc',
+                },
+                {
+                  label: 'Cài đặt nhận thông báo',
+                },
+                {
+                  label: 'Tạm thời tắt thông báo',
+                },
+              ]}
+            />
+          }
+        >
+          <ButtonIconSetting />
+        </Dropdown>
+      }
+      className="shadow-none dark:!bg-transparent !px-0 max-h-[calc(100vh-100px)]"
     >
-      <Card
-        title="Thông báo"
-        titleClassName="pl-2"
-        action={
-          <Dropdown
-            placement="bottomRight"
-            content={
-              <Menu
-                menus={[
-                  {
-                    label: 'Đánh dấu tất cả là đã đọc',
-                  },
-                  {
-                    label: 'Cài đặt nhận thông báo',
-                  },
-                  {
-                    label: 'Tạm thời tắt thông báo',
-                  },
-                ]}
-              />
-            }
-          >
-            <ButtonIconSetting />
-          </Dropdown>
+      <InfinityLoading
+        haveNext
+        loading={loading}
+        loadingRender={
+          <div>
+            <NotificationItemLoading />
+            <NotificationItemLoading />
+          </div>
         }
-        className="dark:!bg-transparent max-h-full !px-0"
+        onNext={async () => {
+          setLoading(true);
+          setNotifications([
+            ...notifications,
+            ...(await fakeApi(mockNotifications)),
+          ]);
+          setLoading(false);
+        }}
+        className="w-[400px] overflow-auto"
       >
-        <div className="mt-3 max-h-fit flex-1 overflow-auto">
+        <div className="mt-3 max-h-full flex-1 overflow-auto">
           {notifications.map((e) => (
             <NotificationItem
               isRead={e.isRead}
@@ -116,8 +123,24 @@ export const Notification = () => {
             />
           ))}
         </div>
-      </Card>
-    </InfinityLoading>
+      </InfinityLoading>
+    </Card>
+  );
+};
+
+const NotificationItemLoading = () => {
+  return (
+    <div className="pl-4 dark:text-white text-black rounded-lg flex gap-4 items-center  p-2 -ml-2">
+      <Skeleton avatar width={40} />
+      <div className="flex flex-col flex-1 gap-1">
+        <p className="text-sm">
+          <Skeleton text width="100%" />
+        </p>
+        <time className="text-sm text-blue-400">
+          <Skeleton text width="50%" />
+        </time>
+      </div>
+    </div>
   );
 };
 

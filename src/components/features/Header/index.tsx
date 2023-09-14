@@ -1,3 +1,5 @@
+import { ButtonIconMoon } from '@components/atoms/Icon/IconMoon';
+import { ButtonIconNotification } from '@components/atoms/Icon/IconNotification';
 import { IconSearch } from '@components/atoms/Icon/IconSearch';
 import { useAuth } from '@components/features/AuthProvider';
 import { useMode } from '@components/features/DarkModeProvider';
@@ -16,7 +18,7 @@ import { ButtonIconApplication } from '../../atoms/Icon/IconApplication';
 import { ButtonIconChevronLeft } from '../../atoms/Icon/IconChevronLeft';
 import { IconChevronRight } from '../../atoms/Icon/IconChevronRight';
 import { IconClose } from '../../atoms/Icon/IconClose';
-import { IconFeedback } from '../../atoms/Icon/IconFeedback';
+import { ButtonIconFeedback } from '../../atoms/Icon/IconFeedback';
 import { IconLogout } from '../../atoms/Icon/IconLogout';
 import { ButtonIconSetting } from '../../atoms/Icon/IconSetting';
 import { ButtonIconThreeDotAction } from '../../atoms/Icon/IconThreeDotAction';
@@ -37,7 +39,7 @@ export const Header = () => {
         open={openLogin}
         onCancel={() => setGlobalState(LOGIN_MODAL, false)}
       />
-      <header className="dark:bg-slate-900 bg-white h-header px-4 flex sticky top-0 z-10 border-b border-base">
+      <header className="shadow dark:bg-slate-900 bg-white h-header px-4 flex sticky top-0 z-10 border-b border-base">
         <div className="flex items-center gap-4 w-full">
           <div className="w-sidebar text-left">
             <Link
@@ -130,26 +132,7 @@ export const Header = () => {
                     placement="bottomRight"
                   >
                     <Badge count={10}>
-                      <Icon>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="icon icon-tabler icon-tabler-bell-ringing"
-                          width={17}
-                          height={17}
-                          viewBox="0 0 24 24"
-                          strokeWidth={2}
-                          stroke="currentColor"
-                          fill="none"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                          <path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
-                          <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
-                          <path d="M21 6.727a11.05 11.05 0 0 0 -2.794 -3.727" />
-                          <path d="M3 6.727a11.05 11.05 0 0 1 2.792 -3.727" />
-                        </svg>
-                      </Icon>
+                      <ButtonIconNotification />
                     </Badge>
                   </Dropdown>
                 </div>
@@ -178,27 +161,7 @@ export const Header = () => {
                             href="#"
                             className="px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
                           >
-                            <Icon className="dark:bg-slate-700">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="icon icon-tabler icon-tabler-moon"
-                                width={17}
-                                height={17}
-                                viewBox="0 0 24 24"
-                                strokeWidth={2}
-                                stroke="currentColor"
-                                fill="none"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              >
-                                <path
-                                  stroke="none"
-                                  d="M0 0h24v24H0z"
-                                  fill="none"
-                                />
-                                <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
-                              </svg>
-                            </Icon>
+                            <ButtonIconMoon />
                             <p className="flex-1">Dark mode</p>
                             <Switch checked={mode === 'dark'} />
                           </a>
@@ -207,7 +170,7 @@ export const Header = () => {
                             className="cursor-pointer px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
                             onClick={() => setTabActive(2)}
                           >
-                            <IconFeedback />
+                            <ButtonIconFeedback />
                             <p className="flex-1">Để lại góp ý</p>
                             <IconChevronRight />
                           </div>
@@ -375,7 +338,7 @@ export const Header = () => {
                           href=""
                           className=" px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
                         >
-                          <IconFeedback />
+                          <ButtonIconFeedback />
                           <p>Để lại góp ý</p>
                         </a>
                         <a

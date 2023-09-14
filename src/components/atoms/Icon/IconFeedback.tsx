@@ -1,6 +1,6 @@
-import { Icon } from "./Icon";
+import { Icon } from './Icon';
 
-export const IconFeedback = () => {
+export const ButtonIconFeedback = () => {
   return (
     <Icon>
       <svg

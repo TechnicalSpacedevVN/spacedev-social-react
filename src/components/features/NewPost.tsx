@@ -45,7 +45,7 @@ export const NewPost = () => {
         width={608}
         post={post}
       />
-      <div className="bg-white rounded-lg px-3 py-4 flex gap-4 dark:bg-slate-900">
+      <div className="shadow bg-white rounded-lg px-3 py-4 flex gap-4 dark:bg-slate-900">
         <Avatar />
         <div className="flex-1">
           <div className="bg-gray-100 rounded-full overflow-hidden dark:bg-slate-800">

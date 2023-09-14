@@ -1,68 +1,91 @@
 import { Avatar } from '@components/atoms/Avatar';
 import { setDropFileData } from '@components/atoms/DropFile';
-import { HorizontalScroll } from '@components/atoms/HorizontalScroll';
+import { ButtonIconChevronLeft } from '@components/atoms/Icon/IconChevronLeft';
+import { ButtonIconChevronRight } from '@components/atoms/Icon/IconChevronRight';
 import { IconPlus } from '@components/atoms/Icon/IconPlus';
 import { faker } from '@faker-js/faker';
 import { mockStories } from '@utils/mock';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 export const Story = () => {
   const [stories] = useState(() => mockStories(10));
   const [img] = useState(() => faker.image.url({ height: 400, width: 400 }));
+  const wraperRef = useRef<HTMLDivElement>(null);
+  const [showLeft, setShowLeft] = useState(false);
+  const [showRight, setShowRight] = useState(true);
+  // useEffect(() => {
+  //   wraperRef.current?.addEventListener('scroll', (ev) => {
+  //     ev.target.
+  //   })
+  // }, [])
   return (
-    <HorizontalScroll
-      height={250}
-      itemWidth={150}
-      className="dark:bg-slate-900 bg-white rounded-lg p-3 gap-3 "
-    >
-      <div className="p-1">
-        <div className="active:scale-95 flex flex-col items-center relative cursor-pointer snap-always snap-center gap-1 overflow-hidden w-full h-full">
-          <div className="relative rounded-lg overflow-hidden w-full h-full">
-            <div className="rounded-lg overflow-hiddens w-full h-full">
-              <img
-                className="object-cover w-full h-full rounded-lg"
-                src={img}
-              />
-            </div>
-            <div className="flex flex-col gap-3 items-center justify-end  text-md p-4 bottom-0 left-0 right-0 rounded-lg  font-semibold whitespace-nowrap text-white absolute bg-gradient-to-t from-[#000000]  h-[100px] to-[#00000000]">
-              <div className="w-7 h-7 flex items-center justify-center text-white bg-primary-500 hover:bg-primary-600 rounded-full shadow-[0_0_0_2px_white]">
-                <IconPlus />
-              </div>
-              Tạo tin
-            </div>
-          </div>
-        </div>
-      </div>
-      {stories.map((story) => (
-        <div key={story.id} className="p-1 ">
-          <div className=" active:scale-95 flex flex-col items-center relative cursor-pointer snap-always snap-center gap-1 overflow-hidden w-full h-full">
-            <div className=" border-[2px] border-[#00ffe7] relative overflow-hidden w-full h-full rounded-xl  border-solid">
-              <div className="absolute top-2 left-2 overflow-hidden rounded-full">
-                <Avatar
-                  src={story.user.avatar}
-                  size={40}
-                  border={{ size: 3 }}
-                />
-              </div>
+    <div className="p-2 shadow bg-white rounded-lg dark:bg-slate-800 select-none relative cursor-pointer">
+      <div
+        className="flex gap-3 pb-2 items-center snap-x snap-always overflow-auto"
+        ref={wraperRef}
+        onScroll={(ev) => {
+          let ele = ev.currentTarget;
+          if (ele.scrollWidth - (ele.scrollLeft + ele.offsetWidth) <= 10) {
+            setShowRight(false);
+          } else {
+            setShowRight(true);
+          }
+
+          if (ele.scrollLeft <= 10) {
+            setShowLeft(false);
+          } else {
+            setShowLeft(true);
+          }
+        }}
+      >
+        <div className="">
+          <div className="flex flex-col items-center relative cursor-pointer snap-always snap-start gap-1 overflow-hidden w-[150px] h-[250px]">
+            <div className="active:scale-95 relative rounded-lg overflow-hidden w-full h-full">
               <div className="rounded-lg overflow-hiddens w-full h-full">
                 <img
                   className="object-cover w-full h-full rounded-lg"
-                  src={story.src}
-                  onDragStart={(ev) => {
-                    setDropFileData(ev, 'img', story.src);
-                  }}
+                  src={img}
                 />
               </div>
-              <div className="text-xs flex items-end p-4 bottom-0 left-0 right-0 rounded-lg font-semibold whitespace-nowrap text-white absolute bg-gradient-to-t from-[#000000]  h-[100px] to-[#00000000]">
-                <p className="line-clamp-1 w-full block text-ellipsis">
-                  {story.user.fullName}
-                </p>
+              <div className="flex flex-col gap-3 items-center justify-end  text-md p-4 bottom-0 left-0 right-0 rounded-lg  font-semibold whitespace-nowrap text-white absolute bg-gradient-to-t from-[#000000]  h-[100px] to-[#00000000]">
+                <div className="w-7 h-7 flex items-center justify-center text-white bg-primary-500 hover:bg-primary-600 rounded-full shadow-[0_0_0_2px_white]">
+                  <IconPlus />
+                </div>
+                Tạo tin
               </div>
             </div>
           </div>
         </div>
-      ))}
-      {/* <div className="flex flex-col items-center relative cursor-pointer snap-always snap-center gap-1 px-1 pt-[7px] mb-[-150px]">
+        {stories.map((story) => (
+          <div key={story.id} className="">
+            <div className=" flex flex-col items-center relative cursor-pointer snap-always snap-start gap-1 overflow-hidden w-[150px] h-[250px]">
+              <div className="active:scale-95 border-[2px] border-[#00ffe7] relative overflow-hidden w-full h-full rounded-xl  border-solid">
+                <div className="absolute top-2 left-2 overflow-hidden rounded-full">
+                  <Avatar
+                    src={story.user.avatar}
+                    size={40}
+                    border={{ size: 3 }}
+                  />
+                </div>
+                <div className="rounded-lg overflow-hiddens w-full h-full">
+                  <img
+                    className="object-cover w-full h-full rounded-lg"
+                    src={story.src}
+                    onDragStart={(ev) => {
+                      setDropFileData(ev, 'img', story.src);
+                    }}
+                  />
+                </div>
+                <div className="text-xs items-end p-4 bottom-0 left-0 right-0 rounded-lg font-semibold whitespace-nowrap text-white absolute bg-gradient-to-t from-[#000000]  h-[100px] to-[#00000000]">
+                  <p className="line-clamp-2 w-full block text-ellipsis">
+                    {story.user.fullName}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+        {/* <div className="flex flex-col items-center relative cursor-pointer snap-always snap-center gap-1 px-1 pt-[7px] mb-[-150px]">
         <BorderGradient
           size={3}
           className="relative rounded-lg overflow-hidden "
@@ -81,6 +104,34 @@ export const Story = () => {
           Briggs
         </p>
       </div> */}
-    </HorizontalScroll>
+      </div>
+      {showLeft && (
+        <ButtonIconChevronLeft
+          onClick={() =>
+            wraperRef.current?.scrollTo({
+              left:
+                wraperRef.current.scrollLeft - wraperRef.current.offsetWidth,
+              behavior: 'smooth',
+            })
+          }
+          size={30}
+          className="w-[40px] h-[40px] shadow absolute top-1/2 left-4 -translate-y-1/2"
+        />
+      )}
+
+      {showRight && (
+        <ButtonIconChevronRight
+          onClick={() =>
+            wraperRef.current?.scrollTo({
+              left:
+                wraperRef.current.scrollLeft + wraperRef.current.offsetWidth,
+              behavior: 'smooth',
+            })
+          }
+          size={30}
+          className="w-[40px] h-[40px] shadow absolute top-1/2 right-4 -translate-y-1/2"
+        />
+      )}
+    </div>
   );
 };
