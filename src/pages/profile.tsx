@@ -9,7 +9,7 @@ import { UploadFile, UploadfileRef } from '@components/atoms/UploadFile';
 import { CardGroup } from '@components/features/CardGroup';
 import { useTitle } from '@hooks/useTitle';
 import { cn } from '@utils';
-import { convertFileToImage } from '@utils/convertFIleToImage';
+import { convertFileToImage } from '@utils/file';
 import { mockUser } from '@utils/mock';
 import { useRef, useState } from 'react';
 import { Avatar } from '../components/atoms/Avatar';
@@ -217,9 +217,9 @@ export const Profile = () => {
                   placeholder="Thêm mô tả về bạn"
                   maxLength={125}
                   className={cn(
-                    'after:left-1/2 after:-translate-x-1/2 text-center border-b-slate-700 border-transparent border font-bold  mt-4 mb-4 w-full bg-transparent px-3 py-4 resize-none overflow-hidden select-none cursor-text min-h-[54px]',
+                    ' after:left-1/2 after:-translate-x-1/2 text-center dark:border-b-slate-700 border-gray-200 border-transparent border font-bold  mt-4 mb-4 w-full bg-transparent px-3 py-4 resize-none overflow-hidden cursor-text min-h-[54px]',
                     {
-                      'focus:!border-primary-500 !border-slate-700 rounded !bg-black !bg-opacity-30':
+                      'focus:caret-primary-500 focus:!border-primary-500 dark:!border-slate-700 border-gray-200 rounded !bg-white !bg-opacity-5 ':
                         isEditBio,
                     },
                   )}
@@ -255,8 +255,9 @@ export const Profile = () => {
                 <Button
                   className="w-full"
                   onClick={() => setIsEditBio(!isEditBio)}
+                  type={isEditBio ? 'primary' : 'default'}
                 >
-                  Chỉnh sửa
+                  {isEditBio ? 'Cập nhật' : 'Chỉnh sửa'}
                 </Button>
               </Card>
               <CardGroup />

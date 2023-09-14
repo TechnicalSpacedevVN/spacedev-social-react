@@ -1,10 +1,10 @@
-import { Avatar } from "@components/atoms/Avatar";
-import { setDropFileData } from "@components/atoms/DropFile";
-import { HorizontalScroll } from "@components/atoms/HorizontalScroll";
-import { IconPlus } from "@components/atoms/Icon/IconPlus";
-import { faker } from "@faker-js/faker";
-import { mockStories } from "@utils/mock";
-import { useState } from "react";
+import { Avatar } from '@components/atoms/Avatar';
+import { setDropFileData } from '@components/atoms/DropFile';
+import { HorizontalScroll } from '@components/atoms/HorizontalScroll';
+import { IconPlus } from '@components/atoms/Icon/IconPlus';
+import { faker } from '@faker-js/faker';
+import { mockStories } from '@utils/mock';
+import { useState } from 'react';
 
 export const Story = () => {
   const [stories] = useState(() => mockStories(10));
@@ -49,7 +49,7 @@ export const Story = () => {
                   className="object-cover w-full h-full rounded-lg"
                   src={story.src}
                   onDragStart={(ev) => {
-                    setDropFileData(ev, "img", story.src);
+                    setDropFileData(ev, 'img', story.src);
                   }}
                 />
               </div>

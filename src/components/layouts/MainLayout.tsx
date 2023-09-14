@@ -1,15 +1,15 @@
-import { DropFile } from "@components/atoms/DropFile";
-import { FloatNotification } from "@components/features/FloatNotification";
-import { mockUploadImage } from "@utils/mock";
-import { useEffect } from "react";
-import { Outlet } from "react-router-dom";
-import { useAuth } from "../components/features/AuthProvider";
-import { FloatingChat } from "../components/features/FloatingChat";
-import { Header } from "../components/features/Header";
-import "@utils/createTitleBadge";
-import { createTitleBadge } from "@utils/createTitleBadge";
-import { Event } from "@utils/event";
-import { EventName } from "@constants/eventName";
+import { DropFile } from '@components/atoms/DropFile';
+import { FloatNotification } from '@components/features/FloatNotification';
+import { EventName } from '@constants/eventName';
+import '@utils/createTitleBadge';
+import { createTitleBadge } from '@utils/createTitleBadge';
+import { Event } from '@utils/event';
+import { mockUploadImage } from '@utils/mock';
+import { useEffect } from 'react';
+import { Outlet } from 'react-router-dom';
+import { useAuth } from '../features/AuthProvider';
+import { FloatingChat } from '../features/FloatingChat';
+import { Header } from '../features/Header';
 export const MainLayout = () => {
   const { user } = useAuth();
   useEffect(() => {
@@ -17,19 +17,19 @@ export const MainLayout = () => {
     let check = true;
 
     // select the target node
-    const target = document.querySelector("title");
+    const target = document.querySelector('title');
 
     // create an observer instance
     const observer = new MutationObserver(function (mutations) {
       // We need only first event and only new value of the title
 
-      const newTitle = mutations[0].target.textContent || "";
+      const newTitle = mutations[0].target.textContent || '';
 
       const regexp = new RegExp(`(.+) ${title}`);
 
       const check =
         title === newTitle ||
-        regexp.test(mutations[0].target.textContent || "");
+        regexp.test(mutations[0].target.textContent || '');
       if (!check) {
         title = newTitle;
       }
@@ -44,7 +44,7 @@ export const MainLayout = () => {
     }
 
     setInterval(() => {
-      let num = Math.round(Math.random() * 11);
+      let num = Math.round(Math.random() * 101);
       if (check) {
         createTitleBadge(num);
         document.title = `(${num}) ${title}`;
@@ -64,7 +64,7 @@ export const MainLayout = () => {
         img: (img) => {
           console.log(img);
           Event.emit(EventName.CreatePost, { images: [img] });
-          console.log("main drop img");
+          console.log('main drop img');
         },
         files: async (files) => {
           console.log(files);
@@ -74,7 +74,7 @@ export const MainLayout = () => {
             imgs.push(imgSrc.path);
           }
           Event.emit(EventName.CreatePost, { images: imgs });
-          console.log("main drop file");
+          console.log('main drop file');
         },
       }}
     >

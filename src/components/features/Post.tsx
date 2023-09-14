@@ -1,31 +1,31 @@
-import { Avatar } from "@components/atoms/Avatar";
-import { Button } from "@components/atoms/Button";
-import { setDropFileData } from "@components/atoms/DropFile";
-import { Dropdown } from "@components/atoms/Dropdown";
-import { IconArchive } from "@components/atoms/Icon/IconArchive";
-import { IconBellOff } from "@components/atoms/Icon/IconBellOf";
-import { IconBookmark } from "@components/atoms/Icon/IconBookmark";
-import { ButtonIconClose } from "@components/atoms/Icon/IconClose";
-import { IconComment } from "@components/atoms/Icon/IconComment";
-import { IconExclamation } from "@components/atoms/Icon/IconExclamation";
-import { IconEyeClose } from "@components/atoms/Icon/IconEyeClose";
-import { ButtonIconHeart } from "@components/atoms/Icon/IconHeart";
-import { ButtonIconHeartFill } from "@components/atoms/Icon/IconHeartFill";
-import { IconPen } from "@components/atoms/Icon/IconPen";
-import { IconShare } from "@components/atoms/Icon/IconShare";
-import { IconSpin } from "@components/atoms/Icon/IconSpin";
-import { ButtonIconThreeDotAction } from "@components/atoms/Icon/IconThreeDotAction";
-import { IconTrash } from "@components/atoms/Icon/IconTrash";
-import { Menu } from "@components/atoms/Menu";
-import { MessageInput } from "@components/atoms/MessageInput";
-import { Modal, ModalProps } from "@components/atoms/Modal";
-import { Tag } from "@components/atoms/Tag";
-import { PATH } from "@constants/path";
-import { handleSelectEnd, scollToElement } from "@utils";
-import { IComment, IPost, mockPost } from "@utils/mock";
-import moment from "moment";
-import { FC, useMemo, useRef, useState } from "react";
-import { generatePath } from "react-router-dom";
+import { Avatar } from '@components/atoms/Avatar';
+import { Button } from '@components/atoms/Button';
+import { setDropFileData } from '@components/atoms/DropFile';
+import { Dropdown } from '@components/atoms/Dropdown';
+import { IconArchive } from '@components/atoms/Icon/IconArchive';
+import { IconBellOff } from '@components/atoms/Icon/IconBellOf';
+import { IconBookmark } from '@components/atoms/Icon/IconBookmark';
+import { ButtonIconClose } from '@components/atoms/Icon/IconClose';
+import { IconComment } from '@components/atoms/Icon/IconComment';
+import { IconExclamation } from '@components/atoms/Icon/IconExclamation';
+import { IconEyeClose } from '@components/atoms/Icon/IconEyeClose';
+import { ButtonIconHeart } from '@components/atoms/Icon/IconHeart';
+import { ButtonIconHeartFill } from '@components/atoms/Icon/IconHeartFill';
+import { IconPen } from '@components/atoms/Icon/IconPen';
+import { IconShare } from '@components/atoms/Icon/IconShare';
+import { IconSpin } from '@components/atoms/Icon/IconSpin';
+import { ButtonIconThreeDotAction } from '@components/atoms/Icon/IconThreeDotAction';
+import { IconTrash } from '@components/atoms/Icon/IconTrash';
+import { Menu } from '@components/atoms/Menu';
+import { MessageInput } from '@components/atoms/MessageInput';
+import { Modal, ModalProps } from '@components/atoms/Modal';
+import { Tag } from '@components/atoms/Tag';
+import { PATH } from '@constants/path';
+import { handleSelectEnd, scollToElement } from '@utils';
+import { IComment, IPost, mockPost } from '@utils/mock';
+import moment from 'moment';
+import { FC, useMemo, useRef, useState } from 'react';
+import { generatePath } from 'react-router-dom';
 
 const PostMenu = () => {
   return (
@@ -35,12 +35,12 @@ const PostMenu = () => {
       content={
         <Menu
           menus={[
-            { label: "Đưa bài viết vào thùng rác", icon: <IconTrash /> },
-            { label: "Chỉnh sửa", icon: <IconPen /> },
-            { label: "Lưu trữ", icon: <IconArchive /> },
-            { label: "Báo cáo bài viết", icon: <IconExclamation /> },
-            { label: "Ẩn bài viết", icon: <IconEyeClose /> },
-            { label: "Tắt thông báo về bài viết này", icon: <IconBellOff /> },
+            { label: 'Đưa bài viết vào thùng rác', icon: <IconTrash /> },
+            { label: 'Chỉnh sửa', icon: <IconPen /> },
+            { label: 'Lưu trữ', icon: <IconArchive /> },
+            { label: 'Báo cáo bài viết', icon: <IconExclamation /> },
+            { label: 'Ẩn bài viết', icon: <IconEyeClose /> },
+            { label: 'Tắt thông báo về bài viết này', icon: <IconBellOff /> },
           ]}
         />
       }
@@ -59,10 +59,10 @@ export const Post = () => {
       <div
         draggable
         onDragStart={(ev) => {
-          const img = document.createElement("img");
+          const img = document.createElement('img');
           img.src = post.image;
           ev.dataTransfer.setDragImage(img, img.width / 2, img.height / 2);
-          setDropFileData(ev, "post", {
+          setDropFileData(ev, 'post', {
             content: post.content,
             id: id,
             url: {
@@ -104,7 +104,7 @@ export const Post = () => {
               setOpen(true);
             }}
             onDragStart={(ev) => {
-              setDropFileData(ev, "img", post.image);
+              setDropFileData(ev, 'img', post.image);
             }}
           >
             <img
@@ -149,11 +149,11 @@ export const Post = () => {
                 />
               </div>
               <p className="text-sm">
-                Thả tim bởi{" "}
+                Thả tim bởi{' '}
                 <b>
                   <a href="#">Sue Franklin</a>
-                </b>{" "}
-                và{" "}
+                </b>{' '}
+                và{' '}
                 <b>
                   <a href="#">{post.heartCount} người khác</a>
                 </b>
@@ -177,7 +177,7 @@ export interface ModelDetailProps extends ModalProps {
 }
 
 const ModalDetail: FC<ModelDetailProps> = ({ post, ...props }) => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
   return (
     <Modal
       {...props}
@@ -231,7 +231,7 @@ const ModalDetail: FC<ModelDetailProps> = ({ post, ...props }) => {
                 className="outline-0 text-sm px-2 py-3 flex-1 bg-transparent"
               />
               <Button
-                type={value ? "primary" : "default"}
+                type={value ? 'primary' : 'default'}
                 disabled={!value}
                 className="rounded-none !px-10"
               >
@@ -304,10 +304,10 @@ const UserComment: Atom<UserCommentProps> = ({
               content={
                 <Menu
                   menus={[
-                    { label: "Xóa" },
-                    { label: "Chỉnh sửa" },
-                    { label: "Báo cáo" },
-                    { label: "Ẩn bình luận" },
+                    { label: 'Xóa' },
+                    { label: 'Chỉnh sửa' },
+                    { label: 'Báo cáo' },
+                    { label: 'Ẩn bình luận' },
                   ]}
                 />
               }
@@ -334,13 +334,14 @@ const UserComment: Atom<UserCommentProps> = ({
           <div className="ml-3 flex gap-3 items-center">
             <Avatar />
             <MessageInput
+              className="border-transparent border focus:border-blue-500 focus:border-solid focus:caret-primary-500"
               onChange={(val) => {
                 console.log(val);
               }}
               ref={inputRef}
               placeholder="Thêm bình luận...."
               onEnter={() => {
-                console.log("send reply");
+                console.log('send reply');
               }}
               clearWhenEnter={false}
               allowShiftEnter={false}

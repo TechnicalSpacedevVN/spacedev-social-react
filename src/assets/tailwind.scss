@@ -43,7 +43,7 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out";
+  -webkit-transition: 'color 9999s ease-out, background-color 9999s ease-out';
   -webkit-transition-delay: 9999s;
 }
 
@@ -54,6 +54,9 @@ input:-webkit-autofill:active {
 }
 
 @layer utilities {
+  ::selection {
+    @apply bg-primary-500 text-white;
+  }
   .horizontal-scroll {
     --finalHeight: 250px;
     --itemWidth: 250px;

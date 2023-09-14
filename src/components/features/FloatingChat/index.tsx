@@ -1,31 +1,31 @@
-import { Badge } from "@components/atoms/Badge";
-import { DropFile } from "@components/atoms/DropFile";
-import { Dropdown } from "@components/atoms/Dropdown";
-import { IconImage } from "@components/atoms/Icon/IconImage";
-import { InfinityLoading } from "@components/atoms/InfinityLoading";
-import { Menu } from "@components/atoms/Menu";
-import { MessageInput } from "@components/atoms/MessageInput";
-import { UploadFile, UploadfileRef } from "@components/atoms/UploadFile";
-import { convertImageUrlToFile } from "@utils/convertImageUrlToFile";
-import { handleSelectEnd } from "@utils/handleSelectEnd";
-import { fakeApi, mockMessages, mockUploadImage } from "@utils/mock";
-import { FC, useCallback, useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
-import { cn } from "../../../utils";
-import { Avatar } from "../../atoms/Avatar";
-import { Button } from "../../atoms/Button";
-import { Icon } from "../../atoms/Icon/Icon";
-import { ButtonIconClose, IconClose } from "../../atoms/Icon/IconClose";
-import { ButtoniconEmotion } from "../../atoms/Icon/IconEmotion";
-import { ButtoniconGIF } from "../../atoms/Icon/IconGIF";
-import { IconMaximize } from "../../atoms/Icon/IconMaximize";
-import { IconMinimize } from "../../atoms/Icon/IconMinimize";
-import { IconMinus } from "../../atoms/Icon/IconMinus";
-import { IconPlus } from "../../atoms/Icon/IconPlus";
-import { ButtonIconThreeDotAction } from "../../atoms/Icon/IconThreeDotAction";
-import { ButtonIconUploadImage } from "../../atoms/Icon/IconUploadImage";
-import { MessageItem } from "./MessageItem";
-import { ModalGroupChat } from "./ModalGroupChat";
+import { Badge } from '@components/atoms/Badge';
+import { DropFile } from '@components/atoms/DropFile';
+import { Dropdown } from '@components/atoms/Dropdown';
+import { IconImage } from '@components/atoms/Icon/IconImage';
+import { InfinityLoading } from '@components/atoms/InfinityLoading';
+import { Menu } from '@components/atoms/Menu';
+import { MessageInput } from '@components/atoms/MessageInput';
+import { UploadFile, UploadfileRef } from '@components/atoms/UploadFile';
+import { handleSelectEnd } from '@utils/element';
+import { convertImageUrlToFile } from '@utils/file';
+import { fakeApi, mockMessages, mockUploadImage } from '@utils/mock';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { cn } from '../../../utils';
+import { Avatar } from '../../atoms/Avatar';
+import { Button } from '../../atoms/Button';
+import { Icon } from '../../atoms/Icon/Icon';
+import { ButtonIconClose, IconClose } from '../../atoms/Icon/IconClose';
+import { ButtoniconEmotion } from '../../atoms/Icon/IconEmotion';
+import { ButtoniconGIF } from '../../atoms/Icon/IconGIF';
+import { IconMaximize } from '../../atoms/Icon/IconMaximize';
+import { IconMinimize } from '../../atoms/Icon/IconMinimize';
+import { IconMinus } from '../../atoms/Icon/IconMinus';
+import { IconPlus } from '../../atoms/Icon/IconPlus';
+import { ButtonIconThreeDotAction } from '../../atoms/Icon/IconThreeDotAction';
+import { ButtonIconUploadImage } from '../../atoms/Icon/IconUploadImage';
+import { MessageItem } from './MessageItem';
+import { ModalGroupChat } from './ModalGroupChat';
 
 export const FloatingChat = () => {
   return createPortal(
@@ -33,18 +33,18 @@ export const FloatingChat = () => {
       <ChatScreen />
       {/* <ChatScreen /> */}
     </div>,
-    document.body
+    document.body,
   );
 };
 
-const fullScreenClass = "h-[600px] w-[550px]";
+const fullScreenClass = 'h-[600px] w-[550px]';
 const isHideClass =
-  "h-[49px] w-[200px] [&_.main]:hidden [&_.footer]:hidden cursor-pointer";
+  'h-[49px] w-[200px] [&_.main]:hidden [&_.footer]:hidden cursor-pointer';
 
 export const ChatScreen: FC = () => {
   const uploadFileRef = useRef<UploadfileRef>(null);
   const chatScreenRef = useRef<HTMLDivElement>(null);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
   const inputRef = useRef<HTMLParagraphElement>(null);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isHide, setIsHide] = useState(false);
@@ -75,7 +75,7 @@ export const ChatScreen: FC = () => {
 
       setImages([...images, ...imgs]);
     },
-    [images]
+    [images],
   );
 
   return (
@@ -83,11 +83,11 @@ export const ChatScreen: FC = () => {
       <ModalGroupChat open={openMember} onCancel={() => setOpenMember(false)} />
       <div
         className={cn(
-          "transition-all duration-200 rounded-b-none shadow-[0_4px_5px_rgba(0,0,0,.5)] flex flex-col border border-solid border-b-0 border-gray-300 bg-white dark:bg-slate-900 dark:border-slate-700 text-gray-900 dark:text-white h-[400px] w-[350px] rounded-lg overflow-hidden",
+          'transition-all duration-200 rounded-b-none shadow-[0_4px_5px_rgba(0,0,0,.5)] flex flex-col border border-solid border-b-0 border-gray-300 bg-white dark:bg-slate-900 dark:border-slate-700 text-gray-900 dark:text-white h-[400px] w-[350px] rounded-lg overflow-hidden',
           {
             [fullScreenClass]: isFullScreen,
             [isHideClass]: isHide,
-          }
+          },
         )}
         onClick={() => {
           if (!window?.getSelection()?.toString()) {
@@ -110,32 +110,32 @@ export const ChatScreen: FC = () => {
                 <Menu
                   menus={[
                     {
-                      label: "Mở trong màn hình lớn",
+                      label: 'Mở trong màn hình lớn',
                     },
                     {
-                      label: "Xem trang cá nhân",
+                      label: 'Xem trang cá nhân',
                     },
                     {
-                      label: "Thay đổi chủ đề",
+                      label: 'Thay đổi chủ đề',
                     },
                     {
                       line: true,
                     },
                     {
-                      label: "Nickname",
+                      label: 'Nickname',
                     },
                     {
-                      label: "Mã hóa tin nhắn",
+                      label: 'Mã hóa tin nhắn',
                     },
                     {
-                      label: "Thành viên nhóm",
+                      label: 'Thành viên nhóm',
                       onClick: () => setOpenMember(true),
                     },
                     {
-                      label: "Rời khỏi nhóm",
+                      label: 'Rời khỏi nhóm',
                     },
                     {
-                      label: "Cài đặt",
+                      label: 'Cài đặt',
                     },
                   ]}
                 />
@@ -164,8 +164,8 @@ export const ChatScreen: FC = () => {
         <DropFile
           className="flex flex-col flex-1 h-1"
           title={{
-            post: "Thả bài viết vào đây",
-            img: "Thả link hình ảnh vào đây",
+            post: 'Thả bài viết vào đây',
+            img: 'Thả link hình ảnh vào đây',
           }}
           includes={{
             img: async (value) => {
@@ -280,7 +280,7 @@ export const ChatScreen: FC = () => {
               ref={inputRef}
               onEnter={(val) => {
                 console.log(val);
-                setValue("");
+                setValue('');
               }}
               onPasteFile={async (files) => {
                 uploadFileRef.current?.trigger(files);
@@ -304,16 +304,16 @@ export const ChatScreen: FC = () => {
             </div>
             <div className="ml-auto flex items-center">
               <Button
-                type={value ? "primary" : "default"}
+                type={value ? 'primary' : 'default'}
                 disabled={!value}
                 className="rounded-full px-5"
                 size="small"
                 onClick={() => {
-                  console.log("send message");
+                  console.log('send message');
                   handleSelectEnd(inputRef.current as Node);
-                  setValue("");
+                  setValue('');
                   if (inputRef.current) {
-                    inputRef.current.innerHTML = "";
+                    inputRef.current.innerHTML = '';
                   }
                 }}
               >
@@ -326,10 +326,10 @@ export const ChatScreen: FC = () => {
                   <Menu
                     menus={[
                       {
-                        label: "Nhấn Enter để gửi tin nhắn",
+                        label: 'Nhấn Enter để gửi tin nhắn',
                       },
                       {
-                        label: "Nhấn nút để gửi tin nhắn",
+                        label: 'Nhấn nút để gửi tin nhắn',
                       },
                     ]}
                   />

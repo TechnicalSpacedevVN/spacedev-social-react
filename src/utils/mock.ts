@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 import _, { uniqueId } from 'lodash';
-import { convertFileToImage } from './convertFIleToImage';
+import { convertFileToImage } from './file';
 
 const mock =
   <T>(callback: () => T) =>

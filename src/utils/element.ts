@@ -1,3 +1,10 @@
+export const scollToElement = (ref: HTMLElement) => {
+  ref.scrollIntoView({
+    behavior: 'smooth',
+    block: 'center',
+    inline: 'nearest',
+  });
+};
 export const handleSelectEnd = (element: Node) => {
   const range = document.createRange();
   range.selectNodeContents(element);
