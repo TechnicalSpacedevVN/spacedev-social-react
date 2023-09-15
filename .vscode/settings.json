@@ -22,7 +22,13 @@
   "prettier.bracketSpacing": true,
   "editor.inlineSuggest.enabled": true,
   "editor.quickSuggestions": {
-    "strings": true
+    "strings": "on"
+  },
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "tailwindCSS.includeLanguages": {
+    "plaintext": "html"
   },
   "tailwindCSS.experimental.classRegex": [
     "styled`([^`]*)", // styled`...`

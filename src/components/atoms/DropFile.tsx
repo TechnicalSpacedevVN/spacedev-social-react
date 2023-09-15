@@ -1,16 +1,16 @@
-import { useDebounce } from "@hooks/useDebounce";
-import { cn } from "@utils";
-import { Observable } from "@utils/Observable";
-import _ from "lodash";
-import { useEffect, useRef, useState } from "react";
-import { fromEvent } from "rxjs";
+import { useDebounce } from '@hooks/useDebounce';
+import { cn } from '@utils';
+import { Observable } from '@utils/Observable';
+import _ from 'lodash';
+import { useEffect, useRef, useState } from 'react';
+import { fromEvent } from 'rxjs';
 
 const observableDragOver = new Observable(
-  fromEvent<DragEvent>(window, "dragover")
+  fromEvent<DragEvent>(window, 'dragover'),
 );
-const observableDrop = new Observable(fromEvent<DragEvent>(window, "drop"));
+const observableDrop = new Observable(fromEvent<DragEvent>(window, 'drop'));
 const observableDragLeave = new Observable(
-  fromEvent<DragEvent>(window, "dragleave")
+  fromEvent<DragEvent>(window, 'dragleave'),
 );
 
 interface DropFileProps {
@@ -25,7 +25,7 @@ interface DropFileProps {
 export const setDropFileData = <T extends keyof DropFileType>(
   ev: DragEvent | React.DragEvent<HTMLElement>,
   type: T,
-  data: DropFileType[T]
+  data: DropFileType[T],
 ) => {
   ev.stopPropagation();
   ev?.dataTransfer?.clearData();
@@ -34,7 +34,7 @@ export const setDropFileData = <T extends keyof DropFileType>(
 
 export const getDropFileData = <T extends keyof DropFileType>(
   ev: DragEvent,
-  type: T
+  type: T,
 ): DropFileType[T] => {
   return ev?.dataTransfer?.getData(type) as DropFileType[T];
 };
@@ -47,23 +47,23 @@ const defaultMap: {
   };
 } = {
   url: {
-    title: "Thả link vào đây",
-    types: ["text/uri-list"],
+    title: 'Thả link vào đây',
+    types: ['text/uri-list'],
     handler(ev) {
-      return ev.dataTransfer?.getData("text");
+      return ev.dataTransfer?.getData('text');
     },
   },
   text: {
-    title: "Thả văn bản vào đây",
-    types: ["text/plain", "text/html"],
+    title: 'Thả văn bản vào đây',
+    types: ['text/plain', 'text/html'],
     handler(ev) {
-      return ev.dataTransfer?.getData("text");
+      return ev.dataTransfer?.getData('text');
     },
   },
 
   files: {
-    title: "Thả file vào đây",
-    types: ["Files"],
+    title: 'Thả file vào đây',
+    types: ['Files'],
     handler(ev) {
       console.log(ev?.dataTransfer?.files);
       return Array.from(ev?.dataTransfer?.files || []);
@@ -78,6 +78,7 @@ export const DropFile: Atom<DropFileProps> = ({
   ...props
 }) => {
   const [open, setOpen, setOpenImmediately] = useDebounce(false, 10);
+  const [isDragEnter, setIsDragEnter] = useState(false);
   const checkRef = useRef(false);
 
   const getAllowTypes = () => {
@@ -86,16 +87,16 @@ export const DropFile: Atom<DropFileProps> = ({
     allowTypes = allowTypes.reduce(
       (cum, cur) => [
         ...cum,
-        ...(typeof defaultMap[cur] !== "undefined"
+        ...(typeof defaultMap[cur] !== 'undefined'
           ? defaultMap[cur].types
           : [cur]),
       ],
-      [] as string[]
+      [] as string[],
     );
     return allowTypes;
   };
 
-  const [type, setType] = useState("");
+  const [type, setType] = useState('');
 
   const onDrop = async (ev: DragEvent) => {
     ev.preventDefault();
@@ -104,7 +105,7 @@ export const DropFile: Atom<DropFileProps> = ({
     if (types) {
       for (const i of types) {
         const checkIsDefault = _.findKey(defaultMap, (e) =>
-          e.types.includes(i)
+          e.types.includes(i),
         );
 
         if (checkIsDefault) {
@@ -162,7 +163,7 @@ export const DropFile: Atom<DropFileProps> = ({
             onDrop(ev);
             return false;
           },
-          { last: true }
+          { last: true },
         )
       : null;
 
@@ -175,21 +176,28 @@ export const DropFile: Atom<DropFileProps> = ({
     };
   }, []);
   return (
-    <div className={cn("relative", className)}>
+    <div className={cn('relative', className)}>
       {children}
       {open && (
         <div
           onDrop={() => {
             checkRef.current = true;
           }}
+          onDragEnter={() => {
+            setIsDragEnter(true);
+          }}
+          onDragLeave={() => {
+            setIsDragEnter(false);
+          }}
           className={cn(
-            "absolute top-0 left-0 w-full h-full  dark:text-white bg-black !bg-opacity-60 flex items-center justify-center text-white font-bold text-xl",
-            props.backdropClassName
+            'absolute top-0 left-0 w-full h-full  dark:text-white bg-black !bg-opacity-60 flex items-center justify-center text-white font-bold text-xl',
+            props.backdropClassName,
+            { ['border border-dashed border-primary-300']: isDragEnter },
           )}
         >
           {props?.title?.[type as keyof DropFileType] ||
             props.content ||
-            "Thả tệp tại đây"}
+            'Thả tệp tại đây'}
         </div>
       )}
     </div>

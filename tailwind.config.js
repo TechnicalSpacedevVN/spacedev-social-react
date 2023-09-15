@@ -1,3 +1,4 @@
+require('./tailwind-plugin.cjs');
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
@@ -60,6 +61,8 @@ export default {
         },
       });
     },
+    // Tải config để tailwind IntelliSense có thể đọc config từ file này và suggesstion
+    require('./src/assets/tailwind.css'),
   ],
 
   darkMode: 'class',

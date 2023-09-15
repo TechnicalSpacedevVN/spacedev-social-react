@@ -37,9 +37,9 @@ export const FloatingChat = () => {
   );
 };
 
-const fullScreenClass = 'h-[600px] w-[550px]';
+const fullScreenClass = 'h-[700px] w-[600px]';
 const isHideClass =
-  'h-[49px] w-[200px] [&_.main]:hidden [&_.footer]:hidden cursor-pointer';
+  '!h-[49px] !w-[400px] [&_.main]:hidden [&_.footer]:hidden cursor-pointer';
 
 export const ChatScreen: FC = () => {
   const uploadFileRef = useRef<UploadfileRef>(null);
@@ -83,7 +83,7 @@ export const ChatScreen: FC = () => {
       <ModalGroupChat open={openMember} onCancel={() => setOpenMember(false)} />
       <div
         className={cn(
-          'transition-all duration-200 rounded-b-none shadow-[0_4px_5px_rgba(0,0,0,.5)] flex flex-col border border-solid border-b-0 border-gray-300 bg-white dark:bg-slate-900 dark:border-slate-700 text-gray-900 dark:text-white h-[400px] w-[350px] rounded-lg overflow-hidden',
+          'transition-all duration-200 rounded-b-none shadow-[0_4px_5px_rgba(0,0,0,.5)] flex flex-col border border-solid border-b-0 border-gray-300 bg-white dark:bg-slate-900 dark:border-slate-700 text-gray-900 dark:text-white h-[500px] w-[400px] rounded-lg overflow-hidden',
           {
             [fullScreenClass]: isFullScreen,
             [isHideClass]: isHide,
