@@ -1,10 +1,13 @@
-import { Icon } from "./Icon";
-import { ButtonIconProps, IconProps } from "./type";
+import { Icon } from './Icon';
+import { ButtonIconProps, IconProps } from './type';
 
-export const ButtonIconArchive: Atom<ButtonIconProps> = (props) => {
+export const ButtonIconArchive: Atom<ButtonIconProps> = ({
+  size,
+  ...props
+}) => {
   return (
     <Icon {...props}>
-      <IconArchive />
+      <IconArchive size={size} />
     </Icon>
   );
 };

@@ -19,7 +19,7 @@ export const Story = () => {
   //   })
   // }, [])
   return (
-    <div className="p-2 shadow bg-white rounded-lg dark:bg-slate-800 select-none relative cursor-pointer">
+    <div className="pt-2 px-2 shadow bg-white rounded-lg dark:bg-slate-800 select-none relative cursor-pointer">
       <div
         className="flex gap-3 pb-2 items-center snap-x snap-always overflow-auto"
         ref={wraperRef}
@@ -76,8 +76,8 @@ export const Story = () => {
                     }}
                   />
                 </div>
-                <div className="text-xs items-end p-4 bottom-0 left-0 right-0 rounded-lg font-semibold whitespace-nowrap text-white absolute bg-gradient-to-t from-[#000000]  h-[100px] to-[#00000000]">
-                  <p className="line-clamp-2 w-full block text-ellipsis">
+                <div className="text-xs flex items-end p-4 bottom-0 left-0 right-0 rounded-lg font-semibold whitespace-nowrap text-white absolute bg-gradient-to-t from-[#000000]  h-[100px] to-[#00000000]">
+                  <p className="line-clamp-2 whitespace-break-spaces">
                     {story.user.fullName}
                   </p>
                 </div>

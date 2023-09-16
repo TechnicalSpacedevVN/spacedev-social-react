@@ -1,10 +1,10 @@
 import { Icon } from './Icon';
 import { ButtonIconProps, IconProps } from './type';
 
-export const ButtonIconMoon: Atom<ButtonIconProps> = (props) => {
+export const ButtonIconMoon: Atom<ButtonIconProps> = ({ size, ...props }) => {
   return (
     <Icon {...props}>
-      <IconMoon {...props} />
+      <IconMoon {...props} size={size} />
     </Icon>
   );
 };

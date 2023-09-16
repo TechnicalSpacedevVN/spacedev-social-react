@@ -1,21 +1,23 @@
-import { Icon } from "./Icon";
-import { FC } from "react";
+import { FC } from 'react';
+import { Icon } from './Icon';
+import { ButtonIconProps, IconProps } from './type';
 
-export const ButtonIconUser: FC<any> = (props) => {
+export const ButtonIconUser: FC<ButtonIconProps> = ({ size, ...props }) => {
   return (
     <Icon {...props}>
-      <IconUser />
+      <IconUser size={size} />
     </Icon>
   );
 };
 
-export const IconUser = () => {
+export const IconUser: Atom<IconProps> = ({ size = 17, ...props }) => {
   return (
     <svg
+      {...props}
       xmlns="http://www.w3.org/2000/svg"
       className="icon icon-tabler icon-tabler-user"
-      width={17}
-      height={17}
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       strokeWidth={2}
       stroke="currentColor"

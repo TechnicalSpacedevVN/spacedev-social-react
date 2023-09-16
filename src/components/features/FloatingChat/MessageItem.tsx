@@ -1,5 +1,6 @@
-import { Avatar } from "@components/atoms/Avatar";
-import { cn } from "@utils";
+import { Avatar } from '@components/atoms/Avatar';
+import { cn } from '@utils';
+import { MessageContextMenu } from './MessageContextMenu';
 
 export interface MessageItemProps {
   myMessage?: boolean;
@@ -13,9 +14,9 @@ export interface MessageItemProps {
 }
 
 const anotherMessageclass =
-  "[&_.message]:bg-gray-700 [&_.message]:rounded-l [&_.message]:rounded-r-2xl [&_.wrap]:items-start";
+  '[&_.message]:bg-gray-700 [&_.message]:rounded-l [&_.message]:rounded-r-2xl [&_.wrap]:items-start';
 const myMessageClass =
-  "[&_.share-url]:text-left flex-row-reverse text-right [&_.message]:bg-blue-700 [&_.avatar]:hidden [&_.message]:rounded-r [&_.message]:rounded-l-2xl [&_.wrap]:items-end";
+  '[&_.share-url]:text-left flex-row-reverse text-right [&_.message]:bg-blue-700 [&_.avatar]:hidden [&_.message]:rounded-r [&_.message]:rounded-l-2xl [&_.wrap]:items-end';
 
 export const MessageItem: Atom<MessageItemProps> = ({
   myMessage,
@@ -26,38 +27,42 @@ export const MessageItem: Atom<MessageItemProps> = ({
   return (
     <div
       onSelect={() => {
-        console.log("select");
+        console.log('select');
       }}
-      className={cn("px-2 flex gap-2 mb-2", {
+      className={cn('px-2 flex gap-2 mb-2', {
         [myMessageClass]: myMessage,
         [anotherMessageclass]: !myMessage,
       })}
+      onContextMenu={(ev) => ev.preventDefault()}
     >
       <Avatar size={32} className="avatar" />
       <div className="wrap flex-1 inline-flex flex-col gap-[1px] max-w-[60%]">
         {img && (
           <div className="flex gap-1 flex-wrap overflow-hidden rounded-2xl">
             {img.map((e) => (
-              <div key={e.id} className="flex-[calc(100%/4)] cursor-pointer">
+              <MessageContextMenu
+                key={e.id}
+                className="flex-[calc(100%/4)] cursor-pointer"
+              >
                 <img className="w-full h-full" src={e.thumbnail} />
-              </div>
+              </MessageContextMenu>
             ))}
           </div>
         )}
-        <p className="message text-sm text-white px-3 py-2 first-of-type:!rounded-t-2xl last-of-type:!rounded-b-2xl ">
-          {content}
-        </p>
+        <MessageContextMenu>
+          <p className="message text-sm text-white px-3 py-2 first-of-type:!rounded-t-2xl last-of-type:!rounded-b-2xl ">
+            {content}
+          </p>
+        </MessageContextMenu>
         {url && (
-          <a
-            href={url.link}
-            target="_blank"
-            className="share-url bg-black !bg-opacity-10 text-black dark:text-white dark:bg-white rounded-2xl overflow-hidden"
-          >
-            <div className="">
-              <img className="w-full -h-full object-cover" src={url.image} />
-            </div>
-            <h3 className="p-2 font-bold text-sm">{url.title}</h3>
-          </a>
+          <MessageContextMenu className='className="share-url bg-black !bg-opacity-10 text-black dark:text-white dark:bg-white rounded-2xl overflow-hidden"'>
+            <a href={url.link} target="_blank">
+              <div className="">
+                <img className="w-full -h-full object-cover" src={url.image} />
+              </div>
+              <h3 className="p-2 font-bold text-sm">{url.title}</h3>
+            </a>
+          </MessageContextMenu>
         )}
         {/* <p className="message text-sm text-white px-3 py-2 first-of-type:!rounded-t-2xl last-of-type:!rounded-b-2xl ">
                   Chào bạn! Tất nhiên, tôi rất vui được giúp bạn. Bạn có một số

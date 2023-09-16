@@ -13,12 +13,13 @@ import { ButtonIconHeart } from '@components/atoms/Icon/IconHeart';
 import { ButtonIconHeartFill } from '@components/atoms/Icon/IconHeartFill';
 import { IconPen } from '@components/atoms/Icon/IconPen';
 import { IconShare } from '@components/atoms/Icon/IconShare';
-import { IconSpin } from '@components/atoms/Icon/IconSpin';
 import { ButtonIconThreeDotAction } from '@components/atoms/Icon/IconThreeDotAction';
 import { IconTrash } from '@components/atoms/Icon/IconTrash';
+import { InfinityLoading } from '@components/atoms/InfinityLoading';
 import { Menu } from '@components/atoms/Menu';
 import { MessageInput } from '@components/atoms/MessageInput';
 import { Modal, ModalProps } from '@components/atoms/Modal';
+import { Skeleton } from '@components/atoms/Skeleton';
 import { Tag } from '@components/atoms/Tag';
 import { PATH } from '@constants/path';
 import { handleSelectEnd, scollToElement } from '@utils';
@@ -49,6 +50,42 @@ const PostMenu = () => {
     </Dropdown>
   );
 };
+
+export const PostLoading = () => {
+  return (
+    <>
+      <div className="rounded-lg bg-white pb-4 dark:bg-slate-900 shadow">
+        <div className="flex items-center gap-2 p-4">
+          <Skeleton avatar width={40} />
+          <div className="flex-1 -mt-1">
+            <Skeleton text width="100%" />
+          </div>
+        </div>
+        <div className="p-1 px-3 overflow-hidden flex items-center">
+          <a className="w-full select-non flex justify-center" href="#">
+            <Skeleton width="100%" height={300} />
+          </a>
+        </div>
+        <div className="flex items-center justify-between p-3">
+          <div className="flex gap-2 ">
+            <Skeleton width={100} />
+            <Skeleton width={100} />
+            <Skeleton width={100} />
+            <div className="flex gap-2 items-center">
+              <Skeleton avatar width={27} />
+              <Skeleton avatar width={27} />
+              <Skeleton avatar width={27} />
+            </div>
+          </div>
+        </div>
+        <p className="px-3 text-sm">
+          <Skeleton text width="100%" />
+        </p>
+      </div>
+    </>
+  );
+};
+
 export const Post = () => {
   const [open, setOpen] = useState(false);
   const [post] = useState(mockPost);
@@ -57,7 +94,6 @@ export const Post = () => {
     <>
       <ModalDetail open={open} onCancel={() => setOpen(false)} post={post} />
       <div
-        draggable
         onDragStart={(ev) => {
           const img = document.createElement('img');
           img.src = post.image;
@@ -76,7 +112,7 @@ export const Post = () => {
         className="rounded-lg bg-white pb-4 dark:bg-slate-900 shadow"
       >
         <div className="flex items-center gap-2 p-4">
-          <Avatar src={post.user.avatar} />
+          <Avatar src={post.user.avatar} size={40} />
           <div className="flex-1 -mt-1">
             <div className="flex items-center gap-2">
               <h4 className="text-sm font-semibold text-gray-900 dark:text-white">
@@ -213,15 +249,22 @@ const ModalDetail: FC<ModelDetailProps> = ({ post, ...props }) => {
               <ButtonIconClose transparent onClick={props.onCancel} />
             </div>
           </div>
-          <div className="flex-1 py-2 overflow-auto">
+          <InfinityLoading
+            haveNext
+            loading
+            loadingRender={
+              <>
+                <UserCommentLoading />
+                <UserCommentLoading />
+              </>
+            }
+            className="flex-1 py-2 overflow-auto"
+          >
             {post.comments.map((comment) => (
               <UserComment key={comment.id} loadMore comment={comment} />
             ))}
+          </InfinityLoading>
 
-            <div className="flex justify-center my-3">
-              <IconSpin />
-            </div>
-          </div>
           <div className="">
             <div className="border-t border-solid border-gray-300 flex dark:border-slate-700">
               <input
@@ -250,6 +293,23 @@ export interface UserCommentProps {
   isReply?: boolean;
   comment: IComment;
 }
+
+const UserCommentLoading = () => {
+  return (
+    <div className="flex gap-3 px-3 py-2 ">
+      <Skeleton avatar width={40} />
+      <div className="flex-1 flex flex-col gap-3">
+        <div className="text-sm">
+          <Skeleton text width="80%" />
+        </div>
+        <div className="flex gap-2 text-xs items-center">
+          <Skeleton text width="40%" />
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const UserComment: Atom<UserCommentProps> = ({
   loadMore,
   isReply = true,
@@ -268,7 +328,7 @@ const UserComment: Atom<UserCommentProps> = ({
   return (
     <>
       <div className="flex gap-3 px-3 py-2 [&_.icon-action]:hover:opacity-100">
-        <Avatar />
+        <Avatar size={40} />
         <div className="flex-1">
           <div className="text-sm">
             <b> {comment.user.fullName}</b> <span>{comment.content}</span>
@@ -318,11 +378,6 @@ const UserComment: Atom<UserCommentProps> = ({
               />
             </Dropdown>
           </div>
-          {loadMore && (
-            <div className="text-gray-400 flex items-baseline gap-2 cursor-pointer text-xs font-bold mt-1 before:content-normal before:block before:w-8 before:h-[1px] before:bg-gray-400">
-              Bình luận ({comment.replyCount})
-            </div>
-          )}
         </div>
         <ButtonIconHeart className="icon-action opacity-0" />
       </div>
@@ -331,10 +386,11 @@ const UserComment: Atom<UserCommentProps> = ({
           <UserComment isReply={false} key={i} comment={co as IComment} />
         ))}
         {isReply && openReply && (
-          <div className="ml-3 flex gap-3 items-center">
-            <Avatar />
+          <div className="ml-3 flex gap-3 items-start">
+            <Avatar className="" />
             <MessageInput
-              className="border-transparent border focus:border-blue-500 focus:border-solid focus:caret-primary-500"
+              includes={['emoji', 'gif']}
+              className="rounded flex-1 flex-wrap max-w-full w-1"
               onChange={(val) => {
                 console.log(val);
               }}
@@ -349,6 +405,13 @@ const UserComment: Atom<UserCommentProps> = ({
           </div>
         )}
       </div>
+      {loadMore && (
+        <div className="pr-3 pl-14 border-l mb-3">
+          <div className="text-gray-400 flex items-baseline gap-2 cursor-pointer text-xs font-bold mt-1 before:content-normal before:block before:w-8 before:h-[1px] before:bg-gray-400">
+            Bình luận ({comment.replyCount})
+          </div>
+        </div>
+      )}
     </>
   );
 };

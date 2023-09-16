@@ -1,20 +1,22 @@
-import { FC } from "react";
-import { Icon } from "./Icon";
-export const ButtoniconGIF: FC<any> = (props) => {
+import { FC } from 'react';
+import { Icon } from './Icon';
+import { ButtonIconProps, IconProps } from './type';
+export const ButtoniconGIF: FC<ButtonIconProps> = ({ size, ...props }) => {
   return (
     <Icon {...props}>
-      <IconGIF />
+      <IconGIF size={size} />
     </Icon>
   );
 };
 
-export const IconGIF = () => {
+export const IconGIF: Atom<IconProps> = ({ size = 17, ...props }) => {
   return (
     <svg
+      {...props}
       xmlns="http://www.w3.org/2000/svg"
       className="icon icon-tabler icon-tabler-gif"
-      width={17}
-      height={17}
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       strokeWidth={2}
       stroke="currentColor"

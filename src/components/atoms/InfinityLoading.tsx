@@ -10,6 +10,7 @@ export interface InfinityLoadingProps extends DefaultProps {
   haveNext?: boolean;
   offset?: number;
   onNext?: () => void;
+  onScroll?: (ev: React.UIEvent<HTMLDivElement, UIEvent>) => void;
   // virtualized?: {
   //   itemSize: number;
   //   itemCount: number;
@@ -34,6 +35,7 @@ export const InfinityLoading = forwardRef<
       offset = 50,
       haveNext,
       onNext,
+      loadingRender,
       // virtualized,
       ...props
     },
@@ -77,11 +79,12 @@ export const InfinityLoading = forwardRef<
           if (loading && placement === 'top' && ele.scrollTop < 1) {
             ele.scrollTop = 1;
           }
+          props.onScroll?.(ev);
         }}
       >
         {loading &&
           placement === 'top' &&
-          (props.loadingRender || (
+          (loadingRender || (
             <div className="flex justify-center my-3">
               <IconSpin />
             </div>
@@ -90,7 +93,7 @@ export const InfinityLoading = forwardRef<
         {_children}
         {loading &&
           placement === 'bottom' &&
-          (props.loadingRender || (
+          (loadingRender || (
             <div className="flex justify-center my-3">
               <IconSpin />
             </div>

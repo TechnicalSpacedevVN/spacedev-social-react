@@ -1,10 +1,8 @@
 import { forwardRef } from 'react';
-import { UseFormRegisterReturn } from 'react-hook-form';
 import { cn } from '../../utils';
 
 export interface InputProps
-  extends Partial<UseFormRegisterReturn>,
-    DefaultProps {
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   type?: string;
   error?: string;
@@ -15,11 +13,11 @@ export const Input = forwardRef<HTMLLabelElement, InputProps>(
   ({ label, type = 'text', error, className, ...props }, ref) => {
     return (
       <label className={cn('block', className)} ref={ref}>
-        <p className="font-semibold text-md mb-2">{label}</p>
+        {label && <p className="font-semibold text-md mb-2">{label}</p>}
         <input
           type={type}
           className={cn(
-            'border border-solid outline-none p-2 w-full rounded dark:bg-slate-800 dark:border-slate-700',
+            'h-full border border-solid outline-none p-2 w-full rounded dark:bg-slate-800 dark:border-slate-700',
             {
               'border-red-500 text-red-500 dark:border-red-500': error,
             },

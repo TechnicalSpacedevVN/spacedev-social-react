@@ -1,20 +1,25 @@
-import { Icon } from "./Icon";
+import { Icon } from './Icon';
+import { ButtonIconProps, IconProps } from './type';
 
-export const ButtonIconApplication = () => {
+export const ButtonIconApplication: Atom<ButtonIconProps> = ({
+  size,
+  ...props
+}) => {
   return (
-    <Icon>
-      <IconApplication />
+    <Icon {...props}>
+      <IconApplication size={size} />
     </Icon>
   );
 };
 
-export const IconApplication = () => {
+export const IconApplication: Atom<IconProps> = ({ size = 17, ...props }) => {
   return (
     <svg
+      {...props}
       xmlns="http://www.w3.org/2000/svg"
       className="icon icon-tabler icon-tabler-layout-grid"
-      width={17}
-      height={17}
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       strokeWidth={2}
       stroke="currentColor"

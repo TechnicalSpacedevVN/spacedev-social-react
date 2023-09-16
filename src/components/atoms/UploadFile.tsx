@@ -1,7 +1,7 @@
-import { useRef, forwardRef, useImperativeHandle } from "react";
+import { forwardRef, useImperativeHandle, useRef } from 'react';
 
 export interface UploadFileProps extends DefaultProps {
-  children: any;
+  children?: any;
   multiple?: boolean;
   onChange?: (fileList: File[]) => void;
 }
@@ -23,7 +23,7 @@ export const UploadFile = forwardRef<UploadfileRef, UploadFileProps>(
           },
         };
       },
-      [props.onChange]
+      [props.onChange],
     );
     const fileRef = useRef<HTMLInputElement>(null);
     const onChange: React.ChangeEventHandler<HTMLInputElement> = (ev) => {
@@ -47,5 +47,5 @@ export const UploadFile = forwardRef<UploadfileRef, UploadFileProps>(
         />
       </div>
     );
-  }
+  },
 );

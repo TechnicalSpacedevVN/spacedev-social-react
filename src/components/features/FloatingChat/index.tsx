@@ -1,11 +1,14 @@
 import { Badge } from '@components/atoms/Badge';
 import { DropFile } from '@components/atoms/DropFile';
 import { Dropdown } from '@components/atoms/Dropdown';
+import { IconCircleCheck } from '@components/atoms/Icon/IconCircleCheck';
 import { IconImage } from '@components/atoms/Icon/IconImage';
+import { ButtonIconNarrowDown } from '@components/atoms/Icon/IconNarrowDown';
 import { InfinityLoading } from '@components/atoms/InfinityLoading';
 import { Menu } from '@components/atoms/Menu';
 import { MessageInput } from '@components/atoms/MessageInput';
 import { UploadFile, UploadfileRef } from '@components/atoms/UploadFile';
+import { Emoji } from '@components/features/Emoji';
 import { handleSelectEnd } from '@utils/element';
 import { convertImageUrlToFile } from '@utils/file';
 import { fakeApi, mockMessages, mockUploadImage } from '@utils/mock';
@@ -24,6 +27,7 @@ import { IconMinus } from '../../atoms/Icon/IconMinus';
 import { IconPlus } from '../../atoms/Icon/IconPlus';
 import { ButtonIconThreeDotAction } from '../../atoms/Icon/IconThreeDotAction';
 import { ButtonIconUploadImage } from '../../atoms/Icon/IconUploadImage';
+import { Gif } from '../Gif';
 import { MessageItem } from './MessageItem';
 import { ModalGroupChat } from './ModalGroupChat';
 
@@ -51,19 +55,21 @@ export const ChatScreen: FC = () => {
   const [openMember, setOpenMember] = useState(false);
   const [messages, setMessages] = useState(() => mockMessages(10));
   const [loading, setLoading] = useState(false);
-  const [images, setImages] = useState<{ path: string; id: string }[]>([
-    // "https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80",
-    // "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg",
-    // "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg",
-    // "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg",
-    // "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg",
-  ]);
+  const [images, setImages] = useState<{ path: string; id: string }[]>([]);
+  const [openBackToBottom, setOpenBackToBottom] = useState(false);
+  const imageWraperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     chatScreenRef.current?.scrollTo({
       top: chatScreenRef.current.scrollHeight,
     });
   }, []);
+  useEffect(() => {
+    imageWraperRef.current?.scrollBy({
+      left: imageWraperRef.current.scrollWidth,
+      behavior: 'smooth',
+    });
+  }, [images]);
 
   const uploadFile = useCallback(
     async (files: File[]) => {
@@ -83,7 +89,7 @@ export const ChatScreen: FC = () => {
       <ModalGroupChat open={openMember} onCancel={() => setOpenMember(false)} />
       <div
         className={cn(
-          'transition-all duration-200 rounded-b-none shadow-[0_4px_5px_rgba(0,0,0,.5)] flex flex-col border border-solid border-b-0 border-gray-300 bg-white dark:bg-slate-900 dark:border-slate-700 text-gray-900 dark:text-white h-[500px] w-[400px] rounded-lg overflow-hidden',
+          'transition-all duration-200 rounded-b-none shadow-[0_4px_5px_rgba(0,0,0,.5)] flex flex-col border border-solid border-b-0 border-gray-300 bg-white dark:bg-slate-900 dark:border-slate-700 text-gray-900 dark:text-white h-[500px] w-[400px] rounded-lg',
           {
             [fullScreenClass]: isFullScreen,
             [isHideClass]: isHide,
@@ -148,7 +154,7 @@ export const ChatScreen: FC = () => {
             </Icon>
             <Icon
               transparent
-              onClick={(ev: any) => {
+              onClick={(ev) => {
                 ev.stopPropagation();
                 setIsFullScreen(false);
                 setIsHide(!isHide);
@@ -208,6 +214,15 @@ export const ChatScreen: FC = () => {
             placement="top"
             loading={loading}
             className="flex flex-col py-2 gap-2 flex-1 main overflow-auto"
+            onScroll={(ev) => {
+              let ele = ev.currentTarget;
+
+              if (ele.scrollTop + ele.offsetHeight < ele.scrollHeight - 40) {
+                setOpenBackToBottom(true);
+              } else {
+                setOpenBackToBottom(false);
+              }
+            }}
             onNext={async () => {
               setLoading(true);
               const res = await fakeApi(mockMessages);
@@ -240,9 +255,24 @@ export const ChatScreen: FC = () => {
             ))}
           </InfinityLoading>
 
-          <div className="footer border-t border-solid border-gray-300 dark:border-slate-700 p-1">
+          <div className="relative footer border-t border-solid border-gray-300 dark:border-slate-700 p-1">
+            <ButtonIconNarrowDown
+              onClick={() =>
+                chatScreenRef.current?.scrollBy({
+                  top: chatScreenRef.current.scrollHeight,
+                  behavior: 'smooth',
+                })
+              }
+              className={cn(
+                'opacity-0 transition-all duration-200 absolute left-1/2 -top-10 -translate-x-1/2 dark:!bg-primary dark:hover:!bg-primary-700 animate-bounce',
+                { 'opacity-100': openBackToBottom },
+              )}
+            />
             {images.length > 0 && (
-              <div className="overflow-x-auto mb-0.5 pb-0.5">
+              <div
+                ref={imageWraperRef}
+                className="overflow-x-auto mb-0.5 pb-0.5"
+              >
                 <div className="flex gap-1  w-fit">
                   <div
                     onClick={() => {
@@ -278,8 +308,7 @@ export const ChatScreen: FC = () => {
             <MessageInput
               onChange={(val) => setValue(val)}
               ref={inputRef}
-              onEnter={(val) => {
-                console.log(val);
+              onEnter={() => {
                 setValue('');
               }}
               onPasteFile={async (files) => {
@@ -288,7 +317,6 @@ export const ChatScreen: FC = () => {
               placeholder="Viết tin nhắn..."
             />
           </div>
-
           <div className="flex items-center border-t dark:border-slate-700 border-gray-300 py-1 px-2">
             <div className="flex items-center">
               <UploadFile
@@ -299,8 +327,12 @@ export const ChatScreen: FC = () => {
               >
                 <ButtonIconUploadImage transparent />
               </UploadFile>
-              <ButtoniconGIF transparent />
-              <ButtoniconEmotion transparent />
+              <Gif>
+                <ButtoniconGIF transparent />
+              </Gif>
+              <Emoji>
+                <ButtoniconEmotion transparent />
+              </Emoji>
             </div>
             <div className="ml-auto flex items-center">
               <Button
@@ -326,10 +358,14 @@ export const ChatScreen: FC = () => {
                   <Menu
                     menus={[
                       {
+                        className: '[&_.icon]:!text-primary-500',
                         label: 'Nhấn Enter để gửi tin nhắn',
+                        icon: <IconCircleCheck />,
                       },
                       {
                         label: 'Nhấn nút để gửi tin nhắn',
+                        className: '[&:hover_.icon]:!text-primary-500',
+                        icon: <IconCircleCheck />,
                       },
                     ]}
                   />

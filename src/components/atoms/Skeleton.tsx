@@ -14,7 +14,7 @@ export const Skeleton: Atom<SkeletonProp> = React.memo(
     if (image) {
       return (
         <svg
-          className="w-10 h-10 text-gray-200 dark:text-gray-600"
+          className="text-gray-200 dark:text-gray-600"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"
@@ -29,7 +29,10 @@ export const Skeleton: Atom<SkeletonProp> = React.memo(
       return (
         <svg
           style={{ width: width || height, height: height || width }}
-          className="text-gray-200 dark:text-gray-700 fill-[#ececec] dark:fill-slate-500"
+          className={cn(
+            'text-gray-200 dark:text-gray-700 fill-[#ececec] dark:fill-slate-500',
+            className,
+          )}
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"
@@ -45,30 +48,30 @@ export const Skeleton: Atom<SkeletonProp> = React.memo(
 
     if (circle) {
       return (
-        <div
+        <span
           className={cn(_className, className, 'rounded-full')}
           style={{ width: width || height, height: height || width }}
-        ></div>
+        ></span>
       );
     }
 
     if (text) {
       return (
-        <div
+        <span
           className={cn(_className, className)}
           style={{
             width: width || `${Math.round(Math.random() * 100)}%`,
-            height: 20,
+            height: 14,
           }}
-        ></div>
+        ></span>
       );
     }
 
     return (
-      <div
+      <span
         className={cn(_className, className)}
         style={{ width, height }}
-      ></div>
+      ></span>
     );
   },
 );

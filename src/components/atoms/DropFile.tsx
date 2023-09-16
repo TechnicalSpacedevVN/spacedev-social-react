@@ -77,7 +77,7 @@ export const DropFile: Atom<DropFileProps> = ({
   includes,
   ...props
 }) => {
-  const [open, setOpen, setOpenImmediately] = useDebounce(false, 10);
+  const [open, setOpen, , setOpenImmediately] = useDebounce(false, 10);
   const [isDragEnter, setIsDragEnter] = useState(false);
   const checkRef = useRef(false);
 

@@ -1,11 +1,14 @@
-import { Icon } from "./Icon";
-import { FC } from "react";
-import { ButtonIconProps, IconProps } from "./type";
+import { FC } from 'react';
+import { Icon } from './Icon';
+import { ButtonIconProps, IconProps } from './type';
 
-export const ButtonIconArrowDown: FC<ButtonIconProps> = (props) => {
+export const ButtonIconArrowDown: FC<ButtonIconProps> = ({
+  size,
+  ...props
+}) => {
   return (
     <Icon {...props}>
-      <IconArrowDown {...props} />
+      <IconArrowDown {...props} size={size} />
     </Icon>
   );
 };

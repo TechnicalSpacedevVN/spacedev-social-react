@@ -2,10 +2,13 @@ import { FC } from 'react';
 import { Icon } from './Icon';
 import { ButtonIconProps, IconProps } from './type';
 
-export const ButtonIconNotification: FC<ButtonIconProps> = (props) => {
+export const ButtonIconNotification: FC<ButtonIconProps> = ({
+  size,
+  ...props
+}) => {
   return (
     <Icon {...props}>
-      <IconNotification />
+      <IconNotification size={size} />
     </Icon>
   );
 };

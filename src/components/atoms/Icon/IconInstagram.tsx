@@ -1,7 +1,7 @@
-import { Icon } from "./Icon";
-import { FC } from "react";
+import { FC } from 'react';
+import { Icon } from './Icon';
 
-export const IconInstagram: FC<any> = (props) => {
+export const IconInstagram: FC<any> = ({ size, ...props }) => {
   return (
     <Icon {...props}>
       <svg

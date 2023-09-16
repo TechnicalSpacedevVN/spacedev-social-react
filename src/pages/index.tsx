@@ -8,7 +8,7 @@ import { useAuth } from '../components/features//AuthProvider';
 import { GeneralInfo } from '../components/features//GeneralInfo';
 import { Message } from '../components/features//Message';
 import { NewPost } from '../components/features//NewPost';
-import { Post } from '../components/features//Post';
+import { Post, PostLoading } from '../components/features//Post';
 import { Story } from '../components/features//Story';
 import { SuggestedForYou } from '../components/features//SuggestedForYou';
 import { LOGIN_MODAL, setGlobalState } from '../store/queryClient';
@@ -39,7 +39,7 @@ export const Home = () => {
 
   return (
     <div className="px-4 flex w-full gap-4 mt-4">
-      <div className="w-sidebar flex gap-4 flex-col sticky bottom-6 self-end">
+      <div className="w-sidebar flex gap-4 flex-col sticky bottom-6 self-start">
         {user ? (
           <>
             <SuggestedForYou />
@@ -78,6 +78,7 @@ export const Home = () => {
 
           <InfinityLoading
             loading={loading}
+            loadingRender={<PostLoading />}
             haveNext
             className="flex flex-col gap-4"
           >

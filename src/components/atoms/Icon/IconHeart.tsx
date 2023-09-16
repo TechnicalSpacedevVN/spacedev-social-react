@@ -1,11 +1,11 @@
-import { FC } from "react";
-import { Icon } from "./Icon";
-import { ButtonIconProps } from "./type";
+import { FC } from 'react';
+import { Icon } from './Icon';
+import { ButtonIconProps } from './type';
 
-export const ButtonIconHeart: FC<any> = (props) => {
+export const ButtonIconHeart: FC<any> = ({ size, ...props }) => {
   return (
     <Icon {...props}>
-      <IconHeart />
+      <IconHeart size={size} />
     </Icon>
   );
 };

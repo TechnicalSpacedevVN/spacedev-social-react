@@ -196,7 +196,7 @@ export const Profile = () => {
         </div>
         <div className="container mx-auto p-4 flex gap-4">
           <div className="relative flex">
-            <div className="text-sm flex flex-col gap-4 w-[400px] sticky bottom-6 self-end">
+            <div className="text-sm flex flex-col gap-4 w-[400px] sticky bottom-6 self-start">
               <Card title="Giới thiệu">
                 {/* <Textarea
                   placeholder="Mô tả về bạn"
