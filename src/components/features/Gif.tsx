@@ -94,7 +94,7 @@ export const Gif: Atom<GifProps> = ({ children }) => {
                   content={
                     <Menu
                       menus={[
-                        { label: 'lưu vào yêu thích', icon: <IconHeart /> },
+                        { label: 'Lưu vào yêu thích', icon: <IconHeart /> },
                       ]}
                     />
                   }
