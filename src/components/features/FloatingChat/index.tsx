@@ -53,7 +53,7 @@ export const ChatScreen: FC = () => {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isHide, setIsHide] = useState(false);
   const [openMember, setOpenMember] = useState(false);
-  const [messages, setMessages] = useState(() => mockMessages(10));
+  const [messages, setMessages] = useState(() => mockMessages(20));
   const [loading, setLoading] = useState(false);
   const [images, setImages] = useState<{ path: string; id: string }[]>([]);
   const [openBackToBottom, setOpenBackToBottom] = useState(false);
@@ -209,7 +209,7 @@ export const ChatScreen: FC = () => {
         >
           <InfinityLoading
             ref={chatScreenRef}
-            offset={50}
+            offset={200}
             haveNext
             placement="top"
             loading={loading}

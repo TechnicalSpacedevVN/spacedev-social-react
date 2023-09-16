@@ -63,7 +63,9 @@ const NotificationType: { [k: string]: RenderFunc } = {
 };
 
 export const Notification = () => {
-  const [notifications, setNotifications] = useState(mockNotifications);
+  const [notifications, setNotifications] = useState(() =>
+    mockNotifications(20),
+  );
   const [loading, setLoading] = useState(false);
   return (
     <Card
@@ -95,6 +97,7 @@ export const Notification = () => {
     >
       <InfinityLoading
         haveNext
+        offset={300}
         loading={loading}
         loadingRender={
           <div>
