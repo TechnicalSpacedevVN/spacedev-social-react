@@ -1,12 +1,12 @@
-import { FC } from "react";
-import { Icon } from "./Icon";
-import { cn } from "../../../utils";
+import { FC } from 'react';
+import { cn } from '../../../utils';
+import { Icon } from './Icon';
 
 export const IconAddFriend: FC<{ disabled?: boolean }> = (props) => {
   return (
     <Icon
-      className={cn("text-purple-500 bg-purple-50 hover:bg-purple-100", {
-        "!text-gray-400 !bg-gray-100 pointer-events-none dark:!bg-transparent":
+      className={cn('dark:!text-primary-500 bg-purple-50 hover:bg-purple-100', {
+        'text-gray-400 !bg-gray-100 pointer-events-none dark:!bg-transparent':
           props.disabled,
       })}
     >

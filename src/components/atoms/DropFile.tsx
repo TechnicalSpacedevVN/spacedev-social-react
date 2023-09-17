@@ -4,6 +4,7 @@ import { Observable } from '@utils/Observable';
 import _ from 'lodash';
 import { useEffect, useRef, useState } from 'react';
 import { fromEvent } from 'rxjs';
+import { IconDropImage } from './Icon/IconDropImage';
 
 const observableDragOver = new Observable(
   fromEvent<DragEvent>(window, 'dragover'),
@@ -20,6 +21,9 @@ interface DropFileProps {
   title?: { [k in keyof DropFileType]?: string };
   backdropClassName?: string;
   isGlobal?: boolean;
+  renderBackdrop?: () => any;
+  onDragStart?: () => void;
+  onDragLeave?: () => void;
 }
 
 export const setDropFileData = <T extends keyof DropFileType>(
@@ -65,7 +69,6 @@ const defaultMap: {
     title: 'Thả file vào đây',
     types: ['Files'],
     handler(ev) {
-      console.log(ev?.dataTransfer?.files);
       return Array.from(ev?.dataTransfer?.files || []);
     },
   },
@@ -77,7 +80,7 @@ export const DropFile: Atom<DropFileProps> = ({
   includes,
   ...props
 }) => {
-  const [open, setOpen, , setOpenImmediately] = useDebounce(false, 10);
+  const [open, setOpen] = useDebounce(false, 10);
   const [isDragEnter, setIsDragEnter] = useState(false);
   const checkRef = useRef(false);
 
@@ -132,10 +135,10 @@ export const DropFile: Atom<DropFileProps> = ({
       ev.preventDefault();
       const types = ev.dataTransfer?.types || [];
       const check = _.findIndex(allowTypes, (el) => _.includes(types, el));
-
       if (check !== -1) {
         setType(allowTypes[check]);
-        setOpenImmediately(true);
+        props.onDragStart?.();
+        setOpen(true);
       }
       return true;
     });
@@ -150,9 +153,11 @@ export const DropFile: Atom<DropFileProps> = ({
     const unsubscribe5 = observableDrop.alway(() => {
       setOpen(false);
       checkRef.current = false;
+      props.onDragLeave?.();
     });
     const unsubscribe3 = observableDragLeave.subscribe(() => {
       setOpen(false);
+      props.onDragLeave?.();
       checkRef.current = false;
     });
 
@@ -178,28 +183,30 @@ export const DropFile: Atom<DropFileProps> = ({
   return (
     <div className={cn('relative', className)}>
       {children}
-      {open && (
-        <div
-          onDrop={() => {
-            checkRef.current = true;
-          }}
-          onDragEnter={() => {
-            setIsDragEnter(true);
-          }}
-          onDragLeave={() => {
-            setIsDragEnter(false);
-          }}
-          className={cn(
-            'absolute top-0 left-0 w-full h-full  dark:text-white bg-black !bg-opacity-60 flex items-center justify-center text-white font-bold text-xl',
-            props.backdropClassName,
-            { ['border border-dashed border-primary-300']: isDragEnter },
-          )}
-        >
-          {props?.title?.[type as keyof DropFileType] ||
-            props.content ||
-            'Thả tệp tại đây'}
-        </div>
-      )}
+      {open &&
+        (props.renderBackdrop?.() || (
+          <div
+            onDrop={() => {
+              checkRef.current = true;
+            }}
+            onDragEnter={() => {
+              setIsDragEnter(true);
+            }}
+            onDragLeave={() => {
+              setIsDragEnter(false);
+            }}
+            className={cn(
+              'gap-2 absolute top-0 left-0 w-full h-full  dark:text-white bg-black !bg-opacity-60 flex items-center justify-center text-white font-bold text-xl',
+              props.backdropClassName,
+              { ['border border-dashed border-primary-300']: isDragEnter },
+            )}
+          >
+            <IconDropImage />
+            {props?.title?.[type as keyof DropFileType] ||
+              props.content ||
+              'Thả tệp tại đây'}
+          </div>
+        ))}
     </div>
   );
 };

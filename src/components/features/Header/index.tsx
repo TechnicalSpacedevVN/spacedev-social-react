@@ -19,13 +19,104 @@ import { ButtonIconChevronLeft } from '../../atoms/Icon/IconChevronLeft';
 import { IconChevronRight } from '../../atoms/Icon/IconChevronRight';
 import { IconClose } from '../../atoms/Icon/IconClose';
 import { ButtonIconFeedback } from '../../atoms/Icon/IconFeedback';
-import { IconLogout } from '../../atoms/Icon/IconLogout';
+import { ButtonIconLogout } from '../../atoms/Icon/IconLogout';
 import { ButtonIconSetting } from '../../atoms/Icon/IconSetting';
 import { ButtonIconThreeDotAction } from '../../atoms/Icon/IconThreeDotAction';
 import { Step } from '../../atoms/Step';
 import { Switch } from '../../atoms/Switch';
 import { Notification } from '../Notification';
 import { ModalLogin } from './ModalLogin';
+
+const mapColor: any = {
+  blue: {
+    DEFAULT: '#2374e1',
+    50: '#f4fafc',
+    100: '#cae7f4',
+    200: '#a0d5ec',
+    300: '#77c3e4',
+    400: '#4db1dc',
+    500: '#2374e1',
+    600: '#1c7fa9',
+    700: '#155f7f',
+    800: '#0e3f54',
+    900: '#071f2a',
+    neon: '#00ffe7',
+  },
+  red: {
+    DEFAULT: '#ff0000',
+    50: '#fff2f2',
+    100: '#ffc1c1',
+    200: '#ff9191',
+    300: '#ff6060',
+    400: '#ff3030',
+    500: '#ff0000',
+    600: '#c00',
+    700: '#900',
+    800: '#600',
+    900: '#320000',
+    neon: '#ff9191',
+  },
+  orange: {
+    DEFAULT: '#ff8000',
+    50: '#fff8f2',
+    100: '#ffe0c1',
+    200: '#ffc891',
+    300: '#ffb060',
+    400: '#ff9830',
+    500: '#ff8000',
+    600: '#c60',
+    700: '#994c00',
+    800: '#630',
+    900: '#321900',
+    neon: '#ffc891',
+  },
+  purple: {
+    DEFAULT: '#7f00ff',
+    50: '#f8f2ff',
+    100: '#e0c1ff',
+    200: '#c791ff',
+    300: '#af60ff',
+    400: '#9730ff',
+    500: '#7f00ff',
+    600: '#6500cc',
+    700: '#4c0099',
+    800: '#320066',
+    900: '#190032',
+    neon: '#c791ff',
+  },
+  green: {
+    DEFAULT: '#00ff00',
+    50: '#f2fff2',
+    100: '#c1ffc1',
+    200: '#91ff91',
+    300: '#60ff60',
+    400: '#30ff30',
+    500: '#00ff00',
+    600: '#0c0',
+    700: '#090',
+    800: '#060',
+    900: '#003200',
+    neon: '#91ff91',
+  },
+};
+
+const changeTheme = (color: any) => {
+  let colors = mapColor[color];
+
+  let root: any = document.querySelector(':root');
+  if (root) {
+    // let r = getComputedStyle(root);
+    if (colors) {
+      for (let i in colors) {
+        if (i === 'DEFAULT') {
+          root.style.setProperty('--primary-color', colors[i]);
+        } else {
+          root.style.setProperty(`--primary-color-${i}`, colors[i]);
+        }
+      }
+    }
+  }
+};
 
 export const Header = () => {
   const { mode, toggleMode } = useMode();
@@ -122,7 +213,36 @@ export const Header = () => {
             {user ? (
               <>
                 <div className="flex items-center">
-                  <ButtonIconApplication />
+                  <Dropdown
+                    placement="bottomRight"
+                    content={
+                      <div className="flex flex-wrap w-[200px] gap-2">
+                        <div
+                          onClick={() => changeTheme('blue')}
+                          className="bg-blue-600 w-8 h-8 cursor-pointer"
+                        ></div>
+                        <div
+                          onClick={() => changeTheme('red')}
+                          className="bg-red-600 w-8 h-8 cursor-pointer"
+                        ></div>
+                        <div
+                          onClick={() => changeTheme('orange')}
+                          className="bg-orange-600 w-8 h-8 cursor-pointer"
+                        ></div>
+
+                        <div
+                          onClick={() => changeTheme('purple')}
+                          className="bg-purple-600 w-8 h-8 cursor-pointer"
+                        ></div>
+                        <div
+                          onClick={() => changeTheme('green')}
+                          className="bg-green-500 w-8 h-8 cursor-pointer"
+                        ></div>
+                      </div>
+                    }
+                  >
+                    <ButtonIconApplication />
+                  </Dropdown>
                 </div>
                 <div className="flex items-center">
                   <Dropdown
@@ -194,7 +314,7 @@ export const Header = () => {
                               logout();
                             }}
                           >
-                            <IconLogout />
+                            <ButtonIconLogout />
                             <p>Đăng xuất</p>
                           </a>
                           <GeneralInfo />

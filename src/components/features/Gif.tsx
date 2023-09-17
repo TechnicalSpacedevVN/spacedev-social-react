@@ -9,12 +9,13 @@ import { useDebounce } from '@hooks/useDebounce';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import _ from 'lodash';
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Popover } from '../atoms/Popover';
 
 export interface GifProps {
   children?: any;
   placement?: 'bottom' | 'top';
+  onSelect?: (value: string, control: { close: () => void }) => void;
 }
 
 const getRandomGif = (q: string, offset = 0) =>
@@ -22,10 +23,11 @@ const getRandomGif = (q: string, offset = 0) =>
     `https://api.giphy.com/v1/gifs/search?api_key=6NDG2hBns5T88WJfT7QBjEAIWxePgwy8&q=${q}&limit=20&offset=${offset}&rating=pg-13&lang=en&bundle=messaging_non_clips`,
   );
 
-export const Gif: Atom<GifProps> = ({ children }) => {
+export const Gif: Atom<GifProps> = ({ children, onSelect }) => {
   const [tag, setTag] = useState('memo');
   const [value, setValue, currentValue, setCurrentValue] = useDebounce('', 500);
   const wrapRef = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
   let {
     data = {} as any,
     hasNextPage,
@@ -60,13 +62,21 @@ export const Gif: Atom<GifProps> = ({ children }) => {
       },
     } as unknown as TagProps;
   };
+
+  const close = useCallback(() => setOpen(false), []);
   return (
     <Popover
+      open={open}
+      onCancel={() => setOpen(false)}
+      width={350}
+      height={500}
       content={
-        <div className="w-[350px] flex gap-2 flex-col">
+        <div className="flex gap-2 flex-col overflow-auto">
           <Input
             value={currentValue}
+            onClick={(ev) => ev.stopPropagation()}
             onChange={(ev) => {
+              ev.preventDefault();
               setCurrentValue(ev.currentTarget.value);
               setValue(ev.currentTarget.value);
             }}
@@ -74,7 +84,7 @@ export const Gif: Atom<GifProps> = ({ children }) => {
             placeholder="Tìm kiếm ảnh gif"
           />
           <div className="flex gap-2 whitespace-nowrap overflow-auto pb-2">
-            <Tag>Yêu thích</Tag>
+            <Tag onClick={(ev) => ev.preventDefault()}>Yêu thích</Tag>
             <Tag {...registerTag('memo')}>Meme</Tag>
             <Tag {...registerTag('people')}>Con người</Tag>
             <Tag {...registerTag('animal')}>Động vật</Tag>
@@ -86,11 +96,12 @@ export const Gif: Atom<GifProps> = ({ children }) => {
             loading={isFetching}
             onNext={fetchNextPage}
             haveNext={hasNextPage}
-            className="h-[400px] overflow-auto"
+            className=" overflow-auto flex-1"
           >
             <div className="grid-cols-2 grid gap-2">
               {_data?.map((e: any) => (
                 <ContextMenu
+                  key={e.id}
                   content={
                     <Menu
                       menus={[
@@ -100,8 +111,8 @@ export const Gif: Atom<GifProps> = ({ children }) => {
                   }
                 >
                   <div
-                    key={e.id}
                     className="cursor-pointer border-base border rounded-lg overflow-hidden h-[150px]"
+                    onClick={() => onSelect?.(e.images.original.url, { close })}
                   >
                     <img
                       onDragStart={(ev) =>
@@ -118,7 +129,7 @@ export const Gif: Atom<GifProps> = ({ children }) => {
         </div>
       }
     >
-      {children}
+      <div onClick={() => setOpen(!open)}>{children}</div>
     </Popover>
   );
 };

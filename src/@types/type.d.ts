@@ -28,4 +28,6 @@ interface DropFileType {
 
 interface EventHandlerType {
   CreatePost: Partial<any>;
+  CloseContextMenu: any;
+  OpenModalImage: any;
 }

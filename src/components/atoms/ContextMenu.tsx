@@ -1,3 +1,4 @@
+import { Event } from '@utils/event';
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -17,6 +18,11 @@ export const ContextMenu: Atom<ContextMenuProps> = ({
   const checkCurrent = useRef(false);
   useEffect(() => {
     if (open) {
+      const onCloseContextMenu = () => {
+        setOpen(false);
+      };
+      Event.on('CloseContextMenu', onCloseContextMenu);
+
       const onClose = () => {
         if (!checkCurrent.current) {
           setOpen(false);
@@ -30,6 +36,8 @@ export const ContextMenu: Atom<ContextMenuProps> = ({
         window.removeEventListener('contextmenu', onClose);
         window.removeEventListener('click', onClose);
         window.removeEventListener('scroll', onClose);
+
+        Event.off('CloseContextMenu', onCloseContextMenu);
       };
     }
   }, [open]);
@@ -53,7 +61,7 @@ export const ContextMenu: Atom<ContextMenuProps> = ({
       {open &&
         createPortal(
           <div
-            className="fixed dark:bg-slate-800 p-1 whitespace-nowrap"
+            className="fixed dark:bg-slate-800 p-1 whitespace-nowrap z-50"
             style={{ ...position, width }}
           >
             {props.content}

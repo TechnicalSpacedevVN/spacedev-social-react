@@ -165,11 +165,12 @@ export const Dropdown: FC<DropdownProps> = ({
               onClick={_onClose}
             ></div> */}
             <div
-              onClick={(ev) => {
+              onClick={() => {
                 if (autoClose) {
                   setOpen(false);
                 } else {
-                  ev.stopPropagation();
+                  clickChildrenRef.current = true;
+                  // ev.stopPropagation();
                 }
               }}
               ref={contentRef}

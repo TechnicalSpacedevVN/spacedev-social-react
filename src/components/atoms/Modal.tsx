@@ -1,8 +1,8 @@
-import { FC, useEffect, useRef } from "react";
-import { createPortal } from "react-dom";
-import { cn } from "../../utils";
-import { ButtonIconClose } from "./Icon/IconClose";
-import { useShortcut } from "@hooks/useShortcut";
+import { useShortcut } from '@hooks/useShortcut';
+import { FC, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
+import { cn } from '../../utils';
+import { ButtonIconClose } from './Icon/IconClose';
 
 export interface ModalProps {
   open?: boolean;
@@ -15,6 +15,7 @@ export interface ModalProps {
   hideIconClose?: boolean;
   className?: string;
   keyboard?: boolean;
+  backdropClassName?: string;
 }
 
 export const Modal: FC<ModalProps> = ({
@@ -27,20 +28,20 @@ export const Modal: FC<ModalProps> = ({
   useEffect(() => {
     if (props.open) {
       document.documentElement.style.setProperty(
-        "--body-padding-right",
-        `var(--scrollbar-width)`
+        '--body-padding-right',
+        `var(--scrollbar-width)`,
       );
-      document.body.classList.add("overflow-hidden");
+      document.body.classList.add('overflow-hidden');
       // document.body.style.paddingRight = "7px";
     } else {
-      document.body.classList.remove("overflow-hidden");
+      document.body.classList.remove('overflow-hidden');
       // document.body.style.paddingRight = "0";
-      document.documentElement.style.setProperty("--body-padding-right", "0px");
+      document.documentElement.style.setProperty('--body-padding-right', '0px');
     }
     return () => {
-      document.body.classList.remove("overflow-hidden");
+      document.body.classList.remove('overflow-hidden');
       // document.body.style.paddingRight = "0";
-      document.documentElement.style.setProperty("--body-padding-right", "0px");
+      document.documentElement.style.setProperty('--body-padding-right', '0px');
     };
   }, [props.open]);
 
@@ -54,7 +55,7 @@ export const Modal: FC<ModalProps> = ({
       }
     },
     [keyboard],
-    props.open
+    props.open,
   );
 
   if (!props.open) return null;
@@ -67,14 +68,15 @@ export const Modal: FC<ModalProps> = ({
         }
         checkClickInsideRef.current = false;
       }}
-      className={
-        "px-3 z-20 flex items-center justify-center bg-black !bg-opacity-60 fixed top-0 left-0 w-full h-full"
-      }
+      className={cn(
+        'px-3 z-20 flex items-center justify-center bg-black !bg-opacity-60 fixed top-0 left-0 w-full h-full',
+        props.backdropClassName,
+      )}
     >
       <div
         className={cn(
-          "flex flex-col bg-white rounded-lg text-gray-900 dark:bg-slate-900 dark:text-white overflow-hidden",
-          props.className
+          'flex flex-col bg-white rounded-lg text-gray-900 dark:bg-slate-900 dark:text-white overflow-hidden',
+          props.className,
         )}
         onClick={() => {
           // ev.stopPropagation();
@@ -102,6 +104,6 @@ export const Modal: FC<ModalProps> = ({
         {props.children}
       </div>
     </div>,
-    document.body
+    document.body,
   );
 };

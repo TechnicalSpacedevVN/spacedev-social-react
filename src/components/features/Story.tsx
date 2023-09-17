@@ -5,7 +5,7 @@ import { ButtonIconChevronRight } from '@components/atoms/Icon/IconChevronRight'
 import { IconPlus } from '@components/atoms/Icon/IconPlus';
 import { faker } from '@faker-js/faker';
 import { mockStories } from '@utils/mock';
-import { useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 
 export const Story = () => {
   const [stories] = useState(() => mockStories(10));
@@ -13,6 +13,24 @@ export const Story = () => {
   const wraperRef = useRef<HTMLDivElement>(null);
   const [showLeft, setShowLeft] = useState(false);
   const [showRight, setShowRight] = useState(true);
+  const id = useId();
+  useEffect(() => {
+    let ele = document.getElementById(id);
+    if (ele) {
+      ele.addEventListener(
+        'mousewheel',
+        (ev: any) => {
+          ev.preventDefault();
+          if (ev.deltaY > 0) {
+            ele?.scrollBy({ left: 10 });
+          } else {
+            ele?.scrollBy({ left: -10 });
+          }
+        },
+        { passive: false },
+      );
+    }
+  }, []);
   // useEffect(() => {
   //   wraperRef.current?.addEventListener('scroll', (ev) => {
   //     ev.target.
@@ -37,6 +55,13 @@ export const Story = () => {
             setShowLeft(true);
           }
         }}
+        id={id}
+        // onWheel={(ev) => {
+        //   ev.preventDefault();
+        //   if (ev.deltaY > 0) {
+        //   } else {
+        //   }
+        // }}
       >
         <div className="">
           <div className="flex flex-col items-center relative cursor-pointer snap-always snap-start gap-1 overflow-hidden w-[150px] h-[250px]">
@@ -59,7 +84,7 @@ export const Story = () => {
         {stories.map((story) => (
           <div key={story.id} className="">
             <div className=" flex flex-col items-center relative cursor-pointer snap-always snap-start gap-1 overflow-hidden w-[150px] h-[250px]">
-              <div className="active:scale-95 border-[2px] border-[#00ffe7] relative overflow-hidden w-full h-full rounded-xl  border-solid">
+              <div className="active:scale-95 border-[2px] border-primary-neon relative overflow-hidden w-full h-full rounded-xl  border-solid">
                 <div className="absolute top-2 left-2 overflow-hidden rounded-full">
                   <Avatar
                     src={story.user.avatar}

@@ -1,4 +1,4 @@
-import { Observable as ObservableR } from "rxjs";
+import { Observable as ObservableR } from 'rxjs';
 
 export interface EmitOpts {
   inverse?: boolean;
@@ -13,8 +13,9 @@ export class Observable<T> {
   private handlers: Handler[] = [];
   private always: Handler[] = [];
   private lasts: Handler[] = [];
-  constructor(ob?: ObservableR<T>, opts?: EmitOpts) {
-    ob?.subscribe((...args) => {
+  private isStopPropgation = false;
+  constructor(private readonly ob?: ObservableR<T>, opts?: EmitOpts) {
+    this.ob?.subscribe((...args) => {
       this.emit(args, opts);
     });
   }
@@ -44,20 +45,30 @@ export class Observable<T> {
   }
 
   emit(args: any[], opts?: EmitOpts): void {
-    let handlers = [
-      ...(opts?.inverse ? this.handlers.reverse() : this.handlers),
-      ...this.lasts,
-    ];
+    try {
+      if (this.isStopPropgation) return;
 
-    for (let i = 0; i < handlers.length; i++) {
-      let check = handlers[i](...args);
-      if (check === false) {
-        break;
+      let handlers = [
+        ...(opts?.inverse ? this.handlers.reverse() : this.handlers),
+        ...this.lasts,
+      ];
+
+      for (let i = 0; i < handlers.length; i++) {
+        let check = handlers[i](...args);
+        if (check === false) {
+          break;
+        }
       }
-    }
 
-    for (let i = 0; i < this.always.length; i++) {
-      this.always[i](...args);
+      for (let i = 0; i < this.always.length; i++) {
+        this.always[i](...args);
+      }
+    } finally {
+      this.isStopPropgation = false;
     }
+  }
+
+  stopPropagation() {
+    this.isStopPropgation = true;
   }
 }

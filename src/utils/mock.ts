@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 import _, { uniqueId } from 'lodash';
 import { convertFileToImage } from './file';
 
-const mock =
+export const mock =
   <T>(callback: () => T) =>
   (count = 10) =>
     Array.from(new Array(Math.round(count))).map(callback);
@@ -13,6 +13,12 @@ export const fakeApi = <T>(callback: () => T) =>
       res(callback());
     }, Math.random() * 1500);
   });
+
+export const mockMedia = () => ({
+  id: uniqueId(),
+  thumbnail: faker.image.url({ height: 200, width: 200 }),
+  original: faker.image.url(),
+});
 
 export const mockUser = () => ({
   id: uniqueId(),
@@ -76,7 +82,7 @@ export const mockPost = () => ({
   commentCount: faker.number.int({ min: 0, max: 100 }),
   shareCount: faker.number.int({ min: 0, max: 100 }),
   image: faker.image.url(),
-  images: [faker.image.url()],
+  images: mock(mockMedia)(Math.random() * 10 + 1),
   like: Math.random() > 0.5,
   comments: mockComments(Math.random() * 10),
 });
@@ -113,3 +119,4 @@ export interface IPost extends ReturnType<typeof mockPost> {}
 export interface IComment extends ReturnType<typeof mockComment> {}
 export interface IUser extends ReturnType<typeof mockUser> {}
 export interface INotification extends ReturnType<typeof mockNotification> {}
+export interface IMessage extends ReturnType<typeof mockMessage> {}

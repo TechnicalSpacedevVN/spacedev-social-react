@@ -1,6 +1,18 @@
-import { cn } from '@utils';
+import { Emoji } from '@components/features/Emoji';
+import {
+  cn,
+  cursorPosition,
+  getCurrentCaretRange,
+  restoreCaretRange,
+} from '@utils';
 import { getFileFromPaste } from '@utils/file';
-import { forwardRef, useRef, useState } from 'react';
+import {
+  forwardRef,
+  useId,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
 import { ButtoniconEmotion } from './Icon/IconEmotion';
 import { ButtoniconGIF } from './Icon/IconGIF';
 import { ButtonIconUploadImage } from './Icon/IconUploadImage';
@@ -15,13 +27,38 @@ export interface MessageInput extends DefaultProps {
   onPasteFile?: (file: File[]) => void;
   onUploadImage?: (file: File[]) => void;
   includes?: ('gif' | 'emoji')[];
+  onBur?: React.FocusEventHandler<HTMLDivElement>;
 }
-export const MessageInput = forwardRef<HTMLParagraphElement, MessageInput>(
+
+export interface MessageInputRef {
+  ele: HTMLParagraphElement;
+  // getRange: () => [Node, number];
+  restoreLastRange: () => void;
+}
+export const MessageInput = forwardRef<MessageInputRef, MessageInput>(
   (
     { allowShiftEnter = true, clearWhenEnter = true, includes, ...props },
     inputRef,
   ) => {
     const uploadFileRef = useRef<UploadfileRef>(null);
+    useImperativeHandle(
+      inputRef,
+      () => {
+        let ele = document.getElementById(id);
+        return {
+          ele: ele,
+          restoreLastRange: () => {
+            if (lastRangeRef.current) {
+              restoreCaretRange(ele as HTMLElement, lastRangeRef.current);
+            }
+          },
+        } as unknown as MessageInputRef;
+      },
+      [],
+    );
+    const lastRangeRef = useRef<ReturnType<typeof getCurrentCaretRange>>();
+    const id = useId();
+    // const [lastCaretIndex, setLastCaretIndex] = useState(0);
     let [value, setValue] = useState('');
     return (
       <div
@@ -38,10 +75,14 @@ export const MessageInput = forwardRef<HTMLParagraphElement, MessageInput>(
                 !value,
             },
           )}
+          id={id}
           spellCheck={false}
-          ref={inputRef}
           onPaste={(pasteEvent) => {
             props.onPasteFile?.(getFileFromPaste(pasteEvent));
+          }}
+          onFocus={() => {}}
+          onBlur={() => {
+            lastRangeRef.current = getCurrentCaretRange();
           }}
           onInput={(ev) => {
             if (!ev.currentTarget.innerText.trim()) {
@@ -92,7 +133,41 @@ export const MessageInput = forwardRef<HTMLParagraphElement, MessageInput>(
           </UploadFile>
         )}
         {includes?.includes('gif') && <ButtoniconGIF transparent />}
-        {includes?.includes('emoji') && <ButtoniconEmotion transparent />}
+        {includes?.includes('emoji') && (
+          <Emoji
+            onSelect={(val) => {
+              let input = document.getElementById(id);
+              if (input) {
+                let curPos = cursorPosition() as number;
+                let range = getCurrentCaretRange();
+
+                input.innerText =
+                  input.innerHTML.slice(0, curPos) +
+                  `<img class="h-5 w-5 inline align-middle mx-0.5" src=${val}/>` +
+                  input.innerHTML.slice(curPos);
+                if (range) {
+                  console.log(range);
+                  restoreCaretRange(
+                    document.getElementById(id) as HTMLElement,
+                    range as any,
+                  );
+                }
+              }
+              // console.log((inputRef.current as any).selectionStart);
+              // if (inputRef.current) {
+              //   if (inputRef.current) {
+              //     let curPos = cursorPosition();
+              //     inputRef.current.innerHTML =
+              //       inputRef.current.innerHTML.slice(0, curPos) +
+              //       `<img class="h-5 w-5 inline align-middle mx-0.5" src=${val}/>` +
+              //       inputRef.current.innerHTML.slice(curPos);
+              //   }
+              // }
+            }}
+          >
+            <ButtoniconEmotion transparent />
+          </Emoji>
+        )}
       </div>
     );
   },

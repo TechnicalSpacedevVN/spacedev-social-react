@@ -7,7 +7,7 @@ export class Event {
   private static events: HandlerList = {};
   public static on(
     eventName: keyof EventHandlerType,
-    handler: Handler<EventHandlerType[typeof eventName]>
+    handler: Handler<EventHandlerType[typeof eventName]>,
   ) {
     if (!Array.isArray(this.events[eventName])) {
       this.events[eventName] = [];
@@ -17,15 +17,15 @@ export class Event {
 
   public static off(
     eventName: keyof EventHandlerType,
-    handler: Handler<EventHandlerType[typeof eventName]>
+    handler: Handler<EventHandlerType[typeof eventName]>,
   ) {
     this.events[eventName] = this.events[eventName]?.filter(
-      (e) => e !== handler
+      (e) => e !== handler,
     );
   }
   public static emit(
     eventName: keyof EventHandlerType,
-    data: EventHandlerType[typeof eventName]
+    data: EventHandlerType[typeof eventName],
   ) {
     this.events[eventName]?.forEach((e) => e(data));
   }

@@ -1,11 +1,14 @@
-import { ButtonIconThreeDotAction } from "@components/atoms/Icon/IconThreeDotAction";
-import { Dropdown } from "@components/atoms/Dropdown";
-import { Menu } from "@components/atoms/Menu";
-import { Modal, ModalProps } from "@components/atoms/Modal";
-import { Tab } from "@components/atoms/Tab";
-import { UserItem } from "@components/atoms/UserItem";
-import { useState } from "react";
-import { mockUsers } from "@utils/mock";
+import { Dropdown } from '@components/atoms/Dropdown';
+import { IconLogout } from '@components/atoms/Icon/IconLogout';
+import { IconMessage } from '@components/atoms/Icon/IconMessage';
+import { ButtonIconThreeDotAction } from '@components/atoms/Icon/IconThreeDotAction';
+import { IconUser } from '@components/atoms/Icon/IconUser';
+import { Menu } from '@components/atoms/Menu';
+import { Modal, ModalProps } from '@components/atoms/Modal';
+import { Tab } from '@components/atoms/Tab';
+import { UserItem } from '@components/atoms/UserItem';
+import { mockUsers } from '@utils/mock';
+import { useState } from 'react';
 
 export type ModalGroupChatProps = ModalProps;
 
@@ -24,7 +27,7 @@ export const ModalGroupChat: Atom<ModalGroupChatProps> = ({ ...props }) => {
         itemClass="pb-3 flex-1"
         items={[
           {
-            label: "Thành viên",
+            label: 'Thành viên',
             children: (
               <div className="flex flex-col gap-4 px-4 py-5 max-h-[400px] overflow-auto">
                 {users.map((u) => (
@@ -39,13 +42,16 @@ export const ModalGroupChat: Atom<ModalGroupChatProps> = ({ ...props }) => {
                             <Menu
                               menus={[
                                 {
-                                  label: "Xem trang cá nhân",
+                                  label: 'Xem trang cá nhân',
+                                  icon: <IconUser />,
                                 },
                                 {
-                                  label: "Nhắn tin",
+                                  label: 'Nhắn tin',
+                                  icon: <IconMessage />,
                                 },
                                 {
-                                  label: "Mời khỏi nhóm",
+                                  label: 'Mời khỏi nhóm',
+                                  icon: <IconLogout />,
                                 },
                               ]}
                             />
@@ -60,7 +66,7 @@ export const ModalGroupChat: Atom<ModalGroupChatProps> = ({ ...props }) => {
               </div>
             ),
           },
-          { label: "Ban quản trị" },
+          { label: 'Ban quản trị' },
         ]}
       />
     </Modal>

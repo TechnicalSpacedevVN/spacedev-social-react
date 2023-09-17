@@ -1,5 +1,7 @@
 import { DropFile } from '@components/atoms/DropFile';
 import { FloatNotification } from '@components/features/FloatNotification';
+import { ModalCreatePost } from '@components/features/ModalCreatePost';
+import { ModalImage } from '@components/features/ModalImage';
 import { EventName } from '@constants/eventName';
 import '@utils/createTitleBadge';
 import { createTitleBadge } from '@utils/createTitleBadge';
@@ -78,11 +80,17 @@ export const MainLayout = () => {
         },
       }}
     >
-      <main className="bg-gray-200 text-gray-800 dark:bg-slate-950 dark:text-slate-300">
+      <main
+        id="main-content"
+        className="bg-gray-200 text-gray-800 dark:bg-slate-950 dark:text-slate-300"
+      >
         <Header />
         <Outlet />
         {user && <FloatingChat />}
         <FloatNotification />
+
+        <ModalCreatePost width={608} />
+        <ModalImage />
       </main>
     </DropFile>
   );

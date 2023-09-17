@@ -2,20 +2,29 @@ import { cn } from '@utils';
 import { Icon } from './Icon';
 import { ButtonIconProps, IconProps } from './type';
 
-export const ButtonIconPlus: Atom<ButtonIconProps> = ({ size, ...props }) => {
+export const ButtonIconSquareRoundCheck: Atom<ButtonIconProps> = ({
+  size,
+  ...props
+}) => {
   return (
     <Icon {...props}>
-      <IconPlus size={size} />
+      <IconSquareRoundCheck size={size} />
     </Icon>
   );
 };
 
-export const IconPlus: Atom<IconProps> = ({ size = 17, ...props }) => {
+export const IconSquareRoundCheck: Atom<IconProps> = ({
+  size = 17,
+  ...props
+}) => {
   return (
     <svg
       {...props}
       xmlns="http://www.w3.org/2000/svg"
-      className={cn('icon icon-tabler icon-tabler-plus', props.className)}
+      className={cn(
+        'icon icon-tabler icon-tabler-square-rounded-check',
+        props.className,
+      )}
       width={size}
       height={size}
       viewBox="0 0 24 24"
@@ -26,8 +35,8 @@ export const IconPlus: Atom<IconProps> = ({ size = 17, ...props }) => {
       strokeLinejoin="round"
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M12 5l0 14" />
-      <path d="M5 12l14 0" />
+      <path d="M9 12l2 2l4 -4" />
+      <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z" />
     </svg>
   );
 };

@@ -5,6 +5,20 @@
 :root {
   --scrollbar-width: 7px;
   --body-padding-right: 0px;
+
+  --primary-color: #2374e1;
+  --primary-color-50: #f4f8fd;
+  --primary-color-100: #caddf7;
+  --primary-color-200: #a0c3f2;
+  --primary-color-300: #76a8ec;
+  --primary-color-400: #4c8ee6;
+  --primary-color-500: #2374e1;
+  --primary-color-600: #1c5cb4;
+  --primary-color-700: #154587;
+  --primary-color-800: #0e2e5a;
+  --primary-color-900: #06172c;
+  --primary-color-950: #06172c;
+  --primary-color-neon: #00ffe7;
 }
 
 * {
@@ -60,5 +74,18 @@ input:-webkit-autofill:active {
 @layer utilities {
   ::selection {
     @apply bg-primary-500 text-white;
+  }
+
+  .snap {
+    scroll-snap-type: var(--scroll-snap-direction) var(--scroll-snap-constraint);
+  }
+  .snap-y {
+    --scroll-snap-direction: y;
+  }
+  .snap-mandatory {
+    --scroll-snap-constraint: mandatory;
+  }
+  .snap-start {
+    scroll-snap-align: start;
   }
 }

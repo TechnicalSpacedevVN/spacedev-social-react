@@ -1,14 +1,14 @@
-import { fakeApi, mockUsers } from "@utils/mock";
-import { useState } from "react";
-import { Avatar } from "@components/atoms/Avatar";
-import { Badge } from "@components/atoms/Badge";
-import { Card } from "@components/atoms/Card";
-import { Dropdown } from "@components/atoms/Dropdown";
-import { IconSearch } from "@components/atoms/Icon/IconSearch";
-import { ButtonIconThreeDotAction } from "@components/atoms/Icon/IconThreeDotAction";
-import { InfinityLoading } from "@components/atoms/InfinityLoading";
-import { Menu } from "@components/atoms/Menu";
-import { Tab } from "@components/atoms/Tab";
+import { Avatar } from '@components/atoms/Avatar';
+import { Badge } from '@components/atoms/Badge';
+import { Card } from '@components/atoms/Card';
+import { Dropdown } from '@components/atoms/Dropdown';
+import { IconSearch } from '@components/atoms/Icon/IconSearch';
+import { ButtonIconThreeDotAction } from '@components/atoms/Icon/IconThreeDotAction';
+import { InfinityLoading } from '@components/atoms/InfinityLoading';
+import { Menu } from '@components/atoms/Menu';
+import { Tab } from '@components/atoms/Tab';
+import { fakeApi, mockUsers } from '@utils/mock';
+import { useState } from 'react';
 
 export const Message = () => {
   const [users, setUsers] = useState(() => mockUsers(20));
@@ -22,13 +22,13 @@ export const Message = () => {
           content={
             <Menu
               menus={[
-                { label: "Âm thanh khi có người gọi" },
-                { label: "Âm thanh khi có tin nhắn tới" },
-                { label: "Tự động mở khi có tin nhắn mới" },
+                { label: 'Âm thanh khi có người gọi' },
+                { label: 'Âm thanh khi có tin nhắn tới' },
+                { label: 'Tự động mở khi có tin nhắn mới' },
                 { line: true },
-                { label: "Trạng thái hoạt động" },
-                { label: "Tin nhắn chờ" },
-                { label: "Tin nhắn chờ" },
+                { label: 'Trạng thái hoạt động' },
+                { label: 'Tin nhắn chờ' },
+                { label: 'Tin nhắn chờ' },
               ]}
             />
           }
@@ -53,7 +53,7 @@ export const Message = () => {
             itemClass="whitespace-nowrap"
             items={[
               {
-                label: "Cá nhân",
+                label: 'Cá nhân',
                 children: (
                   <InfinityLoading
                     loading={loading}
@@ -96,16 +96,16 @@ export const Message = () => {
                   </InfinityLoading>
                 ),
               },
-              { label: "Nhóm", children: "Nhóm" },
+              { label: 'Nhóm', children: 'Nhóm' },
               {
                 label: (
                   <div className="ml-auto">
-                    <span className="dark:text-purple-400 text-purple-800 text-xs font-semibold">
+                    <span className="dark:text-primary-400 text-primary-800 text-xs font-semibold">
                       Yêu cầu (2)
                     </span>
                   </div>
                 ),
-                children: "Request",
+                children: 'Request',
               },
             ]}
           />

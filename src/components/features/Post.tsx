@@ -15,11 +15,13 @@ import { IconPen } from '@components/atoms/Icon/IconPen';
 import { IconShare } from '@components/atoms/Icon/IconShare';
 import { ButtonIconThreeDotAction } from '@components/atoms/Icon/IconThreeDotAction';
 import { IconTrash } from '@components/atoms/Icon/IconTrash';
+import { ImageGrid } from '@components/atoms/ImageGrid';
 import { InfinityLoading } from '@components/atoms/InfinityLoading';
 import { Menu } from '@components/atoms/Menu';
 import { MessageInput } from '@components/atoms/MessageInput';
 import { Modal, ModalProps } from '@components/atoms/Modal';
 import { Skeleton } from '@components/atoms/Skeleton';
+import { Slider } from '@components/atoms/Slider';
 import { Tag } from '@components/atoms/Tag';
 import { PATH } from '@constants/path';
 import { handleSelectEnd, scollToElement } from '@utils';
@@ -39,9 +41,14 @@ const PostMenu = () => {
             { label: 'Đưa bài viết vào thùng rác', icon: <IconTrash /> },
             { label: 'Chỉnh sửa', icon: <IconPen /> },
             { label: 'Lưu trữ', icon: <IconArchive /> },
-            { label: 'Báo cáo bài viết', icon: <IconExclamation /> },
-            { label: 'Ẩn bài viết', icon: <IconEyeClose /> },
             { label: 'Tắt thông báo về bài viết này', icon: <IconBellOff /> },
+            { line: true },
+            {
+              label: 'Báo cáo bài viết',
+              icon: <IconExclamation />,
+              sub: 'Bài viết sẽ được ẩn trên tường cá nhân của bạn',
+            },
+            { label: 'Ẩn bài viết', icon: <IconEyeClose /> },
           ]}
         />
       }
@@ -143,11 +150,12 @@ export const Post = () => {
               setDropFileData(ev, 'img', post.image);
             }}
           >
-            <img
+            <ImageGrid images={post.images.map((e) => e.original)} />
+            {/* <img
               draggable
               className="w-full h-full object-cover"
               src={post.image}
-            />
+            /> */}
           </a>
         </div>
         <div className="flex items-center justify-between p-3">
@@ -217,18 +225,32 @@ const ModalDetail: FC<ModelDetailProps> = ({ post, ...props }) => {
   return (
     <Modal
       {...props}
+      backdropClassName="!bg-opacity-90"
       className="w-full h-full  m-3"
       hideIconClose
       overlayCloseable={false}
       height={700}
-      width={1000}
+      width={1200}
       keyboard={false}
     >
       <div className="flex h-full">
-        <div className="flex-1 w-1 bg-black items-center flex">
-          <img className="object-contain" src={post.image} />
+        <div className="flex-[3] w-1 bg-black items-center flex py-2">
+          <Slider className="snap-y snap-always snap-mandatory">
+            {post.images.map((e) => (
+              <div
+                key={e.id}
+                className="w-full h-[700px] snap-start snap-center"
+              >
+                <img
+                  className="w-full h-[700px] object-contain"
+                  src={e.original}
+                />
+              </div>
+            ))}
+          </Slider>
+          {/* <img className="object-contain" src={post.image} /> */}
         </div>
-        <div className="flex-1 w-1 flex flex-col">
+        <div className="flex-[2] w-1 flex flex-col">
           <div className="flex gap-2 p-3 border-b border-solid border-gray-300 dark:border-slate-700">
             <Avatar size={40} src={post.user.avatar} />
             <div className="flex flex-col flex-1">
@@ -394,7 +416,7 @@ const UserComment: Atom<UserCommentProps> = ({
               onChange={(val) => {
                 console.log(val);
               }}
-              ref={inputRef}
+              // ref={inputRef}
               placeholder="Thêm bình luận...."
               onEnter={() => {
                 console.log('send reply');
@@ -406,7 +428,7 @@ const UserComment: Atom<UserCommentProps> = ({
         )}
       </div>
       {loadMore && (
-        <div className="pr-3 pl-14 border-l mb-3">
+        <div className="pr-3 pl-14 mb-3">
           <div className="text-gray-400 flex items-baseline gap-2 cursor-pointer text-xs font-bold mt-1 before:content-normal before:block before:w-8 before:h-[1px] before:bg-gray-400">
             Bình luận ({comment.replyCount})
           </div>

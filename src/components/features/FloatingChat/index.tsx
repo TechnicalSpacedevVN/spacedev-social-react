@@ -1,30 +1,47 @@
 import { Badge } from '@components/atoms/Badge';
 import { DropFile } from '@components/atoms/DropFile';
 import { Dropdown } from '@components/atoms/Dropdown';
+import { IconApplication } from '@components/atoms/Icon/IconApplication';
 import { IconCircleCheck } from '@components/atoms/Icon/IconCircleCheck';
 import { IconImage } from '@components/atoms/Icon/IconImage';
+import { IconLock } from '@components/atoms/Icon/IconLock';
+import { IconLogout } from '@components/atoms/Icon/IconLogout';
+import { IconMessage } from '@components/atoms/Icon/IconMessage';
 import { ButtonIconNarrowDown } from '@components/atoms/Icon/IconNarrowDown';
+import { IconPoll } from '@components/atoms/Icon/IconPoll';
+import { IconSetting } from '@components/atoms/Icon/IconSetting';
+import { IconSignature } from '@components/atoms/Icon/IconSignature';
+import { IconSquareRoundCheck } from '@components/atoms/Icon/IconSquareRoundCheck';
+import { IconUser } from '@components/atoms/Icon/IconUser';
+import { IconUserGroup } from '@components/atoms/Icon/IconUserGroup';
+import { IconUserPlus } from '@components/atoms/Icon/IconUserPlus';
 import { InfinityLoading } from '@components/atoms/InfinityLoading';
 import { Menu } from '@components/atoms/Menu';
-import { MessageInput } from '@components/atoms/MessageInput';
+import { MessageInput, MessageInputRef } from '@components/atoms/MessageInput';
 import { UploadFile, UploadfileRef } from '@components/atoms/UploadFile';
-import { Emoji } from '@components/features/Emoji';
-import { handleSelectEnd } from '@utils/element';
+import { handleSelectEnd, scrollBottom } from '@utils/element';
+import { Event } from '@utils/event';
 import { convertImageUrlToFile } from '@utils/file';
-import { fakeApi, mockMessages, mockUploadImage } from '@utils/mock';
-import { FC, useCallback, useEffect, useRef, useState } from 'react';
+import {
+  IMessage,
+  fakeApi,
+  mockMessages,
+  mockUploadImage,
+  mockUser,
+} from '@utils/mock';
+import { uniqueId } from 'lodash';
+import { FC, useCallback, useEffect, useId, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '../../../utils';
 import { Avatar } from '../../atoms/Avatar';
 import { Button } from '../../atoms/Button';
 import { Icon } from '../../atoms/Icon/Icon';
 import { ButtonIconClose, IconClose } from '../../atoms/Icon/IconClose';
-import { ButtoniconEmotion } from '../../atoms/Icon/IconEmotion';
 import { ButtoniconGIF } from '../../atoms/Icon/IconGIF';
 import { IconMaximize } from '../../atoms/Icon/IconMaximize';
 import { IconMinimize } from '../../atoms/Icon/IconMinimize';
 import { IconMinus } from '../../atoms/Icon/IconMinus';
-import { IconPlus } from '../../atoms/Icon/IconPlus';
+import { ButtonIconPlus, IconPlus } from '../../atoms/Icon/IconPlus';
 import { ButtonIconThreeDotAction } from '../../atoms/Icon/IconThreeDotAction';
 import { ButtonIconUploadImage } from '../../atoms/Icon/IconUploadImage';
 import { Gif } from '../Gif';
@@ -33,7 +50,10 @@ import { ModalGroupChat } from './ModalGroupChat';
 
 export const FloatingChat = () => {
   return createPortal(
-    <div className="fixed bottom-0 right-3 flex gap-3 items-end pr-[var(--body-padding-right)]">
+    <div
+      id="floating-chat"
+      className="fixed bottom-0 right-3 flex gap-3 items-end pr-[var(--body-padding-right)]"
+    >
       <ChatScreen />
       {/* <ChatScreen /> */}
     </div>,
@@ -49,7 +69,7 @@ export const ChatScreen: FC = () => {
   const uploadFileRef = useRef<UploadfileRef>(null);
   const chatScreenRef = useRef<HTMLDivElement>(null);
   const [value, setValue] = useState('');
-  const inputRef = useRef<HTMLParagraphElement>(null);
+  const inputRef = useRef<MessageInputRef>(null);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isHide, setIsHide] = useState(false);
   const [openMember, setOpenMember] = useState(false);
@@ -58,6 +78,9 @@ export const ChatScreen: FC = () => {
   const [images, setImages] = useState<{ path: string; id: string }[]>([]);
   const [openBackToBottom, setOpenBackToBottom] = useState(false);
   const imageWraperRef = useRef<HTMLDivElement>(null);
+  const checkMiniRef = useRef(false);
+  const messageWraperId = useId();
+  // const lastRangeRef = useRef<ReturnType<typeof getCurrentCaretRange>>();
 
   useEffect(() => {
     chatScreenRef.current?.scrollTo({
@@ -95,14 +118,38 @@ export const ChatScreen: FC = () => {
             [isHideClass]: isHide,
           },
         )}
-        onClick={() => {
-          if (!window?.getSelection()?.toString()) {
-            inputRef.current?.focus();
+        onClick={(ev) => {
+          if (inputRef.current && ev.target !== inputRef.current.ele) {
+            inputRef.current.restoreLastRange();
           }
+          // console.log(document.getSelection()?.getRangeAt(0).toString());
+          // // if (!window?.getSelection()?.toString()) {
+          // // console.log(cursorPosition());
+          // if (inputRef.current) {
+          //   inputRef.current?.focus();
+          //   if (lastRangeRef.current) {
+          //     document.getSelection()?.addRange(lastRangeRef.current);
+          //   } else {
+          //     handleSelectEnd(inputRef.current);
+          //   }
+          //   // selectionRef.current?.modify(
+          //   //   'extend',
+          //   //   'backward',
+          //   //   'paragraphboundary',
+          //   // );
+          //   // handleSelectEnd(inputRef.current);
+          // }
+          // // }
         }}
       >
         <div
-          onClick={() => setIsHide(false)}
+          onClick={() => {
+            if (!checkMiniRef.current) {
+              setIsHide(false);
+            }
+
+            checkMiniRef.current = false;
+          }}
           className="[&_.actions]:hover:opacity-100 flex gap-3 items-center p-2 border-b border-solid border-gray-300 dark:border-slate-700"
         >
           <Badge count={10}>
@@ -117,31 +164,40 @@ export const ChatScreen: FC = () => {
                   menus={[
                     {
                       label: 'Mở trong màn hình lớn',
+                      icon: <IconMessage />,
                     },
                     {
                       label: 'Xem trang cá nhân',
+                      icon: <IconUser />,
                     },
                     {
                       label: 'Thay đổi chủ đề',
+                      icon: <IconApplication />,
                     },
                     {
                       line: true,
                     },
                     {
                       label: 'Nickname',
+                      icon: <IconSignature />,
                     },
                     {
                       label: 'Mã hóa tin nhắn',
+                      icon: <IconLock />,
                     },
                     {
                       label: 'Thành viên nhóm',
                       onClick: () => setOpenMember(true),
+                      icon: <IconUserGroup />,
                     },
+                    { label: 'Tạo nhóm', icon: <IconUserPlus /> },
                     {
                       label: 'Rời khỏi nhóm',
+                      icon: <IconLogout />,
                     },
                     {
                       label: 'Cài đặt',
+                      icon: <IconSetting />,
                     },
                   ]}
                 />
@@ -154,8 +210,9 @@ export const ChatScreen: FC = () => {
             </Icon>
             <Icon
               transparent
-              onClick={(ev) => {
-                ev.stopPropagation();
+              onClick={() => {
+                checkMiniRef.current = true;
+                // ev.stopPropagation();
                 setIsFullScreen(false);
                 setIsHide(!isHide);
               }}
@@ -196,25 +253,27 @@ export const ChatScreen: FC = () => {
             text: (text) => {
               console.log(inputRef.current, text);
               if (inputRef.current) {
-                inputRef.current.innerHTML = text;
+                inputRef.current.ele.innerHTML = text;
               }
             },
             url: (url) => {
               console.log(inputRef.current, url);
               if (inputRef.current) {
-                inputRef.current.innerHTML = url;
+                inputRef.current.ele.innerHTML = url;
               }
             },
           }}
         >
           <InfinityLoading
             ref={chatScreenRef}
+            id={messageWraperId}
             offset={200}
             haveNext
             placement="top"
             loading={loading}
             className="flex flex-col py-2 gap-2 flex-1 main overflow-auto"
             onScroll={(ev) => {
+              Event.emit('CloseContextMenu', {});
               let ele = ev.currentTarget;
 
               if (ele.scrollTop + ele.offsetHeight < ele.scrollHeight - 40) {
@@ -308,6 +367,18 @@ export const ChatScreen: FC = () => {
             <MessageInput
               onChange={(val) => setValue(val)}
               ref={inputRef}
+              includes={['emoji']}
+              // onBur={() => {
+              //   lastRangeRef.current = getCurrentCaretRange();
+              //   // if (range) {
+              //   //   console.log(range.toString());
+              //   //   document.getSelection()?.addRange(range);
+              //   // }
+              //   // ev.currentTarget.save
+              //   // console.log(cursorPosition());
+              //   // ev.currentTarget.blur();
+              //   // selectionRef.current = document.getSelection();
+              // }}
               onEnter={() => {
                 setValue('');
               }}
@@ -319,6 +390,23 @@ export const ChatScreen: FC = () => {
           </div>
           <div className="flex items-center border-t dark:border-slate-700 border-gray-300 py-1 px-2">
             <div className="flex items-center">
+              <Dropdown
+                content={
+                  <Menu
+                    menus={[
+                      { label: 'Tạo poll', icon: <IconPoll /> },
+
+                      {
+                        label: 'Tạo checklist',
+                        icon: <IconSquareRoundCheck />,
+                      },
+                    ]}
+                  />
+                }
+                placement="topRight"
+              >
+                <ButtonIconPlus transparent />
+              </Dropdown>
               <UploadFile
                 className="rounded-full"
                 ref={uploadFileRef}
@@ -327,26 +415,73 @@ export const ChatScreen: FC = () => {
               >
                 <ButtonIconUploadImage transparent />
               </UploadFile>
-              <Gif>
+              <Gif
+                onSelect={(val, { close }) => {
+                  setMessages([
+                    ...messages,
+                    {
+                      img: [{ id: uniqueId(), thumbnail: val }],
+                      myMessage: true,
+                      sender: mockUser(),
+                      id: uniqueId(),
+                    } as IMessage,
+                  ]);
+                  close();
+                  setTimeout(() => {
+                    scrollBottom(document.getElementById(messageWraperId));
+                  }, 300);
+                }}
+              >
                 <ButtoniconGIF transparent />
               </Gif>
-              <Emoji>
+              {/* <Emoji
+                onSelect={() => {
+                  console.log((inputRef.current as any).selectionStart);
+                  // if (inputRef.current) {
+                  //   if (inputRef.current) {
+                  //     let curPos = cursorPosition();
+                  //     inputRef.current.innerHTML =
+                  //       inputRef.current.innerHTML.slice(0, curPos) +
+                  //       `<img class="h-5 w-5 inline align-middle mx-0.5" src=${val}/>` +
+                  //       inputRef.current.innerHTML.slice(curPos);
+                  //   }
+                  // }
+                }}
+              >
                 <ButtoniconEmotion transparent />
-              </Emoji>
+              </Emoji> */}
             </div>
             <div className="ml-auto flex items-center">
               <Button
-                type={value ? 'primary' : 'default'}
-                disabled={!value}
+                type={value || images.length > 0 ? 'primary' : 'default'}
+                disabled={!value && images.length === 0}
                 className="rounded-full px-5"
                 size="small"
                 onClick={() => {
                   console.log('send message');
-                  handleSelectEnd(inputRef.current as Node);
+                  handleSelectEnd(inputRef.current?.ele as Node);
                   setValue('');
                   if (inputRef.current) {
-                    inputRef.current.innerHTML = '';
+                    inputRef.current.ele.innerHTML = '';
                   }
+                  setImages([]);
+                  setMessages([
+                    ...messages,
+                    {
+                      content: value,
+                      id: uniqueId(),
+                      img: images.map((e) => ({
+                        id: uniqueId(),
+                        thumbnail: e.path,
+                      })),
+                      myMessage: true,
+                      sender: mockUser(),
+                    } as IMessage,
+                  ]);
+
+                  setTimeout(() => {
+                    scrollBottom(document.getElementById(messageWraperId));
+                  }, 300);
                 }}
               >
                 Gửi

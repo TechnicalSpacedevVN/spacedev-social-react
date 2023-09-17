@@ -1,3 +1,5 @@
 export const EventName: { [k in keyof EventHandlerType]: k } = {
-  CreatePost: "CreatePost",
+  CreatePost: 'CreatePost',
+  CloseContextMenu: 'CloseContextMenu',
+  OpenModalImage: 'OpenModalImage',
 };

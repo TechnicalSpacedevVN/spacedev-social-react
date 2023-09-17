@@ -219,7 +219,7 @@ export const Profile = () => {
                   className={cn(
                     ' after:left-1/2 after:-translate-x-1/2 text-center dark:border-b-slate-700 border-gray-200 border-transparent border font-bold  mt-4 mb-4 w-full bg-transparent px-3 py-4 resize-none overflow-hidden cursor-text min-h-[54px]',
                     {
-                      'focus:caret-primary-500 focus:!border-primary-500 dark:!border-slate-700 border-gray-200 rounded !bg-white !bg-opacity-5 ':
+                      'focus:!caret-primary-500 focus:!border-primary-500 dark:border-slate-700 border-gray-200 rounded bg-white dark:bg-black !bg-opacity-5 ':
                         isEditBio,
                     },
                   )}

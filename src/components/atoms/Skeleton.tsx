@@ -14,7 +14,7 @@ export const Skeleton: Atom<SkeletonProp> = React.memo(
     if (image) {
       return (
         <svg
-          className="text-gray-200 dark:text-gray-600"
+          className="text-gray-200 dark:text-primary-600"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"
@@ -30,7 +30,7 @@ export const Skeleton: Atom<SkeletonProp> = React.memo(
         <svg
           style={{ width: width || height, height: height || width }}
           className={cn(
-            'text-gray-200 dark:text-gray-700 fill-[#ececec] dark:fill-slate-500',
+            'text-gray-200 dark:text-primary-700 fill-[#ececec] dark:fill-slate-500',
             className,
           )}
           aria-hidden="true"
