@@ -5,6 +5,7 @@ import { IconApplication } from '@components/atoms/Icon/IconApplication';
 import { IconCircleCheck } from '@components/atoms/Icon/IconCircleCheck';
 import { IconImage } from '@components/atoms/Icon/IconImage';
 import { IconLock } from '@components/atoms/Icon/IconLock';
+import { IconLogo } from '@components/atoms/Icon/IconLogo';
 import { IconLogout } from '@components/atoms/Icon/IconLogout';
 import { IconMessage } from '@components/atoms/Icon/IconMessage';
 import { ButtonIconNarrowDown } from '@components/atoms/Icon/IconNarrowDown';
@@ -159,9 +160,14 @@ export const ChatScreen: FC = () => {
           <div className="flex gap-0.5 items-center">
             <Dropdown
               placement="bottomRight"
+              // getPopupContainer={(node) => node}
               content={
                 <Menu
                   menus={[
+                    {
+                      label: 'Đi đến trang thông tin nhóm',
+                      icon: <IconLogo />,
+                    },
                     {
                       label: 'Mở trong màn hình lớn',
                       icon: <IconMessage />,
@@ -271,7 +277,7 @@ export const ChatScreen: FC = () => {
             haveNext
             placement="top"
             loading={loading}
-            className="flex flex-col py-2 gap-2 flex-1 main overflow-auto"
+            className="flex flex-col py-2 gap-2 flex-1 main overflow-auto custom-scrollbar-behavior"
             onScroll={(ev) => {
               Event.emit('CloseContextMenu', {});
               let ele = ev.currentTarget;
@@ -394,10 +400,13 @@ export const ChatScreen: FC = () => {
                 content={
                   <Menu
                     menus={[
-                      { label: 'Tạo poll', icon: <IconPoll /> },
+                      {
+                        label: 'Tạo một cuộc thăm dò ý kiến',
+                        icon: <IconPoll />,
+                      },
 
                       {
-                        label: 'Tạo checklist',
+                        label: 'Tạo danh sách công việc',
                         icon: <IconSquareRoundCheck />,
                       },
                     ]}

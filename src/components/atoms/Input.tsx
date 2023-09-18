@@ -17,7 +17,7 @@ export const Input = forwardRef<HTMLLabelElement, InputProps>(
         <input
           type={type}
           className={cn(
-            'h-full border-base border focus:!border-primary outline-none p-2 w-full rounded dark:text-white dark:bg-slate-800 dark:border-slate-700',
+            'text-sm h-full border-base border focus:!border-primary outline-none p-2 w-full rounded dark:text-white dark:bg-slate-800 dark:border-slate-700',
             {
               'border-red-500 text-red-500 dark:border-red-500 ': error,
             },

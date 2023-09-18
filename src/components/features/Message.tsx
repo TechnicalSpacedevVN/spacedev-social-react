@@ -2,10 +2,15 @@ import { Avatar } from '@components/atoms/Avatar';
 import { Badge } from '@components/atoms/Badge';
 import { Card } from '@components/atoms/Card';
 import { Dropdown } from '@components/atoms/Dropdown';
+import { IconLockPause } from '@components/atoms/Icon/IconLockPause';
+import { IconMessage } from '@components/atoms/Icon/IconMessage';
+import { IconMessageChatbot } from '@components/atoms/Icon/IconMessageChatbot';
 import { IconSearch } from '@components/atoms/Icon/IconSearch';
 import { ButtonIconThreeDotAction } from '@components/atoms/Icon/IconThreeDotAction';
+import { IconVolume } from '@components/atoms/Icon/IconVolume';
 import { InfinityLoading } from '@components/atoms/InfinityLoading';
 import { Menu } from '@components/atoms/Menu';
+import { Switch } from '@components/atoms/Switch';
 import { Tab } from '@components/atoms/Tab';
 import { fakeApi, mockUsers } from '@utils/mock';
 import { useState } from 'react';
@@ -19,16 +24,37 @@ export const Message = () => {
       action={
         <Dropdown
           placement="bottomRight"
+          closeWhenScroll
           content={
             <Menu
               menus={[
-                { label: 'Âm thanh khi có người gọi' },
-                { label: 'Âm thanh khi có tin nhắn tới' },
-                { label: 'Tự động mở khi có tin nhắn mới' },
+                {
+                  label: 'Âm thanh khi có người nhắn tin',
+                  icon: <IconVolume off />,
+                  suffix: <Switch />,
+                },
+                {
+                  label: 'Tự động mở khi có tin nhắn mới',
+                  icon: <IconMessageChatbot />,
+                },
                 { line: true },
-                { label: 'Trạng thái hoạt động' },
-                { label: 'Tin nhắn chờ' },
-                { label: 'Tin nhắn chờ' },
+                {
+                  label: 'Trạng thái hoạt động',
+                  suffix: <Switch checked />,
+                  icon: (
+                    <span className="relative flex h-3 w-3 mt-1">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                    </span>
+                  ),
+                },
+                {
+                  label: 'Đưa vào tin nhắn chờ',
+                  description: 'Chỉ đối với người lạ',
+                  icon: <IconLockPause />,
+                  suffix: <Switch checked />,
+                },
+                { label: 'Quản lý danh sách chặn', icon: <IconMessage off /> },
               ]}
             />
           }
@@ -57,7 +83,7 @@ export const Message = () => {
                 children: (
                   <InfinityLoading
                     loading={loading}
-                    className="mt-4 flex flex-col gap-4 overflow-auto pt-2 flex-1 h-1"
+                    className="mt-4 flex flex-col gap-4 overflow-auto pt-2 flex-1 h-1 custom-scrollbar-behavior"
                     haveNext={true}
                     offset={200}
                     onNext={async () => {

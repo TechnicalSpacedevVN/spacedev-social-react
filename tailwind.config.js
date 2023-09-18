@@ -74,5 +74,5 @@ export default {
   ],
 
   darkMode: 'class',
-  safelist: [],
+  safelist: ['bg-gray-200 text-gray-800 dark:bg-slate-950 dark:text-slate-300'],
 };

@@ -10,8 +10,8 @@ export interface ModalProps {
   children?: any;
   title?: any;
   overlayCloseable?: boolean;
-  width?: number;
-  height?: number;
+  width?: number | string;
+  height?: number | string;
   hideIconClose?: boolean;
   className?: string;
   keyboard?: boolean;
@@ -22,6 +22,7 @@ export const Modal: FC<ModalProps> = ({
   width,
   height,
   keyboard = true,
+  overlayCloseable = true,
   ...props
 }) => {
   const checkClickInsideRef = useRef(false);
@@ -63,13 +64,13 @@ export const Modal: FC<ModalProps> = ({
   return createPortal(
     <div
       onClick={() => {
-        if (props.overlayCloseable && !checkClickInsideRef.current) {
+        if (overlayCloseable && !checkClickInsideRef.current) {
           props.onCancel?.();
         }
         checkClickInsideRef.current = false;
       }}
       className={cn(
-        'px-3 z-20 flex items-center justify-center bg-black !bg-opacity-60 fixed top-0 left-0 w-full h-full',
+        'px-3 z-20 flex items-center justify-center bg-black !bg-opacity-90 fixed top-0 left-0 w-full h-full',
         props.backdropClassName,
       )}
     >

@@ -1,33 +1,39 @@
-import { Observable } from "@utils/Observable";
-import { useEffect } from "react";
-import { fromEvent } from "rxjs";
+import { Observable } from '@utils/Observable';
+import { useEffect } from 'react';
+import { fromEvent } from 'rxjs';
 
-let keyboardEvent = new Observable();
+function enumize<K extends string>(...args: K[]): { [P in K]: P } {
+  const ret = {} as { [P in K]: P };
+  args.forEach((k) => (ret[k] = k));
+  return ret;
+}
 
-fromEvent(window, "keydown").subscribe((...args) =>
-  keyboardEvent.emit(args, { inverse: true })
+let keyboardEvent = new Observable(fromEvent(window, 'keydown'));
+export const KeyBoard = enumize(
+  'Escape',
+  'ArrowDown',
+  'ArrowUp',
+  'ArrowLeft',
+  'ArrowRight',
 );
 
 export const useShortcut = (
-  shortcut: string,
-  effect: Function,
-  dependencies: any[],
-  enabled = false
+  shortcut: string | string[],
+  effect: (ev: KeyboardEvent) => void,
+  dependencies: any[] = [],
+  enabled = true,
 ) => {
   useEffect(() => {
     if (enabled) {
+      let shortcuts = typeof shortcut === 'string' ? [shortcut] : shortcut;
       const onKeydownEvent = (ev: KeyboardEvent): any => {
-        if (ev.key === shortcut) {
-          effect();
+        console.log(ev.key);
+        if (shortcuts.includes(ev.key)) {
+          effect(ev);
           // stopImmediatelyPropagation
-          return false;
+          // return false;
         }
       };
-
-      // window.addEventListener("keydown", onKeydownEvent);
-      // return () => {
-      //   window.removeEventListener("keydown", onKeydownEvent);
-      // };
 
       let unsubscribe = keyboardEvent.subscribe(onKeydownEvent);
 

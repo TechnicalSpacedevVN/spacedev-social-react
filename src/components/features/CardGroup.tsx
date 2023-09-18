@@ -1,8 +1,11 @@
-import { Card } from "@components/atoms/Card";
-import { Dropdown } from "@components/atoms/Dropdown";
-import { ButtonIconThreeDotAction } from "@components/atoms/Icon/IconThreeDotAction";
-import { Menu } from "@components/atoms/Menu";
-import { Tag } from "@components/atoms/Tag";
+import { Button } from '@components/atoms/Button';
+import { Card } from '@components/atoms/Card';
+import { Dropdown } from '@components/atoms/Dropdown';
+import { IconNotification } from '@components/atoms/Icon/IconNotification';
+import { IconPlus } from '@components/atoms/Icon/IconPlus';
+import { ButtonIconThreeDotAction } from '@components/atoms/Icon/IconThreeDotAction';
+import { Menu } from '@components/atoms/Menu';
+import { Tag } from '@components/atoms/Tag';
 
 export const CardGroup = () => {
   return (
@@ -16,10 +19,20 @@ export const CardGroup = () => {
             <Menu
               menus={[
                 {
-                  label: "Quản lý thông báo",
+                  label: 'Quản lý thông báo',
+                  icon: <IconNotification />,
                 },
                 {
-                  label: "Tìm nhóm",
+                  className: '!bg-transparent',
+                  label: (
+                    <Button
+                      iconPrefix={<IconPlus />}
+                      className="w-[200px] mt-2"
+                      type="primary"
+                    >
+                      Tạo nhóm mới
+                    </Button>
+                  ),
                 },
               ]}
             />

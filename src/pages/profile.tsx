@@ -11,7 +11,7 @@ import { useTitle } from '@hooks/useTitle';
 import { cn } from '@utils';
 import { convertFileToImage } from '@utils/file';
 import { mockUser } from '@utils/mock';
-import { useRef, useState } from 'react';
+import { useId, useRef, useState } from 'react';
 import { Avatar } from '../components/atoms/Avatar';
 import { Button } from '../components/atoms/Button';
 import { Card } from '../components/atoms/Card';
@@ -216,6 +216,7 @@ export const Profile = () => {
                 <Contenteditable
                   placeholder="Thêm mô tả về bạn"
                   maxLength={125}
+                  id={useId()}
                   className={cn(
                     ' after:left-1/2 after:-translate-x-1/2 text-center dark:border-b-slate-700 border-gray-200 border-transparent border font-bold  mt-4 mb-4 w-full bg-transparent px-3 py-4 resize-none overflow-hidden cursor-text min-h-[54px]',
                     {

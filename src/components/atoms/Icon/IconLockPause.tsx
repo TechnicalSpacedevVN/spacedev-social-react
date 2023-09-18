@@ -2,24 +2,24 @@ import { cn } from '@utils';
 import { Icon } from './Icon';
 import { ButtonIconProps, IconProps } from './type';
 
-export const ButtonIconFeedback: Atom<ButtonIconProps> = ({
+export const ButtonIconLockPause: Atom<ButtonIconProps> = ({
   size,
   ...props
 }) => {
   return (
     <Icon {...props}>
-      <IconFeedback size={size} />
+      <IconLockPause size={size} />
     </Icon>
   );
 };
 
-export const IconFeedback: Atom<IconProps> = ({ size = 17, ...props }) => {
+export const IconLockPause: Atom<IconProps> = ({ size = 17, ...props }) => {
   return (
     <svg
       {...props}
       xmlns="http://www.w3.org/2000/svg"
       className={cn(
-        'icon icon-tabler icon-tabler-message-report',
+        'icon icon-tabler icon-tabler-clock-pause',
         props.className,
       )}
       width={size}
@@ -32,9 +32,10 @@ export const IconFeedback: Atom<IconProps> = ({ size = 17, ...props }) => {
       strokeLinejoin="round"
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
-      <path d="M12 8l0 3" />
-      <path d="M12 14l0 .01" />
+      <path d="M20.942 13.018a9 9 0 1 0 -7.909 7.922" />
+      <path d="M12 7v5l2 2" />
+      <path d="M17 17v5" />
+      <path d="M21 17v5" />
     </svg>
   );
 };

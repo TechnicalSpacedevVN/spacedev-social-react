@@ -2,7 +2,8 @@ import { useClassNames } from '@hooks/useClassNames';
 import { cn, handleSelectEnd } from '@utils';
 import { forwardRef } from 'react';
 
-export interface ContenteditableProps extends DefaultProps {
+export interface ContenteditableProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   placeholder?: string;
   onChange?: (value: string) => void;
   children?: any;
@@ -12,11 +13,12 @@ export interface ContenteditableProps extends DefaultProps {
 export const Contenteditable = forwardRef<
   HTMLParagraphElement,
   ContenteditableProps
->(({ ...props }, inputRef) => {
+>(({ onChange, ...props }, inputRef) => {
   const classNames = useClassNames(props.className);
 
   return (
     <div
+      {...props}
       className={cn(
         'after:empty:content-[attr(placeholder)] after:absolute after:-translate-y-1/2 after:top-1/2 relative',
         classNames,
@@ -36,7 +38,7 @@ export const Contenteditable = forwardRef<
             handleSelectEnd(ev.currentTarget);
           }
         }
-        props.onChange?.(ev.currentTarget.innerHTML);
+        onChange?.(ev.currentTarget.innerHTML);
       }}
       contentEditable={!props.disabled}
       suppressContentEditableWarning={true}

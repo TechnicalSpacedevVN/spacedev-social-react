@@ -2,6 +2,9 @@ import { Avatar } from '@components/atoms/Avatar';
 import { Button } from '@components/atoms/Button';
 import { Card } from '@components/atoms/Card';
 import { Dropdown } from '@components/atoms/Dropdown';
+import { IconBellOff } from '@components/atoms/Icon/IconBellOff';
+import { IconCheckList } from '@components/atoms/Icon/IconChecklist';
+import { IconNotification } from '@components/atoms/Icon/IconNotification';
 import { ButtonIconSetting } from '@components/atoms/Icon/IconSetting';
 import { ButtonIconThreeDotAction } from '@components/atoms/Icon/IconThreeDotAction';
 import { InfinityLoading } from '@components/atoms/InfinityLoading';
@@ -79,12 +82,15 @@ export const Notification = () => {
               menus={[
                 {
                   label: 'Đánh dấu tất cả là đã đọc',
+                  icon: <IconCheckList />,
                 },
                 {
                   label: 'Cài đặt nhận thông báo',
+                  icon: <IconNotification />,
                 },
                 {
                   label: 'Tạm thời tắt thông báo',
+                  icon: <IconBellOff />,
                 },
               ]}
             />
@@ -113,7 +119,7 @@ export const Notification = () => {
           ]);
           setLoading(false);
         }}
-        className="w-[400px] overflow-auto"
+        className="w-[400px] overflow-auto custom-scrollbar-behavior"
       >
         <div className="mt-3 max-h-full flex-1 overflow-auto">
           {notifications.map((e) => (

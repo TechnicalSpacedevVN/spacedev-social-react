@@ -17,8 +17,8 @@ export const IconSetting: Atom<IconProps> = ({ size = 17, ...props }) => {
       {...props}
       xmlns="http://www.w3.org/2000/svg"
       className="icon icon-tabler icon-tabler-settings"
-      width={17}
-      height={17}
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       strokeWidth={2}
       stroke="currentColor"

@@ -3,8 +3,8 @@ import { Button } from '@components/atoms/Button';
 import { setDropFileData } from '@components/atoms/DropFile';
 import { Dropdown } from '@components/atoms/Dropdown';
 import { IconArchive } from '@components/atoms/Icon/IconArchive';
-import { IconBellOff } from '@components/atoms/Icon/IconBellOf';
-import { IconBookmark } from '@components/atoms/Icon/IconBookmark';
+import { IconBellOff } from '@components/atoms/Icon/IconBellOff';
+import { ButtonIconBookmark } from '@components/atoms/Icon/IconBookmark';
 import { ButtonIconClose } from '@components/atoms/Icon/IconClose';
 import { IconComment } from '@components/atoms/Icon/IconComment';
 import { IconExclamation } from '@components/atoms/Icon/IconExclamation';
@@ -28,7 +28,8 @@ import { handleSelectEnd, scollToElement } from '@utils';
 import { IComment, IPost, mockPost } from '@utils/mock';
 import moment from 'moment';
 import { FC, useMemo, useRef, useState } from 'react';
-import { generatePath } from 'react-router-dom';
+import { Link, generatePath } from 'react-router-dom';
+import { PopoverUser } from './PopoverUser';
 
 const PostMenu = () => {
   return (
@@ -37,18 +38,28 @@ const PostMenu = () => {
       placement="bottomRight"
       content={
         <Menu
+          className="w-[350px]"
           menus={[
             { label: 'Đưa bài viết vào thùng rác', icon: <IconTrash /> },
             { label: 'Chỉnh sửa', icon: <IconPen /> },
             { label: 'Lưu trữ', icon: <IconArchive /> },
-            { label: 'Tắt thông báo về bài viết này', icon: <IconBellOff /> },
+            {
+              label: 'Tắt thông báo về bài viết này',
+              icon: <IconBellOff />,
+              description: 'Tắt mọi thông báo ngoại trừ có người tag tên bạn',
+            },
             { line: true },
             {
               label: 'Báo cáo bài viết',
               icon: <IconExclamation />,
-              sub: 'Bài viết sẽ được ẩn trên tường cá nhân của bạn',
+              description:
+                'Sẽ không ai biết bạn báo cáo bài viết này và bài viết sẽ được tạm ẩn trên tường cá nhân của bạn',
             },
-            { label: 'Ẩn bài viết', icon: <IconEyeClose /> },
+            {
+              label: 'Ẩn bài viết',
+              icon: <IconEyeClose />,
+              description: 'Chỉ ẩn trên dòng thời gian của bạn',
+            },
           ]}
         />
       }
@@ -119,12 +130,19 @@ export const Post = () => {
         className="rounded-lg bg-white pb-4 dark:bg-slate-900 shadow"
       >
         <div className="flex items-center gap-2 p-4">
-          <Avatar src={post.user.avatar} size={40} />
+          <PopoverUser user={post.user}>
+            <Avatar src={post.user.avatar} size={40} />
+          </PopoverUser>
           <div className="flex-1 -mt-1">
             <div className="flex items-center gap-2">
-              <h4 className="text-sm font-semibold text-gray-900 dark:text-white">
-                {post.user.fullName}
-              </h4>
+              <PopoverUser user={post.user}>
+                <Link
+                  to="#"
+                  className="cursor-pointer text-sm font-semibold text-gray-900 dark:text-white"
+                >
+                  {post.user.fullName}
+                </Link>
+              </PopoverUser>
               -
               <time className=" text-sm !text-opacity-70 text-black dark:text-white">
                 {moment(post.createdAt).fromNow()}
@@ -146,9 +164,9 @@ export const Post = () => {
               ev.preventDefault();
               setOpen(true);
             }}
-            onDragStart={(ev) => {
-              setDropFileData(ev, 'img', post.image);
-            }}
+            // onDragStart={(ev) => {
+            //   setDropFileData(ev, 'img', post.image);
+            // }}
           >
             <ImageGrid images={post.images.map((e) => e.original)} />
             {/* <img
@@ -205,7 +223,7 @@ export const Post = () => {
             </div>
           </div>
           <div>
-            <IconBookmark />
+            <ButtonIconBookmark />
           </div>
         </div>
         <p className="px-5 text-sm">
@@ -228,21 +246,19 @@ const ModalDetail: FC<ModelDetailProps> = ({ post, ...props }) => {
       backdropClassName="!bg-opacity-90"
       className="w-full h-full  m-3"
       hideIconClose
-      overlayCloseable={false}
-      height={700}
-      width={1200}
-      keyboard={false}
+      height="80%"
+      width="90%"
     >
       <div className="flex h-full">
-        <div className="flex-[3] w-1 bg-black items-center flex py-2">
-          <Slider className="snap-y snap-always snap-mandatory">
+        <div className="flex-[3] w-full bg-black items-center flex ">
+          <Slider className="snap-y h-full snap-always snap-mandatory ">
             {post.images.map((e) => (
               <div
                 key={e.id}
-                className="w-full h-[700px] snap-start snap-center"
+                className="w-full flex-[0_0_100%] snap-start snap-center py-2 relative"
               >
                 <img
-                  className="w-full h-[700px] object-contain"
+                  className="w-full h-full object-contain absolute top-0 left-0"
                   src={e.original}
                 />
               </div>
@@ -252,7 +268,9 @@ const ModalDetail: FC<ModelDetailProps> = ({ post, ...props }) => {
         </div>
         <div className="flex-[2] w-1 flex flex-col">
           <div className="flex gap-2 p-3 border-b border-solid border-gray-300 dark:border-slate-700">
-            <Avatar size={40} src={post.user.avatar} />
+            <PopoverUser user={post.user}>
+              <Avatar size={40} src={post.user.avatar} />
+            </PopoverUser>
             <div className="flex flex-col flex-1">
               <h3 className="text-sm font-bold">{post.user.fullName}</h3>
               <time className="text-gray-500 text-xs ">
@@ -266,7 +284,7 @@ const ModalDetail: FC<ModelDetailProps> = ({ post, ...props }) => {
                 <ButtonIconHeart />
               )}
               <IconShare />
-              <IconBookmark />
+              <ButtonIconBookmark />
               <PostMenu />
               <ButtonIconClose transparent onClick={props.onCancel} />
             </div>
@@ -280,7 +298,7 @@ const ModalDetail: FC<ModelDetailProps> = ({ post, ...props }) => {
                 <UserCommentLoading />
               </>
             }
-            className="flex-1 py-2 overflow-auto"
+            className="flex-1 py-2 overflow-auto custom-scrollbar-behavior"
           >
             {post.comments.map((comment) => (
               <UserComment key={comment.id} loadMore comment={comment} />

@@ -1,12 +1,12 @@
-import { Card } from "@components/atoms/Card";
-import { UserItem } from "@components/atoms/UserItem";
-import { IconAddFriend } from "@components/atoms/Icon/IconAddFriend";
-import { ButtonIconThreeDotAction } from "@components/atoms/Icon/IconThreeDotAction";
-import { Dropdown } from "@components/atoms/Dropdown";
-import { Menu } from "@components/atoms/Menu";
-import { Switch } from "@components/atoms/Switch";
-import { useState } from "react";
-import { mockUsers } from "@utils/mock";
+import { Card } from '@components/atoms/Card';
+import { Dropdown } from '@components/atoms/Dropdown';
+import { ButtonIconAddFriend } from '@components/atoms/Icon/IconAddFriend';
+import { ButtonIconThreeDotAction } from '@components/atoms/Icon/IconThreeDotAction';
+import { Menu } from '@components/atoms/Menu';
+import { Switch } from '@components/atoms/Switch';
+import { UserItem } from '@components/atoms/UserItem';
+import { mockUsers } from '@utils/mock';
+import { useState } from 'react';
 
 export const SuggestedForYou = () => {
   const [enabled, setEnabled] = useState(true);
@@ -50,12 +50,12 @@ export const SuggestedForYou = () => {
               key={u.id}
               sub="3km"
               user={u}
-              action={<IconAddFriend />}
+              action={<ButtonIconAddFriend />}
             />
           ))
         ) : (
           <p className="text-sm text-center">
-            Vui lòng chia sẻ vị trí để sử dụng chức năng này
+            Vui lòng chia sẻ vị trí để sử dụng tính năng này
           </p>
         )}
       </div>

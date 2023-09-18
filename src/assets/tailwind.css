@@ -66,14 +66,22 @@ input:-webkit-autofill:active {
 }
 
 @layer components {
-  .text-demo {
-    font-size: 120px;
-  }
 }
 
 @layer utilities {
   ::selection {
     @apply bg-primary-500 text-white;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    @apply hidden;
+  }
+  .show-scrollbar::-webkit-scrollbar {
+    @apply block;
+  }
+
+  .custom-scrollbar-behavior {
+    @apply hide-scrollbar hover:show-scrollbar pr-[7px] hover:pr-0;
   }
 
   .snap {

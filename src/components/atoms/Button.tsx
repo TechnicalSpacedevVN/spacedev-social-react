@@ -5,7 +5,7 @@ import { cn } from '../../utils';
 const typeClass = {
   default:
     'text-gray-900  dark:bg-white dark:text-white bg-black !bg-opacity-5 hover:!bg-opacity-10',
-  primary: 'bg-primary bg-opacity-90 hover:bg-opacity-100 text-white',
+  primary: 'bg-primary-500 hover:bg-primary-600 text-white',
   link: '',
   red: 'bg-red-700 bg-opacity-90 hover:bg-opacity-100 text-white',
 };

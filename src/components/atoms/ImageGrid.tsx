@@ -1,4 +1,5 @@
 import { cn } from '@utils';
+import { setDropFileData } from './DropFile';
 import { ButtonIconClose } from './Icon/IconClose';
 
 export interface ImageGridProps {
@@ -44,6 +45,9 @@ export const ImageGrid: Atom<ImageGridProps> = ({
           key={`${i}-${e}`}
         >
           <img
+            onDragStart={(ev) => {
+              setDropFileData(ev, 'img', e);
+            }}
             className={cn('w-full h-full object-cover', props.imgClassName)}
             src={e}
           />

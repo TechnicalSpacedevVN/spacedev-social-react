@@ -1,14 +1,16 @@
-import { IconLock } from "@components/atoms/Icon/IconLock";
-import { IconSetting } from "@components/atoms/Icon/IconSetting";
-import { IconUserGroup } from "@components/atoms/Icon/IconUserGroup";
-import { FC } from "react";
-import { IconApp } from "../../atoms/Icon/IconApp";
-import { ButtonIconCamera } from "../../atoms/Icon/IconCamera";
-import { IconNotification } from "../../atoms/Icon/IconNotification";
-import { IconUser } from "../../atoms/Icon/IconUser";
-import { IconWorld } from "../../atoms/Icon/IconWorld";
-import { Avatar } from "../../atoms/Avatar";
-import { Modal, ModalProps } from "../../atoms/Modal";
+import { IconLock } from '@components/atoms/Icon/IconLock';
+import { IconSetting } from '@components/atoms/Icon/IconSetting';
+import { IconUserGroup } from '@components/atoms/Icon/IconUserGroup';
+import { Input } from '@components/atoms/Input';
+import { Menu } from '@components/atoms/Menu';
+import { FC } from 'react';
+import { Avatar } from '../../atoms/Avatar';
+import { IconApp } from '../../atoms/Icon/IconApp';
+import { ButtonIconCamera } from '../../atoms/Icon/IconCamera';
+import { IconNotification } from '../../atoms/Icon/IconNotification';
+import { IconUser } from '../../atoms/Icon/IconUser';
+import { IconWorld } from '../../atoms/Icon/IconWorld';
+import { Modal, ModalProps } from '../../atoms/Modal';
 
 export const ModalAbout: FC<ModalProps> = (props) => {
   return (
@@ -27,56 +29,23 @@ export const ModalAbout: FC<ModalProps> = (props) => {
               </div>
             </div>
           </div>
-          <div className="px-0.5 flex flex-col gap-0.5 mt-3">
-            <a
-              href="#"
-              className="flex gap-2 items-center hover:bg-black hover:bg-opacity-10 py-1.5 rounded px-2.5"
-            >
-              <IconUser />
-              <span className="text-sm">Tài khoản</span>
-            </a>
-            <a
-              href="#"
-              className="flex gap-2 items-center hover:bg-black hover:bg-opacity-10 py-1.5 rounded px-2.5"
-            >
-              <IconLock />
-              <span className="text-sm">Bảo mật</span>
-            </a>
-            <a
-              href="#"
-              className="flex gap-2 items-center hover:bg-black hover:bg-opacity-10 py-1.5 rounded px-2.5"
-            >
-              <IconSetting />
-              <span className="text-sm">Cài đặt & quyền riêng tư</span>
-            </a>
-            <a
-              href="#"
-              className="flex gap-2 items-center hover:bg-black hover:bg-opacity-10 py-1.5 rounded px-2.5"
-            >
-              <IconNotification />
-              <span className="text-sm">Cài đặt thông báo</span>
-            </a>
-            <a
-              href="#"
-              className="flex gap-2 items-center hover:bg-black hover:bg-opacity-10 py-1.5 rounded px-2.5"
-            >
-              <IconUserGroup />
-              <span className="text-sm">Bạn bè và theo dõi</span>
-            </a>
-            <a
-              href="#"
-              className="flex gap-2 items-center hover:bg-black hover:bg-opacity-10 py-1.5 rounded px-2.5"
-            >
-              <IconApp />
-              <span className="text-sm">Nội dung</span>
-            </a>
-            <a
-              href="#"
-              className="flex gap-2 items-center hover:bg-black hover:bg-opacity-10 py-1.5 rounded px-2.5"
-            >
-              <IconWorld />
-              <span className="text-sm">Ngôn ngữ và quốc gia</span>
-            </a>
+          <div className="px-1 flex flex-col gap-0.5 mt-3">
+            <Menu
+              className="gap-0.5"
+              menus={[
+                {
+                  label: 'Tài khoản',
+                  icon: <IconUser />,
+                  className: 'bg-gray-200 dark:bg-slate-700',
+                },
+                { label: 'Bảo mật', icon: <IconLock /> },
+                { label: 'Cài đặt & quyền riêng tư', icon: <IconSetting /> },
+                { label: 'Cài đặt thông báo', icon: <IconNotification /> },
+                { label: 'Bạn bè và theo dõi', icon: <IconUserGroup /> },
+                { label: 'Nội dung', icon: <IconApp /> },
+                { label: 'Ngôn ngữ và quốc gia', icon: <IconWorld /> },
+              ]}
+            />
           </div>
         </div>
         <div className="flex-1 px-10">
@@ -92,11 +61,12 @@ export const ModalAbout: FC<ModalProps> = (props) => {
             </div>
             <div className="flex gap-2 flex-col">
               Họ và tên
-              <input
+              <Input
                 type="text"
                 placeholder="Họ và tên"
-                value="Đặng Thuyền Vương"
-                className="outline-none bg-gray-100 px-2 rounded border border-solid border-gray-300 text-sm py-1 w-60 dark:bg-slate-800 dark:border-slate-700"
+                defaultValue="Đặng Thuyền Vương"
+                className="w-[300px]"
+                // className="outline-none bg-gray-100 px-2 rounded border border-solid border-gray-300 text-sm py-1 w-60 dark:bg-slate-800 dark:border-slate-700"
               />
             </div>
           </div>

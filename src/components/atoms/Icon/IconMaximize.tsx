@@ -1,17 +1,24 @@
-import { FC } from "react";
-import { Icon } from "./Icon";
+import { cn } from '@utils';
+import { Icon } from './Icon';
+import { ButtonIconProps, IconProps } from './type';
 
-export const ButtoniconMaximize: FC<any> = (props) => {
-    return <Icon {...props}>
-        <IconMaximize />
+export const ButtonIconMaximize: Atom<ButtonIconProps> = ({
+  size,
+  ...props
+}) => {
+  return (
+    <Icon {...props}>
+      <IconMaximize size={size} />
     </Icon>
-}
+  );
+};
 
-export const IconMaximize = () => {
+export const IconMaximize: Atom<IconProps> = ({ size = 17, ...props }) => {
   return (
     <svg
+      {...props}
       xmlns="http://www.w3.org/2000/svg"
-      className="icon icon-tabler icon-tabler-maximize"
+      className={cn('icon icon-tabler icon-tabler-maximize', props.className)}
       width={17}
       height={17}
       viewBox="0 0 24 24"

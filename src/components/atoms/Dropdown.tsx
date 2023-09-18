@@ -1,6 +1,14 @@
 import { useShortcut } from '@hooks/useShortcut';
+import { useWindowEvent } from '@hooks/useWindowEvent';
 import { Observable } from '@utils/Observable';
-import { FC, startTransition, useEffect, useRef, useState } from 'react';
+import {
+  FC,
+  startTransition,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '../../utils';
 
@@ -23,6 +31,9 @@ export interface DropdownProps {
   className?: string;
   content?: any;
   arrow?: boolean;
+  closeWhenScroll?: boolean;
+  trigger?: ('click' | 'hover' | 'contextmenu')[];
+  delay?: number;
   placement?:
     | 'top'
     | 'bottom'
@@ -60,6 +71,9 @@ export const Dropdown: FC<DropdownProps> = ({
   allowToggle = true,
   autoClose = false,
   keyboard = true,
+  closeWhenScroll = false,
+  delay = 0,
+  trigger = ['click'],
   ...props
 }) => {
   const childrenRef = useRef<HTMLDivElement>(null);
@@ -70,6 +84,16 @@ export const Dropdown: FC<DropdownProps> = ({
     top: -99999,
     left: -99999,
   });
+  const hoverTimeoutRef = useRef<NodeJS.Timeout>();
+  const checkHoverRef = useRef(false);
+  const checkHoverLeaveRef = useRef<NodeJS.Timeout>();
+  let _isTriggerClick = useMemo(() => trigger.includes('click'), []);
+  let _isTriggerHover = useMemo(() => trigger.includes('hover'), []);
+  let _isTriggerContextmenu = useMemo(
+    () => trigger.includes('contextmenu'),
+    [],
+  );
+
   useShortcut(
     `Escape`,
     () => {
@@ -80,6 +104,8 @@ export const Dropdown: FC<DropdownProps> = ({
     [keyboard],
     open,
   );
+
+  useWindowEvent('scroll', () => {});
 
   useEffect(() => {
     if (childrenRef.current) {
@@ -129,17 +155,17 @@ export const Dropdown: FC<DropdownProps> = ({
 
       clickChildrenRef.current = false;
     };
+
     window.addEventListener('click', onClickBody);
     return () => {
       window.removeEventListener('click', onClickBody);
     };
   }, []);
 
-  const _onClick = () => {
-    clickChildrenRef.current = true;
+  const _onToggleOpen = (value?: boolean) => {
     if (allowToggle) {
       startTransition(() => {
-        setOpen(!open);
+        setOpen(typeof value !== 'undefined' ? value : !open);
       });
     } else {
       startTransition(() => {
@@ -151,9 +177,32 @@ export const Dropdown: FC<DropdownProps> = ({
   return (
     <>
       <div
-        onClick={_onClick}
+        onClick={() => {
+          if (!_isTriggerClick) return;
+          clickChildrenRef.current = true;
+          _onToggleOpen();
+        }}
         ref={childrenRef}
         className={cn('inline-flex gap-1 items-center', props.className)}
+        onContextMenu={(ev) => {
+          if (!_isTriggerContextmenu) return;
+          ev.preventDefault();
+          _onToggleOpen();
+        }}
+        onMouseEnter={() => {
+          if (!_isTriggerHover) return;
+          hoverTimeoutRef.current = setTimeout(() => {
+            checkHoverRef.current = true;
+            _onToggleOpen(true);
+          }, delay);
+        }}
+        onMouseLeave={() => {
+          if (!_isTriggerHover) return;
+          clearTimeout(hoverTimeoutRef.current);
+          checkHoverLeaveRef.current = setTimeout(() => {
+            _onToggleOpen(false);
+          }, 100);
+        }}
       >
         {props.children}
       </div>
@@ -170,7 +219,6 @@ export const Dropdown: FC<DropdownProps> = ({
                   setOpen(false);
                 } else {
                   clickChildrenRef.current = true;
-                  // ev.stopPropagation();
                 }
               }}
               ref={contentRef}
@@ -180,6 +228,21 @@ export const Dropdown: FC<DropdownProps> = ({
                 'absolute p-2 dark:bg-slate-800 bg-white rounded-lg z-[1000] shadow-[5px_5px_15px_rgba(0,0,0,0.5)]',
                 props.popupClassName,
               )}
+              onMouseEnter={() => {
+                if (!_isTriggerHover) return;
+
+                clearTimeout(checkHoverLeaveRef.current);
+              }}
+              onMouseLeave={() => {
+                if (!_isTriggerHover) return;
+
+                checkHoverLeaveRef.current = setTimeout(() => {
+                  if (checkHoverRef.current) {
+                    _onToggleOpen(false);
+                  }
+                  checkHoverRef.current = false;
+                }, 300);
+              }}
             >
               {arrow && (
                 <div className="text-white dark:text-slate-800 top-[-6px] right-0 absolute">

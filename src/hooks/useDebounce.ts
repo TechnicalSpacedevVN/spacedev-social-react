@@ -1,6 +1,6 @@
-import { useRef, useState } from 'react';
+import { Dispatch, SetStateAction, useRef, useState } from 'react';
 
-type UseDebounceRes<T> = ReturnType<typeof useState<T>>;
+type UseDebounceRes<T> = [T, Dispatch<SetStateAction<T>>];
 type UseDebounceDispatch<T> = UseDebounceRes<T>[1];
 
 export const useDebounce = <T>(

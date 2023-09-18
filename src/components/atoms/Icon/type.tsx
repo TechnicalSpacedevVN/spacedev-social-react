@@ -14,3 +14,7 @@ export interface IconProps extends React.DOMAttributes<HTMLOrSVGElement> {
   width?: number;
   height?: number;
 }
+
+export interface IconVariant {
+  off?: boolean;
+}

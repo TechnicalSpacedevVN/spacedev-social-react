@@ -6,6 +6,7 @@ interface ApiErrorResponse {
 interface DefaultProps {
   className?: string;
   style?: React.CSSProperties;
+  id?: string;
 }
 type Atom<T = {}> = React.FC<T & DefaultProps>;
 

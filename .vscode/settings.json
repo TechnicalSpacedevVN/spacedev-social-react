@@ -56,6 +56,7 @@
     ["classList\\.value\\(([^)]*)", "['\"`]([^'\"`\\s]*)['\"`]"],
     ["classList\\.values\\(([^)]*)", "['\"`]([^'\"`\\s]*)['\"`]"],
     ["className\\s*=\\s*['\"`]([^'\"`]*)['\"`]"],
+    ["className\\s*:\\s*['\"`]([^'\"`]*)['\"`]"],
     ["useClassNames\\s*=\\s*['\"`]([^'\"`]*)['\"`]"]
   ],
   "tailwindCSS.classAttributes": [

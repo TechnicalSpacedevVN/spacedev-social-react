@@ -5,7 +5,7 @@ import { ButtonIconChevronRight } from '@components/atoms/Icon/IconChevronRight'
 import { IconPlus } from '@components/atoms/Icon/IconPlus';
 import { faker } from '@faker-js/faker';
 import { mockStories } from '@utils/mock';
-import { useEffect, useId, useRef, useState } from 'react';
+import { useId, useRef, useState } from 'react';
 
 export const Story = () => {
   const [stories] = useState(() => mockStories(10));
@@ -13,33 +13,13 @@ export const Story = () => {
   const wraperRef = useRef<HTMLDivElement>(null);
   const [showLeft, setShowLeft] = useState(false);
   const [showRight, setShowRight] = useState(true);
+
   const id = useId();
-  useEffect(() => {
-    let ele = document.getElementById(id);
-    if (ele) {
-      ele.addEventListener(
-        'mousewheel',
-        (ev: any) => {
-          ev.preventDefault();
-          if (ev.deltaY > 0) {
-            ele?.scrollBy({ left: 10 });
-          } else {
-            ele?.scrollBy({ left: -10 });
-          }
-        },
-        { passive: false },
-      );
-    }
-  }, []);
-  // useEffect(() => {
-  //   wraperRef.current?.addEventListener('scroll', (ev) => {
-  //     ev.target.
-  //   })
-  // }, [])
+
   return (
     <div className="pt-2 px-2 shadow bg-white rounded-lg dark:bg-slate-800 select-none relative cursor-pointer">
       <div
-        className="flex gap-3 pb-2 items-center snap-x snap-always overflow-auto"
+        className="flex gap-3 pb-2 items-center snap-x snap-always overflow-auto hide-scrollbar"
         ref={wraperRef}
         onScroll={(ev) => {
           let ele = ev.currentTarget;

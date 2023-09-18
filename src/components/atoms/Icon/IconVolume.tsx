@@ -2,19 +2,19 @@ import { cn } from '@utils';
 import { Icon } from './Icon';
 import { ButtonIconProps, IconProps, IconVariant } from './type';
 
-export const ButtonIconMessage: Atom<ButtonIconProps & IconVariant> = ({
+export const ButtonIconVolume: Atom<ButtonIconProps & IconVariant> = ({
   size,
   off,
   ...props
 }) => {
   return (
     <Icon {...props}>
-      <IconMessage size={size} off={off} />
+      <IconVolume size={size} off={off} />
     </Icon>
   );
 };
 
-export const IconMessage: Atom<IconProps & IconVariant> = ({
+export const IconVolume: Atom<IconProps & IconVariant> = ({
   size = 17,
   off,
   ...props
@@ -25,7 +25,7 @@ export const IconMessage: Atom<IconProps & IconVariant> = ({
         {...props}
         xmlns="http://www.w3.org/2000/svg"
         className={cn(
-          'icon icon-tabler icon-tabler-message-circle-off',
+          'icon icon-tabler icon-tabler-volume-off',
           props.className,
         )}
         width={size}
@@ -38,20 +38,18 @@ export const IconMessage: Atom<IconProps & IconVariant> = ({
         strokeLinejoin="round"
       >
         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-        <path d="M8.595 4.577c3.223 -1.176 7.025 -.61 9.65 1.63c2.982 2.543 3.601 6.523 1.636 9.66m-1.908 2.109c-2.787 2.19 -6.89 2.666 -10.273 1.024l-4.7 1l1.3 -3.9c-2.229 -3.296 -1.494 -7.511 1.68 -10.057" />
+        <path d="M15 8a5 5 0 0 1 1.912 4.934m-1.377 2.602a5 5 0 0 1 -.535 .464" />
+        <path d="M17.7 5a9 9 0 0 1 2.362 11.086m-1.676 2.299a9 9 0 0 1 -.686 .615" />
+        <path d="M9.069 5.054l.431 -.554a.8 .8 0 0 1 1.5 .5v2m0 4v8a.8 .8 0 0 1 -1.5 .5l-3.5 -4.5h-2a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h2l1.294 -1.664" />
         <path d="M3 3l18 18" />
       </svg>
     );
   }
-
   return (
     <svg
       {...props}
       xmlns="http://www.w3.org/2000/svg"
-      className={cn(
-        'icon icon-tabler icon-tabler-message-circle',
-        props.className,
-      )}
+      className={cn('icon icon-tabler icon-tabler-volume', props.className)}
       width={size}
       height={size}
       viewBox="0 0 24 24"
@@ -62,7 +60,9 @@ export const IconMessage: Atom<IconProps & IconVariant> = ({
       strokeLinejoin="round"
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M3 20l1.3 -3.9c-2.324 -3.437 -1.426 -7.872 2.1 -10.374c3.526 -2.501 8.59 -2.296 11.845 .48c3.255 2.777 3.695 7.266 1.029 10.501c-2.666 3.235 -7.615 4.215 -11.574 2.293l-4.7 1" />
+      <path d="M15 8a5 5 0 0 1 0 8" />
+      <path d="M17.7 5a9 9 0 0 1 0 14" />
+      <path d="M6 15h-2a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h2l3.5 -4.5a.8 .8 0 0 1 1.5 .5v14a.8 .8 0 0 1 -1.5 .5l-3.5 -4.5" />
     </svg>
   );
 };

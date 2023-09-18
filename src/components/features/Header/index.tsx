@@ -1,6 +1,9 @@
-import { ButtonIconMoon } from '@components/atoms/Icon/IconMoon';
+import { ButtonIconArrowDown } from '@components/atoms/Icon/IconArrow';
 import { ButtonIconNotification } from '@components/atoms/Icon/IconNotification';
+import { ButtonIconPalette } from '@components/atoms/Icon/IconPalette';
+import { IconPlus } from '@components/atoms/Icon/IconPlus';
 import { IconSearch } from '@components/atoms/Icon/IconSearch';
+import { Menu } from '@components/atoms/Menu';
 import { useAuth } from '@components/features/AuthProvider';
 import { useMode } from '@components/features/DarkModeProvider';
 import { GeneralInfo } from '@components/features/GeneralInfo';
@@ -14,18 +17,14 @@ import { Button } from '../../atoms/Button';
 import { Card } from '../../atoms/Card';
 import { Dropdown } from '../../atoms/Dropdown';
 import { Icon } from '../../atoms/Icon/Icon';
-import { ButtonIconApplication } from '../../atoms/Icon/IconApplication';
-import { ButtonIconChevronLeft } from '../../atoms/Icon/IconChevronLeft';
-import { IconChevronRight } from '../../atoms/Icon/IconChevronRight';
 import { IconClose } from '../../atoms/Icon/IconClose';
 import { ButtonIconFeedback } from '../../atoms/Icon/IconFeedback';
-import { ButtonIconLogout } from '../../atoms/Icon/IconLogout';
 import { ButtonIconSetting } from '../../atoms/Icon/IconSetting';
 import { ButtonIconThreeDotAction } from '../../atoms/Icon/IconThreeDotAction';
-import { Step } from '../../atoms/Step';
 import { Switch } from '../../atoms/Switch';
 import { Notification } from '../Notification';
 import { ModalLogin } from './ModalLogin';
+import { PersonalMenu } from './PersonalMenu';
 
 const mapColor: any = {
   blue: {
@@ -121,8 +120,12 @@ const changeTheme = (color: any) => {
 export const Header = () => {
   const { mode, toggleMode } = useMode();
   const [openLogin] = useState(false);
-  const { user, logout } = useAuth();
-  const [stepActive, setTabActive] = useState(0);
+  const { user } = useAuth();
+  const [org, setOrg] = useState({
+    logo: 'https://spacedev.vn/images/LOGO-image-full.svg',
+    name: 'Fucinsrule',
+    description: 'Platform mạng xã hội doanh nghiệp và cá nhân',
+  });
 
   return (
     <>
@@ -133,17 +136,109 @@ export const Header = () => {
       <header className="shadow dark:bg-slate-900 bg-white h-header px-4 flex sticky top-0 z-10 border-b border-base">
         <div className="flex items-center gap-4 w-full">
           <div className="w-sidebar text-left">
-            <Link
-              to={PATH.Home}
-              className="dark:text-white text-slate-800 text-2xl font-bold flex items-center gap-1"
+            <Dropdown
+              popupClassName="-translate-x-4"
+              getPopupContainer={(node) => node}
+              autoClose
+              content={
+                <Menu
+                  menus={[
+                    {
+                      className: '',
+                      label: (
+                        <div className="flex items-center gap-3">
+                          <img
+                            src="https://spacedev.vn/images/LOGO-image-full.svg"
+                            className="w-[25px]"
+                          />
+                          <div className="flex flex-col gap-1 flex-1">
+                            <span>Spacedev</span>
+                            <span className="text-xs !text-opacity-70 text-black dark:text-white">
+                              Nền tảng học lập trình online
+                            </span>
+                          </div>
+                          <div className="bg-red-600 text-white font-bold rounded-full w-5 h-5 text-xs flex items-center justify-center">
+                            10
+                          </div>
+                        </div>
+                      ),
+                    },
+                    {
+                      className: '',
+                      label: (
+                        <div className="flex items-center gap-3">
+                          <img
+                            src="https://spacedev.vn/images/LOGO-image-full.svg"
+                            className="w-[25px]"
+                          />
+                          <div className="flex flex-col gap-1">
+                            <span>Fucinsrule</span>
+                            <span className="text-xs !text-opacity-70 text-black dark:text-white">
+                              Platform mạng xã hội doanh nghiệp và cá nhân
+                            </span>
+                          </div>
+                        </div>
+                      ),
+
+                      onClick: () =>
+                        setOrg({
+                          logo: 'https://spacedev.vn/images/LOGO-image-full.svg',
+                          name: 'Fucinsrule',
+                          description:
+                            'Platform mạng xã hội doanh nghiệp và cá nhân',
+                        }),
+                    },
+                    {
+                      className: '',
+                      label: (
+                        <div className="flex items-center gap-3">
+                          <img
+                            className="w-[25px]"
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png"
+                          />
+                          <div className="flex flex-col gap-1">
+                            <span>CMS Bingong</span>
+                            <span className="text-xs !text-opacity-70 text-black dark:text-white">
+                              Nền tảng quản lý nội dung chuyên nghiệp{' '}
+                            </span>
+                          </div>
+                        </div>
+                      ),
+                      onClick: () =>
+                        setOrg({
+                          logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png',
+                          name: 'CMS Bingong',
+                          description:
+                            'Nền tảng quản lý nội dung chuyên nghiệp',
+                        }),
+                    },
+                    {
+                      className: '!p-0 w-full !bg-transparent',
+                      label: (
+                        <>
+                          <Button
+                            iconPrefix={<IconPlus />}
+                            type="primary"
+                            className="w-[320px] mt-2"
+                          >
+                            Tạo một tổ chức mới
+                          </Button>
+                        </>
+                      ),
+                    },
+                  ]}
+                />
+              }
             >
-              {/* Fucin<span className="text-black px-1 ml-1 leading-8 inline-flex items-center rounded bg-[#ea8f1c]">srule</span> */}
-              <img
-                src="https://spacedev.vn/images/LOGO-image-full.svg"
-                className="w-[25px]"
-              />
-              <span>Fucinsrule</span>
-            </Link>
+              <Link
+                to={PATH.Home}
+                className="dark:text-white text-slate-800 text-2xl font-bold flex items-center gap-1"
+              >
+                <img src={org.logo} className="w-[25px]" />
+                <span>{org.name}</span>
+                <ButtonIconArrowDown transparent />
+              </Link>
+            </Dropdown>
           </div>
           <Dropdown
             className="flex-1 relative max-w-main-content mx-auto"
@@ -241,7 +336,7 @@ export const Header = () => {
                       </div>
                     }
                   >
-                    <ButtonIconApplication />
+                    <ButtonIconPalette />
                   </Dropdown>
                 </div>
                 <div className="flex items-center">
@@ -259,151 +354,14 @@ export const Header = () => {
                 <Dropdown
                   getPopupContainer={(parentNode) => parentNode}
                   placement="bottomRight"
-                  onClose={() => setTabActive(0)}
-                  content={
-                    <Step active={stepActive}>
-                      <div className="w-[300px]">
-                        <Link
-                          to={PATH.Profile}
-                          className="py-2 px-3 border-gray-300 rounded border-b border-solid text-gray-900 dark:text-white dark:border-slate-700 pb-3 hover:bg-black hover:bg-opacity-20 flex items-center gap-3"
-                        >
-                          <Avatar />
-                          <h3 className="text-lg font-semibold">
-                            Đặng Thuyền Vương
-                          </h3>
-                        </Link>
-                        <div className="mt-3">
-                          <a
-                            onClick={(ev) => {
-                              ev.preventDefault();
-                              toggleMode();
-                            }}
-                            href="#"
-                            className="px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
-                          >
-                            <ButtonIconMoon />
-                            <p className="flex-1">Dark mode</p>
-                            <Switch checked={mode === 'dark'} />
-                          </a>
-
-                          <div
-                            className="cursor-pointer px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
-                            onClick={() => setTabActive(2)}
-                          >
-                            <ButtonIconFeedback />
-                            <p className="flex-1">Để lại góp ý</p>
-                            <IconChevronRight />
-                          </div>
-                          <a
-                            href=""
-                            className=" px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
-                            onClick={(ev) => {
-                              ev.preventDefault();
-                              setTabActive(1);
-                            }}
-                          >
-                            <ButtonIconSetting />
-                            <p className="flex-1">Cài đặt</p>
-                            <IconChevronRight />
-                          </a>
-                          <a
-                            href=""
-                            className="px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
-                            onClick={(ev) => {
-                              ev.preventDefault();
-                              logout();
-                            }}
-                          >
-                            <ButtonIconLogout />
-                            <p>Đăng xuất</p>
-                          </a>
-                          <GeneralInfo />
-                        </div>
-                      </div>
-                      <div className="w-[300px]">
-                        <h3 className="pt-2 dark:text-white text-lg font-bold flex gap-2 items-center">
-                          <ButtonIconChevronLeft
-                            onClick={() => setTabActive(0)}
-                          />
-                          Cài đặt
-                        </h3>
-                        <div className="mt-3">
-                          <a
-                            href="#"
-                            className="h-12 px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
-                          >
-                            Ngôn ngữ
-                          </a>
-                          <a
-                            href="#"
-                            className="h-12 px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
-                          >
-                            Tùy chọn Bảng feed
-                          </a>
-                          <a
-                            href="#"
-                            className="h-12 px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
-                          >
-                            Kiểm tra quyền riêng tư
-                          </a>
-                          <a
-                            href="#"
-                            className="h-12 px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
-                          >
-                            Nhật ký hoạt động
-                          </a>
-                        </div>
-                      </div>
-                      <div className="w-[300px]">
-                        <h3 className="pt-2 dark:text-white text-lg font-bold flex gap-2 items-center">
-                          <ButtonIconChevronLeft
-                            onClick={() => setTabActive(0)}
-                          />
-                          Trợ giúp & hỗ trợ
-                        </h3>
-                        <div className="mt-3">
-                          <a
-                            href="#"
-                            className="h-12 px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
-                          >
-                            Trung tâm trợ giúp
-                          </a>
-                          <a
-                            href="#"
-                            className="h-12 px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
-                          >
-                            Hộp thư hỗ trợ
-                          </a>
-                          <a
-                            href="#"
-                            className="h-12 px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
-                          >
-                            Báo cáo sự cố
-                          </a>
-                        </div>
-                      </div>
-                    </Step>
-                  }
+                  content={<PersonalMenu />}
                 >
                   <div className="active:scale-95 relative flex items-center">
                     <Avatar />
-                    <Icon className="absolute !w-3 !h-3 right-0 -bottom-1">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="icon icon-tabler icon-tabler-chevron-down"
-                        width={10}
-                        height={10}
-                        viewBox="0 0 24 24"
-                        strokeWidth={2}
-                        stroke="currentColor"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M6 9l6 6l6 -6" />
-                      </svg>
-                    </Icon>
+                    <ButtonIconArrowDown
+                      size={10}
+                      className="absolute !p-1 right-0 -bottom-1 !pointer-events-auto bg-gray-300 dark:!bg-slate-600"
+                    />
                   </div>
                 </Dropdown>
               </>

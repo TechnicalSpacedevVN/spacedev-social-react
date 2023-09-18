@@ -28,6 +28,8 @@ export const mockUser = () => ({
   messageCount: faker.number.int({ min: 0, max: 10 }),
   story: Math.random() < 0.2,
   jobTitle: faker.person.jobTitle(),
+  cover: faker.image.url({ width: 1900, height: 500 }),
+  bio: 'Không có chiến thắng nào không có sự hy sinh',
 });
 
 export const mockComment = () => ({

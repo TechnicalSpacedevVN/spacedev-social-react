@@ -9,7 +9,7 @@ export interface Menu {
   line?: boolean;
   suffix?: any;
   className?: string;
-  sub?: any;
+  description?: any;
 }
 export interface MenuProps {
   menus: Menu[];
@@ -42,19 +42,20 @@ export const Menu: Atom<MenuProps> = ({ menus, ...props }) => {
               e.className,
             )}
           >
-            <div className="flex gap-2">
-              {e.icon && <span className="leading-4">{e.icon}</span>}
+            <div className="flex gap-2 items-center">
+              {e.icon && <span className="">{e.icon}</span>}
 
-              <div className="flex flex-col gap-1">
-                <span className="leading-4">{e.label}</span>
-                {e.sub && (
-                  <span className="dark:text-white text-black !text-opacity-50 text-xs">
-                    {e.sub}
-                  </span>
-                )}
-              </div>
+              <div className="flex flex-col gap-1 flex-1">{e.label}</div>
               {e.suffix}
             </div>
+            {e.description && (
+              <div className="flex gap-2 items-center">
+                {e.icon && <span className="opacity-0">{e.icon}</span>}
+                <div className="dark:text-white text-black !text-opacity-50 text-xs">
+                  {e.description}
+                </div>
+              </div>
+            )}
           </div>
         );
       })}
