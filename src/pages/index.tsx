@@ -1,4 +1,5 @@
 import { InfinityLoading } from '@components/atoms/InfinityLoading';
+import { Sticky } from '@components/atoms/Sticky';
 import { CardGroup } from '@components/features/CardGroup';
 import { useTitle } from '@hooks/useTitle';
 import { fakeApi, mockPosts } from '@utils/mock';
@@ -39,33 +40,38 @@ export const Home = () => {
 
   return (
     <div className="px-4 flex w-full gap-4 mt-4">
-      <div className="w-sidebar flex gap-4 flex-col sticky bottom-6 self-start">
-        {user ? (
-          <>
-            <SuggestedForYou />
-            <CardGroup />
-            {/* <Activity /> */}
-          </>
-        ) : (
-          <>
-            <div className="px-2">
-              <p className="text-sm">
-                Đăng nhập để thực hiện các hành động như like, comment, chia
-                sẻ,...
-              </p>
-              <Button
-                size="large"
-                type="red"
-                className="w-full mt-3"
-                onClick={() => setGlobalState(LOGIN_MODAL, true)}
-              >
-                Đăng nhập
-              </Button>
+      <div className="w-sidebar">
+        <div className="relative h-full">
+          <Sticky top={66} bottom={16}>
+            <div className="flex gap-4 flex-col ">
+              {user ? (
+                <>
+                  <SuggestedForYou />
+                  <CardGroup />
+                  {/* <Activity /> */}
+                </>
+              ) : (
+                <>
+                  <div className="px-2">
+                    <p className="text-sm">
+                      Đăng nhập để thực hiện các hành động như like, comment,
+                      chia sẻ,...
+                    </p>
+                    <Button
+                      size="large"
+                      type="red"
+                      className="w-full mt-3"
+                      onClick={() => setGlobalState(LOGIN_MODAL, true)}
+                    >
+                      Đăng nhập
+                    </Button>
+                  </div>
+                </>
+              )}
+              <GeneralInfo />
             </div>
-          </>
-        )}
-
-        <GeneralInfo />
+          </Sticky>
+        </div>
       </div>
       <div className="flex-1 w-1 pb-4 ">
         <div className="max-w-main-content mx-auto flex flex-col gap-4">

@@ -12,15 +12,17 @@ import { InfinityLoading } from '@components/atoms/InfinityLoading';
 import { Menu } from '@components/atoms/Menu';
 import { Switch } from '@components/atoms/Switch';
 import { Tab } from '@components/atoms/Tab';
+import { useTranslate } from '@components/atoms/TranslateProvider';
 import { fakeApi, mockUsers } from '@utils/mock';
 import { useState } from 'react';
 
 export const Message = () => {
   const [users, setUsers] = useState(() => mockUsers(20));
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslate();
   return (
     <Card
-      title="Tin nhắn"
+      title={t('Message')}
       action={
         <Dropdown
           placement="bottomRight"
@@ -29,17 +31,19 @@ export const Message = () => {
             <Menu
               menus={[
                 {
-                  label: 'Âm thanh khi có người nhắn tin',
+                  label: t('Sound when someone texts'),
                   icon: <IconVolume off />,
                   suffix: <Switch />,
                 },
                 {
-                  label: 'Tự động mở khi có tin nhắn mới',
+                  label: t('Automatically open'),
+                  description: t('When there is a new message'),
                   icon: <IconMessageChatbot />,
+                  suffix: <Switch />,
                 },
                 { line: true },
                 {
-                  label: 'Trạng thái hoạt động',
+                  label: t('Active status'),
                   suffix: <Switch checked />,
                   icon: (
                     <span className="relative flex h-3 w-3 mt-1">
@@ -49,12 +53,12 @@ export const Message = () => {
                   ),
                 },
                 {
-                  label: 'Đưa vào tin nhắn chờ',
-                  description: 'Chỉ đối với người lạ',
+                  label: t('Put in waiting message'),
+                  description: t('Only for strangers'),
                   icon: <IconLockPause />,
                   suffix: <Switch checked />,
                 },
-                { label: 'Quản lý danh sách chặn', icon: <IconMessage off /> },
+                { label: t('Manage block lists'), icon: <IconMessage off /> },
               ]}
             />
           }
@@ -69,7 +73,7 @@ export const Message = () => {
           <IconSearch />
 
           <input
-            placeholder="Search messages...."
+            placeholder={t('Search messages...')}
             className="text-xs flex-1 placeholder:text-xs outline-none bg-transparent"
           />
         </div>
@@ -79,7 +83,7 @@ export const Message = () => {
             itemClass="whitespace-nowrap"
             items={[
               {
-                label: 'Cá nhân',
+                label: t('Private'),
                 children: (
                   <InfinityLoading
                     loading={loading}
@@ -122,12 +126,12 @@ export const Message = () => {
                   </InfinityLoading>
                 ),
               },
-              { label: 'Nhóm', children: 'Nhóm' },
+              { label: t('Group'), children: 'Nhóm' },
               {
                 label: (
                   <div className="ml-auto">
                     <span className="dark:text-primary-400 text-primary-800 text-xs font-semibold">
-                      Yêu cầu (2)
+                      {t('Request')} (2)
                     </span>
                   </div>
                 ),

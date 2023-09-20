@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 export const useWindowEvent = (
   eventName: string,
-  callback: Function,
+  callback: (ev: Event) => void,
   dependencies?: any[],
   options?:
     | boolean

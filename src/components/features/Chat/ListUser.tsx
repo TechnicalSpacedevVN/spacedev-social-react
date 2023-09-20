@@ -1,92 +1,94 @@
-import { random, sampleSize } from "lodash";
-import { cn } from "../../../utils";
+import { useTranslate } from '@components/atoms/TranslateProvider';
+import { random, sampleSize } from 'lodash';
+import { cn } from '../../../utils';
 const tags = [
   {
-    name: "Question",
+    name: 'Question',
     className:
-      "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300",
+      'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300',
   },
   {
-    name: "Wanted Help",
+    name: 'Wanted Help',
     className:
-      "bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300",
+      'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300',
   },
   {
-    name: "Bug",
-    className: "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300",
+    name: 'Bug',
+    className: 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300',
   },
 ];
 
 const users = [
   {
-    name: "Lillian Cain",
-    avatar: "https://unsplash.it/50/50?t=98",
-    message: "rQ7wBskbtw7Yv0O",
+    name: 'Lillian Cain',
+    avatar: 'https://unsplash.it/50/50?t=98',
+    message: 'rQ7wBskbtw7Yv0O',
     online: 0,
   },
   {
-    name: "Lilly Crawford",
-    avatar: "https://unsplash.it/50/50?t=27",
-    message: "XrN3wnvY8yB2WDJFbwzE",
+    name: 'Lilly Crawford',
+    avatar: 'https://unsplash.it/50/50?t=27',
+    message: 'XrN3wnvY8yB2WDJFbwzE',
     online: 1,
   },
   {
-    name: "Jean Malone",
-    avatar: "https://unsplash.it/50/50?t=79",
-    message: "mSlZV1TY5owi6J3Yb80B",
+    name: 'Jean Malone',
+    avatar: 'https://unsplash.it/50/50?t=79',
+    message: 'mSlZV1TY5owi6J3Yb80B',
     online: 1,
   },
   {
-    name: "Edith Cruz",
-    avatar: "https://unsplash.it/50/50?t=96",
-    message: "LCHHTnSdAelxWL0",
+    name: 'Edith Cruz',
+    avatar: 'https://unsplash.it/50/50?t=96',
+    message: 'LCHHTnSdAelxWL0',
     online: 0,
   },
   {
-    name: "Nathan Frank",
-    avatar: "https://unsplash.it/50/50?t=10",
-    message: "qH7fc354sPA3jIK7N",
+    name: 'Nathan Frank',
+    avatar: 'https://unsplash.it/50/50?t=10',
+    message: 'qH7fc354sPA3jIK7N',
     online: 1,
   },
   {
-    name: "Gertrude Reid",
-    avatar: "https://unsplash.it/50/50?t=66",
-    message: "dTXLNCXEDF",
+    name: 'Gertrude Reid',
+    avatar: 'https://unsplash.it/50/50?t=66',
+    message: 'dTXLNCXEDF',
     online: 0,
   },
   {
-    name: "Corey McKinney",
-    avatar: "https://unsplash.it/50/50?t=78",
-    message: "50rSrDfzkQa8JX8",
+    name: 'Corey McKinney',
+    avatar: 'https://unsplash.it/50/50?t=78',
+    message: '50rSrDfzkQa8JX8',
     online: 1,
   },
   {
-    name: "Dennis Lambert",
-    avatar: "https://unsplash.it/50/50?t=9",
-    message: "fwLHzgKizD",
+    name: 'Dennis Lambert',
+    avatar: 'https://unsplash.it/50/50?t=9',
+    message: 'fwLHzgKizD',
     online: 0,
   },
   {
-    name: "Clara Keller",
-    avatar: "https://unsplash.it/50/50?t=99",
-    message: "mNWlUvO5snfguTiBeSU",
+    name: 'Clara Keller',
+    avatar: 'https://unsplash.it/50/50?t=99',
+    message: 'mNWlUvO5snfguTiBeSU',
     online: 1,
   },
   {
-    name: "Pearl Santos",
-    avatar: "https://unsplash.it/50/50?t=64",
-    message: "t3vSgdWAmVn",
+    name: 'Pearl Santos',
+    avatar: 'https://unsplash.it/50/50?t=64',
+    message: 't3vSgdWAmVn',
     online: 0,
   },
   {
-    name: "Minerva Lee",
-    avatar: "https://unsplash.it/50/50?t=5",
-    message: "8fPI28PQzNx7rPdhIgA",
+    name: 'Minerva Lee',
+    avatar: 'https://unsplash.it/50/50?t=5',
+    message: '8fPI28PQzNx7rPdhIgA',
     online: 0,
   },
 ];
 
 export const ListUser = () => {
+  const { t } = useTranslate();
   return (
     <div className="dark:border-gray-700  dark:text-white h-screen overflow-auto flex flex-col w-[250px] border-0 border-r border-solid border-gray-300">
       <div className=" dark:border-gray-700 dark:text-white h-14 flex items-center p-2 border-0 border-b border-solid border-gray-300">
@@ -137,7 +139,7 @@ export const ListUser = () => {
             </span>
             <input
               className="flex-1  text-sm bg-transparent outline-none placeholder:text-gray-500 placeholder:text-xs"
-              placeholder="Search Message..."
+              placeholder={t('Search messages...')}
             />
           </div>
         </div>
@@ -154,17 +156,17 @@ export const ListUser = () => {
                 </div>
                 <div
                   className={cn(
-                    "rounded-full h-2 w-2 absolute bottom-0 right-0 dark:shadow-slate-900 shadow-[0_0_0_4px_white]",
+                    'rounded-full h-2 w-2 absolute bottom-0 right-0 dark:shadow-slate-900 shadow-[0_0_0_4px_white]',
                     {
-                      "bg-green-500": e.online,
-                      "bg-gray-500": !e.online,
-                    }
+                      'bg-green-500': e.online,
+                      'bg-gray-500': !e.online,
+                    },
                   )}
                 ></div>
               </div>
               <div className="flex-1">
                 <div className="text-xs flex justify-between font-semibold">
-                  <span>Antonio McKenzie</span>{" "}
+                  <span>Antonio McKenzie</span>{' '}
                   <span className="text-xs text-gray-400">11:23</span>
                 </div>
                 <p className="dark:text-gray-300 text-xs text-gray-500 line-clamp-1">
@@ -174,8 +176,8 @@ export const ListUser = () => {
                   {sampleSize(tags, random(3)).map((e) => (
                     <div
                       className={cn(
-                        "text-[11px] px-2 flex items-center justify-center rounded-full",
-                        e.className
+                        'text-[11px] px-2 flex items-center justify-center rounded-full',
+                        e.className,
                       )}
                     >
                       {e.name}

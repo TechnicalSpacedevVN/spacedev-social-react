@@ -23,6 +23,7 @@ import { Modal, ModalProps } from '@components/atoms/Modal';
 import { Skeleton } from '@components/atoms/Skeleton';
 import { Slider } from '@components/atoms/Slider';
 import { Tag } from '@components/atoms/Tag';
+import { useTranslate } from '@components/atoms/TranslateProvider';
 import { PATH } from '@constants/path';
 import { handleSelectEnd, scollToElement } from '@utils';
 import { IComment, IPost, mockPost } from '@utils/mock';
@@ -32,6 +33,7 @@ import { Link, generatePath } from 'react-router-dom';
 import { PopoverUser } from './PopoverUser';
 
 const PostMenu = () => {
+  const { t } = useTranslate();
   return (
     <Dropdown
       autoClose
@@ -40,25 +42,27 @@ const PostMenu = () => {
         <Menu
           className="w-[350px]"
           menus={[
-            { label: 'Đưa bài viết vào thùng rác', icon: <IconTrash /> },
-            { label: 'Chỉnh sửa', icon: <IconPen /> },
-            { label: 'Lưu trữ', icon: <IconArchive /> },
+            { label: t('Put the post in the trash'), icon: <IconTrash /> },
+            { label: t('Edit article'), icon: <IconPen /> },
+            { label: t('Archive articles'), icon: <IconArchive /> },
             {
-              label: 'Tắt thông báo về bài viết này',
+              label: t('Turn off notifications about this post'),
               icon: <IconBellOff />,
-              description: 'Tắt mọi thông báo ngoại trừ có người tag tên bạn',
+              description: t(
+                'Turn off all notifications except when people tag you',
+              ),
             },
             { line: true },
             {
-              label: 'Báo cáo bài viết',
+              label: t('Report article'),
               icon: <IconExclamation />,
               description:
-                'Sẽ không ai biết bạn báo cáo bài viết này và bài viết sẽ được tạm ẩn trên tường cá nhân của bạn',
+                'No one will know that you reported this post and the post will be temporarily hidden on your timeline',
             },
             {
-              label: 'Ẩn bài viết',
+              label: t('Hide posts'),
               icon: <IconEyeClose />,
-              description: 'Chỉ ẩn trên dòng thời gian của bạn',
+              description: t('ust hide on your timeline'),
             },
           ]}
         />
@@ -105,6 +109,7 @@ export const PostLoading = () => {
 };
 
 export const Post = () => {
+  const { t } = useTranslate();
   const [open, setOpen] = useState(false);
   const [post] = useState(mockPost);
   const id = useMemo(() => Math.round(Math.random() * 10000000).toString(), []);
@@ -211,13 +216,15 @@ export const Post = () => {
                 />
               </div>
               <p className="text-sm">
-                Thả tim bởi{' '}
+                {t('Liked by')}
                 <b>
                   <a href="#">Sue Franklin</a>
                 </b>{' '}
-                và{' '}
+                {t('and')}{' '}
                 <b>
-                  <a href="#">{post.heartCount} người khác</a>
+                  <a href="#">
+                    {post.heartCount} {t('thers')}
+                  </a>
                 </b>
               </p>
             </div>
@@ -239,6 +246,7 @@ export interface ModelDetailProps extends ModalProps {
 }
 
 const ModalDetail: FC<ModelDetailProps> = ({ post, ...props }) => {
+  const { t } = useTranslate();
   const [value, setValue] = useState('');
   return (
     <Modal
@@ -310,7 +318,7 @@ const ModalDetail: FC<ModelDetailProps> = ({ post, ...props }) => {
               <input
                 value={value}
                 onChange={(ev) => setValue(ev.target.value)}
-                placeholder="Thêm bình luận..."
+                placeholder={t('Add comment...')}
                 className="outline-0 text-sm px-2 py-3 flex-1 bg-transparent"
               />
               <Button
@@ -318,7 +326,7 @@ const ModalDetail: FC<ModelDetailProps> = ({ post, ...props }) => {
                 disabled={!value}
                 className="rounded-none !px-10"
               >
-                Gửi
+                {t('Send')}
               </Button>
             </div>
           </div>
@@ -355,6 +363,7 @@ const UserComment: Atom<UserCommentProps> = ({
   isReply = true,
   comment,
 }) => {
+  const { t } = useTranslate();
   const [openReply, setOpenReply] = useState(false);
   const inputRef = useRef<HTMLParagraphElement>(null);
 
@@ -379,7 +388,7 @@ const UserComment: Atom<UserCommentProps> = ({
               href="#"
               className="font-bold text-opacity-50 text-black hover:text-opacity-100 dark:text-white"
             >
-              2 Thích
+              2 {t('Like')}
             </a>
             <a
               href="#"
@@ -395,7 +404,7 @@ const UserComment: Atom<UserCommentProps> = ({
                 }, 0);
               }}
             >
-              Trả lời
+              {t('Reply')}
             </a>
 
             <Dropdown
@@ -404,10 +413,10 @@ const UserComment: Atom<UserCommentProps> = ({
               content={
                 <Menu
                   menus={[
-                    { label: 'Xóa' },
-                    { label: 'Chỉnh sửa' },
-                    { label: 'Báo cáo' },
-                    { label: 'Ẩn bình luận' },
+                    { label: t('Delete') },
+                    { label: t('Edit') },
+                    { label: t('Report') },
+                    { label: t('Hide comments') },
                   ]}
                 />
               }
@@ -435,7 +444,7 @@ const UserComment: Atom<UserCommentProps> = ({
                 console.log(val);
               }}
               // ref={inputRef}
-              placeholder="Thêm bình luận...."
+              placeholder={t('Add comment...')}
               onEnter={() => {
                 console.log('send reply');
               }}
@@ -448,7 +457,7 @@ const UserComment: Atom<UserCommentProps> = ({
       {loadMore && (
         <div className="pr-3 pl-14 mb-3">
           <div className="text-gray-400 flex items-baseline gap-2 cursor-pointer text-xs font-bold mt-1 before:content-normal before:block before:w-8 before:h-[1px] before:bg-gray-400">
-            Bình luận ({comment.replyCount})
+            {t('Comment')} ({comment.replyCount})
           </div>
         </div>
       )}

@@ -3,11 +3,13 @@ import { setDropFileData } from '@components/atoms/DropFile';
 import { ButtonIconChevronLeft } from '@components/atoms/Icon/IconChevronLeft';
 import { ButtonIconChevronRight } from '@components/atoms/Icon/IconChevronRight';
 import { IconPlus } from '@components/atoms/Icon/IconPlus';
+import { useTranslate } from '@components/atoms/TranslateProvider';
 import { faker } from '@faker-js/faker';
 import { mockStories } from '@utils/mock';
 import { useId, useRef, useState } from 'react';
 
 export const Story = () => {
+  const { t } = useTranslate();
   const [stories] = useState(() => mockStories(10));
   const [img] = useState(() => faker.image.url({ height: 400, width: 400 }));
   const wraperRef = useRef<HTMLDivElement>(null);
@@ -56,7 +58,7 @@ export const Story = () => {
                 <div className="w-7 h-7 flex items-center justify-center text-white bg-primary-500 hover:bg-primary-600 rounded-full shadow-[0_0_0_2px_white]">
                   <IconPlus />
                 </div>
-                Tạo tin
+                {t('Create Story')}
               </div>
             </div>
           </div>

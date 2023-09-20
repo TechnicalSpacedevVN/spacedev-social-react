@@ -5,8 +5,10 @@ import { IconArrowDown } from '@components/atoms/Icon/IconArrow';
 import { IconTie } from '@components/atoms/Icon/IconTie';
 import { IconWorld } from '@components/atoms/Icon/IconWorld';
 import { Menu } from '@components/atoms/Menu';
+import { Sticky } from '@components/atoms/Sticky';
 import { UploadFile, UploadfileRef } from '@components/atoms/UploadFile';
 import { CardGroup } from '@components/features/CardGroup';
+import { GeneralInfo } from '@components/features/GeneralInfo';
 import { useTitle } from '@hooks/useTitle';
 import { cn } from '@utils';
 import { convertFileToImage } from '@utils/file';
@@ -195,10 +197,11 @@ export const Profile = () => {
           </div>
         </div>
         <div className="container mx-auto p-4 flex gap-4">
-          <div className="relative flex">
-            <div className="text-sm flex flex-col gap-4 w-[400px] sticky bottom-6 self-start">
-              <Card title="Giới thiệu">
-                {/* <Textarea
+          <div className="relative">
+            <Sticky top={66} bottom={16}>
+              <div className="text-sm flex flex-col gap-4 w-[400px] sticky bottom-6 self-start">
+                <Card title="Giới thiệu">
+                  {/* <Textarea
                   placeholder="Mô tả về bạn"
                   maxLength={150}
                   isTextarea={isEditBio}
@@ -213,80 +216,82 @@ export const Profile = () => {
                 >
                   There's no victory without sacrifice
                 </Textarea> */}
-                <Contenteditable
-                  placeholder="Thêm mô tả về bạn"
-                  maxLength={125}
-                  id={useId()}
-                  className={cn(
-                    ' after:left-1/2 after:-translate-x-1/2 text-center dark:border-b-slate-700 border-gray-200 border-transparent border font-bold  mt-4 mb-4 w-full bg-transparent px-3 py-4 resize-none overflow-hidden cursor-text min-h-[54px]',
-                    {
-                      'focus:!caret-primary-500 focus:!border-primary-500 dark:border-slate-700 border-gray-200 rounded bg-white dark:bg-black !bg-opacity-5 ':
-                        isEditBio,
-                    },
-                  )}
-                  disabled={!isEditBio}
-                >
-                  There's no victory without sacrifice
-                </Contenteditable>
-                {/* <hr className="my-4" /> */}
-                <div className="flex flex-col gap-2 mb-6">
-                  <div className="flex gap-2 items-center">
-                    <IconTie size={20} />
-                    Lập trình viên Fullstack
-                  </div>
-                  <div className="flex gap-2 items-center">
-                    <IconTie size={20} />
-                    Lập trình Backend
-                  </div>
-                  <div className="flex gap-2 items-center">
-                    <IconTie size={20} />
-                    Lập trình viên Frontend
-                  </div>
-                  <div className="flex gap-2 items-center">
-                    <IconAddressBook size={20} />
-                    Hồ Chí Minh
-                  </div>
-                  <div className="flex gap-2 items-center">
-                    <IconWorld size={20} />
-                    <a href="#" target="_blank" className="text-blue-500">
-                      spacedev.vn
-                    </a>
-                  </div>
-                </div>
-                <Button
-                  className="w-full"
-                  onClick={() => setIsEditBio(!isEditBio)}
-                  type={isEditBio ? 'primary' : 'default'}
-                >
-                  {isEditBio ? 'Cập nhật' : 'Chỉnh sửa'}
-                </Button>
-              </Card>
-              <CardGroup />
-              <Card
-                title="Photos"
-                action={
-                  <a
-                    href="#"
-                    className="dark:hover:bg-slate-800 text-blue-500 hover:bg-gray-100 rounded px-3 py-0.5"
+                  <Contenteditable
+                    placeholder="Thêm mô tả về bạn"
+                    maxLength={125}
+                    id={useId()}
+                    className={cn(
+                      ' after:left-1/2 after:-translate-x-1/2 text-center dark:border-b-slate-700 border-gray-200 border-transparent border font-bold  mt-4 mb-4 w-full bg-transparent px-3 py-4 resize-none overflow-hidden cursor-text min-h-[54px]',
+                      {
+                        'focus:!caret-primary-500 focus:!border-primary-500 dark:border-slate-700 border-gray-200 rounded bg-white dark:bg-black !bg-opacity-5 ':
+                          isEditBio,
+                      },
+                    )}
+                    disabled={!isEditBio}
                   >
-                    Xem tất cả
-                  </a>
-                }
-              >
-                <div className="mt-3 gap-3 grid grid-cols-3 flex-wrap">
-                  {[...new Array(9)].map((_, i) => (
-                    <a key={i} href="#" className="">
-                      <div className="rounded-lg flex-1 overflow-hidden aspect-square">
-                        <img
-                          className="object-cover w-full h-full"
-                          src={`https://unsplash.it/150/150?t=${Math.random()}`}
-                        />
-                      </div>
+                    There's no victory without sacrifice
+                  </Contenteditable>
+                  {/* <hr className="my-4" /> */}
+                  <div className="flex flex-col gap-2 mb-6">
+                    <div className="flex gap-2 items-center">
+                      <IconTie size={20} />
+                      Lập trình viên Fullstack
+                    </div>
+                    <div className="flex gap-2 items-center">
+                      <IconTie size={20} />
+                      Lập trình Backend
+                    </div>
+                    <div className="flex gap-2 items-center">
+                      <IconTie size={20} />
+                      Lập trình viên Frontend
+                    </div>
+                    <div className="flex gap-2 items-center">
+                      <IconAddressBook size={20} />
+                      Hồ Chí Minh
+                    </div>
+                    <div className="flex gap-2 items-center">
+                      <IconWorld size={20} />
+                      <a href="#" target="_blank" className="text-blue-500">
+                        spacedev.vn
+                      </a>
+                    </div>
+                  </div>
+                  <Button
+                    className="w-full"
+                    onClick={() => setIsEditBio(!isEditBio)}
+                    type={isEditBio ? 'primary' : 'default'}
+                  >
+                    {isEditBio ? 'Cập nhật' : 'Chỉnh sửa'}
+                  </Button>
+                </Card>
+                <CardGroup />
+                <Card
+                  title="Photos"
+                  action={
+                    <a
+                      href="#"
+                      className="dark:hover:bg-slate-800 text-blue-500 hover:bg-gray-100 rounded px-3 py-0.5"
+                    >
+                      Xem tất cả
                     </a>
-                  ))}
-                </div>
-              </Card>
-            </div>
+                  }
+                >
+                  <div className="mt-3 gap-3 grid grid-cols-3 flex-wrap">
+                    {[...new Array(9)].map((_, i) => (
+                      <a key={i} href="#" className="">
+                        <div className="rounded-lg flex-1 overflow-hidden aspect-square">
+                          <img
+                            className="object-cover w-full h-full"
+                            src={`https://unsplash.it/150/150?t=${Math.random()}`}
+                          />
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </Card>
+                <GeneralInfo />
+              </div>
+            </Sticky>
           </div>
 
           <div className="flex-1 rounded-lg flex gap-4 flex-col">

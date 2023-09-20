@@ -6,6 +6,7 @@ import { ButtonIconMoon } from '@components/atoms/Icon/IconMoon';
 import { ButtonIconNotebook } from '@components/atoms/Icon/IconNotebook';
 import { ButtonIconUser } from '@components/atoms/Icon/IconUser';
 import { ButtonIconWorld } from '@components/atoms/Icon/IconWorld';
+import { useTranslate } from '@components/atoms/TranslateProvider';
 import { GeneralInfo } from '@components/features/GeneralInfo';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -28,6 +29,7 @@ export const PersonalMenu = () => {
   const [stepActive, setTabActive] = useState(0);
   const { logout } = useAuth();
   const { mode, toggleMode } = useMode();
+  const { t } = useTranslate();
 
   return (
     <Step active={stepActive}>
@@ -49,17 +51,17 @@ export const PersonalMenu = () => {
             className={menuClass}
           >
             <ButtonIconMoon size={25} />
-            <p className="flex-1">Dark mode</p>
+            <p className="flex-1">{t('Dark mode')}</p>
             <Switch checked={mode === 'dark'} />
           </a>
 
           <div className={menuClass} onClick={() => setTabActive(2)}>
             <ButtonIconUser size={25} />
-            <p className="flex-1">Cài đặt cá nhân</p>
+            <p className="flex-1">{t('Personal setting')}</p>
           </div>
           <div className={menuClass} onClick={() => setTabActive(2)}>
             <ButtonIconFeedback size={25} />
-            <p className="flex-1">Để lại góp ý</p>
+            <p className="flex-1">{t('Leave feedback')}</p>
             <IconChevronRight />
           </div>
           <a
@@ -71,7 +73,7 @@ export const PersonalMenu = () => {
             }}
           >
             <ButtonIconSetting size={25} />
-            <p className="flex-1">Cài đặt website</p>
+            <p className="flex-1">{t('Website setting')}</p>
             <IconChevronRight />
           </a>
           <a
@@ -83,7 +85,7 @@ export const PersonalMenu = () => {
             }}
           >
             <ButtonIconLogout size={25} />
-            <p>Đăng xuất</p>
+            <p>{t('Signout')}</p>
           </a>
           <GeneralInfo />
         </div>
@@ -91,41 +93,41 @@ export const PersonalMenu = () => {
       <div className="w-[300px]">
         <h3 className="pt-2 px-2 dark:text-white text-lg font-bold flex gap-2 items-center">
           <ButtonIconChevronLeft size={25} onClick={() => setTabActive(0)} />
-          Cài đặt
+          {t('Setting')}
         </h3>
         <div className="mt-3">
           <a href="#" className={menuClass}>
             <ButtonIconWorld size={25} />
-            <p className="flex-1"> Ngôn ngữ</p>
+            <p className="flex-1">{t('Language')}</p>
           </a>
 
           <a href="#" className={menuClass}>
             <ButtonIconLock size={25} />
-            <p className="flex-1"> Kiểm tra quyền riêng tư</p>
+            <p className="flex-1">{t('Settings & privacy')}</p>
           </a>
           <a href="#" className={menuClass}>
             <ButtonIconNotebook size={25} />
-            <p className="flex-1"> Nhật ký hoạt động</p>
+            <p className="flex-1">{t('Activity log')}</p>
           </a>
         </div>
       </div>
       <div className="w-[300px]">
         <h3 className="pt-2 px-2 dark:text-white text-lg font-bold flex gap-2 items-center">
           <ButtonIconChevronLeft size={25} onClick={() => setTabActive(0)} />
-          Trợ giúp & hỗ trợ
+          {t('Help and support')}
         </h3>
         <div className="mt-3">
           <a href="#" className={menuClass}>
             <ButtonIconHelpCircle size={25} />
-            <p className="flex-1"> Trung tâm trợ giúp</p>
+            <p className="flex-1">{t('Help Center')}</p>
           </a>
           <a href="#" className={menuClass}>
             <ButtonIconEmail size={25} />
-            <p className="flex-1"> Hộp thư hỗ trợ</p>
+            <p className="flex-1">{t('Support mailbox')}</p>
           </a>
           <a href="#" className={menuClass}>
             <ButtonIconBug size={25} />
-            <p className="flex-1"> Báo cáo sự cố</p>
+            <p className="flex-1">{t('Report problem')}</p>
           </a>
         </div>
       </div>

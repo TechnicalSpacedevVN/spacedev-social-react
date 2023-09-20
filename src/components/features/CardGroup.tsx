@@ -6,11 +6,13 @@ import { IconPlus } from '@components/atoms/Icon/IconPlus';
 import { ButtonIconThreeDotAction } from '@components/atoms/Icon/IconThreeDotAction';
 import { Menu } from '@components/atoms/Menu';
 import { Tag } from '@components/atoms/Tag';
+import { useTranslate } from '@components/atoms/TranslateProvider';
 
 export const CardGroup = () => {
+  const { t } = useTranslate();
   return (
     <Card
-      title="Nhóm đang tham gia"
+      title={t('The group is participating')}
       className="pb-6"
       action={
         <Dropdown
@@ -19,7 +21,7 @@ export const CardGroup = () => {
             <Menu
               menus={[
                 {
-                  label: 'Quản lý thông báo',
+                  label: t('Manage notifications'),
                   icon: <IconNotification />,
                 },
                 {
@@ -30,7 +32,7 @@ export const CardGroup = () => {
                       className="w-[200px] mt-2"
                       type="primary"
                     >
-                      Tạo nhóm mới
+                      {t('Create a new group')}
                     </Button>
                   ),
                 },
@@ -52,6 +54,14 @@ export const CardGroup = () => {
         <Tag>#AWS</Tag>
         <Tag>#Python</Tag>
         <Tag>#Go</Tag>
+        <Tag>#Product</Tag>
+        <Tag>#Website</Tag>
+        <Tag>#Spacedev.vn</Tag>
+        <Tag>#Reactjs</Tag>
+        <Tag>#Nodejs</Tag>
+        <Tag>#PHP</Tag>
+        <Tag>#AWS</Tag>
+        <Tag>#Python</Tag>
       </div>
       {/* <div className="mt-3 gap-3 grid grid-cols-3 flex-wrap">
       <a href="#" className="">

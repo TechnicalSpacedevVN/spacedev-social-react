@@ -12,6 +12,7 @@ import { IconUserGroup } from '@components/atoms/Icon/IconUserGroup';
 import { IconPhoneCall } from '@components/atoms/Icon/iconPhoneCall';
 import { Menu } from '@components/atoms/Menu';
 import { Tag } from '@components/atoms/Tag';
+import { useTranslate } from '@components/atoms/TranslateProvider';
 import { IUser } from '@utils/mock';
 import { Link } from 'react-router-dom';
 
@@ -21,6 +22,7 @@ export interface PopoverUserProp {
 }
 
 export const PopoverUser: Atom<PopoverUserProp> = ({ children, user }) => {
+  const { t } = useTranslate();
   return (
     <Dropdown
       delay={300}
@@ -66,29 +68,29 @@ export const PopoverUser: Atom<PopoverUserProp> = ({ children, user }) => {
               type="primary"
               className="flex-1"
             >
-              Kết bạn
+              {t('Add friend')}
             </Button>
             <Button iconPrefix={<IconMessage />} className="flex-1">
-              Nhắn tin
+              {t('Send Message')}
             </Button>
             <Dropdown
               content={
                 <Menu
                   menus={[
                     {
-                      label: 'Đi đến trang cá nhân',
+                      label: t('Go to personal page'),
                       icon: <IconForward />,
                     },
                     {
-                      label: 'Mời vào nhóm',
+                      label: t('Invite to the group'),
                       icon: <IconUserGroup />,
                     },
                     {
-                      label: 'Chặn người dùng này',
+                      label: t('Block this user'),
                       icon: <IconUser off />,
                     },
                     {
-                      label: 'Báo cáo người dùng này',
+                      label: t('Report this user'),
                       icon: <IconExclamation />,
                     },
                   ]}
@@ -101,7 +103,7 @@ export const PopoverUser: Atom<PopoverUserProp> = ({ children, user }) => {
           <div className="text-sm mt-4 flex flex-col gap-2  px-2">
             <div className="">
               <div>
-                <b>Thành viên nhóm</b>
+                <b>{t('Participating groups')}</b>
               </div>
               <div className="flex gap-1 mt-3">
                 <Tag className="dark:!bg-slate-700 leading-8">

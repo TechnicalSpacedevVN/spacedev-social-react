@@ -4,6 +4,7 @@ import { ButtonIconAddFriend } from '@components/atoms/Icon/IconAddFriend';
 import { ButtonIconThreeDotAction } from '@components/atoms/Icon/IconThreeDotAction';
 import { Menu } from '@components/atoms/Menu';
 import { Switch } from '@components/atoms/Switch';
+import { useTranslate } from '@components/atoms/TranslateProvider';
 import { UserItem } from '@components/atoms/UserItem';
 import { mockUsers } from '@utils/mock';
 import { useState } from 'react';
@@ -11,9 +12,10 @@ import { useState } from 'react';
 export const SuggestedForYou = () => {
   const [enabled, setEnabled] = useState(true);
   const [users] = useState(mockUsers);
+  const { t } = useTranslate();
   return (
     <Card
-      title="Những người ở gần"
+      title={t('People nearby')}
       action={
         <Dropdown
           placement="bottomLeft"
@@ -30,7 +32,7 @@ export const SuggestedForYou = () => {
                       }}
                       className="flex items-center gap-5"
                     >
-                      Bật / tắt chia sẻ vị trí
+                      {t('Enable/disable location sharing')}
                       <Switch checked={enabled} />
                     </div>
                   ),
@@ -55,7 +57,7 @@ export const SuggestedForYou = () => {
           ))
         ) : (
           <p className="text-sm text-center">
-            Vui lòng chia sẻ vị trí để sử dụng tính năng này
+            {t('Please share your location to use this feature')}
           </p>
         )}
       </div>

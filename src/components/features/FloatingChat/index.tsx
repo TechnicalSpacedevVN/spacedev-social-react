@@ -19,6 +19,7 @@ import { IconUserPlus } from '@components/atoms/Icon/IconUserPlus';
 import { InfinityLoading } from '@components/atoms/InfinityLoading';
 import { Menu } from '@components/atoms/Menu';
 import { MessageInput, MessageInputRef } from '@components/atoms/MessageInput';
+import { useTranslate } from '@components/atoms/TranslateProvider';
 import { UploadFile, UploadfileRef } from '@components/atoms/UploadFile';
 import { handleSelectEnd, scrollBottom } from '@utils/element';
 import { Event } from '@utils/event';
@@ -67,6 +68,7 @@ const isHideClass =
   '!h-[49px] !w-[400px] [&_.main]:hidden [&_.footer]:hidden cursor-pointer';
 
 export const ChatScreen: FC = () => {
+  const { t } = useTranslate();
   const uploadFileRef = useRef<UploadfileRef>(null);
   const chatScreenRef = useRef<HTMLDivElement>(null);
   const [value, setValue] = useState('');
@@ -165,44 +167,44 @@ export const ChatScreen: FC = () => {
                 <Menu
                   menus={[
                     {
-                      label: 'Đi đến trang thông tin nhóm',
+                      label: t('Go to the group information page'),
                       icon: <IconLogo />,
                     },
                     {
-                      label: 'Mở trong màn hình lớn',
+                      label: t('Open in big screen'),
                       icon: <IconMessage />,
                     },
                     {
-                      label: 'Xem trang cá nhân',
+                      label: t('View profile'),
                       icon: <IconUser />,
                     },
                     {
-                      label: 'Thay đổi chủ đề',
+                      label: t('Change theme'),
                       icon: <IconApplication />,
                     },
                     {
                       line: true,
                     },
                     {
-                      label: 'Nickname',
+                      label: t('Nickname'),
                       icon: <IconSignature />,
                     },
                     {
-                      label: 'Mã hóa tin nhắn',
+                      label: t('Encrypt messages'),
                       icon: <IconLock />,
                     },
                     {
-                      label: 'Thành viên nhóm',
+                      label: t('Group member'),
                       onClick: () => setOpenMember(true),
                       icon: <IconUserGroup />,
                     },
-                    { label: 'Tạo nhóm', icon: <IconUserPlus /> },
+                    { label: t('Create a group'), icon: <IconUserPlus /> },
                     {
-                      label: 'Rời khỏi nhóm',
+                      label: t('Leave the group'),
                       icon: <IconLogout />,
                     },
                     {
-                      label: 'Cài đặt',
+                      label: t('Setting'),
                       icon: <IconSetting />,
                     },
                   ]}
@@ -233,8 +235,8 @@ export const ChatScreen: FC = () => {
         <DropFile
           className="flex flex-col flex-1 h-1"
           title={{
-            post: 'Thả bài viết vào đây',
-            img: 'Thả link hình ảnh vào đây',
+            post: t('Drop your article here'),
+            img: t('Drop image links here'),
           }}
           includes={{
             img: async (value) => {
@@ -345,7 +347,7 @@ export const ChatScreen: FC = () => {
                     }}
                     className="border-base border dark:hover:bg-slate-800 select-none w-20 h-20 rounded overflow-hidden flex flex-col !text-opacity-60 text-black dark:text-white text-sm font-semibold gap-1 hover:bg-gray-100 items-center justify-center cursor-pointer"
                   >
-                    <IconImage /> Thêm
+                    <IconImage /> {t('Add more')}
                   </div>
                   {images.map((img) => (
                     <div
@@ -391,7 +393,7 @@ export const ChatScreen: FC = () => {
               onPasteFile={async (files) => {
                 uploadFileRef.current?.trigger(files);
               }}
-              placeholder="Viết tin nhắn..."
+              placeholder={t('Write a message...')}
             />
           </div>
           <div className="flex items-center border-t dark:border-slate-700 border-gray-300 py-1 px-2">
@@ -401,12 +403,12 @@ export const ChatScreen: FC = () => {
                   <Menu
                     menus={[
                       {
-                        label: 'Tạo một cuộc thăm dò ý kiến',
+                        label: t('Create a poll'),
                         icon: <IconPoll />,
                       },
 
                       {
-                        label: 'Tạo danh sách công việc',
+                        label: t('Create a to-do list'),
                         icon: <IconSquareRoundCheck />,
                       },
                     ]}
@@ -493,7 +495,7 @@ export const ChatScreen: FC = () => {
                   }, 300);
                 }}
               >
-                Gửi
+                {t('Send')}
               </Button>
               <Dropdown
                 placement="topRight"
@@ -503,11 +505,11 @@ export const ChatScreen: FC = () => {
                     menus={[
                       {
                         className: '[&_.icon]:!text-primary-500',
-                        label: 'Nhấn Enter để gửi tin nhắn',
+                        label: t('Press Enter to send the message'),
                         icon: <IconCircleCheck />,
                       },
                       {
-                        label: 'Nhấn nút để gửi tin nhắn',
+                        label: t('Press the button to send the message'),
                         className: '[&:hover_.icon]:!text-primary-500',
                         icon: <IconCircleCheck />,
                       },

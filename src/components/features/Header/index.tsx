@@ -4,6 +4,7 @@ import { ButtonIconPalette } from '@components/atoms/Icon/IconPalette';
 import { IconPlus } from '@components/atoms/Icon/IconPlus';
 import { IconSearch } from '@components/atoms/Icon/IconSearch';
 import { Menu } from '@components/atoms/Menu';
+import { useTranslate } from '@components/atoms/TranslateProvider';
 import { useAuth } from '@components/features/AuthProvider';
 import { useMode } from '@components/features/DarkModeProvider';
 import { GeneralInfo } from '@components/features/GeneralInfo';
@@ -118,6 +119,7 @@ const changeTheme = (color: any) => {
 };
 
 export const Header = () => {
+  const { t } = useTranslate();
   const { mode, toggleMode } = useMode();
   const [openLogin] = useState(false);
   const { user } = useAuth();
@@ -136,109 +138,109 @@ export const Header = () => {
       <header className="shadow dark:bg-slate-900 bg-white h-header px-4 flex sticky top-0 z-10 border-b border-base">
         <div className="flex items-center gap-4 w-full">
           <div className="w-sidebar text-left">
-            <Dropdown
-              popupClassName="-translate-x-4"
-              getPopupContainer={(node) => node}
-              autoClose
-              content={
-                <Menu
-                  menus={[
-                    {
-                      className: '',
-                      label: (
-                        <div className="flex items-center gap-3">
-                          <img
-                            src="https://spacedev.vn/images/LOGO-image-full.svg"
-                            className="w-[25px]"
-                          />
-                          <div className="flex flex-col gap-1 flex-1">
-                            <span>Spacedev</span>
-                            <span className="text-xs !text-opacity-70 text-black dark:text-white">
-                              Nền tảng học lập trình online
-                            </span>
-                          </div>
-                          <div className="bg-red-600 text-white font-bold rounded-full w-5 h-5 text-xs flex items-center justify-center">
-                            10
-                          </div>
-                        </div>
-                      ),
-                    },
-                    {
-                      className: '',
-                      label: (
-                        <div className="flex items-center gap-3">
-                          <img
-                            src="https://spacedev.vn/images/LOGO-image-full.svg"
-                            className="w-[25px]"
-                          />
-                          <div className="flex flex-col gap-1">
-                            <span>Fucinsrule</span>
-                            <span className="text-xs !text-opacity-70 text-black dark:text-white">
-                              Platform mạng xã hội doanh nghiệp và cá nhân
-                            </span>
-                          </div>
-                        </div>
-                      ),
-
-                      onClick: () =>
-                        setOrg({
-                          logo: 'https://spacedev.vn/images/LOGO-image-full.svg',
-                          name: 'Fucinsrule',
-                          description:
-                            'Platform mạng xã hội doanh nghiệp và cá nhân',
-                        }),
-                    },
-                    {
-                      className: '',
-                      label: (
-                        <div className="flex items-center gap-3">
-                          <img
-                            className="w-[25px]"
-                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png"
-                          />
-                          <div className="flex flex-col gap-1">
-                            <span>CMS Bingong</span>
-                            <span className="text-xs !text-opacity-70 text-black dark:text-white">
-                              Nền tảng quản lý nội dung chuyên nghiệp{' '}
-                            </span>
-                          </div>
-                        </div>
-                      ),
-                      onClick: () =>
-                        setOrg({
-                          logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png',
-                          name: 'CMS Bingong',
-                          description:
-                            'Nền tảng quản lý nội dung chuyên nghiệp',
-                        }),
-                    },
-                    {
-                      className: '!p-0 w-full !bg-transparent',
-                      label: (
-                        <>
-                          <Button
-                            iconPrefix={<IconPlus />}
-                            type="primary"
-                            className="w-[320px] mt-2"
-                          >
-                            Tạo một tổ chức mới
-                          </Button>
-                        </>
-                      ),
-                    },
-                  ]}
-                />
-              }
+            <Link
+              to={PATH.Home}
+              className="dark:text-white text-slate-800 text-2xl font-bold flex items-center gap-1"
             >
-              <Link
-                to={PATH.Home}
-                className="dark:text-white text-slate-800 text-2xl font-bold flex items-center gap-1"
+              <img src={org.logo} className="w-[25px]" />
+              <span>{org.name}</span>
+              <Dropdown
+                popupClassName="-translate-x-4"
+                getPopupContainer={(node) => node.parentNode as HTMLDivElement}
+                autoClose
+                content={
+                  <Menu
+                    menus={[
+                      {
+                        className: '',
+                        label: (
+                          <div className="flex items-center gap-3">
+                            <img
+                              src="https://spacedev.vn/images/LOGO-image-full.svg"
+                              className="w-[25px]"
+                            />
+                            <div className="flex flex-col gap-1 flex-1">
+                              <span>Spacedev</span>
+                              <span className="text-xs !text-opacity-70 text-black dark:text-white">
+                                Nền tảng học lập trình online
+                              </span>
+                            </div>
+                            <div className="bg-red-600 text-white font-bold rounded-full w-5 h-5 text-xs flex items-center justify-center">
+                              10
+                            </div>
+                          </div>
+                        ),
+                      },
+                      {
+                        className: '',
+                        label: (
+                          <div className="flex items-center gap-3">
+                            <img
+                              src="https://spacedev.vn/images/LOGO-image-full.svg"
+                              className="w-[25px]"
+                            />
+                            <div className="flex flex-col gap-1">
+                              <span>Fucinsrule</span>
+                              <span className="text-xs !text-opacity-70 text-black dark:text-white">
+                                Platform mạng xã hội doanh nghiệp và cá nhân
+                              </span>
+                            </div>
+                          </div>
+                        ),
+
+                        onClick: () =>
+                          setOrg({
+                            logo: 'https://spacedev.vn/images/LOGO-image-full.svg',
+                            name: 'Fucinsrule',
+                            description:
+                              'Platform mạng xã hội doanh nghiệp và cá nhân',
+                          }),
+                      },
+                      {
+                        className: '',
+                        label: (
+                          <div className="flex items-center gap-3">
+                            <img
+                              className="w-[25px]"
+                              src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png"
+                            />
+                            <div className="flex flex-col gap-1">
+                              <span>CMS Bingong</span>
+                              <span className="text-xs !text-opacity-70 text-black dark:text-white">
+                                Nền tảng quản lý nội dung chuyên nghiệp{' '}
+                              </span>
+                            </div>
+                          </div>
+                        ),
+                        onClick: () =>
+                          setOrg({
+                            logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png',
+                            name: 'CMS Bingong',
+                            description:
+                              'Nền tảng quản lý nội dung chuyên nghiệp',
+                          }),
+                      },
+                      {
+                        className: '!p-0 w-full !bg-transparent',
+                        label: (
+                          <>
+                            <Button
+                              iconPrefix={<IconPlus />}
+                              type="primary"
+                              className="w-[320px] mt-2"
+                            >
+                              {t('Create a new organization')}
+                            </Button>
+                          </>
+                        ),
+                      },
+                    ]}
+                  />
+                }
               >
-                <img src={org.logo} className="w-[25px]" />
-                <span>{org.name}</span>
                 <ButtonIconArrowDown transparent />
-              </Link>
-            </Dropdown>
+              </Dropdown>
+            </Link>
           </div>
           <Dropdown
             className="flex-1 relative max-w-main-content mx-auto"
@@ -253,7 +255,7 @@ export const Header = () => {
                     href="#"
                     className="dark:hover:bg-slate-700 text-blue-500 hover:bg-gray-100 rounded px-3 py-0.5"
                   >
-                    See all
+                    {t('See all')}
                   </a>
                 }
               >
@@ -299,7 +301,7 @@ export const Header = () => {
 
               <input
                 onClick={() => {}}
-                placeholder="Search for everything...."
+                placeholder={t('Search for everything....')}
                 className="placeholder:text-sm outline-none bg-transparent flex-1 text-black dark:text-white"
               />
             </div>
@@ -371,7 +373,7 @@ export const Header = () => {
                   type="red"
                   onClick={() => setGlobalState(LOGIN_MODAL, true)}
                 >
-                  Đăng nhập
+                  {t('Signin')}
                 </Button>
                 <Dropdown
                   getPopupContainer={(parentNode) => parentNode}
@@ -408,7 +410,7 @@ export const Header = () => {
                               <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
                             </svg>
                           </Icon>
-                          <p className="flex-1">Dark mode</p>
+                          <p className="flex-1">{t('Dark mode')}</p>
                           <Switch checked={mode === 'dark'} />
                         </a>
 
@@ -417,14 +419,14 @@ export const Header = () => {
                           className=" px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
                         >
                           <ButtonIconFeedback />
-                          <p>Để lại góp ý</p>
+                          <p>{t('Leave feedback')}</p>
                         </a>
                         <a
                           href=""
                           className=" px-2 py-2 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white"
                         >
                           <ButtonIconSetting />
-                          <p>Cài đặt</p>
+                          <p>{t('Setting')}</p>
                         </a>
                         <GeneralInfo />
                       </div>

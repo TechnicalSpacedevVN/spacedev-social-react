@@ -11,17 +11,11 @@ import { IconUser } from '@components/atoms/Icon/IconUser';
 import { ImageGrid } from '@components/atoms/ImageGrid';
 import { Menu } from '@components/atoms/Menu';
 import { Modal, ModalProps } from '@components/atoms/Modal';
+import { useTranslate } from '@components/atoms/TranslateProvider';
 import { UploadFile, UploadfileRef } from '@components/atoms/UploadFile';
 import { Event } from '@utils/event';
 import { IPost, mockUploadImage } from '@utils/mock';
-import { FC, useEffect, useRef, useState } from 'react';
-
-const PostVisibility = [
-  { label: 'Công khai', icon: <IconEye /> },
-  { label: 'Chỉ mình tôi', icon: <IconLock /> },
-  { label: 'Chỉ bạn bè tôi', icon: <IconUser /> },
-  { label: 'Ẩn danh', icon: <IconHacker /> },
-];
+import { FC, useEffect, useMemo, useRef, useState } from 'react';
 
 export interface ModalCreatePostProps extends ModalProps {
   post?: Partial<IPost>;
@@ -31,11 +25,22 @@ export const ModalCreatePost: FC<ModalCreatePostProps> = ({
   post,
   ...props
 }) => {
+  const { t } = useTranslate();
   const [open, setOpen] = useState(false);
   const inputRef = useRef<HTMLDivElement>(null);
   const [images, setImages] = useState<string[]>([]);
   const uploadfileRef = useRef<UploadfileRef>(null);
   const [value, setValue] = useState('');
+  const PostVisibility = useMemo(
+    () => [
+      { label: t('Public'), icon: <IconEye /> },
+      { label: t('Just me only'), icon: <IconLock /> },
+      { label: t('My friends only'), icon: <IconUser /> },
+      { label: t('Anonymous'), icon: <IconHacker /> },
+    ],
+    [t],
+  );
+
   const [visibility, setVisibility] = useState(PostVisibility[0]);
   useEffect(() => {
     if (post?.images) {
@@ -67,7 +72,7 @@ export const ModalCreatePost: FC<ModalCreatePostProps> = ({
       {...props}
       open={open}
       onCancel={() => setOpen(false)}
-      title="Tạo bài viết"
+      title={t('Create articles')}
       className="min-h-[500px]"
       keyboard={false}
       overlayCloseable={false}
@@ -100,7 +105,7 @@ export const ModalCreatePost: FC<ModalCreatePostProps> = ({
             </Dropdown>
           </div>
           <div>
-            <Button>Viết nội dung với AI</Button>
+            <Button>{t('Write content with AI')}</Button>
           </div>
         </div>
         <DropFile
@@ -115,7 +120,9 @@ export const ModalCreatePost: FC<ModalCreatePostProps> = ({
           <div className="max-h-[500px] overflow-auto ">
             <div
               ref={inputRef}
-              placeholder="Bạn đang muốn nói điều gì với những người bạn quan tâm...."
+              placeholder={t(
+                'What do you want to say to the people you care about?..',
+              )}
               className="block overflow-hidden stext-xl mb-2 bg-transparent outline-none w-full resize-none dark:after:text-white after:text-black after:!text-opacity-60 mt-3 after:empty:content-[attr(placeholder)] after:absolute after:-translate-y-1/2 after:top-1/2 relative"
               spellCheck={false}
               // onChange={(ev) => setValue(ev.target.value)}
@@ -135,7 +142,7 @@ export const ModalCreatePost: FC<ModalCreatePostProps> = ({
           </div>
         </DropFile>
         <div className="flex gap-2 px-2 items-center mt-2 mb-2">
-          <p className="text-sm">Thêm nội dung cho bài viết?</p>
+          <p className="text-sm">{t('Add content to the article?')}</p>
           <UploadFile
             onChange={async (files) => {
               const imgs: string[] = [];
@@ -158,7 +165,7 @@ export const ModalCreatePost: FC<ModalCreatePostProps> = ({
             type={!disableBtn ? 'primary' : 'default'}
             loading
           >
-            Viết bài
+            {t('Create articles')}
           </Button>
         </div>
       </div>

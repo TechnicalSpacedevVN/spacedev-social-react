@@ -6,6 +6,7 @@ import { IconUser } from '@components/atoms/Icon/IconUser';
 import { Menu } from '@components/atoms/Menu';
 import { Modal, ModalProps } from '@components/atoms/Modal';
 import { Tab } from '@components/atoms/Tab';
+import { useTranslate } from '@components/atoms/TranslateProvider';
 import { UserItem } from '@components/atoms/UserItem';
 import { mockUsers } from '@utils/mock';
 import { useState } from 'react';
@@ -14,20 +15,21 @@ export type ModalGroupChatProps = ModalProps;
 
 export const ModalGroupChat: Atom<ModalGroupChatProps> = ({ ...props }) => {
   const [users] = useState(mockUsers);
+  const { t } = useTranslate();
   return (
     <Modal
       {...props}
       overlayCloseable
       width={400}
       height={400}
-      title="Thành viên nhóm"
+      title={t('Group member')}
     >
       <Tab
         className="pt-3 justify-around border-b dark:border-slate-700"
         itemClass="pb-3 flex-1"
         items={[
           {
-            label: 'Thành viên',
+            label: t('Member'),
             children: (
               <div className="flex flex-col gap-4 px-4 py-5 max-h-[400px] overflow-auto">
                 {users.map((u) => (
@@ -66,7 +68,7 @@ export const ModalGroupChat: Atom<ModalGroupChatProps> = ({ ...props }) => {
               </div>
             ),
           },
-          { label: 'Ban quản trị' },
+          { label: 'Board of Management' },
         ]}
       />
     </Modal>

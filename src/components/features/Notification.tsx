@@ -4,75 +4,84 @@ import { Card } from '@components/atoms/Card';
 import { Dropdown } from '@components/atoms/Dropdown';
 import { IconBellOff } from '@components/atoms/Icon/IconBellOff';
 import { IconCheckList } from '@components/atoms/Icon/IconChecklist';
+import { IconEyeClose } from '@components/atoms/Icon/IconEyeClose';
 import { IconNotification } from '@components/atoms/Icon/IconNotification';
 import { ButtonIconSetting } from '@components/atoms/Icon/IconSetting';
 import { ButtonIconThreeDotAction } from '@components/atoms/Icon/IconThreeDotAction';
+import { IconTrash } from '@components/atoms/Icon/IconTrash';
 import { InfinityLoading } from '@components/atoms/InfinityLoading';
 import { Menu } from '@components/atoms/Menu';
 import { Skeleton } from '@components/atoms/Skeleton';
+import { useTranslate } from '@components/atoms/TranslateProvider';
 import { cn } from '@utils';
 import { INotification, fakeApi, mockNotifications } from '@utils/mock';
 import moment from 'moment';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 interface RenderFunc {
   content(data: INotification): JSX.Element | undefined;
   action?(data: INotification): JSX.Element | undefined;
 }
-const NotificationType: { [k: string]: RenderFunc } = {
-  AddFriend: {
-    content: (noti) => (
-      <>
-        <b>{noti.user.fullName}</b> đã gửi cho bạn một lời mời kết bạn
-      </>
-    ),
-    action: () => (
-      <div className="flex gap-2 mt-2">
-        <Button type="primary" className="min-w-[100px]">
-          Đồng ý
-        </Button>
-        <Button className="min-w-[100px]">Từ chối</Button>
-      </div>
-    ),
-  },
-  Tag: {
-    content: (noti) => (
-      <>
-        <b>{noti.user.fullName}</b> đã nhắc đến bạn trong một bài viết
-      </>
-    ),
-  },
-  Follow: {
-    content: (noti) => (
-      <>
-        <b>{noti.user.fullName}</b> đã bắt đầu theo dõi bạn
-      </>
-    ),
-  },
-  Like: {
-    content: (noti) => (
-      <>
-        <b>{noti.user.fullName}</b> đã thích bài viết của bạn
-      </>
-    ),
-  },
-  TagStory: {
-    content: (noti) => (
-      <>
-        <b>{noti.user.fullName}</b> đã nhắc đến bạn trong một story
-      </>
-    ),
-  },
-};
 
 export const Notification = () => {
+  const { t } = useTranslate();
   const [notifications, setNotifications] = useState(() =>
     mockNotifications(20),
   );
   const [loading, setLoading] = useState(false);
+
+  const NotificationType: { [k: string]: RenderFunc } = useMemo(
+    () => ({
+      AddFriend: {
+        content: (noti) => (
+          <>
+            <b>{noti.user.fullName}</b> {t('sent you a friend request')}
+          </>
+        ),
+        action: () => (
+          <div className="flex gap-2 mt-2">
+            <Button type="primary" className="min-w-[100px]">
+              {t('Confirm')}
+            </Button>
+            <Button className="min-w-[100px]">{t('Delete')}</Button>
+          </div>
+        ),
+      },
+      Tag: {
+        content: (noti) => (
+          <>
+            <b>{noti.user.fullName}</b> {t('mentioned you in an article')}
+          </>
+        ),
+      },
+      Follow: {
+        content: (noti) => (
+          <>
+            <b>{noti.user.fullName}</b> {t('has started following you')}
+          </>
+        ),
+      },
+      Like: {
+        content: (noti) => (
+          <>
+            <b>{noti.user.fullName}</b> {t('liked your post')}
+          </>
+        ),
+      },
+      TagStory: {
+        content: (noti) => (
+          <>
+            <b>{noti.user.fullName}</b> {t('mentioned you in a story')}
+          </>
+        ),
+      },
+    }),
+    [],
+  );
+
   return (
     <Card
-      title="Thông báo"
+      title={t('Notifications')}
       titleClassName="pl-2"
       action={
         <Dropdown
@@ -81,15 +90,15 @@ export const Notification = () => {
             <Menu
               menus={[
                 {
-                  label: 'Đánh dấu tất cả là đã đọc',
+                  label: t('Mark all as read'),
                   icon: <IconCheckList />,
                 },
                 {
-                  label: 'Cài đặt nhận thông báo',
+                  label: t('Settings to receive notifications'),
                   icon: <IconNotification />,
                 },
                 {
-                  label: 'Tạm thời tắt thông báo',
+                  label: t('Temporarily turn off notifications'),
                   icon: <IconBellOff />,
                 },
               ]}
@@ -159,6 +168,7 @@ const NotificationItem = (props: {
   action?: any;
   isRead?: boolean;
 }) => {
+  const { t } = useTranslate();
   return (
     <a
       href="#"
@@ -177,13 +187,15 @@ const NotificationItem = (props: {
             content={
               <Menu
                 menus={[
-                  { label: 'Đánh dấu chưa đọc' },
-                  { label: 'Xóa' },
+                  { label: t('Mark unread'), icon: <IconEyeClose /> },
+                  { label: t('Delete this notification'), icon: <IconTrash /> },
                   {
-                    label: 'Ẩn thông báo từ người này',
+                    label: t('Hide notifications from this person'),
+                    icon: <IconBellOff />,
                   },
                   {
-                    label: 'Không nhận thông báo từ bài viết này',
+                    label: t('Do not receive notifications from this post'),
+                    icon: <IconBellOff />,
                   },
                 ]}
               />
