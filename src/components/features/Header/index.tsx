@@ -140,10 +140,10 @@ export const Header = () => {
           <div className="w-sidebar text-left">
             <Link
               to={PATH.Home}
-              className="dark:text-white text-slate-800 text-2xl font-bold flex items-center gap-1"
+              className="dark:text-white text-slate-800 text-2xl flex items-center gap-1"
             >
               <img src={org.logo} className="w-[25px]" />
-              <span>{org.name}</span>
+              <span className="font-bold">{org.name}</span>
               <Dropdown
                 popupClassName="-translate-x-4"
                 getPopupContainer={(node) => node.parentNode as HTMLDivElement}
@@ -160,7 +160,7 @@ export const Header = () => {
                               className="w-[25px]"
                             />
                             <div className="flex flex-col gap-1 flex-1">
-                              <span>Spacedev</span>
+                              <span className="font-bold">Spacedev</span>
                               <span className="text-xs !text-opacity-70 text-black dark:text-white">
                                 Nền tảng học lập trình online
                               </span>
@@ -170,6 +170,12 @@ export const Header = () => {
                             </div>
                           </div>
                         ),
+                        onClick: () =>
+                          setOrg({
+                            logo: 'https://spacedev.vn/images/LOGO-image-full.svg',
+                            name: 'Spacedev',
+                            description: 'Nền tảng học lập trình online',
+                          }),
                       },
                       {
                         className: '',
@@ -180,7 +186,7 @@ export const Header = () => {
                               className="w-[25px]"
                             />
                             <div className="flex flex-col gap-1">
-                              <span>Fucinsrule</span>
+                              <span className="font-bold">Fucinsrule</span>
                               <span className="text-xs !text-opacity-70 text-black dark:text-white">
                                 Platform mạng xã hội doanh nghiệp và cá nhân
                               </span>
@@ -205,7 +211,7 @@ export const Header = () => {
                               src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png"
                             />
                             <div className="flex flex-col gap-1">
-                              <span>CMS Bingong</span>
+                              <span className="font-bold">CMS Bingong</span>
                               <span className="text-xs !text-opacity-70 text-black dark:text-white">
                                 Nền tảng quản lý nội dung chuyên nghiệp{' '}
                               </span>
