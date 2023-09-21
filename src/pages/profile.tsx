@@ -24,8 +24,10 @@ import { ModalAbout } from '../components/features/About';
 import { ModalFriends } from '../components/features/ModalFriends';
 import { NewPost } from '../components/features/NewPost';
 import { Post } from '../components/features/Post';
+import { useTranslate } from '@components/atoms/TranslateProvider';
 
 export const Profile = () => {
+  const { t } = useTranslate();
   const [open, setOpen] = useState(false);
   const [openAbout, setOpenAbout] = useState(false);
   const [cover, setCover] = useState('https://unsplash.it/2000/700');
@@ -65,7 +67,7 @@ export const Profile = () => {
                     transparent
                     className="text-white hover:bg-transparent"
                   />
-                  Thay đổi ảnh bìa
+                  {t('Change cover photo')}
                 </Button>
               </UploadFile>
             </div>
@@ -78,15 +80,15 @@ export const Profile = () => {
                   <Menu
                     menus={[
                       {
-                        label: 'Xem ảnh đại diện',
+                        label: t('View profile picture'),
                         onClick: () => {},
                       },
                       {
-                        label: 'Cập nhật ảnh đại diện',
+                        label: t('Update profile picture'),
                         onClick: () => uploadFileAvatarRef.current?.trigger(),
                       },
                       {
-                        label: 'Bảo vệ ảnh đại diện',
+                        label: t('Protect your profile picture'),
                       },
                     ]}
                   />
@@ -120,7 +122,7 @@ export const Profile = () => {
                 </div>
               </Dropdown>
 
-              <div className="mt-auto">
+              {/* <div className="mt-auto">
                 <h1 className="text-3xl font-bold">
                   Vương Đặng Thuyền <span className="font-normal">(Nar)</span>
                 </h1>
@@ -136,7 +138,7 @@ export const Profile = () => {
                   <Avatar />
                   <Avatar />
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -146,7 +148,7 @@ export const Profile = () => {
                 href="#"
                 className="flex items-center pb-4 font-bold text-blue-500 border-b-2 border-solid border-blue-500 px-3 pt-4"
               >
-                Posts
+                {t('Posts')}
               </a>
               <a
                 href="#"
@@ -156,7 +158,7 @@ export const Profile = () => {
                   setOpenAbout(true);
                 }}
               >
-                Tài khoản
+                {t('Account')}
               </a>
               <a
                 onClick={(ev) => {
@@ -166,13 +168,13 @@ export const Profile = () => {
                 href="#"
                 className="flex items-center dark:border-slate-900 dark:hover:bg-slate-800 pb-4 text-gray-700 dark:text-gray-400 px-3 border-b-2 border-solid border-white hover:bg-gray-100 rounded pt-4"
               >
-                Bạn bè
+                {t('Friends')}
               </a>
               <a
                 href="#"
                 className="flex items-center dark:border-slate-900 dark:hover:bg-slate-800 pb-4 text-gray-700 dark:text-gray-400 px-3 border-b-2 border-solid border-white hover:bg-gray-100 rounded pt-4"
               >
-                Hình ảnh
+                {t('Image')}
               </a>
               <Dropdown
                 content={
@@ -187,7 +189,7 @@ export const Profile = () => {
                 }
                 className="dark:border-slate-900 dark:hover:bg-slate-800 pb-4 text-gray-700 dark:text-gray-400 px-3 border-b-2 border-solid border-white hover:bg-gray-100 rounded pt-4 cursor-pointer"
               >
-                Xem thêm
+                {t('See more')}
                 <IconArrowDown />
               </Dropdown>
             </div>

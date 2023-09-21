@@ -24,6 +24,7 @@ import { ButtonIconSetting } from '../../atoms/Icon/IconSetting';
 import { ButtonIconThreeDotAction } from '../../atoms/Icon/IconThreeDotAction';
 import { Switch } from '../../atoms/Switch';
 import { Notification } from '../Notification';
+import { ModalCreateNewOrganization } from '../Organization/ModalCreateNewOrganization';
 import { ModalLogin } from './ModalLogin';
 import { PersonalMenu } from './PersonalMenu';
 
@@ -128,12 +129,18 @@ export const Header = () => {
     name: 'Fucinsrule',
     description: 'Platform mạng xã hội doanh nghiệp và cá nhân',
   });
+  const [openCreateNewOrganization, setOpenCreateNewOrganization] =
+    useState(false);
 
   return (
     <>
       <ModalLogin
         open={openLogin}
         onCancel={() => setGlobalState(LOGIN_MODAL, false)}
+      />
+      <ModalCreateNewOrganization
+        open={openCreateNewOrganization}
+        onCancel={() => setOpenCreateNewOrganization(false)}
       />
       <header className="shadow dark:bg-slate-900 bg-white h-header px-4 flex sticky top-0 z-10 border-b border-base">
         <div className="flex items-center gap-4 w-full">
@@ -234,8 +241,9 @@ export const Header = () => {
                               iconPrefix={<IconPlus />}
                               type="primary"
                               className="w-[320px] mt-2"
+                              onClick={() => setOpenCreateNewOrganization(true)}
                             >
-                              {t('Create a new organization')}
+                              {t('Create new organization')}
                             </Button>
                           </>
                         ),

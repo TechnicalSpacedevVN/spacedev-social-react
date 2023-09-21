@@ -428,7 +428,9 @@ const UserComment: Atom<UserCommentProps> = ({
             </Dropdown>
           </div>
         </div>
-        <ButtonIconHeart className="icon-action opacity-0" />
+        <div>
+          <ButtonIconHeart className="icon-action opacity-0" />
+        </div>
       </div>
       <div className="px-2 pl-10">
         {comment.replies?.map((co, i) => (

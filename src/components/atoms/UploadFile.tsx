@@ -1,3 +1,4 @@
+import { cn } from '@utils';
 import { forwardRef, useImperativeHandle, useRef } from 'react';
 
 export interface UploadFileProps extends DefaultProps {
@@ -36,7 +37,10 @@ export const UploadFile = forwardRef<UploadfileRef, UploadFileProps>(
       }
     };
     return (
-      <div className={props.className} onClick={() => fileRef.current?.click()}>
+      <div
+        className={cn('cursor-pointer', props.className)}
+        onClick={() => fileRef.current?.click()}
+      >
         {children}
         <input
           onChange={onChange}

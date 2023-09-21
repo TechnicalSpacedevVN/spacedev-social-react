@@ -11,10 +11,13 @@ export interface SkeletonProp {
 }
 export const Skeleton: Atom<SkeletonProp> = React.memo(
   ({ width, height, circle, text, className, avatar, image }) => {
+    let _className =
+      'bg-[#eee] rounded-lg bg-[length:200%_100%] bg-gradient-to-r from-[#ececec] via-[#ffffff] to-[#ececec] animate-shine w-full block dark:from-slate-600 dark:via-slate-500  dark:to-slate-600';
+
     if (image) {
       return (
         <svg
-          className="text-gray-200 dark:text-primary-600"
+          className={cn('text-gray-200 dark:text-primary-600', className)}
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"
@@ -42,9 +45,6 @@ export const Skeleton: Atom<SkeletonProp> = React.memo(
         </svg>
       );
     }
-
-    let _className =
-      'bg-[#eee] rounded-lg bg-[length:200%_100%] bg-gradient-to-r from-[#ececec] via-[#ffffff] to-[#ececec] animate-shine w-full block dark:from-slate-600 dark:via-slate-500  dark:to-slate-600';
 
     if (circle) {
       return (

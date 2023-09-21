@@ -42,7 +42,7 @@ export const Button: FC<ButtonProps> = ({
       {...props}
       disabled={props.disabled || loading}
       className={cn(
-        'active:scale-95 font-semibold rounded border-current border-solid',
+        'active:scale-[0.99] font-semibold rounded border-current border-solid',
         props.className,
         sizeClass[size],
         typeClass[type],

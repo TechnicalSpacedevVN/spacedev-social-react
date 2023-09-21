@@ -82,6 +82,7 @@ input:-webkit-autofill:active {
 
   .custom-scrollbar-behavior {
     @apply hide-scrollbar hover:show-scrollbar pr-[7px] hover:pr-0;
+    @apply [&::-webkit-scrollbar]:appearance-none;
   }
 
   .snap {
