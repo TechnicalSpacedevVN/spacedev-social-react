@@ -46,8 +46,8 @@ export const Home = () => {
             <div className="flex gap-4 flex-col ">
               {user ? (
                 <>
-                  <SuggestedForYou />
                   <CardGroup />
+                  <SuggestedForYou />
                   {/* <Activity /> */}
                 </>
               ) : (

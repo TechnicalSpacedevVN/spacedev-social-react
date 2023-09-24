@@ -11,13 +11,15 @@ import { IconNotification } from '../../atoms/Icon/IconNotification';
 import { IconUser } from '../../atoms/Icon/IconUser';
 import { IconWorld } from '../../atoms/Icon/IconWorld';
 import { Modal, ModalProps } from '../../atoms/Modal';
+import { useTranslate } from '@components/atoms/TranslateProvider';
 
 export const ModalAbout: FC<ModalProps> = (props) => {
+  const { t } = useTranslate();
   return (
-    <Modal {...props} overlayCloseable title="Tài khoản">
+    <Modal {...props} overlayCloseable title={t('Account')}>
       <div className="w-[900px] flex min-h-[700px]">
-        <div className="bg-gray-50 w-[250px] dark:bg-slate-800 dark:bg-opacity-50">
-          <h2 className="font-semibold text-md p-3">Tài khoản</h2>
+        <div className="bg-menu w-menu">
+          <h2 className="font-semibold text-md p-3">{t('Account')}</h2>
           <div className="px-3">
             <div className="flex gap-2 items-center">
               <Avatar />
@@ -29,21 +31,24 @@ export const ModalAbout: FC<ModalProps> = (props) => {
               </div>
             </div>
           </div>
-          <div className="px-1 flex flex-col gap-0.5 mt-3">
+          <div className="px-1 flex flex-col gap-0.5 mt-3 ">
             <Menu
               className="gap-0.5"
               menus={[
                 {
-                  label: 'Tài khoản',
+                  label: t('Tài khoản'),
                   icon: <IconUser />,
                   className: 'bg-gray-200 dark:bg-slate-700',
                 },
-                { label: 'Bảo mật', icon: <IconLock /> },
-                { label: 'Cài đặt & quyền riêng tư', icon: <IconSetting /> },
-                { label: 'Cài đặt thông báo', icon: <IconNotification /> },
-                { label: 'Bạn bè và theo dõi', icon: <IconUserGroup /> },
-                { label: 'Nội dung', icon: <IconApp /> },
-                { label: 'Ngôn ngữ và quốc gia', icon: <IconWorld /> },
+                { label: t('Security'), icon: <IconLock /> },
+                { label: t('Settings & privacy'), icon: <IconSetting /> },
+                {
+                  label: t('Notification settings'),
+                  icon: <IconNotification />,
+                },
+                { label: t('Friends and followers'), icon: <IconUserGroup /> },
+                { label: t('Content'), icon: <IconApp /> },
+                { label: t('Language and country'), icon: <IconWorld /> },
               ]}
             />
           </div>

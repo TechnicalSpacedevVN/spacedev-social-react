@@ -30,6 +30,7 @@ export const mockUser = () => ({
   jobTitle: faker.person.jobTitle(),
   cover: faker.image.url({ width: 1900, height: 500 }),
   bio: 'Không có chiến thắng nào không có sự hy sinh',
+  email: faker.internet.email(),
 });
 
 export const mockComment = () => ({

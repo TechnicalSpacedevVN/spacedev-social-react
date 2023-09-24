@@ -53,12 +53,15 @@ export const ModalCreateNewGroup: Atom<ModalCreateNewGroupProps> = ({
         <UploadFile
           onChange={async ([file]) => setCover(await convertFileToImage(file))}
         >
-          <div className="h-[150px] border border-base rounded-lg overflow-hidden">
+          <div className="h-[150px] border border-base rounded-lg overflow-hidden relative">
             {cover ? (
               <img src={cover} />
             ) : (
               <Skeleton className="overflow-hidden object-cover w-full h-full rounded-none" />
             )}
+            <Button className="absolute right-2 bottom-2">
+              Đặt làm ảnh bìa
+            </Button>
           </div>
         </UploadFile>
         <div className="flex justify-center -mt-7">
@@ -71,9 +74,9 @@ export const ModalCreateNewGroup: Atom<ModalCreateNewGroupProps> = ({
                 {img ? (
                   <img src={img} />
                 ) : (
-                  <Skeleton
-                    image
-                    className="rounded-full overflow-hidden w-full h-full object-cover"
+                  <img
+                    className="!rounded-full overflow-hidden w-full h-full object-cover"
+                    src="/default-img.jpg"
                   />
                 )}
               </div>

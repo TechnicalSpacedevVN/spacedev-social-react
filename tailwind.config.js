@@ -31,6 +31,7 @@ export default {
       },
       width: {
         sidebar: 300,
+        menu: 250,
       },
       maxWidth: {
         'main-content': 768,
@@ -66,6 +67,15 @@ export default {
         },
         'body, .body-pr': {
           '@apply pr-[var(--body-padding-right)]': {},
+        },
+        '.bg-menu': {
+          '@apply bg-slate-950 dark:bg-white !bg-opacity-5': {},
+        },
+        '.text-sub': {
+          '@apply text-sm text-black dark:text-white !text-opacity-50': {},
+        },
+        '.text-title': {
+          '@apply text-black dark:text-white font-semibold': {},
         },
       });
     },

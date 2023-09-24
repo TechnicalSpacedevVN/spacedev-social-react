@@ -1,5 +1,5 @@
 import { useDomEvent } from '@hooks/useDomEvent';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 export interface StickyProps {
   children?: any;
   top?: number;
@@ -28,24 +28,22 @@ export const Sticky: Atom<StickyProps> = ({
     );
   }, []);
 
-  useDomEvent(
-    { current: window } as any,
-    'scroll',
-    () => {
-      let newDirection =
-        oldScrollTopRef.current - window.document.documentElement.scrollTop > 0
-          ? 'bottom'
-          : 'top';
+  const onScroll = useCallback(() => {
+    let newDirection =
+      oldScrollTopRef.current - window.document.documentElement.scrollTop > 0
+        ? 'bottom'
+        : 'top';
 
-      if (newDirection != direction) {
-        setDirection(direction === 'bottom' ? 'top' : 'bottom');
-        setHeight(wraperRef.current?.offsetTop || 0);
-      }
+    if (newDirection != direction) {
+      setDirection(direction === 'bottom' ? 'top' : 'bottom');
+      setHeight(wraperRef.current?.offsetTop || 0);
+    }
 
-      oldScrollTopRef.current = window.document.documentElement.scrollTop;
-    },
-    [direction],
-  );
+    oldScrollTopRef.current = window.document.documentElement.scrollTop;
+  }, [direction]);
+  useEffect(onScroll, []);
+
+  useDomEvent({ current: window } as any, 'scroll', onScroll, [onScroll]);
 
   return (
     <div ref={localRef} className="relative h-full">
