@@ -33,6 +33,13 @@ export const mockUser = () => ({
   email: faker.internet.email(),
 });
 
+export const mockGroup = () => ({
+  cover: faker.image.url(),
+  avatar: faker.image.url(),
+  name: faker.animal.bear(),
+  description: faker.lorem.paragraph({ min: 1, max: 3 }),
+});
+
 export const mockComment = () => ({
   id: uniqueId(),
   user: mockUser(),
@@ -117,6 +124,7 @@ export const mockStories = mock(mockStory);
 export const mockUsers = mock(mockUser);
 export const mockComments = mock(mockComment);
 export const mockNotifications = mock(mockNotification);
+export const mockGroups = mock(mockGroup);
 
 export interface IPost extends ReturnType<typeof mockPost> {}
 export interface IComment extends ReturnType<typeof mockComment> {}

@@ -3,6 +3,7 @@ import { IconSetting } from '@components/atoms/Icon/IconSetting';
 import { IconUserGroup } from '@components/atoms/Icon/IconUserGroup';
 import { Input } from '@components/atoms/Input';
 import { Menu } from '@components/atoms/Menu';
+import { useTranslate } from '@components/atoms/TranslateProvider';
 import { FC } from 'react';
 import { Avatar } from '../../atoms/Avatar';
 import { IconApp } from '../../atoms/Icon/IconApp';
@@ -11,7 +12,6 @@ import { IconNotification } from '../../atoms/Icon/IconNotification';
 import { IconUser } from '../../atoms/Icon/IconUser';
 import { IconWorld } from '../../atoms/Icon/IconWorld';
 import { Modal, ModalProps } from '../../atoms/Modal';
-import { useTranslate } from '@components/atoms/TranslateProvider';
 
 export const ModalAbout: FC<ModalProps> = (props) => {
   const { t } = useTranslate();

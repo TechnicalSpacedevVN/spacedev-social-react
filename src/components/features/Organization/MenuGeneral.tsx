@@ -21,7 +21,7 @@ export const MenuGeneral = () => {
             label: 'Thông tin chung',
             children: (
               <div className="flex gap-4 items-start pt-4">
-                <div className="flex justify-center">
+                <div className="flex justify-center px-20 py-10">
                   <UploadFile
                     onChange={async ([file]) =>
                       setImg(await convertFileToImage(file))
@@ -67,9 +67,7 @@ export const MenuGeneral = () => {
           {
             label: 'Ngôn ngữ & Giao diện',
           },
-          {
-            label: 'Email template',
-          },
+
           {
             label: 'System',
           },

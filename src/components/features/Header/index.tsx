@@ -3,7 +3,6 @@ import { ButtonIconNotification } from '@components/atoms/Icon/IconNotification'
 import { ButtonIconPalette } from '@components/atoms/Icon/IconPalette';
 import { IconPlus } from '@components/atoms/Icon/IconPlus';
 import { IconSearch } from '@components/atoms/Icon/IconSearch';
-import { Menu } from '@components/atoms/Menu';
 import { useTranslate } from '@components/atoms/TranslateProvider';
 import { useAuth } from '@components/features/AuthProvider';
 import { useMode } from '@components/features/DarkModeProvider';
@@ -27,6 +26,7 @@ import { Notification } from '../Notification';
 import { ModalCreateNewOrganization } from '../Organization/ModalCreateNewOrganization';
 import { ModalLogin } from './ModalLogin';
 import { PersonalMenu } from './PersonalMenu';
+import { Menu } from '@components/atoms/Menu';
 
 const mapColor: any = {
   blue: {

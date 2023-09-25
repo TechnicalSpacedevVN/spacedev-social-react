@@ -30,7 +30,7 @@ export const Tab: Atom<TabProps> = ({ items, ...props }) => {
             key={i}
             href="#"
             className={cn(
-              'text-sm  font-semibold text-black dark:text-white text-opacity-60 dark:text-opacity-60 pb-1 text-center select-none',
+              'text-sm  font-semibold text-black dark:text-white text-opacity-60 dark:text-opacity-50 pb-1 text-center select-none',
               props.itemClass,
               {
                 [' dark:border-white  border-b-2 border-solid  border-black  !text-opacity-100 dark:!text-opacity-100']:

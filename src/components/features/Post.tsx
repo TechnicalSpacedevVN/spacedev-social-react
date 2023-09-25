@@ -17,7 +17,6 @@ import { ButtonIconThreeDotAction } from '@components/atoms/Icon/IconThreeDotAct
 import { IconTrash } from '@components/atoms/Icon/IconTrash';
 import { ImageGrid } from '@components/atoms/ImageGrid';
 import { InfinityLoading } from '@components/atoms/InfinityLoading';
-import { Menu } from '@components/atoms/Menu';
 import { MessageInput } from '@components/atoms/MessageInput';
 import { Modal, ModalProps } from '@components/atoms/Modal';
 import { Skeleton } from '@components/atoms/Skeleton';
@@ -31,6 +30,7 @@ import moment from 'moment';
 import { FC, useMemo, useRef, useState } from 'react';
 import { Link, generatePath } from 'react-router-dom';
 import { PopoverUser } from './PopoverUser';
+import { Menu } from '@components/atoms/Menu';
 
 const PostMenu = () => {
   const { t } = useTranslate();

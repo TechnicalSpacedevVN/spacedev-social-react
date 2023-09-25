@@ -1,16 +1,21 @@
 import { cn } from '@utils';
-import { FC } from 'react';
 import { Icon } from './Icon';
-import { ButtonIconProps, IconProps, IconVariant } from './type';
+import { ButtonIconProps, IconProps } from './type';
 
-export const ButtonIconUser: FC<ButtonIconProps & IconVariant> = ({
-  size,
-  off,
+interface IconVariant {
+  circle?: boolean;
+  off?: boolean;
+}
+
+export const ButtonIconUser: Atom<ButtonIconProps & IconVariant> = ({
+  className,
+  style,
+  id,
   ...props
 }) => {
   return (
-    <Icon {...props}>
-      <IconUser size={size} off={off} />
+    <Icon className={className} style={style} id={id}>
+      <IconUser {...props} />
     </Icon>
   );
 };
@@ -18,8 +23,34 @@ export const ButtonIconUser: FC<ButtonIconProps & IconVariant> = ({
 export const IconUser: Atom<IconProps & IconVariant> = ({
   size = 17,
   off,
+  circle,
   ...props
 }) => {
+  if (circle) {
+    return (
+      <svg
+        {...props}
+        xmlns="http://www.w3.org/2000/svg"
+        className={cn(
+          'icon icon-tabler icon-tabler-user-circle',
+          props.className,
+        )}
+        width={size}
+        height={size}
+        viewBox="0 0 24 24"
+        strokeWidth={2}
+        stroke="currentColor"
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+        <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+        <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
+      </svg>
+    );
+  }
   if (off) {
     return (
       <svg

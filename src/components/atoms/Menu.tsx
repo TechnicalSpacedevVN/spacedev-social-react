@@ -1,19 +1,21 @@
 import { cn } from '@utils';
 
-export interface Menu {
+export interface IMenu {
   label?: JSX.Element | string;
   icon?: any;
   onClick?: () => void;
   key?: string | number;
   enabled?: boolean;
   line?: boolean;
+  group?: React.ReactNode;
   suffix?: any;
   className?: string;
   description?: any;
 }
 export interface MenuProps {
-  menus: Menu[];
-  onChange?: (menu: Menu, index: number) => void;
+  menus: IMenu[];
+  itemClass?: string;
+  onChange?: (menu: IMenu, index: number) => void;
 }
 
 export const Menu: Atom<MenuProps> = ({ menus, ...props }) => {
@@ -29,6 +31,19 @@ export const Menu: Atom<MenuProps> = ({ menus, ...props }) => {
           );
         }
 
+        if (e.group) {
+          return (
+            <div
+              className={cn(
+                'select-none p-2 text-xs uppercase text-gray-900 dark:text-white cursor-pointer rounded !text-opacity-50 mt-4 font-semibold',
+                e.className,
+              )}
+            >
+              {e.group}
+            </div>
+          );
+        }
+
         if (e.enabled === false) return null;
         return (
           <div
@@ -39,6 +54,7 @@ export const Menu: Atom<MenuProps> = ({ menus, ...props }) => {
             }}
             className={cn(
               'select-none p-2 text-sm text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-slate-700 cursor-pointer rounded',
+              props.itemClass,
               e.className,
             )}
           >

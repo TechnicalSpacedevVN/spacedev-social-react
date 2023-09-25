@@ -15,7 +15,7 @@ export const MenuMember = () => {
     <div className="py-4 px-10">
       <Tab
         className="border-b border-base"
-        itemClass="px-2"
+        itemClass="px-3"
         items={[
           {
             label: 'Cài đặt chung',
@@ -26,7 +26,7 @@ export const MenuMember = () => {
                     <h3 className="font-semibold text-sm">
                       Mở cho tất cả mọi người
                     </h3>
-                    <p className="text-black dark:text-white text-sm !text-opacity-70">
+                    <p className="text-sub">
                       Disable the Share to web option in the Share menu on every
                       page in this workspace.
                     </p>
@@ -39,7 +39,7 @@ export const MenuMember = () => {
                       <h3 className="font-semibold text-sm">
                         Link gia nhập tổ chức
                       </h3>
-                      <p className="text-black dark:text-white text-sm !text-opacity-70">
+                      <p className="text-sub">
                         Mọi người khi có link sẽ không cần phải chờ xác nhận từ
                         chủ tổ chức
                       </p>
@@ -59,7 +59,7 @@ export const MenuMember = () => {
                     <h3 className="font-semibold text-sm">
                       Cho phép user tự thêm thành viên
                     </h3>
-                    <p className="text-black dark:text-white text-sm !text-opacity-70">
+                    <p className="text-sub">
                       Disable the Share to web option in the Share menu on every
                       page in this workspace.
                     </p>
@@ -71,7 +71,7 @@ export const MenuMember = () => {
                     <h3 className="font-semibold text-sm">
                       Cho phép sử dụng chức năng ẩn danh
                     </h3>
-                    <p className="text-black dark:text-white text-sm !text-opacity-70">
+                    <p className="text-sub">
                       Disable the Share to web option in the Share menu on every
                       page in this workspace.
                     </p>
@@ -83,7 +83,7 @@ export const MenuMember = () => {
                     <h3 className="font-semibold text-sm">
                       Danh sách quản trị viên
                     </h3>
-                    <p className="text-black dark:text-white text-sm !text-opacity-70">
+                    <p className="text-sub">
                       Disable the Share to web option in the Share menu on every
                       page in this workspace.
                     </p>
@@ -107,7 +107,7 @@ export const MenuMember = () => {
                         {manager.map((e) => (
                           <tr>
                             <td>
-                              <div className="flex gap-2 py-2">
+                              <div className="flex gap-2 py-2 items-center">
                                 <Avatar size={40} src={e.avatar} />
                                 <div>
                                   <h3 className="text-sm font-semibold">
@@ -163,10 +163,10 @@ export const MenuMember = () => {
             label: 'Tất cả thành viên',
           },
           {
-            label: 'Python',
+            label: 'Phương thức đăng nhập',
           },
           {
-            label: 'React',
+            label: 'Danh sách hạn chế',
           },
         ]}
       />

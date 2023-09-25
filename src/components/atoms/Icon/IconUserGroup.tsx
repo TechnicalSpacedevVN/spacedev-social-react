@@ -1,3 +1,4 @@
+import { cn } from '@utils';
 import { Icon } from './Icon';
 import { ButtonIconProps, IconProps } from './type';
 
@@ -17,7 +18,10 @@ export const IconUserGroup: Atom<IconProps> = ({ size = 17, ...props }) => {
     <svg
       {...props}
       xmlns="http://www.w3.org/2000/svg"
-      className="icon icon-tabler icon-tabler-users-group"
+      className={cn(
+        'icon icon-tabler icon-tabler-users-group',
+        props.className,
+      )}
       width={size}
       height={size}
       viewBox="0 0 24 24"

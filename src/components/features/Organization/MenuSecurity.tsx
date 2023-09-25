@@ -9,7 +9,7 @@ export const MenuSecurity = () => {
           <h3 className="font-bold text-md">
             Upgrade for SAML SSO & more admin tools
           </h3>
-          <p className="text-black dark:text-white text-sm !text-opacity-70">
+          <p className="text-sub">
             The Business Plan includes single sign-on to manage employee access
             at scale, private teamspaces to collaborate on sensitive docs, and
             more.
@@ -25,7 +25,7 @@ export const MenuSecurity = () => {
           <h3 className="font-bold text-md">
             Upgrade for SAML SSO & more admin tools
           </h3>
-          <p className="text-black dark:text-white text-sm !text-opacity-70">
+          <p className="text-sub">
             The Business Plan includes single sign-on to manage employee access
             at scale, private teamspaces to collaborate on sensitive docs, and
             more.
@@ -41,7 +41,7 @@ export const MenuSecurity = () => {
       <div className=" flex items-center mt-4">
         <div className="flex-1">
           <h3 className="font-semibold text-sm">Cho phép chia sẻ</h3>
-          <p className="text-black dark:text-white text-sm !text-opacity-70">
+          <p className="text-sub">
             Disable the Share to web option in the Share menu on every page in
             this workspace.
           </p>
@@ -53,7 +53,7 @@ export const MenuSecurity = () => {
           <h3 className="font-semibold text-sm">
             Cho phép các thành viên tạo group
           </h3>
-          <p className="text-black dark:text-white text-sm !text-opacity-70">
+          <p className="text-sub">
             Disable the Share to web option in the Share menu on every page in
             this workspace.
           </p>
@@ -65,7 +65,7 @@ export const MenuSecurity = () => {
           <h3 className="font-semibold text-sm">
             Cho phép các thành viên tạo group
           </h3>
-          <p className="text-black dark:text-white text-sm !text-opacity-70">
+          <p className="text-sub">
             Disable the Share to web option in the Share menu on every page in
             this workspace.
           </p>

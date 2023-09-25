@@ -4,11 +4,11 @@ import { Dropdown } from '@components/atoms/Dropdown';
 import { IconNotification } from '@components/atoms/Icon/IconNotification';
 import { IconPlus } from '@components/atoms/Icon/IconPlus';
 import { ButtonIconThreeDotAction } from '@components/atoms/Icon/IconThreeDotAction';
-import { Menu } from '@components/atoms/Menu';
 import { Tag } from '@components/atoms/Tag';
 import { useTranslate } from '@components/atoms/TranslateProvider';
 import { useState } from 'react';
 import { ModalCreateNewGroup } from './Group/ModalCreateGroup';
+import { Menu } from '@components/atoms/Menu';
 
 export const CardGroup = () => {
   const { t } = useTranslate();

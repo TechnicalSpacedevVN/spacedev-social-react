@@ -4,8 +4,8 @@ import { IconAddressBook } from '@components/atoms/Icon/IconAddressBook';
 import { IconArrowDown } from '@components/atoms/Icon/IconArrow';
 import { IconTie } from '@components/atoms/Icon/IconTie';
 import { IconWorld } from '@components/atoms/Icon/IconWorld';
-import { Menu } from '@components/atoms/Menu';
 import { Sticky } from '@components/atoms/Sticky';
+import { useTranslate } from '@components/atoms/TranslateProvider';
 import { UploadFile, UploadfileRef } from '@components/atoms/UploadFile';
 import { CardGroup } from '@components/features/CardGroup';
 import { GeneralInfo } from '@components/features/GeneralInfo';
@@ -24,7 +24,7 @@ import { ModalAbout } from '../components/features/About';
 import { ModalFriends } from '../components/features/ModalFriends';
 import { NewPost } from '../components/features/NewPost';
 import { Post } from '../components/features/Post';
-import { useTranslate } from '@components/atoms/TranslateProvider';
+import { Menu } from '@components/atoms/Menu';
 
 export const Profile = () => {
   const { t } = useTranslate();

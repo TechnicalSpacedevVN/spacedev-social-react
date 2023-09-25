@@ -3,7 +3,6 @@ import { setDropFileData } from '@components/atoms/DropFile';
 import { IconHeart } from '@components/atoms/Icon/IconHeart';
 import { InfinityLoading } from '@components/atoms/InfinityLoading';
 import { Input } from '@components/atoms/Input';
-import { Menu } from '@components/atoms/Menu';
 import { Tag, TagProps } from '@components/atoms/Tag';
 import { useDebounce } from '@hooks/useDebounce';
 import { useInfiniteQuery } from '@tanstack/react-query';
@@ -11,6 +10,7 @@ import axios from 'axios';
 import _ from 'lodash';
 import { useCallback, useRef, useState } from 'react';
 import { Popover } from '../atoms/Popover';
+import { Menu } from '@components/atoms/Menu';
 
 export interface GifProps {
   children?: any;

@@ -3,8 +3,8 @@ import { IconCopy } from '@components/atoms/Icon/IconCopy';
 import { IconEraser } from '@components/atoms/Icon/IconEraser';
 import { IconForward } from '@components/atoms/Icon/IconForward';
 import { IconQuote } from '@components/atoms/Icon/IconQuote';
-import { Menu } from '@components/atoms/Menu';
 import { MessageEmoji } from './MessageEmoji';
+import { Menu } from '@components/atoms/Menu';
 export const MessageContextMenu: Atom<{ children: any }> = ({
   children,
   ...props
