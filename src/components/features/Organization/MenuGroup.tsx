@@ -46,7 +46,7 @@ export const MenuGroup = () => {
                     </thead>
                     <tbody className="[&>tr:not(:last-child)]:last:border-b [&>tr:not(:last-child)]:border-base">
                       {groups.map((e) => (
-                        <tr>
+                        <tr key={e.id}>
                           <td>
                             <div className="flex gap-2 py-2 items-center">
                               <Avatar size={40} src={e.avatar} />

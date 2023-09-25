@@ -34,6 +34,7 @@ export const mockUser = () => ({
 });
 
 export const mockGroup = () => ({
+  id: uniqueId(),
   cover: faker.image.url(),
   avatar: faker.image.url(),
   name: faker.animal.bear(),

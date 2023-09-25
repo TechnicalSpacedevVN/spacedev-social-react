@@ -1,7 +1,7 @@
 import { cn } from '@utils';
 
 export interface IMenu {
-  label?: JSX.Element | string;
+  label?: React.ReactNode;
   icon?: any;
   onClick?: () => void;
   key?: string | number;
@@ -34,6 +34,7 @@ export const Menu: Atom<MenuProps> = ({ menus, ...props }) => {
         if (e.group) {
           return (
             <div
+              key={i}
               className={cn(
                 'select-none p-2 text-xs uppercase text-gray-900 dark:text-white cursor-pointer rounded !text-opacity-50 mt-4 font-semibold',
                 e.className,

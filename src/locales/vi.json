@@ -125,5 +125,20 @@
   "Notification settings": "Cài đặt thông báo",
   "Friends and followers": "Bạn bè và theo dõi",
   "Content": "Nội dung",
-  "Language and country": "Ngôn ngữ và quốc gia"
+  "Language and country": "Ngôn ngữ và quốc gia",
+  "Group management": "Quản lý nhóm",
+  "System": "Hệ thống",
+  "Bot Automation": "Bot tự động hóa",
+  "Connection": "Kết nối",
+  "Billing & Subscription": "Thanh toán & Gói dịch vụ",
+  "General": "Tổng quan",
+  "Basic information": "Thông tin cơ bản",
+  "Language & Design": "Ngôn ngữ & Thiết kế",
+  "Default language": "Ngôn ngữ mặc định",
+  "Users can choose their own website display language": "Người dùng có thể chọn ngôn ngữ thể hiện trên website của riêng họ",
+  "Interface settings": "Cài đặt giao diện",
+  "Customize your social network interface": "Tùy chọn giao diện cho mạng xã hội của bạn",
+  "Disk usage": "Sử dụng ổ đĩa",
+  "Database": "Database",
+  "Storage": "Storage"
 }

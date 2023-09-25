@@ -38,14 +38,55 @@ export const ModalCreateNewOrganization: Atom<
         overlayCloseable: false,
         keyboard: false,
       }}
-      menuTop={
+      sidebarBottom={
+        <div className="mt-auto p-2">
+          <div>
+            <h3 className="font-semibold py-3 !text-opacity-50 dark:text-white text-black text-xs uppercase">
+              {t('Disk usage')}
+            </h3>
+            <div>
+              <div className="flex justify-between mb-1">
+                <span className="text-xs font-medium text-green-700 dark:text-white">
+                  {t('Database')}
+                </span>
+                <span className="text-xs font-medium text-green-700 dark:text-white">
+                  45%
+                </span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                <div
+                  className="bg-green-600 h-2.5 rounded-full"
+                  style={{ width: '45%' }}
+                />
+              </div>
+            </div>
+            <div className="mt-2">
+              <div className="flex justify-between mb-1">
+                <span className="text-xs font-medium text-orange-700 dark:text-white">
+                  {t('Storage')}
+                </span>
+                <span className="text-xs font-medium text-orange-700 dark:text-white">
+                  70%
+                </span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                <div
+                  className="bg-orange-600 h-2.5 rounded-full"
+                  style={{ width: '70%' }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+      sidebarTop={
         <div className="mb-4">
           <h2 className="font-semibold p-3 !text-opacity-50 dark:text-white text-black text-xs uppercase">
             {t('Organization')}
           </h2>
           <div className="px-3">
             <div className="flex gap-2 items-center">
-              <Avatar size={40} />
+              <Avatar size={50} />
               <div className="flex-1 flex flex-col gap-1">
                 <h3 className="text-sm font-bold ">Đặng Thuyền Vương</h3>
                 <Dropdown
@@ -76,7 +117,7 @@ export const ModalCreateNewOrganization: Atom<
                 </Dropdown>
               </div>
             </div>
-            <p className="text-sub mt-2 !text-xs">
+            <p className="text-sub mt-2">
               Nền tảng học lập trình online kết hợp mạng xã hội quản lý học viên
               chuyên nghiệp
             </p>
@@ -104,11 +145,11 @@ export const ModalCreateNewOrganization: Atom<
           children: <MenuMember />,
         },
         {
-          label: t('Group'),
+          label: t('Group management'),
           icon: <IconUserGroup />,
           children: <MenuGroup />,
         },
-        { group: 'Hệ thống' },
+        { group: 'System' },
         {
           label: t('Bot Automation'),
           icon: <IconAutomation />,
@@ -124,82 +165,7 @@ export const ModalCreateNewOrganization: Atom<
           icon: <IconMoney />,
           children: <MenuBillingSubscription />,
         },
-        // {
-        //   label: t('Phương thức đăng nhập'),
-        //   icon: <IconLogin />,
-        //   children: (
-        //     <div className="py-4 px-10">
-        //       <Tab
-        //         className="border-b border-base"
-        //         itemClass="px-2"
-        //         items={[{ label: 'Provider' }, { label: 'Email template' }]}
-        //       />
-        //     </div>
-        //   ),
-        // },
       ]}
     />
   );
-
-  // return (
-  //   <Modal
-  //     {...props}
-  //     title={t('Create new organization')}
-  //     overlayCloseable={false}
-  //     keyboard={false}
-  //   >
-  //     <div className="w-[1300px] max-w-[calc(100vw-40px)] flex h-[700px]">
-  //       <div className="w-menu px-1 flex flex-col gap-0.5 bg-menu">
-  //         <h2 className="font-semibold text-md p-3">{t('Organization')}</h2>
-  //         <div className="px-3">
-  //           <div className="flex gap-2 items-center">
-  //             <Avatar size={40} />
-  //             <div className="flex-1 flex flex-col gap-1">
-  //               <h3 className="text-sm font-bold ">Đặng Thuyền Vương</h3>
-  //               <Dropdown
-  //                 content={
-  //                   <Menu
-  //                     menus={[
-  //                       {
-  //                         label: t('Public'),
-  //                         icon: <IconEye />,
-  //                         description: t(
-  //                           `Anyone can see who's in the group and what they post.`,
-  //                         ),
-  //                       },
-  //                       {
-  //                         label: t('Private'),
-  //                         icon: <IconLock />,
-  //                         description: t(
-  //                           `Only members can see who's in the group and what they post.`,
-  //                         ),
-  //                       },
-  //                     ]}
-  //                   />
-  //                 }
-  //               >
-  //                 <Button size="small" iconSuffix={<IconChevronDown />}>
-  //                   Công khai
-  //                 </Button>
-  //               </Dropdown>
-  //             </div>
-  //           </div>
-  //           <p className="text-sub mt-2">
-  //             Nền tảng học lập trình online kết hợp mạng xã hội quản lý học viên
-  //             chuyên nghiệp
-  //           </p>
-  //         </div>
-  //         <OrgMenu onChange={setTabActive} />
-  //       </div>
-  //       <div className="flex-1 ">
-  //         {tabActive === 0 && <MenuGeneral />}
-  //         {tabActive === 1 && <MenuSecurity />}
-  //         {tabActive === 2 && <MenuMember />}
-  //         {tabActive === 3 && <MenuBillingSubscription />}
-  //         {tabActive === 4 && <MenuBot />}
-  //         {tabActive === 5 && <MenuConnection />}
-  //       </div>
-  //     </div>
-  //   </Modal>
-  // );
 };

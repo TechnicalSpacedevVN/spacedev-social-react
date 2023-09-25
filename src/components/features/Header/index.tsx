@@ -121,14 +121,28 @@ const changeTheme = (color: any) => {
 
 export const Header = () => {
   const { t } = useTranslate();
+  const organizations = [
+    {
+      logo: 'https://spacedev.vn/images/LOGO-image-full.svg',
+      name: 'Fucinsrule',
+      description: 'Platform mạng xã hội doanh nghiệp và cá nhân',
+    },
+    {
+      logo: 'https://spacedev.vn/images/LOGO-image-full.svg',
+      name: 'Spacedev',
+      description: 'Nền tảng học lập trình online',
+    },
+    {
+      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png',
+      name: 'CMS Bingong',
+      description: 'Nền tảng quản lý nội dung chuyên nghiệp',
+    },
+  ];
+
   const { mode, toggleMode } = useMode();
   const [openLogin] = useState(false);
   const { user } = useAuth();
-  const [org, setOrg] = useState({
-    logo: 'https://spacedev.vn/images/LOGO-image-full.svg',
-    name: 'Fucinsrule',
-    description: 'Platform mạng xã hội doanh nghiệp và cá nhân',
-  });
+  const [org, setOrg] = useState(organizations[0]);
   const [openCreateNewOrganization, setOpenCreateNewOrganization] =
     useState(false);
 
@@ -158,18 +172,14 @@ export const Header = () => {
                 content={
                   <Menu
                     menus={[
-                      {
-                        className: '',
+                      ...organizations.map((e) => ({
                         label: (
                           <div className="flex items-center gap-3">
-                            <img
-                              src="https://spacedev.vn/images/LOGO-image-full.svg"
-                              className="w-[25px]"
-                            />
+                            <img src={e.logo} className="w-[25px]" />
                             <div className="flex flex-col gap-1 flex-1">
-                              <span className="font-bold">Spacedev</span>
+                              <span className="font-bold">{e.name}</span>
                               <span className="text-xs !text-opacity-70 text-black dark:text-white">
-                                Nền tảng học lập trình online
+                                {e.description}
                               </span>
                             </div>
                             <div className="bg-red-600 text-white font-bold rounded-full w-5 h-5 text-xs flex items-center justify-center">
@@ -177,62 +187,8 @@ export const Header = () => {
                             </div>
                           </div>
                         ),
-                        onClick: () =>
-                          setOrg({
-                            logo: 'https://spacedev.vn/images/LOGO-image-full.svg',
-                            name: 'Spacedev',
-                            description: 'Nền tảng học lập trình online',
-                          }),
-                      },
-                      {
-                        className: '',
-                        label: (
-                          <div className="flex items-center gap-3">
-                            <img
-                              src="https://spacedev.vn/images/LOGO-image-full.svg"
-                              className="w-[25px]"
-                            />
-                            <div className="flex flex-col gap-1">
-                              <span className="font-bold">Fucinsrule</span>
-                              <span className="text-xs !text-opacity-70 text-black dark:text-white">
-                                Platform mạng xã hội doanh nghiệp và cá nhân
-                              </span>
-                            </div>
-                          </div>
-                        ),
-
-                        onClick: () =>
-                          setOrg({
-                            logo: 'https://spacedev.vn/images/LOGO-image-full.svg',
-                            name: 'Fucinsrule',
-                            description:
-                              'Platform mạng xã hội doanh nghiệp và cá nhân',
-                          }),
-                      },
-                      {
-                        className: '',
-                        label: (
-                          <div className="flex items-center gap-3">
-                            <img
-                              className="w-[25px]"
-                              src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png"
-                            />
-                            <div className="flex flex-col gap-1">
-                              <span className="font-bold">CMS Bingong</span>
-                              <span className="text-xs !text-opacity-70 text-black dark:text-white">
-                                Nền tảng quản lý nội dung chuyên nghiệp{' '}
-                              </span>
-                            </div>
-                          </div>
-                        ),
-                        onClick: () =>
-                          setOrg({
-                            logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png',
-                            name: 'CMS Bingong',
-                            description:
-                              'Nền tảng quản lý nội dung chuyên nghiệp',
-                          }),
-                      },
+                        onClick: () => setOrg(e),
+                      })),
                       {
                         className: '!p-0 w-full !bg-transparent',
                         label: (
@@ -240,7 +196,7 @@ export const Header = () => {
                             <Button
                               iconPrefix={<IconPlus />}
                               type="primary"
-                              className="w-[320px] mt-2"
+                              className="w-[320px] mt-2 w-full"
                               onClick={() => setOpenCreateNewOrganization(true)}
                             >
                               {t('Create new organization')}

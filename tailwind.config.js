@@ -72,10 +72,15 @@ export default {
           '@apply bg-slate-950 dark:bg-white !bg-opacity-5': {},
         },
         '.text-sub': {
-          '@apply text-sm text-black dark:text-white !text-opacity-50': {},
+          '@apply text-sm text-black dark:text-white dark:text-opacity-50 text-opacity-80':
+            {},
         },
         '.text-title': {
           '@apply text-black dark:text-white font-semibold': {},
+        },
+        '.text-link': {
+          '@apply text-primary-500 dark:text-primary-400 hover:text-primary-500 dark:hover:text-primary-600':
+            {},
         },
       });
     },

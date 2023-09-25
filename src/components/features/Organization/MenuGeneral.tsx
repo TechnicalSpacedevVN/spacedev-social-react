@@ -1,9 +1,15 @@
 import { Button } from '@components/atoms/Button';
+import { Dropdown } from '@components/atoms/Dropdown';
 import { ButtonIconCamera } from '@components/atoms/Icon/IconCamera';
+import { IconChevronDown } from '@components/atoms/Icon/IconChevronDown';
 import { Input } from '@components/atoms/Input';
+import { Menu } from '@components/atoms/Menu';
+import { SettingItem } from '@components/atoms/MenuModal';
 import { Tab } from '@components/atoms/Tab';
+import { Tag } from '@components/atoms/Tag';
 import { useTranslate } from '@components/atoms/TranslateProvider';
 import { UploadFile } from '@components/atoms/UploadFile';
+import { LANGUAGES } from '@constants/config';
 import { convertFileToImage } from '@utils';
 import { useState } from 'react';
 
@@ -18,7 +24,7 @@ export const MenuGeneral = () => {
         itemClass="px-3"
         items={[
           {
-            label: 'Thông tin chung',
+            label: t('Basic information'),
             children: (
               <div className="flex gap-4 items-start pt-4">
                 <div className="flex justify-center px-20 py-10">
@@ -55,6 +61,16 @@ export const MenuGeneral = () => {
                     placeholder={t('Description')}
                     maxLength={50}
                   />
+
+                  <SettingItem
+                    title={
+                      <>
+                        Domain &nbsp;<Tag>Enterprise</Tag>
+                      </>
+                    }
+                    sub="Thời gian cập nhật domain có thể mất 15-30 phút"
+                  />
+                  <Input placeholder={t('Domain')} />
                   <div className="mt-4">
                     <Button className="w-full" type="primary">
                       {t('Create')}
@@ -65,11 +81,38 @@ export const MenuGeneral = () => {
             ),
           },
           {
-            label: 'Ngôn ngữ & Giao diện',
+            label: t('Language & Design'),
+            children: (
+              <div>
+                <SettingItem
+                  title={t('Default language')}
+                  sub={t('Users can choose their own website display language')}
+                  suffix={
+                    <Dropdown
+                      placement="bottomRight"
+                      content={<Menu menus={LANGUAGES} />}
+                    >
+                      <Button size="small" iconSuffix={<IconChevronDown />}>
+                        English
+                      </Button>
+                    </Dropdown>
+                  }
+                />
+                <SettingItem
+                  title={
+                    <>
+                      {t('Interface settings')} &nbsp;
+                      <Tag>Enterprise plan</Tag>
+                    </>
+                  }
+                  sub={t('Customize your social network interface')}
+                />
+              </div>
+            ),
           },
 
           {
-            label: 'System',
+            label: t('System'),
           },
         ]}
       />
