@@ -160,11 +160,12 @@ export const MenuMember = () => {
             ),
           },
           {
-            label: 'Tất cả thành viên',
-          },
-          {
             label: 'Phương thức đăng nhập',
           },
+          {
+            label: 'Tất cả thành viên',
+          },
+
           {
             label: 'Danh sách hạn chế',
           },

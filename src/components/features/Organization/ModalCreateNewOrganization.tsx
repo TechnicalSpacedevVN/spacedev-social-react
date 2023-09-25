@@ -76,7 +76,7 @@ export const ModalCreateNewOrganization: Atom<
                 </Dropdown>
               </div>
             </div>
-            <p className="text-sub mt-2 text-xs">
+            <p className="text-sub mt-2 !text-xs">
               Nền tảng học lập trình online kết hợp mạng xã hội quản lý học viên
               chuyên nghiệp
             </p>
