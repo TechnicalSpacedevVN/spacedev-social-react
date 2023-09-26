@@ -7,6 +7,7 @@ import { IconEye } from '@components/atoms/Icon/IconEye';
 import { IconHacker } from '@components/atoms/Icon/IconHacker';
 import { ButtonIconImage } from '@components/atoms/Icon/IconImage';
 import { IconLock } from '@components/atoms/Icon/IconLock';
+import { ButtonIconPoll } from '@components/atoms/Icon/IconPoll';
 import { IconUser } from '@components/atoms/Icon/IconUser';
 import { ImageGrid } from '@components/atoms/ImageGrid';
 import { Menu } from '@components/atoms/Menu';
@@ -73,11 +74,11 @@ export const ModalCreatePost: FC<ModalCreatePostProps> = ({
       open={open}
       onCancel={() => setOpen(false)}
       title={t('Create articles')}
-      className="min-h-[500px]"
+      className="min-h-[600px]"
       keyboard={false}
       overlayCloseable={false}
     >
-      <div className="p-3 flex flex-col flex-1">
+      <div className="p-3 flex flex-col flex-1 w-main-content">
         <div className="flex gap-3">
           <Avatar size={40} />
           <div className="flex-1">
@@ -157,6 +158,7 @@ export const ModalCreatePost: FC<ModalCreatePostProps> = ({
           >
             <ButtonIconImage />
           </UploadFile>
+          <ButtonIconPoll />
         </div>
         <div>
           <Button

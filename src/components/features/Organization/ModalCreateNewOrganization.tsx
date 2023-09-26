@@ -44,34 +44,42 @@ export const ModalCreateNewOrganization: Atom<
             <h3 className="font-semibold py-3 !text-opacity-50 dark:text-white text-black text-xs uppercase">
               {t('Disk usage')}
             </h3>
-            <div>
-              <div className="flex justify-between mb-1">
+            <div className="group ">
+              <div className="flex justify-between mb-1 ">
                 <span className="text-xs font-medium text-green-700 dark:text-white">
                   {t('Database')}
                 </span>
                 <span className="text-xs font-medium text-green-700 dark:text-white">
-                  45%
+                  <span className="group-hover:inline-block hidden">300MB</span>
+                  <span className="group-hover:hidden inline-block">30%</span> /
+                  1GB
                 </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+              <div className="mt-1 w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-700">
                 <div
-                  className="bg-green-600 h-2.5 rounded-full"
-                  style={{ width: '45%' }}
+                  className="bg-green-600 h-1.5 rounded-full"
+                  style={{ width: '30%' }}
                 />
               </div>
             </div>
-            <div className="mt-2">
-              <div className="flex justify-between mb-1">
+            <div className="group mt-2">
+              <div className="flex justify-between ">
                 <span className="text-xs font-medium text-orange-700 dark:text-white">
                   {t('Storage')}
                 </span>
                 <span className="text-xs font-medium text-orange-700 dark:text-white">
-                  70%
+                  <span className="group-hover:inline-block hidden text-orange-600">
+                    17GB
+                  </span>
+                  <span className="group-hover:hidden inline-block text-orange-600">
+                    70%
+                  </span>{' '}
+                  / 19GB
                 </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+              <div className="mt-1 w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-700">
                 <div
-                  className="bg-orange-600 h-2.5 rounded-full"
+                  className="bg-orange-600 h-1.5 rounded-full"
                   style={{ width: '70%' }}
                 />
               </div>

@@ -32,6 +32,7 @@ export default {
       width: {
         sidebar: 300,
         menu: 250,
+        'main-content': 768,
       },
       maxWidth: {
         'main-content': 768,

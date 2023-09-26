@@ -89,7 +89,7 @@ export const MainLayout = () => {
         {user && <FloatingChat />}
         <FloatNotification />
 
-        <ModalCreatePost width={608} />
+        <ModalCreatePost />
         <ModalImage />
       </main>
     </DropFile>

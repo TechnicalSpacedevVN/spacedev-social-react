@@ -53,10 +53,13 @@ export const MenuBillingSubscription = () => {
                         </div>
                         <div className="flex gap-1 items-start text-sm text-sub">
                           <IconCheck size={15} className="mt-1" />
-                          Bảo vệ thông tin thành viên kể cả "Chủ tổ chức"{' '}
-                          <Link className="text-link" to="#">
-                            Tài liệu
-                          </Link>
+                          <span>
+                            Bảo vệ thông tin thành viên kể cả "Chủ tổ chức"
+                            &nbsp;
+                            <Link className="text-link" to="#">
+                              Tìm hiểu thêm
+                            </Link>
+                          </span>
                         </div>
                       </div>
                     </div>
