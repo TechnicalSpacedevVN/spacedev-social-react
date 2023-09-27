@@ -6,6 +6,7 @@ import { IconArrowDown } from '@components/atoms/Icon/IconArrow';
 import { IconEye } from '@components/atoms/Icon/IconEye';
 import { IconHacker } from '@components/atoms/Icon/IconHacker';
 import { ButtonIconImage } from '@components/atoms/Icon/IconImage';
+import { ButtonIconListDetail } from '@components/atoms/Icon/IconListDetail';
 import { IconLock } from '@components/atoms/Icon/IconLock';
 import { ButtonIconPoll } from '@components/atoms/Icon/IconPoll';
 import { IconUser } from '@components/atoms/Icon/IconUser';
@@ -143,7 +144,9 @@ export const ModalCreatePost: FC<ModalCreatePostProps> = ({
           </div>
         </DropFile>
         <div className="flex gap-2 px-2 items-center mt-2 mb-2">
-          <p className="text-sm">{t('Add content to the article?')}</p>
+          <p className="text-sm">
+            {t('Select content type you want to create?')}
+          </p>
           <UploadFile
             onChange={async (files) => {
               const imgs: string[] = [];
@@ -159,6 +162,7 @@ export const ModalCreatePost: FC<ModalCreatePostProps> = ({
             <ButtonIconImage />
           </UploadFile>
           <ButtonIconPoll />
+          <ButtonIconListDetail />
         </div>
         <div>
           <Button

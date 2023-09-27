@@ -1,5 +1,6 @@
 import { Avatar } from '@components/atoms/Avatar';
 import { IconImage } from '@components/atoms/Icon/IconImage';
+import { IconListDetail } from '@components/atoms/Icon/IconListDetail';
 import { IconPoll } from '@components/atoms/Icon/IconPoll';
 import { Event } from '@utils/event';
 
@@ -49,6 +50,15 @@ export const NewPost = () => {
                 <IconPoll />
               </div>
               Poll
+            </div>
+            <div
+              onClick={() => Event.emit('CreatePost', {})}
+              className="whitespace-nowrap flex bg-gray-100 rounded-full text-sm text-gray-900 items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
+            >
+              <div className="text-orange-500">
+                <IconListDetail />
+              </div>
+              Seris
             </div>
             {/* <div
               onClick={() => setOpen(true)}

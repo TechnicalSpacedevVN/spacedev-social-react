@@ -19,6 +19,9 @@ export const Home = () => {
   const [posts, setPosts] = useState(() => mockPosts(3));
   const [loading, setLoading] = useState(false);
   useTitle('Spacedev facinsrule');
+  useEffect(() => {
+    (window as any).TrelloBoards.load(document, { allAnchors: false });
+  }, []);
 
   useEffect(() => {
     const event = () => {
@@ -75,6 +78,9 @@ export const Home = () => {
       </div>
       <div className="flex-1 w-1 pb-4 ">
         <div className="max-w-main-content mx-auto flex flex-col gap-4">
+          <blockquote className="trello-board-compact">
+            <a href="{url to board}">Trello Board</a>
+          </blockquote>
           {user && (
             <>
               <Story />
