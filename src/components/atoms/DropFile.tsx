@@ -202,9 +202,11 @@ export const DropFile: Atom<DropFileProps> = ({
             )}
           >
             <IconDropImage />
-            {props?.title?.[type as keyof DropFileType] ||
-              props.content ||
-              'Thả tệp tại đây'}
+            <span>
+              {props?.title?.[type as keyof DropFileType] ||
+                props.content ||
+                'Thả tệp tại đây'}
+            </span>
           </div>
         ))}
     </div>

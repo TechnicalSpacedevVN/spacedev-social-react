@@ -46,6 +46,7 @@ export interface SettingItemProps {
   title?: React.ReactNode;
   sub?: React.ReactNode;
   suffix?: React.ReactNode;
+  prefix?: React.ReactNode;
   disabled?: boolean;
 }
 export const SettingItem: Atom<SettingItemProps> = ({
@@ -54,15 +55,17 @@ export const SettingItem: Atom<SettingItemProps> = ({
   sub,
   suffix,
   disabled,
+  prefix,
   ...props
 }) => {
   return (
     <div
       {...props}
-      className={cn('flex items-center mt-4', className, {
+      className={cn('flex items-center mt-4 gap-2', className, {
         ['opacity-50 pointer-events-none select-none']: disabled,
       })}
     >
+      {prefix}
       <div className="flex-1">
         <h3 className="font-semibold text-sm">{title}</h3>
         <p className="text-sub">{sub}</p>

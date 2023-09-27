@@ -7,6 +7,7 @@ export interface ImageGridProps {
   removeAble?: boolean;
   onRemove?: (images: string[]) => void;
   imgClassName?: string;
+  children?: any;
 }
 
 const upload1ImageClass = 'h-[500px] [&>*:nth-child(1)]:inset-[calc(0%_+_0px)]';
@@ -66,6 +67,7 @@ export const ImageGrid: Atom<ImageGridProps> = ({
           )}
         </div>
       ))}
+      {props.children}
     </div>
   );
 };

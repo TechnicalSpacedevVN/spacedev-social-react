@@ -16,6 +16,7 @@ export interface ModalProps {
   className?: string;
   keyboard?: boolean;
   backdropClassName?: string;
+  footer?: React.ReactNode;
 }
 
 export const Modal: FC<ModalProps> = ({
@@ -103,6 +104,9 @@ export const Modal: FC<ModalProps> = ({
           )}
         </div>
         {props.children}
+        {props.footer && (
+          <div className="p-3 border-t border-base">{props.footer}</div>
+        )}
       </div>
     </div>,
     document.body,

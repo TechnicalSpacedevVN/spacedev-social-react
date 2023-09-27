@@ -1,7 +1,10 @@
 import { Icon } from './Icon';
 import { ButtonIconProps, IconProps } from './type';
 
-export const ButtonIconTrash: Atom<ButtonIconProps> = ({ size, ...props }) => {
+export const ButtonIconEyeClose: Atom<ButtonIconProps> = ({
+  size,
+  ...props
+}) => {
   return (
     <Icon {...props}>
       <IconEyeClose size={size} />

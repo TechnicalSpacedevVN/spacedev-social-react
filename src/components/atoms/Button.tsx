@@ -8,6 +8,7 @@ const typeClass = {
   primary: 'bg-primary-500 hover:bg-primary-600 text-white',
   link: '',
   red: 'bg-red-700 bg-opacity-90 hover:bg-opacity-100 text-white',
+  white: 'bg-white text-black',
 };
 
 const sizeClass = {
@@ -19,7 +20,7 @@ const sizeClass = {
 export interface ButtonProps {
   children: any;
   className?: string;
-  type?: 'default' | 'primary' | 'link' | 'red';
+  type?: 'default' | 'primary' | 'link' | 'red' | 'white';
   disabled?: boolean;
   size?: 'small' | 'default' | 'large';
   outline?: boolean;

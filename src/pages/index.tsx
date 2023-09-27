@@ -19,9 +19,6 @@ export const Home = () => {
   const [posts, setPosts] = useState(() => mockPosts(3));
   const [loading, setLoading] = useState(false);
   useTitle('Spacedev facinsrule');
-  useEffect(() => {
-    (window as any).TrelloBoards.load(document, { allAnchors: false });
-  }, []);
 
   useEffect(() => {
     const event = () => {
