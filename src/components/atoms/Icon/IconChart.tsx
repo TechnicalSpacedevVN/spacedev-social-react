@@ -2,15 +2,15 @@ import { cn } from '@utils';
 import { Icon } from './Icon';
 import { ButtonIconProps, IconProps } from './type';
 
-export const ButtonIconPoll: Atom<ButtonIconProps> = ({ size, ...props }) => {
+export const ButtonIconCamera: Atom<ButtonIconProps> = ({ size, ...props }) => {
   return (
     <Icon {...props}>
-      <IconPoll size={size} />
+      <IconCamera size={size} />
     </Icon>
   );
 };
 
-export const IconPoll: Atom<IconProps> = ({ size = 17, ...props }) => {
+export const IconCamera: Atom<IconProps> = ({ size = 17, ...props }) => {
   return (
     <svg
       {...props}

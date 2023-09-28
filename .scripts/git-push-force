@@ -1,0 +1,44 @@
+#!/bin/bash
+
+
+# Sử dụng biến môi trường để đặt giá trị mặc định cho thông điệp commit
+# : "${COMMIT_MESSAGE:=update}"
+# : "${BRANCH:=master}"
+
+# echo $1 $2
+
+# Kiểm tra xem có ít nhất một tham số truyền vào hay không
+# if [ $# -lt 1 ]; then
+#   echo "Usage: $1 <COMMIT_MESSAGE>"
+  
+#   COMMIT_MESSAGE="$1"
+# fi
+
+
+# Kiểm tra xem có tham số thứ nhất được truyền vào không
+if [ -n "$1" ]; then
+  COMMIT_MESSAGE="$1"
+else
+  COMMIT_MESSAGE="Update"
+fi
+
+
+# Kiểm tra xem có tham số thứ hai được truyền vào không
+if [ -n "$2" ]; then
+  BRANCH="$2"
+else
+  BRANCH="master"
+fi
+
+
+echo "$BRANCH "$COMMIT_MESSAGE""
+
+
+# Thực hiện git add .
+git add .
+
+# Thực hiện git commit với thông điệp "update"
+git commit -m "$COMMIT_MESSAGE"
+
+# Thực hiện git push lên nhánh master của origin
+git push origin HEAD:$BRANCH

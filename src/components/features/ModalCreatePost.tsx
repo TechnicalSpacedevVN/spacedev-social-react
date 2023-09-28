@@ -6,11 +6,12 @@ import { IconArrowDown } from '@components/atoms/Icon/IconArrow';
 import { IconDropImage } from '@components/atoms/Icon/IconDropImage';
 import { IconEye } from '@components/atoms/Icon/IconEye';
 import { IconHacker } from '@components/atoms/Icon/IconHacker';
-import { ButtonIconImage, IconImage } from '@components/atoms/Icon/IconImage';
-import { ButtonIconListDetail } from '@components/atoms/Icon/IconListDetail';
+import { IconImage } from '@components/atoms/Icon/IconImage';
+import { IconListDetail } from '@components/atoms/Icon/IconListDetail';
 import { IconLock } from '@components/atoms/Icon/IconLock';
+import { IconPen } from '@components/atoms/Icon/IconPen';
 import { IconPlus } from '@components/atoms/Icon/IconPlus';
-import { ButtonIconPoll } from '@components/atoms/Icon/IconPoll';
+import { IconPoll } from '@components/atoms/Icon/IconPoll';
 import { ButtonIconTrash } from '@components/atoms/Icon/IconTrash';
 import { IconUser } from '@components/atoms/Icon/IconUser';
 import { ImageGrid } from '@components/atoms/ImageGrid';
@@ -169,27 +170,33 @@ export const ModalCreatePost: FC<ModalCreatePostProps> = ({
                 onRemove={setImages}
               >
                 {images.length > 0 && (
-                  <Button
-                    className="absolute z-10 top-2 left-2"
-                    type="white"
-                    iconPrefix={<IconImage className="text-black" />}
-                    onClick={() => uploadfileRef.current?.trigger()}
-                  >
-                    {t('Add more Photo / Video')}
-                  </Button>
+                  <div className="absolute z-10 top-2 left-2 flex gap-2">
+                    <Button type="white" iconPrefix={<IconPen />}>
+                      Edit
+                    </Button>
+                    <Button
+                      type="white"
+                      iconPrefix={<IconImage />}
+                      onClick={() => uploadfileRef.current?.trigger()}
+                    >
+                      {t('Add more Photo / Video')}
+                    </Button>
+                  </div>
                 )}
               </ImageGrid>
-              {images.length === 0 && (
-                <UploadFile
-                  onChange={async (files) => {
-                    const imgs: string[] = [];
-                    for (const i in files) {
-                      const imgSrc = await mockUploadImage(files[i]);
-                      imgs.push(imgSrc.path);
-                    }
-                    setImages([...images, ...imgs]);
-                  }}
-                >
+
+              <UploadFile
+                ref={uploadfileRef}
+                onChange={async (files) => {
+                  const imgs: string[] = [];
+                  for (const i in files) {
+                    const imgSrc = await mockUploadImage(files[i]);
+                    imgs.push(imgSrc.path);
+                  }
+                  setImages([...images, ...imgs]);
+                }}
+              >
+                {images.length === 0 && (
                   <div className="p-3 rounded-lg border border-base mt-5">
                     <div className="w-full h-[300px] dark:bg-slate-800 dark:hover:bg-slate-700 cursor-pointer rounded-lg flex items-center justify-center">
                       <div className="flex flex-col items-center">
@@ -201,15 +208,63 @@ export const ModalCreatePost: FC<ModalCreatePostProps> = ({
                       </div>
                     </div>
                   </div>
-                </UploadFile>
-              )}
+                )}
+              </UploadFile>
             </div>
 
             <div className="flex gap-2 px-2 items-center mt-2 mb-2">
               <p className="text-sm">
                 {t('Select content type you want to create?')}
               </p>
-              <UploadFile
+
+              <div className="flex flex-wrap gap-2 mt-2">
+                <div
+                  onClick={() => Event.emit('CreatePost', {})}
+                  className="whitespace-nowrap flex bg-gray-100 rounded-full text-sm text-gray-900 items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
+                >
+                  <div className="text-emerald-500">
+                    <IconImage />
+                  </div>
+                  Photo/video
+                </div>
+                <div
+                  onClick={() => Event.emit('CreatePost', {})}
+                  className="whitespace-nowrap flex bg-gray-100 rounded-full text-sm text-gray-900 items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
+                >
+                  <div className="text-orange-500">
+                    <IconPoll />
+                  </div>
+                  Poll
+                </div>
+                <div
+                  onClick={() => Event.emit('CreatePost', {})}
+                  className="whitespace-nowrap flex bg-gray-100 rounded-full text-sm text-gray-900 items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
+                >
+                  <div className="text-orange-500">
+                    <IconListDetail />
+                  </div>
+                  Seris
+                </div>
+                {/* <div
+              onClick={() => setOpen(true)}
+              className="whitespace-nowrap flex bg-gray-100 rounded-full text-sm text-gray-900 items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
+            >
+              <div className="text-blue-500">
+                <IconCalendar />
+              </div>
+              Schedule
+            </div>
+            <div
+              onClick={() => setOpen(true)}
+              className="whitespace-nowrap flex bg-gray-100 rounded-full text-sm text-gray-900 items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
+            >
+              <div className="text-red-500">
+                <IconVideo />
+              </div>
+              Live video
+            </div> */}
+              </div>
+              {/* <UploadFile
                 onChange={async (files) => {
                   const imgs: string[] = [];
 
@@ -224,7 +279,7 @@ export const ModalCreatePost: FC<ModalCreatePostProps> = ({
                 <ButtonIconImage />
               </UploadFile>
               <ButtonIconPoll onClick={() => openPopup(PopupEnum.Poll)} />
-              <ButtonIconListDetail />
+              <ButtonIconListDetail /> */}
             </div>
             <div>
               <Button
@@ -308,6 +363,12 @@ export const ModalNewPoll: Atom<ModalNewPollProps> = ({ ...props }) => {
             title="Đặt giới hạn thời gian cho Poll này"
             prefix={<Switch />}
           />
+          <SettingItem title="Ẩn danh người làm khảo sát" prefix={<Switch />} />
+          <SettingItem
+            title="Cho phép xem kết quả đánh giá sau khi vote"
+            prefix={<Switch />}
+          />
+          <SettingItem title="Cho phép chọn nhiều đáp án" prefix={<Switch />} />
         </div>
       </div>
     </Modal>

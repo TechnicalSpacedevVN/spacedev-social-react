@@ -117,7 +117,9 @@ export const Story = () => {
           onClick={() =>
             wraperRef.current?.scrollTo({
               left:
-                wraperRef.current.scrollLeft - wraperRef.current.offsetWidth,
+                wraperRef.current.scrollLeft -
+                wraperRef.current.offsetWidth +
+                150,
               behavior: 'smooth',
             })
           }
@@ -131,7 +133,9 @@ export const Story = () => {
           onClick={() =>
             wraperRef.current?.scrollTo({
               left:
-                wraperRef.current.scrollLeft + wraperRef.current.offsetWidth,
+                wraperRef.current.scrollLeft +
+                wraperRef.current.offsetWidth -
+                150,
               behavior: 'smooth',
             })
           }

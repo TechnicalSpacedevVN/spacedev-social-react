@@ -22,6 +22,7 @@ import { MenuGroup } from './MenuGroup';
 import { MenuMember } from './MenuMember';
 import { MenuSecurity } from './MenuSecurity';
 import { IconSetting } from '@components/atoms/Icon/IconSetting';
+import { Tag } from '@components/atoms/Tag';
 
 export interface ModalCreateNewOrganizationProps extends ModalProps {}
 
@@ -41,9 +42,12 @@ export const ModalCreateNewOrganization: Atom<
       sidebarBottom={
         <div className="mt-auto p-2">
           <div>
-            <h3 className="font-semibold py-3 !text-opacity-50 dark:text-white text-black text-xs uppercase">
-              {t('Disk usage')}
-            </h3>
+            <div className="flex gap-2 items-center">
+              <h3 className="font-semibold py-3 !text-opacity-50 dark:text-white text-black text-xs uppercase">
+                {t('Disk usage')}
+              </h3>
+              <Tag>Upgrade Plan</Tag>
+            </div>
             <div className="group ">
               <div className="flex justify-between mb-1 ">
                 <span className="text-xs font-medium text-green-700 dark:text-white">
