@@ -27,7 +27,6 @@ export const useShortcut = (
     if (enabled) {
       let shortcuts = typeof shortcut === 'string' ? [shortcut] : shortcut;
       const onKeydownEvent = (ev: KeyboardEvent): any => {
-        console.log(ev.key);
         if (shortcuts.includes(ev.key)) {
           effect(ev);
           // stopImmediatelyPropagation

@@ -1,15 +1,19 @@
-import { useAuth } from "@components/features/AuthProvider";
-import { FC, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { LOGIN_MODAL, useGLobalState } from "../../../store/queryClient";
-import { Button } from "../../atoms/Button";
-import { IconFacebook } from "../../atoms/Icon/IconFacebook";
-import { IconInstagram } from "../../atoms/Icon/IconInstagram";
-import { IconQR } from "../../atoms/Icon/IconQR";
-import { IconTwitter } from "../../atoms/Icon/IconTwitter";
-import { ButtonIconUser } from "../../atoms/Icon/IconUser";
-import { Input } from "../../atoms/Input";
-import { Modal, ModalProps } from "../../atoms/Modal";
+import { useAuth } from '@components/features/AuthProvider';
+import { FC, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { LOGIN_MODAL, useGLobalState } from '../../../store/queryClient';
+import { Button } from '../../atoms/Button';
+import { IconFacebook } from '../../atoms/Icon/IconFacebook';
+import { IconInstagram } from '../../atoms/Icon/IconInstagram';
+import { IconQR } from '../../atoms/Icon/IconQR';
+import { IconTwitter } from '../../atoms/Icon/IconTwitter';
+import { ButtonIconUser } from '../../atoms/Icon/IconUser';
+import { Input } from '../../atoms/Input';
+import { Modal, ModalProps } from '../../atoms/Modal';
+import { useRegister } from '@hooks/useRegister';
+import { RegisterUserDto } from '@services/user';
+import { useLogin } from '@hooks/useLogin';
+import { LoginDto } from '@services/auth';
 
 export const ModalLogin: FC<ModalProps> = ({ ...props }) => {
   const { login } = useAuth();
@@ -38,7 +42,7 @@ export const ModalLogin: FC<ModalProps> = ({ ...props }) => {
       />
       <Modal
         {...props}
-        open={typeof open === "boolean" ? open : _open}
+        open={typeof open === 'boolean' ? open : _open}
         title="Log in to Facinsrule"
         width={450}
       >
@@ -46,7 +50,7 @@ export const ModalLogin: FC<ModalProps> = ({ ...props }) => {
           <a
             onClick={(ev) => {
               ev.preventDefault();
-              login({ password: "asdfasdf", username: "asdfasdf" });
+              login({ password: 'asdfasdf', username: 'asdfasdf' });
               props.onCancel?.();
             }}
             href="#"
@@ -133,17 +137,17 @@ export const ModalLogin: FC<ModalProps> = ({ ...props }) => {
         </a> */}
         </div>
         <p className="px-10 pb-5 text-gray-400 text-xs text-center hover:[&_a]:underline [&_a]:text-gray-800">
-          By continuing, you agree to TikTok’s{" "}
+          By continuing, you agree to TikTok’s{' '}
           <a href="#" className="dark:text-white">
             Terms of Service
-          </a>{" "}
-          and confirm that you have read TikTok’s{" "}
+          </a>{' '}
+          and confirm that you have read TikTok’s{' '}
           <a href="#" className="dark:text-white">
             Privacy Policy
           </a>
         </p>
         <div className="py-4 text-center px-3 text-gray-900 border-t border-solid border-gray-300 dark:text-white dark:border-slate-700">
-          Don't have an account?{" "}
+          Don't have an account?{' '}
           <a
             onClick={(e) => {
               e.preventDefault();
@@ -161,11 +165,6 @@ export const ModalLogin: FC<ModalProps> = ({ ...props }) => {
   );
 };
 
-export interface LoginInput {
-  email: string;
-  password: string;
-}
-
 interface ModalLoginModalProps extends ModalProps {
   onSuccess?: () => void;
 }
@@ -175,31 +174,34 @@ const ModalLoginNormal: FC<ModalLoginModalProps> = (props) => {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<LoginInput>({ mode: "onChange" });
+  } = useForm<LoginDto>({ mode: 'onChange' });
+  const { mutateAsync } = useLogin();
 
-  const submit: SubmitHandler<LoginInput> = () => {};
+  const submit: SubmitHandler<LoginDto> = (value) => {
+    mutateAsync(value);
+  };
 
   return (
     <Modal title="Use phone / email / username" {...props}>
       <form
-        className="py-12 px-8 flex flex-col gap-3"
+        className="py-12 px-8 flex flex-col gap-5"
         onSubmit={handleSubmit(submit)}
       >
         <Input
           label="Email"
-          {...register("email", {
-            required: "Trường này là trường bắt buộc",
+          {...register('email', {
+            required: 'Trường này là trường bắt buộc',
             pattern: {
               value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-              message: "Vui lòng nhập đúng Email",
+              message: 'Vui lòng nhập đúng Email',
             },
           })}
           error={errors?.email?.message}
         />
         <Input
           label="Mật khẩu"
-          {...register("password", {
-            required: "Trường này là trường bắt buộc",
+          {...register('password', {
+            required: 'Trường này là trường bắt buộc',
           })}
           type="password"
           error={errors?.password?.message}
@@ -217,12 +219,6 @@ const ModalLoginNormal: FC<ModalLoginModalProps> = (props) => {
   );
 };
 
-export interface RegisterInput {
-  email: string;
-  password: string;
-  name: string;
-}
-
 interface ModalRegisterModalProps extends ModalProps {
   onSuccess?: () => void;
 }
@@ -232,41 +228,42 @@ const ModalRegister: FC<ModalRegisterModalProps> = (props) => {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<RegisterInput>({ mode: "onChange" });
+  } = useForm<RegisterUserDto>({ mode: 'onChange' });
+  const { mutateAsync } = useRegister();
 
-  const submit: SubmitHandler<RegisterInput> = (values) => {
-    console.log(values);
+  const submit: SubmitHandler<RegisterUserDto> = (values: RegisterUserDto) => {
+    mutateAsync(values);
   };
 
   return (
     <Modal title="Đăng ký" {...props}>
       <form
-        className="py-12 px-8 flex flex-col gap-3"
+        className="py-12 px-8 flex flex-col gap-5"
         onSubmit={handleSubmit(submit)}
       >
         <Input
           label="Họ và tên"
           placeholder="Họ và tên"
-          {...register("name", {
-            required: "Trường này là trường bắt buộc",
+          {...register('name', {
+            required: 'Trường này là trường bắt buộc',
           })}
           error={errors?.name?.message}
         />
         <Input
           label="Email"
-          {...register("email", {
-            required: "Trường này là trường bắt buộc",
+          {...register('email', {
+            required: 'Trường này là trường bắt buộc',
             pattern: {
               value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-              message: "Vui lòng nhập đúng Email",
+              message: 'Vui lòng nhập đúng Email',
             },
           })}
           error={errors?.email?.message}
         />
         <Input
           label="Mật khẩu"
-          {...register("password", {
-            required: "Trường này là trường bắt buộc",
+          {...register('password', {
+            required: 'Trường này là trường bắt buộc',
           })}
           type="password"
           error={errors?.password?.message}

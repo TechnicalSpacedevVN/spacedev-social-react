@@ -121,7 +121,7 @@ export const ModalCreatePost: FC<ModalCreatePostProps> = ({
               <div className="flex-1">
                 <h3 className="font-bold">Charles Schwartz</h3>
                 <Dropdown
-                  getPopupContainer={(parentNode) => parentNode}
+                  // getPopupContainer={(parentNode) => parentNode}
                   autoClose
                   content={
                     <Menu
@@ -228,7 +228,7 @@ export const ModalCreatePost: FC<ModalCreatePostProps> = ({
                   Photo/video
                 </div>
                 <div
-                  onClick={() => Event.emit('CreatePost', {})}
+                  onClick={() => openPopup(PopupEnum.Poll)}
                   className="whitespace-nowrap flex bg-gray-100 rounded-full text-sm text-gray-900 items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
                 >
                   <div className="text-orange-500">
