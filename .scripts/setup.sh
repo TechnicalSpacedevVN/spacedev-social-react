@@ -1,3 +1,3 @@
 #!/bin/bash
 
-git config alias.push-force "!sh ./.scripts/git-push-force"
+git config alias.p "!sh ./.scripts/git-push-force"

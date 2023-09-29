@@ -177,8 +177,8 @@ const ModalLoginNormal: FC<ModalLoginModalProps> = (props) => {
   } = useForm<LoginDto>({ mode: 'onChange' });
   const { mutateAsync } = useLogin();
 
-  const submit: SubmitHandler<LoginDto> = (value) => {
-    mutateAsync(value);
+  const submit: SubmitHandler<LoginDto> = async (value) => {
+    let res = await mutateAsync(value);
   };
 
   return (
