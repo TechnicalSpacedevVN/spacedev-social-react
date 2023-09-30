@@ -1,4 +1,8 @@
 import { useAuth } from '@components/features/AuthProvider';
+import { useLogin } from '@hooks/useLogin';
+import { useRegister } from '@hooks/useRegister';
+import { LoginDto } from '@services/auth';
+import { RegisterUserDto } from '@services/user';
 import { FC, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { LOGIN_MODAL, useGLobalState } from '../../../store/queryClient';
@@ -10,10 +14,7 @@ import { IconTwitter } from '../../atoms/Icon/IconTwitter';
 import { ButtonIconUser } from '../../atoms/Icon/IconUser';
 import { Input } from '../../atoms/Input';
 import { Modal, ModalProps } from '../../atoms/Modal';
-import { useRegister } from '@hooks/useRegister';
-import { RegisterUserDto } from '@services/user';
-import { useLogin } from '@hooks/useLogin';
-import { LoginDto } from '@services/auth';
+import { Link } from 'react-router-dom';
 
 export const ModalLogin: FC<ModalProps> = ({ ...props }) => {
   const { login } = useAuth();
@@ -29,6 +30,11 @@ export const ModalLogin: FC<ModalProps> = ({ ...props }) => {
         onCancel={() => {
           setOpenNormalLogin(false);
           setOpen(null);
+        }}
+        onSuccess={() => {
+          setOpen(null);
+          setOpenNormalLogin(false);
+          props.onCancel?.();
         }}
         width={450}
       />
@@ -175,46 +181,60 @@ const ModalLoginNormal: FC<ModalLoginModalProps> = (props) => {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<LoginDto>({ mode: 'onChange' });
-  const { mutateAsync } = useLogin();
+  const { mutateAsync, error } = useLogin();
 
   const submit: SubmitHandler<LoginDto> = async (value) => {
-    let res = await mutateAsync(value);
+    await mutateAsync(value);
+    props.onSuccess?.();
   };
-
   return (
     <Modal title="Use phone / email / username" {...props}>
-      <form
-        className="py-12 px-8 flex flex-col gap-5"
-        onSubmit={handleSubmit(submit)}
-      >
-        <Input
-          label="Email"
-          {...register('email', {
-            required: 'Trường này là trường bắt buộc',
-            pattern: {
-              value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-              message: 'Vui lòng nhập đúng Email',
-            },
-          })}
-          error={errors?.email?.message}
-        />
-        <Input
-          label="Mật khẩu"
-          {...register('password', {
-            required: 'Trường này là trường bắt buộc',
-          })}
-          type="password"
-          error={errors?.password?.message}
-        />
-        <Button
-          disabled={!isValid}
-          className="w-full mt-8"
-          size="large"
-          type="primary"
-        >
-          Đăng nhâp
-        </Button>
-      </form>
+      <div className="py-12 px-8">
+        <form className="flex flex-col gap-5" onSubmit={handleSubmit(submit)}>
+          <Input
+            label="Email"
+            {...register('email', {
+              required: 'Trường này là trường bắt buộc',
+              pattern: {
+                value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                message: 'Vui lòng nhập đúng Email',
+              },
+            })}
+            error={errors?.email?.message}
+          />
+          <Input
+            label="Mật khẩu"
+            {...register('password', {
+              required: 'Trường này là trường bắt buộc',
+            })}
+            type="password"
+            error={errors?.password?.message}
+          />
+          {error?.message && (
+            <div className="text-red-500 text-sm">
+              {error?.message}{' '}
+              <Link to="#" className="mt-3 text-red-500 font-bold">
+                Quên mật khẩu
+              </Link>
+            </div>
+          )}
+
+          <Button
+            disabled={!isValid}
+            className="w-full mt-8"
+            size="large"
+            type="primary"
+          >
+            Đăng nhâp
+          </Button>
+        </form>
+
+        <div className="px-8 flex justify-center">
+          <Link to="#" className="mt-3 text-link">
+            Quên mật khẩu
+          </Link>
+        </div>
+      </div>
     </Modal>
   );
 };

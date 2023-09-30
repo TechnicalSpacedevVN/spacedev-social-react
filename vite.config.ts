@@ -1,23 +1,23 @@
-import { PluginOption, defineConfig, loadEnv } from "vite";
-import react from "@vitejs/plugin-react-swc";
-import tsconfigPaths from "vite-tsconfig-paths";
-import pluginChecker from "vite-plugin-checker";
-import utwm from "unplugin-tailwindcss-mangle";
+import { PluginOption, defineConfig, loadEnv } from 'vite';
+import react from '@vitejs/plugin-react-swc';
+import tsconfigPaths from 'vite-tsconfig-paths';
+import pluginChecker from 'vite-plugin-checker';
+import utwm from 'unplugin-tailwindcss-mangle';
 
 // Cho phép sử dụng env trong file index.html bằng cú pháp <%=ENV_NAME%>
 const transformHtmlPlugin = (data): PluginOption => ({
-  name: "transform-html",
+  name: 'transform-html',
   transformIndexHtml: {
-    enforce: "pre",
+    enforce: 'pre',
     transform(html) {
-      return html.replace(/<%=\s*(\w+)\s*%>/gi, (match, p1) => data[p1] || "");
+      return html.replace(/<%=\s*(\w+)\s*%>/gi, (match, p1) => data[p1] || '');
     },
   },
 });
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), "");
+  const env = loadEnv(mode, process.cwd(), '');
   process.env = {
     ...process.env,
     ...env,
@@ -32,11 +32,12 @@ export default defineConfig(({ mode }) => {
     ],
     server: {
       port: parseInt(process.env.PORT) || 3000,
+      cors: false,
     },
     build: {
-      outDir: "build",
+      outDir: 'build',
       rollupOptions: {
-        input: ["src/main.tsx", "./index.html"],
+        input: ['src/main.tsx', './index.html'],
       },
     },
   };

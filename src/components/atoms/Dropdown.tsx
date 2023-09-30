@@ -30,6 +30,7 @@ export interface DropdownProps {
   children?: any;
   className?: string;
   content?: any;
+  disabled?: boolean;
   arrow?: boolean;
   closeWhenScroll?: boolean;
   trigger?: ('click' | 'hover' | 'contextmenu')[];
@@ -70,6 +71,7 @@ export const Dropdown: FC<DropdownProps> = ({
   placement = 'bottomLeft',
   allowToggle = true,
   autoClose = false,
+  disabled,
   keyboard = true,
   closeWhenScroll = false,
   delay = 0,
@@ -178,7 +180,7 @@ export const Dropdown: FC<DropdownProps> = ({
     <>
       <div
         onClick={() => {
-          if (!_isTriggerClick) return;
+          if (!disabled && !_isTriggerClick) return;
           clickChildrenRef.current = true;
           _onToggleOpen();
         }}
@@ -207,6 +209,7 @@ export const Dropdown: FC<DropdownProps> = ({
         {props.children}
       </div>
       {open &&
+        !disabled &&
         createPortal(
           <>
             {/* <div

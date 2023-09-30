@@ -1,7 +1,7 @@
-import { useId } from "react";
-import { cn } from "../../utils";
-import { BorderGradient, BorderGradientProps } from "./BorderGradient";
-import { Link } from "react-router-dom";
+import { useId } from 'react';
+import { cn } from '../../utils';
+import { BorderGradient, BorderGradientProps } from './BorderGradient';
+import { Link } from 'react-router-dom';
 
 export interface AvatarProps {
   size?: number;
@@ -15,10 +15,10 @@ export interface AvatarProps {
 export const Avatar: Atom<AvatarProps> = ({
   size = 32,
   online,
-  link = "",
+  link = '',
   ...props
 }) => {
-  let TagWraper = link ? Link : "div";
+  let TagWraper = link ? Link : 'div';
   const id = useId();
   let _w = size;
   let _h = size;
@@ -33,12 +33,12 @@ export const Avatar: Atom<AvatarProps> = ({
       draggable={false}
       to={link}
       className={cn(
-        "border-base border relative cursor-pointer rounded-full block ",
-        props.className
+        'border-base border relative cursor-pointer rounded-full block ',
+        props.className,
       )}
       style={{ width: _w, height: _h }}
     >
-      <div className={cn("rounded-full overflow-hidden w-full h-full")}>
+      <div className={cn('rounded-full overflow-hidden w-full h-full')}>
         <img
           draggable={false}
           className="w-full h-full object-cover"
@@ -48,15 +48,15 @@ export const Avatar: Atom<AvatarProps> = ({
       {props.showStatus && (
         <span
           className={cn(
-            "block w-2 h-2 rounded-full  absolute bottom-0 right-0 shadow-[0_0_0_2px_white] dark:shadow-slate-900",
-            { "bg-green-500": online, "bg-gray-500": !online }
+            'block w-2 h-2 rounded-full  absolute bottom-0 right-0 shadow-[0_0_0_2px_white] dark:shadow-slate-900',
+            { 'bg-green-500': online, 'bg-gray-500': !online },
           )}
         ></span>
       )}
     </TagWraper>
   );
 
-  if (typeof props.border === "object") {
+  if (typeof props.border === 'object') {
     return (
       <BorderGradient className="rounded-full " size={props.border.size}>
         <div className=" rounded-full">{child}</div>

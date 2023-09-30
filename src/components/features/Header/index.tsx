@@ -3,11 +3,13 @@ import { ButtonIconNotification } from '@components/atoms/Icon/IconNotification'
 // import { ButtonIconPalette } from '@components/atoms/Icon/IconPalette';
 import { IconPlus } from '@components/atoms/Icon/IconPlus';
 import { IconSearch } from '@components/atoms/Icon/IconSearch';
+import { Menu } from '@components/atoms/Menu';
 import { useTranslate } from '@components/atoms/TranslateProvider';
 import { useAuth } from '@components/features/AuthProvider';
 import { useMode } from '@components/features/DarkModeProvider';
 import { GeneralInfo } from '@components/features/GeneralInfo';
-import { useState } from 'react';
+import { selectOrgAction, useGetMyOrg } from '@hooks/organization';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { PATH } from '../../../constants/path';
 import { LOGIN_MODAL, setGlobalState } from '../../../store/queryClient';
@@ -26,7 +28,6 @@ import { Notification } from '../Notification';
 import { ModalCreateNewOrganization } from '../Organization/ModalCreateNewOrganization';
 import { ModalLogin } from './ModalLogin';
 import { PersonalMenu } from './PersonalMenu';
-import { Menu } from '@components/atoms/Menu';
 
 // const mapColor: any = {
 //   blue: {
@@ -121,30 +122,37 @@ import { Menu } from '@components/atoms/Menu';
 
 export const Header = () => {
   const { t } = useTranslate();
-  const organizations = [
-    {
-      logo: 'https://spacedev.vn/images/LOGO-image-full.svg',
-      name: 'Fucinsrule',
-      description: 'Platform mạng xã hội doanh nghiệp và cá nhân',
-    },
-    {
-      logo: 'https://spacedev.vn/images/LOGO-image-full.svg',
-      name: 'Spacedev',
-      description: 'Nền tảng học lập trình online',
-    },
-    {
-      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png',
-      name: 'CMS Bingong',
-      description: 'Nền tảng quản lý nội dung chuyên nghiệp',
-    },
-  ];
+  const { isLogin } = useAuth();
+  // const _organizations = [
+  //   {
+  //     logo: 'https://spacedev.vn/images/LOGO-image-full.svg',
+  //     name: 'Fucinsrule',
+  //     description: 'Platform mạng xã hội doanh nghiệp và cá nhân',
+  //   },
+  //   {
+  //     logo: 'https://spacedev.vn/images/LOGO-image-full.svg',
+  //     name: 'Spacedev',
+  //     description: 'Nền tảng học lập trình online',
+  //   },
+  //   {
+  //     logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png',
+  //     name: 'CMS Bingong',
+  //     description: 'Nền tảng quản lý nội dung chuyên nghiệp',
+  //   },
+  // ];
 
   const { mode, toggleMode } = useMode();
   const [openLogin] = useState(false);
   const { user } = useAuth();
-  const [org, setOrg] = useState(organizations[0]);
+  const { organizations } = useGetMyOrg();
+  const [org, setOrg] = useState(organizations?.[0] || {});
+  // const [selectOrg, setSelectOrg] = useState<IOrganization>();
   const [openCreateNewOrganization, setOpenCreateNewOrganization] =
     useState(false);
+
+  useEffect(() => {
+    setOrg(organizations?.[0] || {});
+  }, [organizations]);
 
   return (
     <>
@@ -165,51 +173,66 @@ export const Header = () => {
             >
               <img src={org.logo} className="w-[25px]" />
               <span className="font-bold">{org.name}</span>
-              <Dropdown
-                popupClassName="-translate-x-4"
-                getPopupContainer={(node) => node.parentNode as HTMLDivElement}
-                autoClose
-                content={
-                  <Menu
-                    menus={[
-                      ...organizations.map((e) => ({
-                        label: (
-                          <div className="flex items-center gap-3">
-                            <img src={e.logo} className="w-[25px]" />
-                            <div className="flex flex-col gap-1 flex-1">
-                              <span className="font-bold">{e.name}</span>
-                              <span className="text-xs !text-opacity-70 text-black dark:text-white">
-                                {e.description}
-                              </span>
+
+              {isLogin && (
+                <Dropdown
+                  popupClassName="-translate-x-4"
+                  getPopupContainer={(node) =>
+                    node.parentNode as HTMLDivElement
+                  }
+                  autoClose
+                  content={
+                    <Menu
+                      menus={[
+                        ...organizations.map((e) => ({
+                          label: (
+                            <div className="flex items-center gap-3">
+                              <Badge count={10}>
+                                <div className="flex items-center gap-2">
+                                  <img src={e.logo} className="w-[25px]" />
+                                </div>
+                              </Badge>
+                              <div className="flex flex-col gap-1 flex-1">
+                                <span className="font-bold">{e.name}</span>
+                                <span className="text-xs !text-opacity-70 text-black dark:text-white">
+                                  {e.description}
+                                </span>
+                              </div>
+
+                              <ButtonIconSetting
+                                onClick={() => {
+                                  selectOrgAction(e);
+                                  setOpenCreateNewOrganization(true);
+                                }}
+                              />
                             </div>
-                            <div className="bg-red-600 text-white font-bold rounded-full w-5 h-5 text-xs flex items-center justify-center">
-                              10
-                            </div>
-                          </div>
-                        ),
-                        onClick: () => setOrg(e),
-                      })),
-                      {
-                        className: '!p-0 w-full !bg-transparent',
-                        label: (
-                          <>
-                            <Button
-                              iconPrefix={<IconPlus />}
-                              type="primary"
-                              className="w-[320px] mt-2 w-full"
-                              onClick={() => setOpenCreateNewOrganization(true)}
-                            >
-                              {t('Create new organization')}
-                            </Button>
-                          </>
-                        ),
-                      },
-                    ]}
-                  />
-                }
-              >
-                <ButtonIconArrowDown transparent />
-              </Dropdown>
+                          ),
+                          onClick: () => setOrg(e),
+                        })),
+                        {
+                          className: '!p-0 w-full !bg-transparent',
+                          label: (
+                            <>
+                              <Button
+                                iconPrefix={<IconPlus />}
+                                type="primary"
+                                className="w-full mt-2"
+                                onClick={() =>
+                                  setOpenCreateNewOrganization(true)
+                                }
+                              >
+                                {t('Create new organization')}
+                              </Button>
+                            </>
+                          ),
+                        },
+                      ]}
+                    />
+                  }
+                >
+                  <ButtonIconArrowDown transparent />
+                </Dropdown>
+              )}
             </Link>
           </div>
           <Dropdown
@@ -329,7 +352,7 @@ export const Header = () => {
                   content={<PersonalMenu />}
                 >
                   <div className="active:scale-95 relative flex items-center">
-                    <Avatar />
+                    <Avatar src={user.avatar} />
                     <ButtonIconArrowDown
                       size={10}
                       className="absolute !p-1 right-0 -bottom-1 !pointer-events-auto bg-gray-300 dark:!bg-slate-600"
@@ -343,7 +366,7 @@ export const Header = () => {
                   type="red"
                   onClick={() => setGlobalState(LOGIN_MODAL, true)}
                 >
-                  {t('Signin')}
+                  {t('Login')}
                 </Button>
                 <Dropdown
                   getPopupContainer={(parentNode) => parentNode}

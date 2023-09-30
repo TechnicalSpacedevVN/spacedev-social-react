@@ -8,6 +8,7 @@ import { ButtonIconUser } from '@components/atoms/Icon/IconUser';
 import { ButtonIconWorld } from '@components/atoms/Icon/IconWorld';
 import { useTranslate } from '@components/atoms/TranslateProvider';
 import { GeneralInfo } from '@components/features/GeneralInfo';
+import { useLogout } from '@hooks/useLogin';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { PATH } from '../../../constants/path';
@@ -19,15 +20,16 @@ import { ButtonIconLogout } from '../../atoms/Icon/IconLogout';
 import { ButtonIconSetting } from '../../atoms/Icon/IconSetting';
 import { Step } from '../../atoms/Step';
 import { Switch } from '../../atoms/Switch';
-import { useAuth } from '../AuthProvider';
 import { useMode } from '../DarkModeProvider';
+import { useAuth } from '../AuthProvider';
 
 const menuClass =
   'cursor-pointer px-2 py-1 rounded hover:bg-black font-semibold hover:bg-opacity-20 flex gap-3 items-center text-gray-900 dark:text-white';
 
 export const PersonalMenu = () => {
   const [stepActive, setTabActive] = useState(0);
-  const { logout } = useAuth();
+  const { mutateAsync: logout } = useLogout();
+  const { user } = useAuth();
   const { mode, toggleMode } = useMode();
   const { t } = useTranslate();
 
@@ -38,8 +40,8 @@ export const PersonalMenu = () => {
           to={PATH.Profile}
           className="py-2 px-3 border-gray-300 rounded border-b border-solid text-gray-900 dark:text-white dark:border-slate-700 pb-3 hover:bg-black hover:bg-opacity-20 flex items-center gap-3"
         >
-          <Avatar />
-          <h3 className="text-lg font-semibold">Đặng Thuyền Vương</h3>
+          <Avatar src={user?.avatar} />
+          <h3 className="text-lg font-semibold">{user?.name}</h3>
         </Link>
         <div className="mt-3">
           <a
@@ -85,7 +87,7 @@ export const PersonalMenu = () => {
             }}
           >
             <ButtonIconLogout size={25} />
-            <p>{t('Signout')}</p>
+            <p>{t('Logout')}</p>
           </a>
           <GeneralInfo />
         </div>

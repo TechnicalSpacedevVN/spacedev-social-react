@@ -1,11 +1,11 @@
-export const createStorage = (name: string) => {
+export const createStorage = <T = any>(name: string) => {
   return {
-    set: (data: any) => {
+    set: (data: T) => {
       localStorage.setItem(name, JSON.stringify(data));
     },
-    get: () => {
+    get: (): T | null => {
       try {
-        return JSON.parse(localStorage.getItem(name) || "null");
+        return JSON.parse(localStorage.getItem(name) || 'null');
       } catch (err) {
         return null;
       }
@@ -16,4 +16,6 @@ export const createStorage = (name: string) => {
   };
 };
 
-export const userStorage = createStorage("user");
+export const userStorage = createStorage<IUser>('user');
+export const tokenStorage = createStorage<AuthLoginResponseData>('token');
+export const orgStorage = createStorage<IOrganization[]>('org');

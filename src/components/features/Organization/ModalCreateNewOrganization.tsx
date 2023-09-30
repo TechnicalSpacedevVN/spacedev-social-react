@@ -23,6 +23,7 @@ import { MenuMember } from './MenuMember';
 import { MenuSecurity } from './MenuSecurity';
 import { IconSetting } from '@components/atoms/Icon/IconSetting';
 import { Tag } from '@components/atoms/Tag';
+import { useOrgSelect } from '@hooks/organization';
 
 export interface ModalCreateNewOrganizationProps extends ModalProps {}
 
@@ -30,12 +31,15 @@ export const ModalCreateNewOrganization: Atom<
   ModalCreateNewOrganizationProps
 > = ({ ...props }) => {
   const { t } = useTranslate();
+  let organization = useOrgSelect();
 
   return (
     <MenuModal
       modal={{
         ...props,
-        title: t('Create new organization'),
+        title: t(
+          organization ? 'Organization management' : 'Create new organization',
+        ),
         overlayCloseable: false,
         keyboard: false,
       }}
@@ -98,9 +102,9 @@ export const ModalCreateNewOrganization: Atom<
           </h2>
           <div className="px-3">
             <div className="flex gap-2 items-center">
-              <Avatar size={50} />
+              <Avatar size={50} src={organization?.logo} />
               <div className="flex-1 flex flex-col gap-1">
-                <h3 className="text-sm font-bold ">Đặng Thuyền Vương</h3>
+                <h3 className="text-sm font-bold ">{organization?.name}</h3>
                 <Dropdown
                   content={
                     <Menu
@@ -129,10 +133,7 @@ export const ModalCreateNewOrganization: Atom<
                 </Dropdown>
               </div>
             </div>
-            <p className="text-sub mt-2">
-              Nền tảng học lập trình online kết hợp mạng xã hội quản lý học viên
-              chuyên nghiệp
-            </p>
+            <p className="text-sub mt-2">{organization?.description}</p>
           </div>
         </div>
       }

@@ -7,5 +7,13 @@ export interface RegisterUserDto {
 }
 
 export const registerService = (user: RegisterUserDto) => {
-  return api.post(`/user/register`, user);
+  return api.post<UserRegisterResponse>(`/user/register`, user);
+};
+
+export const getUserService = () => {
+  return api.get<UserGetInfoRes>('/user');
+};
+
+export const updateProfileService = (user: Partial<IUser>) => {
+  return api.put(`/user`, user);
 };

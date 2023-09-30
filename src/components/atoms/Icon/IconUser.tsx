@@ -8,14 +8,14 @@ interface IconVariant {
 }
 
 export const ButtonIconUser: Atom<ButtonIconProps & IconVariant> = ({
-  className,
-  style,
-  id,
+  size,
+  circle,
+  off,
   ...props
 }) => {
   return (
-    <Icon className={className} style={style} id={id}>
-      <IconUser {...props} />
+    <Icon {...props}>
+      <IconUser size={size} circle={circle} off={off} />
     </Icon>
   );
 };

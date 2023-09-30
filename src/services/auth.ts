@@ -6,5 +6,11 @@ export interface LoginDto {
 }
 
 export const loginService = (body: LoginDto) => {
-  return api.post('/auth/login', body);
+  return api.post<AuthLoginResponse>('/auth/login', body);
+};
+
+export const refreshTokenService = (refreshToken: string) => {
+  return api.post<AuthRefreshTokenResponse>(`/auth/refresh-token`, {
+    refreshToken,
+  });
 };

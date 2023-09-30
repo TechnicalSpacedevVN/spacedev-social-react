@@ -4,15 +4,17 @@ import { IconAddressBook } from '@components/atoms/Icon/IconAddressBook';
 import { IconArrowDown } from '@components/atoms/Icon/IconArrow';
 import { IconTie } from '@components/atoms/Icon/IconTie';
 import { IconWorld } from '@components/atoms/Icon/IconWorld';
+import { Menu } from '@components/atoms/Menu';
 import { Sticky } from '@components/atoms/Sticky';
 import { useTranslate } from '@components/atoms/TranslateProvider';
 import { UploadFile, UploadfileRef } from '@components/atoms/UploadFile';
+import { useAuth } from '@components/features/AuthProvider';
 import { CardGroup } from '@components/features/CardGroup';
 import { GeneralInfo } from '@components/features/GeneralInfo';
-import { useTitle } from '@hooks/useTitle';
+import { useUpdateProfile } from '@hooks/user';
+import { uploadFileService } from '@services/file';
 import { cn } from '@utils';
 import { convertFileToImage } from '@utils/file';
-import { mockUser } from '@utils/mock';
 import { useId, useRef, useState } from 'react';
 import { Avatar } from '../components/atoms/Avatar';
 import { Button } from '../components/atoms/Button';
@@ -24,18 +26,30 @@ import { ModalAbout } from '../components/features/About';
 import { ModalFriends } from '../components/features/ModalFriends';
 import { NewPost } from '../components/features/NewPost';
 import { Post } from '../components/features/Post';
-import { Menu } from '@components/atoms/Menu';
 
 export const Profile = () => {
   const { t } = useTranslate();
+  const { updateProfileAction } = useUpdateProfile();
   const [open, setOpen] = useState(false);
   const [openAbout, setOpenAbout] = useState(false);
   const [cover, setCover] = useState('https://unsplash.it/2000/700');
-  const [user, setUser] = useState(mockUser);
+  // const [user, setUser] = useState(mockUser);
+  const { user } = useAuth();
   const uploadFileAvatarRef = useRef<UploadfileRef>(null);
 
-  useTitle('Đặng Thuyền Vương');
+  // useTitle(user.);
   const [isEditBio, setIsEditBio] = useState(false);
+
+  const changeAvatar = async ([file]: File[]) => {
+    // const img = await convertFileToImage(file);
+    // setUser({ ...user, avatar: img });
+
+    let res = await uploadFileService([file]);
+    let fileRes = res.data.data[0];
+    if (fileRes) {
+      updateProfileAction({ avatar: fileRes.urlPublic });
+    }
+  };
 
   return (
     <>
@@ -98,25 +112,16 @@ export const Profile = () => {
                   <DropFile
                     backdropClassName="rounded-full"
                     includes={{
-                      files: async ([file]) => {
-                        const img = await convertFileToImage(file);
-                        setUser({ ...user, avatar: img });
-                      },
+                      files: changeAvatar,
                     }}
                   >
                     <Avatar
                       className="select-none"
                       size={180}
-                      src={user.avatar}
+                      src={user?.avatar}
                     />
                   </DropFile>
-                  <UploadFile
-                    ref={uploadFileAvatarRef}
-                    onChange={async ([file]) => {
-                      const img = await convertFileToImage(file);
-                      setUser({ ...user, avatar: img });
-                    }}
-                  >
+                  <UploadFile ref={uploadFileAvatarRef} onChange={changeAvatar}>
                     <ButtonIconCamera className="absolute bottom-1 right-5" />
                   </UploadFile>
                 </div>
