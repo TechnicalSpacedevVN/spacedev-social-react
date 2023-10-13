@@ -49,6 +49,7 @@ import { ButtonIconUploadImage } from '../../atoms/Icon/IconUploadImage';
 import { Gif } from '../Gif';
 import { MessageItem } from './MessageItem';
 import { ModalGroupChat } from './ModalGroupChat';
+import { useSocketOn } from '@hooks/useSocket';
 
 export const FloatingChat = () => {
   return createPortal(
@@ -84,6 +85,14 @@ export const ChatScreen: FC = () => {
   const checkMiniRef = useRef(false);
   const messageWraperId = useId();
   // const lastRangeRef = useRef<ReturnType<typeof getCurrentCaretRange>>();
+
+  useSocketOn(
+    'message',
+    () => {
+      console.log('message');
+    },
+    { namespace: 'message' },
+  );
 
   useEffect(() => {
     chatScreenRef.current?.scrollTo({

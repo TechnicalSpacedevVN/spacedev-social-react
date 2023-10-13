@@ -122,7 +122,7 @@ import { PersonalMenu } from './PersonalMenu';
 
 export const Header = () => {
   const { t } = useTranslate();
-  const { isLogin } = useAuth();
+  const { isLogin, user } = useAuth();
   // const _organizations = [
   //   {
   //     logo: 'https://spacedev.vn/images/LOGO-image-full.svg',
@@ -143,15 +143,16 @@ export const Header = () => {
 
   const { mode, toggleMode } = useMode();
   const [openLogin] = useState(false);
-  const { user } = useAuth();
   const { organizations } = useGetMyOrg();
-  const [org, setOrg] = useState(organizations?.[0] || {});
+  const [org, setOrg] = useState<IOrganization | null>(
+    organizations?.[0] || null,
+  );
   // const [selectOrg, setSelectOrg] = useState<IOrganization>();
   const [openCreateNewOrganization, setOpenCreateNewOrganization] =
     useState(false);
 
   useEffect(() => {
-    setOrg(organizations?.[0] || {});
+    setOrg(organizations?.[0] || null);
   }, [organizations]);
 
   return (
@@ -171,8 +172,8 @@ export const Header = () => {
               to={PATH.Home}
               className="dark:text-white text-slate-800 text-2xl flex items-center gap-1"
             >
-              <img src={org.logo} className="w-[25px]" />
-              <span className="font-bold">{org.name}</span>
+              <img src={org?.logo} className="w-[25px]" />
+              <span className="font-bold">{org?.name}</span>
 
               {isLogin && (
                 <Dropdown

@@ -33,7 +33,7 @@ export const useUpdateOrg = () => {
 export const useGetMyOrg = () => {
   let { data, ...res } = useQuery({
     queryKey: ['get-organization'],
-    initialData: orgStorage.get(),
+    initialData: orgStorage.get() || [],
     queryFn: async () => {
       let data = await getOrgService();
 
@@ -42,7 +42,7 @@ export const useGetMyOrg = () => {
     },
   });
 
-  return { ...res, organizations: data || [] };
+  return { ...res, organizations: data };
 };
 
 export const selectOrgAction = (org: IOrganization) => {

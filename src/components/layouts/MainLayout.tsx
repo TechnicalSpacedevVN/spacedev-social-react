@@ -12,8 +12,16 @@ import { Outlet } from 'react-router-dom';
 import { useAuth } from '../features/AuthProvider';
 import { FloatingChat } from '../features/FloatingChat';
 import { Header } from '../features/Header';
+import { useSocketOn } from '@hooks/useSocket';
 export const MainLayout = () => {
   const { user } = useAuth();
+  useSocketOn(
+    'connection',
+    () => {
+      console.log('connection');
+    },
+    { namespace: 'notification' },
+  );
   useEffect(() => {
     let title = document.title;
     let check = true;

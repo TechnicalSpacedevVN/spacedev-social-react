@@ -1,5 +1,13 @@
 # Component
 
+## Modal
+
+## Tooltip
+
+## Dropdown
+
+## Drawer
+
 # Nguyên tắc thiết kế một component tốt
 
 - Hạn chế việc liên quan giữa các component
