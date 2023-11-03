@@ -30,7 +30,7 @@ export const MenuModal: Atom<MenuModal> = (props) => {
           />
           {props.sidebarBottom}
         </div>
-        <div className="flex-1 ">
+        <div className="flex-1 w-1">
           {props.menus.map((e, i) => (
             <React.Fragment key={i}>
               {tabActive === i && e.children}

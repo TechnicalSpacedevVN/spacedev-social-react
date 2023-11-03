@@ -66,7 +66,7 @@ export const Message = () => {
           <ButtonIconThreeDotAction transparent />
         </Dropdown>
       }
-      className="h-[calc(100vh-130px)] flex flex-col"
+      className="h-[calc(100vh-130px)] flex flex-col !bg-transparent shadow-none"
     >
       <div className="flex flex-col flex-1 h-1">
         <div className="dark:bg-slate-800 flex mt-4 bg-gray-100 rounded-full items-center gap-2 px-2 text-gray-600 min-h-7 h-7">

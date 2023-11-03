@@ -350,6 +350,7 @@ export const Header = () => {
                 <Dropdown
                   getPopupContainer={(parentNode) => parentNode}
                   placement="bottomRight"
+                  popupClassName="dark:bg-slate-900"
                   content={<PersonalMenu />}
                 >
                   <div className="active:scale-95 relative flex items-center">

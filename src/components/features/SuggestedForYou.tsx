@@ -16,6 +16,7 @@ export const SuggestedForYou = () => {
   return (
     <Card
       title={t('People nearby')}
+      className="!bg-transparent"
       action={
         <Dropdown
           placement="bottomLeft"

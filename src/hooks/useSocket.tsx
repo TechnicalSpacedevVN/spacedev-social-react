@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import {
   FC,
   createContext,
@@ -32,12 +33,12 @@ export const SocketProvider: FC<{ children: any }> = ({ children }) => {
 };
 
 export const useSocket = (namespace = '') => {
-  let { sockets, setSockets } = useContext(SocketContext);
-  let socket = useMemo(() => {
-    let result = sockets.find((e) => e.namespace === namespace);
+  const { sockets, setSockets } = useContext(SocketContext);
+  const socket = useMemo(() => {
+    const result = sockets.find((e) => e.namespace === namespace);
     if (!result) {
       console.log(namespace);
-      let socket = io(`${import.meta.env.VITE_SOCKET_API}/${namespace}`);
+      const socket = io(`${import.meta.env.VITE_SOCKET_API}/${namespace}`);
       socket.on('connect', () => {
         console.log(socket.id);
       });
@@ -61,11 +62,11 @@ export const useSocketOn = (
   cb: (...args: any[]) => void,
   opts?: SocketOnOptions,
 ) => {
-  let socket = useSocket(opts?.namespace);
+  const socket = useSocket(opts?.namespace);
   useEffect(() => {
     socket.on(eventName, cb);
     return () => {
       socket.off(eventName, cb);
     };
-  }, [socket, ...(opts?.dependencies || [])]);
+  }, [socket, eventName, ...(opts?.dependencies || [])]);
 };

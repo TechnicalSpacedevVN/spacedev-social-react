@@ -21,7 +21,7 @@ export const CardGroup = () => {
       />
       <Card
         title={t('The group is participating')}
-        className="pb-6"
+        className="pb-6 !bg-transparent"
         action={
           <Dropdown
             placement="bottomRight"
